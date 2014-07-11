@@ -1131,11 +1131,8 @@ namespace ChillerElectricEIR {
 		if ( PltSizNum > 0 ) {
 			if ( PlantSizData( PltSizNum ).DesVolFlowRate >= SmallWaterVolFlow ) {
 				tmpEvapVolFlowRate = PlantSizData( PltSizNum ).DesVolFlowRate * ElectricEIRChiller( EIRChillNum ).SizFac;
-				if ( ! IsAutoSize ) tmpEvapVolFlowRate = ElectricEIRChiller( EIRChillNum ).EvapVolFlowRate;
-				//IF (PlantSizesOkayToFinalize) ElectricEIRChiller(EIRChillNum)%EvapVolFlowRate = tmpEvapVolFlowRate
 			} else {
 				if ( IsAutoSize ) tmpEvapVolFlowRate = 0.0;
-				//IF (PlantSizesOkayToFinalize) ElectricEIRChiller(EIRChillNum)%EvapVolFlowRate = tmpEvapVolFlowRate
 			}
 			if ( PlantSizesOkayToFinalize ) {
 				if ( IsAutoSize ) {
@@ -1161,6 +1158,10 @@ namespace ChillerElectricEIR {
 						tmpEvapVolFlowRate = EvapVolFlowRateUser;
 					}
 				}
+			}
+			// Set hard-sized flow rate to be tmporary variable for registering it
+			if ( ! IsAutoSize && tmpEvapVolFlowRate != ElectricEIRChiller( EIRChillNum ).EvapVolFlowRate ) {
+				tmpEvapVolFlowRate = ElectricEIRChiller( EIRChillNum ).EvapVolFlowRate;
 			}
 		} else {
 			if ( IsAutoSize ) {
@@ -1188,11 +1189,8 @@ namespace ChillerElectricEIR {
 
 				rho = GetDensityGlycol( PlantLoop( ElectricEIRChiller( EIRChillNum ).CWLoopNum ).FluidName, InitConvTemp, PlantLoop( ElectricEIRChiller( EIRChillNum ).CWLoopNum ).FluidIndex, RoutineName );
 				tmpNomCap = Cp * rho * PlantSizData( PltSizNum ).DeltaT * tmpEvapVolFlowRate;
-				if ( ! IsAutoSize ) tmpNomCap = ElectricEIRChiller( EIRChillNum ).RefCap;
-				//IF (PlantSizesOkayToFinalize) ElectricEIRChiller(EIRChillNum)%RefCap = tmpNomCap
 			} else {
 				tmpNomCap = 0.0;
-				//IF (PlantSizesOkayToFinalize) ElectricEIRChiller(EIRChillNum)%RefCap = tmpNomCap
 			}
 			if ( PlantSizesOkayToFinalize ) {
 				if ( IsAutoSize ) {
@@ -1219,6 +1217,10 @@ namespace ChillerElectricEIR {
 					}
 				}
 			}
+			// Set hard-sized capacity to be tmporary variable for calculating flow rates
+			if ( ! IsAutoSize && tmpNomCap != ElectricEIRChiller( EIRChillNum ).RefCap ) {
+				tmpNomCap = ElectricEIRChiller( EIRChillNum ).RefCap;
+			}
 		} else {
 			if ( IsAutoSize ) {
 				ShowSevereError( "Autosizing of Electric Chiller reference capacity requires a loop Sizing:Plant object" );
@@ -1244,11 +1246,8 @@ namespace ChillerElectricEIR {
 
 				Cp = GetSpecificHeatGlycol( PlantLoop( ElectricEIRChiller( EIRChillNum ).CDLoopNum ).FluidName, ElectricEIRChiller( EIRChillNum ).TempRefCondIn, PlantLoop( ElectricEIRChiller( EIRChillNum ).CDLoopNum ).FluidIndex, RoutineName );
 				tmpCondVolFlowRate = tmpNomCap * ( 1.0 + ( 1.0 / ElectricEIRChiller( EIRChillNum ).RefCOP ) * ElectricEIRChiller( EIRChillNum ).CompPowerToCondenserFrac ) / ( PlantSizData( PltSizCondNum ).DeltaT * Cp * rho );
-				if ( ! IsAutoSize ) tmpCondVolFlowRate = ElectricEIRChiller( EIRChillNum ).CondVolFlowRate;
-				//IF (PlantSizesOkayToFinalize) ElectricEIRChiller(EIRChillNum)%CondVolFlowRate = tmpCondVolFlowRate
 			} else {
 				if ( IsAutoSize ) tmpCondVolFlowRate = 0.0;
-				//IF (PlantSizesOkayToFinalize) ElectricEIRChiller(EIRChillNum)%CondVolFlowRate = tmpCondVolFlowRate
 			}
 			if ( PlantSizesOkayToFinalize ) {
 				if ( IsAutoSize ) {
@@ -1274,6 +1273,10 @@ namespace ChillerElectricEIR {
 						tmpCondVolFlowRate = CondVolFlowRateUser;
 					}
 				}
+			}
+			// Set hard-sized flow rate to be tmporary variable for registering it
+			if ( ! IsAutoSize && tmpCondVolFlowRate != ElectricEIRChiller( EIRChillNum ).CondVolFlowRate ) {
+				tmpCondVolFlowRate = ElectricEIRChiller( EIRChillNum ).CondVolFlowRate;
 			}
 		} else {
 			if ( IsAutoSize ) {

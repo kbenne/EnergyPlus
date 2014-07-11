@@ -969,7 +969,6 @@ namespace ChillerIndirectAbsorption {
 
 				rho = GetDensityGlycol( PlantLoop( IndirectAbsorber( ChillNum ).CWLoopNum ).FluidName, InitConvTemp, PlantLoop( IndirectAbsorber( ChillNum ).CWLoopNum ).FluidIndex, RoutineName );
 				tmpNomCap = Cp * rho * PlantSizData( PltSizNum ).DeltaT * PlantSizData( PltSizNum ).DesVolFlowRate * IndirectAbsorber( ChillNum ).SizFac;
-				if ( ! IsAutoSize ) tmpNomCap = IndirectAbsorber( ChillNum ).NomCap;
 			} else {
 				if ( IsAutoSize ) tmpNomCap = 0.0;
 			}
@@ -997,6 +996,10 @@ namespace ChillerIndirectAbsorption {
 						tmpNomCap = NomCapUser;
 					}
 				}
+			}
+			// Set hard-sized capacity to be tmporary variable for calculating flow rates
+			if ( ! IsAutoSize && tmpNomCap != IndirectAbsorber( ChillNum ).NomCap ) {
+				tmpNomCap = IndirectAbsorber( ChillNum ).NomCap;
 			}
 		} else {
 			if ( IsAutoSize ) {
@@ -1051,7 +1054,6 @@ namespace ChillerIndirectAbsorption {
 		if ( PltSizNum > 0 ) {
 			if ( PlantSizData( PltSizNum ).DesVolFlowRate >= SmallWaterVolFlow ) {
 				tmpEvapVolFlowRate = PlantSizData( PltSizNum ).DesVolFlowRate * IndirectAbsorber( ChillNum ).SizFac;
-				if ( ! IsAutoSize ) tmpEvapVolFlowRate = IndirectAbsorber( ChillNum ).EvapVolFlowRate;
 			} else {
 				if ( IsAutoSize ) tmpEvapVolFlowRate = 0.0;
 			}
@@ -1080,6 +1082,11 @@ namespace ChillerIndirectAbsorption {
 					}
 				}
 			}
+			// Set hard-sized flow rate to be tmporary variable for registering it
+			if ( ! IsAutoSize && tmpEvapVolFlowRate != IndirectAbsorber( ChillNum ).EvapVolFlowRate ) {
+				tmpEvapVolFlowRate = IndirectAbsorber( ChillNum ).EvapVolFlowRate;
+			}
+
 		} else {
 			if ( IsAutoSize ) {
 				ShowSevereError( "Autosizing of Absorption Chiller evap flow rate requires a loop Sizing:Plant object" );
@@ -1112,7 +1119,6 @@ namespace ChillerIndirectAbsorption {
 
 				rho = GetDensityGlycol( PlantLoop( IndirectAbsorber( ChillNum ).CDLoopNum ).FluidName, InitConvTemp, PlantLoop( IndirectAbsorber( ChillNum ).CDLoopNum ).FluidIndex, RoutineName );
 				tmpCondVolFlowRate = tmpNomCap * ( 1.0 + SteamInputRatNom + tmpNomPumpPower / tmpNomCap ) / ( PlantSizData( PltSizCondNum ).DeltaT * Cp * rho );
-				if ( ! IsAutoSize ) tmpCondVolFlowRate = IndirectAbsorber( ChillNum ).CondVolFlowRate;
 			} else {
 				if ( IsAutoSize ) tmpCondVolFlowRate = 0.0;
 			}
@@ -1140,6 +1146,10 @@ namespace ChillerIndirectAbsorption {
 						tmpCondVolFlowRate = CondVolFlowRateUser;
 					}
 				}
+			}
+			// Set hard-sized flow rate to be tmporary variable for registering it
+			if ( ! IsAutoSize && tmpCondVolFlowRate != IndirectAbsorber( ChillNum ).CondVolFlowRate ) {
+				tmpCondVolFlowRate = IndirectAbsorber( ChillNum ).CondVolFlowRate; 
 			}
 		} else {
 			if ( IsAutoSize ) {
@@ -1175,7 +1185,6 @@ namespace ChillerIndirectAbsorption {
 
 					RhoWater = GetDensityGlycol( PlantLoop( IndirectAbsorber( ChillNum ).GenLoopNum ).FluidName, ( PlantSizData( PltSizHeatingNum ).ExitTemp - SteamDeltaT ), PlantLoop( IndirectAbsorber( ChillNum ).GenLoopNum ).FluidIndex, RoutineName );
 					tmpGeneratorVolFlowRate = ( tmpNomCap * SteamInputRatNom ) / ( CpWater * SteamDeltaT * RhoWater );
-					if ( ! IsAutoSize ) tmpGeneratorVolFlowRate = IndirectAbsorber( ChillNum ).GeneratorVolFlowRate;
 					if ( PlantSizesOkayToFinalize ) {
 						if ( IsAutoSize ) {
 							IndirectAbsorber( ChillNum ).GeneratorVolFlowRate = tmpGeneratorVolFlowRate;
@@ -1214,7 +1223,6 @@ namespace ChillerIndirectAbsorption {
 					SteamMassFlowRate = ( tmpNomCap * SteamInputRatNom ) / ( ( HfgSteam ) + ( SteamDeltaT * CpWater ) );
 					//         calculate the steam volumetric flow rate
 					tmpGeneratorVolFlowRate = SteamMassFlowRate / SteamDensity;
-					if ( ! IsAutoSize ) tmpGeneratorVolFlowRate = IndirectAbsorber( ChillNum ).GeneratorVolFlowRate;
 					if ( PlantSizesOkayToFinalize ) {
 						if ( IsAutoSize ) {
 							IndirectAbsorber( ChillNum ).GeneratorVolFlowRate = tmpGeneratorVolFlowRate;
@@ -1240,6 +1248,10 @@ namespace ChillerIndirectAbsorption {
 							}
 						}
 					}
+				}
+				// Set hard-sized flow rate to be tmporary variable for registering it
+				if ( ! IsAutoSize && tmpGeneratorVolFlowRate != IndirectAbsorber( ChillNum ).GeneratorVolFlowRate ) {
+					tmpGeneratorVolFlowRate = IndirectAbsorber( ChillNum ).GeneratorVolFlowRate;
 				}
 			} else {
 				if ( IsAutoSize ) {

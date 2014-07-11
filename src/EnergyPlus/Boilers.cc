@@ -706,11 +706,8 @@ namespace Boilers {
 				rho = GetDensityGlycol( PlantLoop( Boiler( BoilerNum ).LoopNum ).FluidName, InitConvTemp, PlantLoop( Boiler( BoilerNum ).LoopNum ).FluidIndex, RoutineName );
 				Cp = GetSpecificHeatGlycol( PlantLoop( Boiler( BoilerNum ).LoopNum ).FluidName, Boiler( BoilerNum ).TempDesBoilerOut, PlantLoop( Boiler( BoilerNum ).LoopNum ).FluidIndex, RoutineName );
 				tmpNomCap = Cp * rho * Boiler( BoilerNum ).SizFac * PlantSizData( PltSizNum ).DeltaT * PlantSizData( PltSizNum ).DesVolFlowRate;
-				if ( ! IsAutoSize ) tmpNomCap = Boiler( BoilerNum ).NomCap;
-				//IF (PlantSizesOkayToFinalize) Boiler(BoilerNum)%NomCap = tmpNomCap
 			} else {
 				if ( IsAutoSize ) tmpNomCap = 0.0;
-				//IF (PlantSizesOkayToFinalize) Boiler(BoilerNum)%NomCap = tmpNomCap
 			}
 			if ( PlantSizesOkayToFinalize ) {
 				if ( IsAutoSize ) {
@@ -758,11 +755,8 @@ namespace Boilers {
 		if ( PltSizNum > 0 ) {
 			if ( PlantSizData( PltSizNum ).DesVolFlowRate >= SmallWaterVolFlow ) {
 				tmpBoilerVolFlowRate = PlantSizData( PltSizNum ).DesVolFlowRate * Boiler( BoilerNum ).SizFac;
-				if ( ! IsAutoSize ) tmpBoilerVolFlowRate = Boiler( BoilerNum ).VolFlowRate;
-				//IF (PlantSizesOkayToFinalize) Boiler(BoilerNum)%VolFlowRate = tmpBoilerVolFlowRate
 			} else {
 				if ( IsAutoSize ) tmpBoilerVolFlowRate = 0.0;
-				//IF (PlantSizesOkayToFinalize) Boiler(BoilerNum)%VolFlowRate = tmpBoilerVolFlowRate
 			}
 			if ( PlantSizesOkayToFinalize ) {
 				if ( IsAutoSize ) {
@@ -788,6 +782,10 @@ namespace Boilers {
 						tmpBoilerVolFlowRate = VolFlowRateUser;
 					}
 				}
+			}
+			// Set hard-sized flow rate to be tmporary variable for registering it
+			if ( ! IsAutoSize && tmpBoilerVolFlowRate != Boiler( BoilerNum ).VolFlowRate ) {
+				tmpBoilerVolFlowRate = Boiler( BoilerNum ).VolFlowRate;
 			}
 		} else {
 			if ( IsAutoSize ) {

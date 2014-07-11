@@ -841,11 +841,8 @@ namespace ChillerExhaustAbsorption {
 				Cp = GetSpecificHeatGlycol( PlantLoop( ExhaustAbsorber( ChillNum ).CWLoopNum ).FluidName, InitConvTemp, PlantLoop( ExhaustAbsorber( ChillNum ).CWLoopNum ).FluidIndex, RoutineName );
 				rho = GetDensityGlycol( PlantLoop( ExhaustAbsorber( ChillNum ).CWLoopNum ).FluidName, InitConvTemp, PlantLoop( ExhaustAbsorber( ChillNum ).CWLoopNum ).FluidIndex, RoutineName );
 				tmpNomCap = Cp * rho * PlantSizData( PltSizCoolNum ).DeltaT * PlantSizData( PltSizCoolNum ).DesVolFlowRate * ExhaustAbsorber( ChillNum ).SizFac;
-				if ( ! IsAutoSize ) tmpNomCap = ExhaustAbsorber( ChillNum ).NomCoolingCap;
-				//IF (PlantSizesOkayToFinalize) ExhaustAbsorber(ChillNum)%NomCoolingCap = tmpNomCap
 			} else {
 				if ( IsAutoSize ) tmpNomCap = 0.0;
-				//IF (PlantSizesOkayToFinalize) ExhaustAbsorber(ChillNum)%NomCoolingCap = tmpNomCap
 			}
 			if ( PlantSizesOkayToFinalize ) {
 				if ( IsAutoSize ) {
@@ -872,6 +869,10 @@ namespace ChillerExhaustAbsorption {
 					}
 				}
 			}
+			// Set hard-sized capacity to be tmporary variable for calculating flow rates
+			if ( ! IsAutoSize && tmpNomCap != ExhaustAbsorber( ChillNum ).NomCoolingCap ) {
+				tmpNomCap = ExhaustAbsorber( ChillNum ).NomCoolingCap;
+			}
 		} else {
 			if ( IsAutoSize ) {
 				ShowSevereError( "SizeExhaustAbsorber: ChillerHeater:Absorption:DoubleEffect=\"" + ExhaustAbsorber( ChillNum ).Name + "\", autosize error." );
@@ -894,11 +895,8 @@ namespace ChillerExhaustAbsorption {
 		if ( PltSizCoolNum > 0 ) {
 			if ( PlantSizData( PltSizCoolNum ).DesVolFlowRate >= SmallWaterVolFlow ) {
 				tmpEvapVolFlowRate = PlantSizData( PltSizCoolNum ).DesVolFlowRate * ExhaustAbsorber( ChillNum ).SizFac;
-				if ( ! IsAutoSize ) tmpEvapVolFlowRate = ExhaustAbsorber( ChillNum ).EvapVolFlowRate;
-				//IF (PlantSizesOkayToFinalize) ExhaustAbsorber(ChillNum)%EvapVolFlowRate = tmpEvapVolFlowRate
 			} else {
 				if ( IsAutoSize ) tmpEvapVolFlowRate = 0.0;
-				//IF (PlantSizesOkayToFinalize) ExhaustAbsorber(ChillNum)%EvapVolFlowRate = tmpEvapVolFlowRate
 			}
 			if ( PlantSizesOkayToFinalize ) {
 				if ( IsAutoSize ) {
@@ -925,6 +923,10 @@ namespace ChillerExhaustAbsorption {
 					}
 				}
 			}
+			// Set hard-sized flow rate to be tmporary variable for registering it
+			if ( ! IsAutoSize && tmpEvapVolFlowRate != ExhaustAbsorber( ChillNum ).EvapVolFlowRate ) {
+				tmpEvapVolFlowRate = ExhaustAbsorber( ChillNum ).EvapVolFlowRate;
+			}
 		} else {
 			if ( IsAutoSize ) {
 				ShowSevereError( "SizeExhaustAbsorber: ChillerHeater:Absorption:DoubleEffect=\"" + ExhaustAbsorber( ChillNum ).Name + "\", autosize error." );
@@ -949,11 +951,8 @@ namespace ChillerExhaustAbsorption {
 		if ( PltSizHeatNum > 0 ) {
 			if ( PlantSizData( PltSizHeatNum ).DesVolFlowRate >= SmallWaterVolFlow ) {
 				tmpHeatRecVolFlowRate = PlantSizData( PltSizHeatNum ).DesVolFlowRate * ExhaustAbsorber( ChillNum ).SizFac;
-				if ( ! IsAutoSize ) tmpHeatRecVolFlowRate = ExhaustAbsorber( ChillNum ).HeatVolFlowRate;
-				//IF (PlantSizesOkayToFinalize) ExhaustAbsorber(ChillNum)%HeatVolFlowRate = tmpHeatRecVolFlowRate
 			} else {
 				if ( IsAutoSize ) tmpHeatRecVolFlowRate = 0.0;
-				//IF (PlantSizesOkayToFinalize) ExhaustAbsorber(ChillNum)%HeatVolFlowRate = tmpHeatRecVolFlowRate
 			}
 			if ( PlantSizesOkayToFinalize ) {
 				if ( IsAutoSize ) {
@@ -979,6 +978,10 @@ namespace ChillerExhaustAbsorption {
 						tmpHeatRecVolFlowRate = HeatRecVolFlowRateUser;
 					}
 				}
+			}
+			// Set hard-sized flow rate to be tmporary variable for registering it
+			if ( ! IsAutoSize && tmpHeatRecVolFlowRate != ExhaustAbsorber( ChillNum ).HeatVolFlowRate ) {
+				tmpHeatRecVolFlowRate = ExhaustAbsorber( ChillNum ).HeatVolFlowRate;
 			}
 		} else {
 			if ( IsAutoSize ) {
@@ -1007,11 +1010,8 @@ namespace ChillerExhaustAbsorption {
 				Cp = GetSpecificHeatGlycol( PlantLoop( ExhaustAbsorber( ChillNum ).CDLoopNum ).FluidName, ExhaustAbsorber( ChillNum ).TempDesCondReturn, PlantLoop( ExhaustAbsorber( ChillNum ).CDLoopNum ).FluidIndex, RoutineName );
 				rho = GetDensityGlycol( PlantLoop( ExhaustAbsorber( ChillNum ).CDLoopNum ).FluidName, ExhaustAbsorber( ChillNum ).TempDesCondReturn, PlantLoop( ExhaustAbsorber( ChillNum ).CDLoopNum ).FluidIndex, RoutineName );
 				tmpCondVolFlowRate = tmpNomCap * ( 1.0 + ExhaustAbsorber( ChillNum ).ThermalEnergyCoolRatio ) / ( PlantSizData( PltSizCondNum ).DeltaT * Cp * rho );
-				if ( ! IsAutoSize ) tmpCondVolFlowRate = ExhaustAbsorber( ChillNum ).CondVolFlowRate;
-				//IF (PlantSizesOkayToFinalize) ExhaustAbsorber(ChillNum)%CondVolFlowRate = tmpCondVolFlowRate
 			} else {
 				if ( IsAutoSize ) tmpCondVolFlowRate = 0.0;
-				//IF (PlantSizesOkayToFinalize) ExhaustAbsorber(ChillNum)%CondVolFlowRate = tmpCondVolFlowRate
 			}
 			if ( PlantSizesOkayToFinalize ) {
 				if ( IsAutoSize ) {
@@ -1037,6 +1037,10 @@ namespace ChillerExhaustAbsorption {
 						tmpCondVolFlowRate = CondVolFlowRateUser;
 					}
 				}
+			}
+			// Set hard-sized flow rate to be tmporary variable for registering it
+			if ( ! IsAutoSize && tmpCondVolFlowRate != ExhaustAbsorber( ChillNum ).CondVolFlowRate ) {
+				tmpCondVolFlowRate = ExhaustAbsorber( ChillNum ).CondVolFlowRate;
 			}
 		} else {
 			if ( IsAutoSize ) {

@@ -474,11 +474,8 @@ namespace PlantComponentTemperatureSources {
 		if ( PltSizNum > 0 ) {
 			if ( PlantSizData( PltSizNum ).DesVolFlowRate >= SmallWaterVolFlow ) {
 				tmpVolFlowRate = PlantSizData( PltSizNum ).DesVolFlowRate; //* WaterSource(SourceNum)%SizFac
-				if ( ! IsAutoSize ) tmpVolFlowRate = WaterSource( SourceNum ).DesVolFlowRate;
-				//IF (PlantSizesOkayToFinalize) WaterSource(SourceNum)%DesVolFlowRate = tmpVolFlowRate
 			} else {
 				if ( IsAutoSize ) tmpVolFlowRate = 0.0;
-				//IF (PlantSizesOkayToFinalize)  WaterSource(SourceNum)%DesVolFlowRate = tmpVolFlowRate
 			}
 			if ( PlantSizesOkayToFinalize ) {
 				if ( IsAutoSize ) {
@@ -504,6 +501,10 @@ namespace PlantComponentTemperatureSources {
 						tmpVolFlowRate = DesVolFlowRateUser;
 					}
 				}
+			}
+			// Set hard-sized flow rate to be tmporary variable for registering it
+			if ( ! IsAutoSize && tmpVolFlowRate != WaterSource( SourceNum ).DesVolFlowRate ) {
+				tmpVolFlowRate = WaterSource(SourceNum).DesVolFlowRate;
 			}
 		} else {
 			if ( IsAutoSize ) {

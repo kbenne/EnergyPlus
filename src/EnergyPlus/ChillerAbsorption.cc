@@ -876,11 +876,8 @@ namespace ChillerAbsorption {
 
 				rho = GetDensityGlycol( PlantLoop( BLASTAbsorber( ChillNum ).CWLoopNum ).FluidName, InitConvTemp, PlantLoop( BLASTAbsorber( ChillNum ).CWLoopNum ).FluidIndex, RoutineName );
 				tmpNomCap = Cp * rho * PlantSizData( PltSizNum ).DeltaT * PlantSizData( PltSizNum ).DesVolFlowRate * BLASTAbsorber( ChillNum ).SizFac;
-				if ( ! IsAutoSize ) tmpNomCap = BLASTAbsorber( ChillNum ).NomCap;
-				//IF (PlantSizesOkayToFinalize)  BLASTAbsorber(ChillNum)%NomCap = tmpNomCap
 			} else {
 				if ( IsAutoSize ) tmpNomCap = 0.0;
-				//IF (PlantSizesOkayToFinalize)  BLASTAbsorber(ChillNum)%NomCap = tmpNomCap
 			}
 			if ( PlantSizesOkayToFinalize ) {
 				if ( IsAutoSize ) {
@@ -906,6 +903,10 @@ namespace ChillerAbsorption {
 						tmpNomCap = NomCapUser;
 					}
 				}
+			}
+			// Set hard-sized capacity to be tmporary variable for calculating flow rates
+			if ( ! IsAutoSize && tmpNomCap != BLASTAbsorber( ChillNum ).NomCap ) {
+				tmpNomCap = BLASTAbsorber( ChillNum ).NomCap;
 			}
 		} else {
 			if ( IsAutoSize ) {
@@ -962,11 +963,8 @@ namespace ChillerAbsorption {
 		if ( PltSizNum > 0 ) {
 			if ( PlantSizData( PltSizNum ).DesVolFlowRate >= SmallWaterVolFlow ) {
 				tmpEvapVolFlowRate = PlantSizData( PltSizNum ).DesVolFlowRate * BLASTAbsorber( ChillNum ).SizFac;
-				if ( ! IsAutoSize ) tmpEvapVolFlowRate = BLASTAbsorber( ChillNum ).EvapVolFlowRate;
-				//IF (PlantSizesOkayToFinalize) BLASTAbsorber(ChillNum)%EvapVolFlowRate = tmpEvapVolFlowRate
 			} else {
 				if ( IsAutoSize ) tmpEvapVolFlowRate = 0.0;
-				//IF (PlantSizesOkayToFinalize)   BLASTAbsorber(ChillNum)%EvapVolFlowRate = tmpEvapVolFlowRate
 			}
 			if ( PlantSizesOkayToFinalize ) {
 				if ( IsAutoSize ) {
@@ -993,6 +991,11 @@ namespace ChillerAbsorption {
 					}
 				}
 			}
+			// Set hard-sized flow rate to be tmporary variable for registering it
+			if ( ! IsAutoSize && tmpEvapVolFlowRate != BLASTAbsorber( ChillNum ).EvapVolFlowRate ) {
+				tmpEvapVolFlowRate = BLASTAbsorber( ChillNum ).EvapVolFlowRate;
+			}
+
 		} else {
 			if ( IsAutoSize ) {
 				ShowSevereError( "Autosizing of Absorption Chiller evap flow rate requires a loop Sizing:Plant object" );
@@ -1021,11 +1024,8 @@ namespace ChillerAbsorption {
 
 				rho = GetDensityGlycol( PlantLoop( BLASTAbsorber( ChillNum ).CDLoopNum ).FluidName, InitConvTemp, PlantLoop( BLASTAbsorber( ChillNum ).CDLoopNum ).FluidIndex, RoutineName );
 				tmpCondVolFlowRate = tmpNomCap * ( 1.0 + SteamInputRatNom + tmpNomPumpPower / tmpNomCap ) / ( PlantSizData( PltSizCondNum ).DeltaT * Cp * rho );
-				if ( ! IsAutoSize ) tmpCondVolFlowRate = BLASTAbsorber( ChillNum ).CondVolFlowRate;
-				//IF (PlantSizesOkayToFinalize)  BLASTAbsorber(ChillNum)%CondVolFlowRate = tmpCondVolFlowRate
 			} else {
 				if ( IsAutoSize ) tmpCondVolFlowRate = 0.0;
-				//IF (PlantSizesOkayToFinalize)  BLASTAbsorber(ChillNum)%CondVolFlowRate = 0.0d0
 			}
 			if ( PlantSizesOkayToFinalize ) {
 				if ( IsAutoSize ) {
@@ -1051,6 +1051,10 @@ namespace ChillerAbsorption {
 						tmpCondVolFlowRate = CondVolFlowRateUser;
 					}
 				}
+			}
+			// Set hard-sized flow rate to be tmporary variable for registering it
+			if ( ! IsAutoSize && tmpCondVolFlowRate != BLASTAbsorber( ChillNum ).CondVolFlowRate ) {
+				tmpCondVolFlowRate = BLASTAbsorber( ChillNum ).CondVolFlowRate;
 			}
 		} else {
 			if ( IsAutoSize ) {
@@ -1081,7 +1085,6 @@ namespace ChillerAbsorption {
 					SteamDeltaT = max( 0.5, PlantSizData( PltSizHeatingNum ).DeltaT );
 					RhoWater = GetDensityGlycol( PlantLoop( BLASTAbsorber( ChillNum ).GenLoopNum ).FluidName, ( PlantSizData( PltSizHeatingNum ).ExitTemp - SteamDeltaT ), PlantLoop( BLASTAbsorber( ChillNum ).GenLoopNum ).FluidIndex, RoutineName );
 					tmpGeneratorVolFlowRate = ( BLASTAbsorber( ChillNum ).NomCap * SteamInputRatNom ) / ( CpWater * SteamDeltaT * RhoWater );
-					if ( ! IsAutoSize ) tmpGeneratorVolFlowRate = BLASTAbsorber( ChillNum ).GeneratorVolFlowRate;
 					if ( PlantSizesOkayToFinalize ) {
 						if ( IsAutoSize ) {
 							BLASTAbsorber( ChillNum ).GeneratorVolFlowRate = tmpGeneratorVolFlowRate;
@@ -1119,7 +1122,6 @@ namespace ChillerAbsorption {
 					SteamMassFlowRate = ( BLASTAbsorber( ChillNum ).NomCap * SteamInputRatNom ) / ( ( HfgSteam ) + ( SteamDeltaT * CpWater ) );
 					tmpGeneratorVolFlowRate = SteamMassFlowRate / SteamDensity;
 
-					if ( ! IsAutoSize ) tmpGeneratorVolFlowRate = BLASTAbsorber( ChillNum ).GeneratorVolFlowRate;
 					if ( PlantSizesOkayToFinalize ) {
 						BLASTAbsorber( ChillNum ).GeneratorVolFlowRate = tmpGeneratorVolFlowRate;
 						if ( IsAutoSize ) {
@@ -1145,6 +1147,10 @@ namespace ChillerAbsorption {
 							}
 						}
 					}
+				}
+				// Set hard-sized flow rate to be tmporary variable for registering it
+				if ( ! IsAutoSize && tmpGeneratorVolFlowRate != BLASTAbsorber( ChillNum ).GeneratorVolFlowRate ) {
+					tmpGeneratorVolFlowRate = BLASTAbsorber( ChillNum ).GeneratorVolFlowRate;
 				}
 			} else {
 				if ( IsAutoSize ) {

@@ -963,11 +963,8 @@ namespace ChillerReformulatedEIR {
 		if ( PltSizNum > 0 ) {
 			if ( PlantSizData( PltSizNum ).DesVolFlowRate >= SmallWaterVolFlow ) {
 				tmpEvapVolFlowRate = PlantSizData( PltSizNum ).DesVolFlowRate * ElecReformEIRChiller( EIRChillNum ).SizFac;
-				if ( ! IsAutoSize ) tmpEvapVolFlowRate = ElecReformEIRChiller( EIRChillNum ).EvapVolFlowRate;
-				//IF (PlantSizesOkayToFinalize) ElecReformEIRChiller(EIRChillNum)%EvapVolFlowRate = tmpEvapVolFlowRate
 			} else {
 				if ( IsAutoSize ) tmpEvapVolFlowRate = 0.0;
-				//IF (PlantSizesOkayToFinalize) ElecReformEIRChiller(EIRChillNum)%EvapVolFlowRate = tmpEvapVolFlowRate
 			}
 			if ( PlantSizesOkayToFinalize ) {
 				if ( IsAutoSize ) {
@@ -993,6 +990,10 @@ namespace ChillerReformulatedEIR {
 						tmpEvapVolFlowRate = EvapVolFlowRateUser;
 					}
 				}
+			}
+			// Set hard-sized flow rate to be tmporary variable for registering it
+			if ( ! IsAutoSize && tmpEvapVolFlowRate != ElecReformEIRChiller( EIRChillNum ).EvapVolFlowRate ) {
+				tmpEvapVolFlowRate = ElecReformEIRChiller( EIRChillNum ).EvapVolFlowRate;
 			}
 		} else {
 			if ( IsAutoSize ) {
@@ -1029,11 +1030,8 @@ namespace ChillerReformulatedEIR {
 
 				RefCapFT = CurveValue( ElecReformEIRChiller( EIRChillNum ).ChillerCapFT, SizingEvapOutletTemp, SizingCondOutletTemp );
 				tmpNomCap = ( Cp * rho * PlantSizData( PltSizNum ).DeltaT * tmpEvapVolFlowRate ) / RefCapFT;
-				if ( ! IsAutoSize ) tmpNomCap = ElecReformEIRChiller( EIRChillNum ).RefCap;
-				//IF (PlantSizesOkayToFinalize) ElecReformEIRChiller(EIRChillNum)%RefCap = tmpNomCap
 			} else {
 				if ( IsAutoSize ) tmpNomCap = 0.0;
-				//IF (PlantSizesOkayToFinalize) ElecReformEIRChiller(EIRChillNum)%RefCap = tmpNomCap
 			}
 			if ( PlantSizesOkayToFinalize ) {
 				if ( IsAutoSize ) {
@@ -1060,6 +1058,10 @@ namespace ChillerReformulatedEIR {
 					}
 				}
 			}
+			// Set hard-sized capacity to be tmporary variable for calculating flow rates
+			if ( ! IsAutoSize && tmpNomCap != ElecReformEIRChiller( EIRChillNum ).RefCap ) {
+				tmpNomCap = ElecReformEIRChiller( EIRChillNum ).RefCap;
+			}
 		} else {
 			if ( IsAutoSize ) {
 				ShowSevereError( "Autosizing of Reformulated Electric Chiller reference capacity requires a loop Sizing:Plant object" );
@@ -1084,11 +1086,8 @@ namespace ChillerReformulatedEIR {
 
 				Cp = GetSpecificHeatGlycol( PlantLoop( ElecReformEIRChiller( EIRChillNum ).CDLoopNum ).FluidName, ElecReformEIRChiller( EIRChillNum ).TempRefCondIn, PlantLoop( ElecReformEIRChiller( EIRChillNum ).CDLoopNum ).FluidIndex, RoutineName );
 				tmpCondVolFlowRate = tmpNomCap * ( 1.0 + ( 1.0 / ElecReformEIRChiller( EIRChillNum ).RefCOP ) * ElecReformEIRChiller( EIRChillNum ).CompPowerToCondenserFrac ) / ( PlantSizData( PltSizCondNum ).DeltaT * Cp * rho );
-				if ( ! IsAutoSize ) tmpCondVolFlowRate = ElecReformEIRChiller( EIRChillNum ).CondVolFlowRate;
-				//IF (PlantSizesOkayToFinalize) ElecReformEIRChiller(EIRChillNum)%CondVolFlowRate = tmpCondVolFlowRate
 			} else {
 				if ( IsAutoSize ) tmpCondVolFlowRate = 0.0;
-				//IF (PlantSizesOkayToFinalize) ElecReformEIRChiller(EIRChillNum)%CondVolFlowRate = tmpCondVolFlowRate
 			}
 			if ( PlantSizesOkayToFinalize ) {
 				if ( IsAutoSize ) {
@@ -1115,6 +1114,10 @@ namespace ChillerReformulatedEIR {
 					}
 				}
 			}
+			// Set hard-sized flow rate to be tmporary variable for registering it
+			if ( ! IsAutoSize && tmpCondVolFlowRate != ElecReformEIRChiller( EIRChillNum ).CondVolFlowRate ) {
+				tmpCondVolFlowRate = ElecReformEIRChiller( EIRChillNum ).CondVolFlowRate;
+			}
 		} else {
 			if ( IsAutoSize ) {
 				ShowSevereError( "Autosizing of Reformulated Electric EIR Chiller condenser flow rate requires a condenser" );
@@ -1140,7 +1143,6 @@ namespace ChillerReformulatedEIR {
 				IsAutoSize = true;
 			}
 			tmpHeatRecVolFlowRate = tmpCondVolFlowRate * ElecReformEIRChiller( EIRChillNum ).HeatRecCapacityFraction;
-			if ( ! IsAutoSize ) tmpHeatRecVolFlowRate = ElecReformEIRChiller( EIRChillNum ).DesignHeatRecVolFlowRate;
 			if ( PlantSizesOkayToFinalize ) {
 				if ( IsAutoSize ) {
 					ElecReformEIRChiller( EIRChillNum ).DesignHeatRecVolFlowRate = tmpHeatRecVolFlowRate;
@@ -1166,6 +1168,11 @@ namespace ChillerReformulatedEIR {
 					}
 				}
 			}
+			// Set hard-sized flow rate to be tmporary variable for registering it
+			if ( ! IsAutoSize && tmpHeatRecVolFlowRate != ElecReformEIRChiller( EIRChillNum ).DesignHeatRecVolFlowRate ) {
+				tmpHeatRecVolFlowRate = ElecReformEIRChiller( EIRChillNum ).DesignHeatRecVolFlowRate;
+			}
+				
 			// save the reference heat recovery fluid volumetric flow rate
 			RegisterPlantCompDesignFlow( ElecReformEIRChiller( EIRChillNum ).HeatRecInletNodeNum, tmpHeatRecVolFlowRate );
 		}

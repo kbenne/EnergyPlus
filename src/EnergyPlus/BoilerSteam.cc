@@ -631,11 +631,8 @@ namespace BoilerSteam {
 				LatentEnthSteam = EnthSteamOutDry - EnthSteamOutWet;
 				CpWater = GetSatSpecificHeatRefrig( FluidNameSteam, SizingTemp, 0.0, Boiler( BoilerNum ).FluidIndex, RoutineName );
 				tmpNomCap = ( CpWater * SteamDensity * Boiler( BoilerNum ).SizFac * PlantSizData( PltSizNum ).DeltaT * PlantSizData( PltSizNum ).DesVolFlowRate + PlantSizData( PltSizNum ).DesVolFlowRate * SteamDensity * LatentEnthSteam );
-				if ( ! IsAutoSize ) tmpNomCap = Boiler( BoilerNum ).NomCap;
-				//IF (PlantSizesOkayToFinalize) Boiler(BoilerNum)%NomCap =tmpNomCap
 			} else {
 				if ( IsAutoSize ) tmpNomCap = 0.0;
-				//IF (PlantSizesOkayToFinalize) Boiler(BoilerNum)%NomCap = tmpNomCap
 			}
 			if ( PlantSizesOkayToFinalize ) {
 				if ( IsAutoSize ) {
