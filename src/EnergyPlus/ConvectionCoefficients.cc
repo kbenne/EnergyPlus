@@ -8284,7 +8284,24 @@ namespace ConvectionCoefficients {
 		static int ErrorIndex( 0 );
 
 		if ( ( DeltaTemp != 0.0 ) && ( Height != 0.0 ) ) {
-			Hc = std::pow( std::sqrt( pow_6( 1.5 * std::pow( std::abs( DeltaTemp ) / Height, OneFourth ) ) + std::pow( 1.23 * pow_2( DeltaTemp ), OneSixth ) ) + pow_3( ( ( SurfTemp - SupplyAirTemp ) / std::abs( DeltaTemp ) ) * ( -0.199 + 0.190 * std::pow( AirChangeRate, 0.8 ) ) ), OneThird ); //Tuned pow_6( std::pow( std::abs( DeltaTemp ), OneThird ) ) changed to pow_2( DeltaTemp )
+			Real64 term_a_1 = pow_6( 1.5 * std::pow( std::abs( DeltaTemp ) / Height, OneFourth ) );
+			Real64 term_a_2 = std::pow( 1.23 * pow_2( std::abs( DeltaTemp ) ), OneSixth );
+			Real64 term_a = std::sqrt( term_a_1 + term_a_2 );
+			Real64 term_b_1 = ( SurfTemp - SupplyAirTemp ) / std::abs( DeltaTemp );
+			Real64 term_b_2 = -0.199 + 0.190 * std::pow( AirChangeRate, 0.8 );
+			Real64 term_b = pow_3( term_b_1 * term_b_2 );
+			Real64 term = term_a + term_b;
+			if ( term < 0.0 ) {
+				Hc = 9.999;
+				if ( ErrorIndex == 0 ) {
+					ShowWarningMessage( "CalcBeausoleilMorrisonMixedAssistedWall: Convection model not evaluated (would divide by zero)" );
+					ShowContinueError( "Calculation resulted in pow() term going negative." );
+					ShowContinueError( "Occurs for zone named = " + Zone( ZoneNum ).Name );
+					ShowContinueError( "Convection surface heat transfer coefficient set to 9.999 [W/m2-K] and the simulation continues" );
+				}
+			} else {
+				Hc = std::pow( term_a + term_b, OneThird ); //Tuned pow_6( std::pow( std::abs( DeltaTemp ), OneThird ) ) changed to pow_2( DeltaTemp ) //Changed by Edwin--why did the std::abs get taken out during tuning!?
+			}
 		} else {
 			Hc = 9.999;
 			if ( Height == 0.0 ) {
@@ -8365,9 +8382,23 @@ namespace ConvectionCoefficients {
 		if ( ( DeltaTemp != 0.0 ) ) { // protect divide by zero
 
 			if ( Height != 0.0 ) {
-				HcTmp1 = std::pow( std::sqrt( pow_6( 1.5 * std::pow( std::abs( DeltaTemp ) / Height, OneFourth ) ) + std::pow( 1.23 * pow_2( DeltaTemp ), OneSixth ) ) - pow_3( ( ( SurfTemp - SupplyAirTemp ) / std::abs( DeltaTemp ) ) * ( -0.199 + 0.190 * std::pow( AirChangeRate, 0.8 ) ) ), OneThird ); //Tuned pow_6( std::pow( std::abs( DeltaTemp ), OneThird ) ) changed to pow_2( DeltaTemp )
-
-				HcTmp2 = 0.8 * std::pow( pow_6( 1.5 * std::pow( std::abs( DeltaTemp ) / Height, OneFourth ) ) + ( 1.23 * pow_2( DeltaTemp ) ), OneSixth ); //Tuned pow_6( std::pow( std::abs( DeltaTemp ), OneThird ) ) changed to pow_2( DeltaTemp )
+				Real64 term1a = std::sqrt( pow_6( 1.5 * std::pow( std::abs( DeltaTemp ) / Height, OneFourth ) ) + std::pow( 1.23 * pow_2( std::abs( DeltaTemp ) ), OneSixth ) );
+				Real64 term1b = pow_3( ( ( SurfTemp - SupplyAirTemp ) / std::abs( DeltaTemp ) ) * ( -0.199 + 0.190 * std::pow( AirChangeRate, 0.8 ) ) );
+				Real64 term1 = term1a - term1b;
+				Real64 term2 = pow_6( 1.5 * std::pow( std::abs( DeltaTemp ) / Height, OneFourth ) ) + ( 1.23 * pow_2( DeltaTemp ) );
+				if ( term1 < 0.0 || term2 < 0.0 ) {
+					HcTmp1 = 9.999;
+					HcTmp2 = 9.999;
+					if ( ErrorIndex == 0 ) {
+						ShowSevereMessage( "CalcBeausoleilMorrisonMixedOpposingWall: Convection model not evaluated (would divide by zero)" );
+						ShowContinueError( "Calculation resulted in negative argument to pow()" );
+						ShowContinueError( "Occurs for zone named = " + Zone( ZoneNum ).Name );
+						ShowContinueError( "Convection surface heat transfer coefficient set to 9.999 [W/m2-K] and the simulation continues" );
+					}
+				} else {
+					HcTmp1 = std::pow( term1, OneThird ); //Tuned pow_6( std::pow( std::abs( DeltaTemp ), OneThird ) ) changed to pow_2( DeltaTemp )
+					HcTmp2 = 0.8 * std::pow( term2, OneSixth ); //Tuned pow_6( std::pow( std::abs( DeltaTemp ), OneThird ) ) changed to pow_2( DeltaTemp )
+				}
 			} else {
 				HcTmp1 = 9.999;
 				HcTmp2 = 9.999;
@@ -8452,7 +8483,20 @@ namespace ConvectionCoefficients {
 		static int ErrorIndex( 0 );
 
 		if ( ( HydraulicDiameter != 0.0 ) && ( DeltaTemp != 0.0 ) ) {
-			Hc = std::pow( pow_3( 0.6 * std::pow( std::abs( DeltaTemp ) / HydraulicDiameter, OneFifth ) ) + pow_3( ( ( SurfTemp - SupplyAirTemp ) / std::abs( DeltaTemp ) ) * ( 0.159 + 0.116 * std::pow( AirChangeRate, 0.8 ) ) ), OneThird );
+			Real64 term_a = pow_3( 0.6 * std::pow( std::abs( DeltaTemp ) / HydraulicDiameter, OneFifth ) );
+			Real64 term_b = pow_3( ( ( SurfTemp - SupplyAirTemp ) / std::abs( DeltaTemp ) ) * ( 0.159 + 0.116 * std::pow( AirChangeRate, 0.8 ) ) );
+			Real64 term = term_a + term_b;
+			if ( term < 0.0 ) {
+				Hc = 9.999;
+				if ( ErrorIndex == 0 ) {
+					ShowWarningMessage( "CalcBeausoleilMorrisonMixedStableFloor: Convection model not evaluated (would divide by zero)" );
+					ShowContinueError( "Calculation resulted in pow() term going negative." );
+					ShowContinueError( "Occurs for zone named = " + Zone( ZoneNum ).Name );
+					ShowContinueError( "Convection surface heat transfer coefficient set to 9.999 [W/m2-K] and the simulation continues" );
+				}
+			} else {
+				Hc = std::pow( term, OneThird );
+			}
 		} else {
 			Hc = 9.999;
 			if ( HydraulicDiameter == 0.0 ) {
@@ -8527,7 +8571,18 @@ namespace ConvectionCoefficients {
 		static int ErrorIndex( 0 );
 
 		if ( ( HydraulicDiameter != 0.0 ) && ( DeltaTemp != 0.0 ) ) {
-			Hc = std::pow( std::sqrt( pow_6( 1.4 * std::pow( std::abs( DeltaTemp ) / HydraulicDiameter, OneFourth ) ) + pow_6( 1.63 * std::pow( std::abs( DeltaTemp ), OneThird ) ) ) + pow_3( ( ( SurfTemp - SupplyAirTemp ) / std::abs( DeltaTemp ) ) * ( 0.159 + 0.116 * std::pow( AirChangeRate, 0.8 ) ) ), OneThird );
+			Real64 term = std::sqrt( pow_6( 1.4 * std::pow( std::abs( DeltaTemp ) / HydraulicDiameter, OneFourth ) ) + pow_6( 1.63 * std::pow( std::abs( DeltaTemp ), OneThird ) ) ) + pow_3( ( ( SurfTemp - SupplyAirTemp ) / std::abs( DeltaTemp ) ) * ( 0.159 + 0.116 * std::pow( AirChangeRate, 0.8 ) ) );
+			if ( term < 0.0 ) {
+				Hc = 9.999;
+				if ( ErrorIndex == 0 ) {
+					ShowWarningMessage( "CalcBeausoleilMorrisonMixedUnstableFloor: Convection model not evaluated (would divide by zero)" );
+					ShowContinueError( "Calculation resulted in negative argument to pow()" );
+					ShowContinueError( "Occurs for zone named = " + Zone( ZoneNum ).Name );
+					ShowContinueError( "Convection surface heat transfer coefficient set to 9.999 [W/m2-K] and the simulation continues" );
+				}
+			} else {
+				Hc = std::pow( term, OneThird );
+			}
 		} else {
 			Hc = 9.999;
 			if ( HydraulicDiameter == 0.0 ) {
@@ -8603,7 +8658,18 @@ namespace ConvectionCoefficients {
 		static int ErrorIndex( 0 );
 
 		if ( ( HydraulicDiameter != 0.0 ) && ( DeltaTemp != 0.0 ) ) {
-			Hc = std::pow( pow_3( 0.6 * std::pow( std::abs( DeltaTemp ) / HydraulicDiameter, OneFifth ) ) + pow_3( ( ( SurfTemp - SupplyAirTemp ) / std::abs( DeltaTemp ) ) * ( -0.166 + 0.484 * std::pow( AirChangeRate, 0.8 ) ) ), OneThird );
+			Real64 term = pow_3( 0.6 * std::pow( std::abs( DeltaTemp ) / HydraulicDiameter, OneFifth ) ) + pow_3( ( ( SurfTemp - SupplyAirTemp ) / std::abs( DeltaTemp ) ) * ( -0.166 + 0.484 * std::pow( AirChangeRate, 0.8 ) ) );
+			if ( term < 0.0 ) {
+				Hc = 9.999;
+				if ( ErrorIndex == 0 ) {
+					ShowWarningMessage( "CalcBeausoleilMorrisonMixedStableCeiling: Convection model not evaluated (would divide by zero)" );
+					ShowContinueError( "Calculation resulted in a negative argument to pow()" );
+					ShowContinueError( "Occurs for zone named = " + Zone( ZoneNum ).Name );
+					ShowContinueError( "Convection surface heat transfer coefficient set to 9.999 [W/m2-K] and the simulation continues" );
+				}
+			} else {
+				Hc = std::pow( term, OneThird );
+			}
 		} else {
 			Hc = 9.999;
 			if ( HydraulicDiameter == 0.0 ) {
@@ -8678,7 +8744,20 @@ namespace ConvectionCoefficients {
 		static int ErrorIndex( 0 );
 
 		if ( ( HydraulicDiameter != 0.0 ) && ( DeltaTemp != 0.0 ) ) {
-			Hc = std::pow( std::sqrt( pow_6( 1.4 * std::pow( std::abs( DeltaTemp ) / HydraulicDiameter, OneFourth ) ) + pow_6( 1.63 * std::pow( std::abs( DeltaTemp ), OneThird ) ) ) + pow_3( ( ( SurfTemp - SupplyAirTemp ) / std::abs( DeltaTemp ) ) * ( -0.166 + 0.484 * std::pow( AirChangeRate, 0.8 ) ) ), OneThird );
+			Real64 term_a = std::sqrt( pow_6( 1.4 * std::pow( std::abs( DeltaTemp ) / HydraulicDiameter, OneFourth ) ) + pow_6( 1.63 * std::pow( std::abs( DeltaTemp ), OneThird ) ) );
+			Real64 term_b = pow_3( ( ( SurfTemp - SupplyAirTemp ) / std::abs( DeltaTemp ) ) * ( -0.166 + 0.484 * std::pow( AirChangeRate, 0.8 ) ) );
+			Real64 term = term_a + term_b;
+			if ( term < 0.0 ) {
+				Hc = 9.999;
+				if ( ErrorIndex == 0 ) {
+					ShowWarningMessage( "CalcBeausoleilMorrisonMixedUnstableCeiling: Convection model not evaluated (would divide by zero)" );
+					ShowContinueError( "Calculation resulted in negative pow() argument" );
+					ShowContinueError( "Occurs for zone named = " + Zone( ZoneNum ).Name );
+					ShowContinueError( "Convection surface heat transfer coefficient set to 9.999 [W/m2-K] and the simulation continues" );
+				}
+			} else {
+				Hc = std::pow( term_a + term_b, OneThird );
+			}
 		} else {
 			Hc = 9.999;
 			if ( HydraulicDiameter == 0.0 ) {
