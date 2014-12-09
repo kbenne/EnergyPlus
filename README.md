@@ -24,6 +24,7 @@ Now the fun part, building EnergyPlus.  The build process is setup by Cmake.  On
 The C++ code in EnergyPlus utilizes many C++11 features, and so a modern compiler is required.  On Windows, the latest version of Visual Studio 2013 suffices well.  Using GCC on Windows is fine, but instructions aren't provided here.  These instructions are for building the base EnergyPlus executable.
 
 1. Install Visual Studio 2013 Express **for WIndows Desktop**, at least update 3.  This is available [here](http://www.visualstudio.com/downloads/download-visual-studio-vs#d-express-windows-desktop)
+  - If you want to build Fortran utilities, get MinGW from [here](http://sourceforge.net/projects/mingw/files/Installer/), and use that to install the gfortran package.
 2. Install cmake, from [http://www.cmake.org/cmake/resources/software.html].  This includes a GUI.  From the start menu, you should be able to launch the gui (it is called cmake-gui).  
 3. Point cmake source code to the root of the repository, the root of the source tree.
 4. Point cmake build to the folder you created, the root of the build tree.  CMake will offer to create this folder if it doesn't exist.
