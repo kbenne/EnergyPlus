@@ -1,5 +1,6 @@
 // C++ Headers
 #include <cmath>
+#include <functional>
 
 // ObjexxFCL Headers
 #include <ObjexxFCL/FArray.functions.hh>
@@ -3788,6 +3789,101 @@ namespace PlantChillers {
 
 	}
 
+	Real64
+	CalculateEvaporatorCapacity( std::vector< Real64 > rArgs, std::vector< int > iArgs )
+	{
+		using DataPlant::PlantLoop;
+		using FluidProperties::GetDensityGlycol;
+		using FluidProperties::GetSpecificHeatGlycol;
+		using namespace DataSizing;
+
+		auto & ChillNum( iArgs[ 0 ] );
+		auto & LoopNum( iArgs[ 1 ] );
+		auto & PltSizNum( iArgs[ 2 ] );
+		std::string static const RoutineName( "CalculateEvaporatorCapacity" );
+		
+		Real64 rho = GetDensityGlycol( PlantLoop( LoopNum ).FluidName, InitConvTemp, PlantLoop( LoopNum ).FluidIndex, RoutineName );
+		Real64 Cp = GetSpecificHeatGlycol( PlantLoop( LoopNum ).FluidName, InitConvTemp, PlantLoop( LoopNum ).FluidIndex, RoutineName );
+		return (Cp * rho * PlantSizData( PltSizNum ).DeltaT * PlantSizData( PltSizNum ).DesVolFlowRate * ConstCOPChiller( ChillNum ).Base.SizFac);
+	}
+
+	bool
+	SizeChillerSupplyAttribute(
+		int thisPlantSizingIndex,
+		int ChillNum,
+		Real64 & variableToSize,
+		bool sizingFlag,
+		Real64 zeroTolerance,
+		std::function<Real64(std::vector<Real64>, std::vector<int>)> sizeFunction,
+		std::string objectName,
+		std::string instanceName,
+		std::string fieldName,
+		std::string fieldUnits,
+		std::vector< Real64 > sizeFunctionRealArgumentList,
+		std::vector< int > sizeFunctionIntArgumentList
+	)
+	{
+		using namespace DataSizing;
+		using DataPlant::PlantLoop;
+		using DataPlant::PlantSizesOkayToFinalize;
+		using PlantUtilities::RegisterPlantCompDesignFlow;
+		using ReportSizingManager::ReportSizingOutput;
+		using namespace OutputReportPredefined;
+		
+		Real64 tmpSizeValue;
+		Real64 userSizeValue;
+		bool IsAutoSize( false );
+		
+		if ( variableToSize == AutoSize ) {
+			IsAutoSize = true;
+		}
+		if ( thisPlantSizingIndex > 0 ) {
+			if ( PlantSizData( thisPlantSizingIndex ).DesVolFlowRate >= zeroTolerance ) {
+				tmpSizeValue = sizeFunction( sizeFunctionRealArgumentList, sizeFunctionIntArgumentList );
+				if ( ! IsAutoSize ) tmpSizeValue = variableToSize;
+			} else {
+				if ( IsAutoSize ) tmpSizeValue = 0.0;
+			}
+			if ( PlantSizesOkayToFinalize ) {
+				if ( IsAutoSize ) {
+					variableToSize = tmpSizeValue;
+					if ( ! sizingFlag ) {
+						ReportSizingOutput( objectName, instanceName, "Design Size " + fieldName + " " + fieldUnits, tmpSizeValue );
+					}
+				} else { // Hard-size with sizing data
+					if ( variableToSize > 0.0 && tmpSizeValue > 0.0 ) {
+						userSizeValue = variableToSize;
+						if ( ! sizingFlag ) {
+							ReportSizingOutput( objectName, instanceName, "Design Size " + fieldName + " " + fieldUnits, tmpSizeValue, "User-Specified " + fieldName + " " + fieldUnits, userSizeValue );
+							if ( DisplayExtraWarnings ) {
+								if ( ( std::abs( tmpSizeValue - userSizeValue ) / userSizeValue ) > AutoVsHardSizingThreshold ) {
+									ShowMessage( " Sizing: " + objectName + " - " + fieldName + ": Potential issue with equipment sizing for " + instanceName );
+									ShowContinueError( "User-Specified " + fieldName + " of " + RoundSigDigits( userSizeValue, 2 ) + " " + fieldUnits );
+									ShowContinueError( "differs from Design Size " + fieldName + " of " + RoundSigDigits( tmpSizeValue, 2 ) + " " + fieldUnits );
+									ShowContinueError( "This may, or may not, indicate mismatched component sizes." );
+									ShowContinueError( "Verify that the value entered is intended and is consistent with other components." );
+								}
+							}
+						}
+					}
+				}
+			}
+		} else {
+			if ( IsAutoSize ) {
+				ShowSevereError( "Sizing: " + objectName + " - " + fieldName + ": Sizing requires a loop Sizing:Plant object" );
+				ShowContinueError( "Occurs in " + objectName + " object=" + instanceName );
+				return true;
+			} else {
+				if ( ! sizingFlag ) {
+					if ( variableToSize > 0.0 ) {
+						ReportSizingOutput( objectName, instanceName, "User-Specified " + fieldName + " " + fieldUnits, variableToSize );
+					}
+				}
+			}
+		}
+		return false;
+	}
+
 	void
 	SizeConstCOPChiller( int const ChillNum )
 	{
@@ -3868,58 +3964,72 @@ namespace PlantChillers {
 
 		PltSizNum = PlantLoop( ConstCOPChiller( ChillNum ).Base.CWLoopNum ).PlantSizNum;
 
-		if ( ConstCOPChiller( ChillNum ).Base.NomCap == AutoSize ) {
-			IsAutoSize = true;
-		}
-		if ( PltSizNum > 0 ) {
-			if ( PlantSizData( PltSizNum ).DesVolFlowRate >= SmallWaterVolFlow ) {
-				rho = GetDensityGlycol( PlantLoop( ConstCOPChiller( ChillNum ).Base.CWLoopNum ).FluidName, InitConvTemp, PlantLoop( ConstCOPChiller( ChillNum ).Base.CWLoopNum ).FluidIndex, RoutineName );
-				Cp = GetSpecificHeatGlycol( PlantLoop( ConstCOPChiller( ChillNum ).Base.CWLoopNum ).FluidName, InitConvTemp, PlantLoop( ConstCOPChiller( ChillNum ).Base.CWLoopNum ).FluidIndex, RoutineName );
-				tmpNomCap = Cp * rho * PlantSizData( PltSizNum ).DeltaT * PlantSizData( PltSizNum ).DesVolFlowRate * ConstCOPChiller( ChillNum ).Base.SizFac;
-				if ( ! IsAutoSize ) tmpNomCap = ConstCOPChiller( ChillNum ).Base.NomCap;
-				//IF (PlantSizesOkayToFinalize) ConstCOPChiller(ChillNum)%Base%NomCap = tmpNomCap
-			} else {
-				if ( IsAutoSize ) tmpNomCap = 0.0;
-				//IF (PlantSizesOkayToFinalize) ConstCOPChiller(ChillNum)%Base%NomCap = tmpNomCap
-			}
-			if ( PlantSizesOkayToFinalize ) {
-				if ( IsAutoSize ) {
-					ConstCOPChiller( ChillNum ).Base.NomCap = tmpNomCap;
-					if ( ! ConstCOPChiller( ChillNum ).Base.IsThisSized ) {
-						ReportSizingOutput( "Chiller:ConstantCOP", ConstCOPChiller( ChillNum ).Base.Name, "Design Size Nominal Capacity [W]", tmpNomCap );
-					}
-				} else { // Hard-size with sizing data
-					if ( ConstCOPChiller( ChillNum ).Base.NomCap > 0.0 && tmpNomCap > 0.0 ) {
-						NomCapUser = ConstCOPChiller( ChillNum ).Base.NomCap;
-						if ( ! ConstCOPChiller( ChillNum ).Base.IsThisSized ) {
-							ReportSizingOutput( "Chiller:ConstantCOP", ConstCOPChiller( ChillNum ).Base.Name, "Design Size Nominal Capacity [W]", tmpNomCap, "User-Specified Nominal Capacity [W]", NomCapUser );
-							if ( DisplayExtraWarnings ) {
-								if ( ( std::abs( tmpNomCap - NomCapUser ) / NomCapUser ) > AutoVsHardSizingThreshold ) {
-									ShowMessage( "SizeChillerConstantCOP: Potential issue with equipment sizing for " + ConstCOPChiller( ChillNum ).Base.Name );
-									ShowContinueError( "User-Specified Nominal Capacity of " + RoundSigDigits( NomCapUser, 2 ) + " [W]" );
-									ShowContinueError( "differs from Design Size Nominal Capacity of " + RoundSigDigits( tmpNomCap, 2 ) + " [W]" );
-									ShowContinueError( "This may, or may not, indicate mismatched component sizes." );
-									ShowContinueError( "Verify that the value entered is intended and is consistent with other components." );
-								}
-							}
-						}
-						tmpNomCap = NomCapUser;
-					}
-				}
-			}
-		} else {
-			if ( IsAutoSize ) {
-				ShowSevereError( "Autosizing of Constant COP Chiller nominal capacity requires a loop Sizing:Plant object" );
-				ShowContinueError( "Occurs in Chiller:ConstantCOP object=" + ConstCOPChiller( ChillNum ).Base.Name );
-				ErrorsFound = true;
-			} else {
-				if ( ! ConstCOPChiller( ChillNum ).Base.IsThisSized ) {
-					if ( ConstCOPChiller( ChillNum ).Base.NomCap > 0.0 ) {
-						ReportSizingOutput( "Chiller:ConstantCOP", ConstCOPChiller( ChillNum ).Base.Name, "User-Specified Nominal Capacity [W]", ConstCOPChiller( ChillNum ).Base.NomCap );
-					}
-				}
-			}
-		}
+		ErrorsFound = SizeChillerSupplyAttribute(
+			PltSizNum,
+			ChillNum,
+			ConstCOPChiller( ChillNum ).Base.NomCap,
+			ConstCOPChiller( ChillNum ).Base.IsThisSized,
+			SmallWaterVolFlow,
+			CalculateEvaporatorCapacity,
+			"Chiller:ConstantCOP",
+			ConstCOPChiller( ChillNum ).Base.Name,
+			"Nominal Capacity",
+			"[W]",
+			std::vector< Real64 > {0.0},
+			std::vector< int > { ChillNum, ConstCOPChiller( ChillNum ).Base.CWLoopNum, PltSizNum } );
+
+		//if ( ConstCOPChiller( ChillNum ).Base.NomCap == AutoSize ) {
+			//IsAutoSize = true;
+		//}
+		//if ( PltSizNum > 0 ) {
+			//if ( PlantSizData( PltSizNum ).DesVolFlowRate >= SmallWaterVolFlow ) {
+				//rho = GetDensityGlycol( PlantLoop( ConstCOPChiller( ChillNum ).Base.CWLoopNum ).FluidName, InitConvTemp, PlantLoop( ConstCOPChiller( ChillNum ).Base.CWLoopNum ).FluidIndex, RoutineName );
+				//Cp = GetSpecificHeatGlycol( PlantLoop( ConstCOPChiller( ChillNum ).Base.CWLoopNum ).FluidName, InitConvTemp, PlantLoop( ConstCOPChiller( ChillNum ).Base.CWLoopNum ).FluidIndex, RoutineName );
+				//tmpNomCap = Cp * rho * PlantSizData( PltSizNum ).DeltaT * PlantSizData( PltSizNum ).DesVolFlowRate * ConstCOPChiller( ChillNum ).Base.SizFac;
+				//if ( ! IsAutoSize ) tmpNomCap = ConstCOPChiller( ChillNum ).Base.NomCap;
+				////IF (PlantSizesOkayToFinalize) ConstCOPChiller(ChillNum)%Base%NomCap = tmpNomCap
+			//} else {
+				//if ( IsAutoSize ) tmpNomCap = 0.0;
+				////IF (PlantSizesOkayToFinalize) ConstCOPChiller(ChillNum)%Base%NomCap = tmpNomCap
+			//}
+			//if ( PlantSizesOkayToFinalize ) {
+				//if ( IsAutoSize ) {
+					//ConstCOPChiller( ChillNum ).Base.NomCap = tmpNomCap;
+					//if ( ! ConstCOPChiller( ChillNum ).Base.IsThisSized ) {
+						//ReportSizingOutput( "Chiller:ConstantCOP", ConstCOPChiller( ChillNum ).Base.Name, "Design Size Nominal Capacity [W]", tmpNomCap );
+					//}
+				//} else { // Hard-size with sizing data
+					//if ( ConstCOPChiller( ChillNum ).Base.NomCap > 0.0 && tmpNomCap > 0.0 ) {
+						//NomCapUser = ConstCOPChiller( ChillNum ).Base.NomCap;
+						//if ( ! ConstCOPChiller( ChillNum ).Base.IsThisSized ) {
+							//ReportSizingOutput( "Chiller:ConstantCOP", ConstCOPChiller( ChillNum ).Base.Name, "Design Size Nominal Capacity [W]", tmpNomCap, "User-Specified Nominal Capacity [W]", NomCapUser );
+							//if ( DisplayExtraWarnings ) {
+								//if ( ( std::abs( tmpNomCap - NomCapUser ) / NomCapUser ) > AutoVsHardSizingThreshold ) {
+									//ShowMessage( "SizeChillerConstantCOP: Potential issue with equipment sizing for " + ConstCOPChiller( ChillNum ).Base.Name );
+									//ShowContinueError( "User-Specified Nominal Capacity of " + RoundSigDigits( NomCapUser, 2 ) + " [W]" );
+									//ShowContinueError( "differs from Design Size Nominal Capacity of " + RoundSigDigits( tmpNomCap, 2 ) + " [W]" );
+									//ShowContinueError( "This may, or may not, indicate mismatched component sizes." );
+									//ShowContinueError( "Verify that the value entered is intended and is consistent with other components." );
+								//}
+							//}
+						//}
+						//tmpNomCap = NomCapUser;
+					//}
+				//}
+			//}
+		//} else {
+			//if ( IsAutoSize ) {
+				//ShowSevereError( "Autosizing of Constant COP Chiller nominal capacity requires a loop Sizing:Plant object" );
+				//ShowContinueError( "Occurs in Chiller:ConstantCOP object=" + ConstCOPChiller( ChillNum ).Base.Name );
+				//ErrorsFound = true;
+			//} else {
+				//if ( ! ConstCOPChiller( ChillNum ).Base.IsThisSized ) {
+					//if ( ConstCOPChiller( ChillNum ).Base.NomCap > 0.0 ) {
+						//ReportSizingOutput( "Chiller:ConstantCOP", ConstCOPChiller( ChillNum ).Base.Name, "User-Specified Nominal Capacity [W]", ConstCOPChiller( ChillNum ).Base.NomCap );
+					//}
+				//}
+			//}
+		//}
 
 		IsAutoSize = false;
 		if ( ConstCOPChiller( ChillNum ).Base.EvapVolFlowRate == AutoSize ) {

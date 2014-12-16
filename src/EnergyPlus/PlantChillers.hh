@@ -1093,6 +1093,25 @@ namespace PlantChillers {
 		Real64 const MyLoad
 	);
 
+	Real64
+	CalculateEvaporatorCapacity( std::vector< Real64 > rArgs, std::vector< int > iArgs );
+	
+	bool
+	SizeChillerSupplyAttribute(
+		int thisPlantSizingIndex,
+		int ChillNum,
+		Real64 & variableToSize,
+		bool sizingFlag,
+		Real64 zeroTolerance,
+		std::function<Real64(std::vector<Real64>, std::vector<int>)> sizeFunction,
+		std::string objectName,
+		std::string instanceName,
+		std::string fieldName,
+		std::string fieldUnits,
+		std::vector< Real64 > sizeFunctionRealArgumentList,
+		std::vector< int > sizeFunctionIntArgumentList
+	);
+
 	void
 	SizeElectricChiller( int const ChillNum );
 
