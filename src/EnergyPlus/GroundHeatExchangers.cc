@@ -106,7 +106,7 @@ namespace GroundHeatExchangers {
 	// SUBROUTINE SPECIFICATIONS FOR MODULE CondenserTowers
 
 	// Object Data
-	FArray1D< GlheSpecs > VerticalGlhe; // dimension to number of machines
+	FArray1D< GlheVert > VerticalGlhe; // dimension to number of machines
 	FArray1D< ReportVars > VerticalGlheReport;
 
 	// MODULE SUBROUTINES:
