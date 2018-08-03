@@ -83,7 +83,7 @@ namespace SZVAVModel {
     // parts of the simulation.
 
     // MODULE PARAMETER DEFINITIONS
-    static std::string const BlankString;
+    static thread_local std::string const BlankString;
 
     // DERIVED TYPE DEFINITIONS
     // na

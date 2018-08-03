@@ -468,9 +468,9 @@ void PlantCoinicidentAnalysis::ResolveDesignFlowRate(int const HVACSizingIterCou
     std::string chIteration;
     std::string chSetSizes;
     std::string chDemandTrapUsed;
-    static gio::Fmt fmtA("(A)");
+    static thread_local gio::Fmt fmtA("(A)");
     bool changedByDemand(false);
-    static bool eioHeaderDoneOnce(false);
+    static thread_local bool eioHeaderDoneOnce(false);
     bool nullStampProblem;
 
     // first make sure we have valid time stamps to work with

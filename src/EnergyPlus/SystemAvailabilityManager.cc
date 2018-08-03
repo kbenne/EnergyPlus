@@ -118,7 +118,7 @@ namespace SystemAvailabilityManager {
 
     // Data
     // MODULE PARAMETER DEFINITIONS
-    static std::string const BlankString;
+    static thread_local std::string const BlankString;
 
     int const MaxDayTypes(12);
     int const StayOff(0);
@@ -226,7 +226,7 @@ namespace SystemAvailabilityManager {
     Real64 TimeStepSysLast(0.0);    // last system time step
 
     namespace {
-        // These were static variables within different functions. They were pulled out into the namespace
+        // These were static thread_local variables within different functions. They were pulled out into the namespace
         // to facilitate easier unit testing of those functions.
         // These are purposefully not in the header file as an extern variable. No one outside of this should
         // use these. They are cleared by clear_state() for use by unit tests, but normal simulations should be unaffected.
@@ -348,7 +348,7 @@ namespace SystemAvailabilityManager {
         int ZoneEquipType;           // Type of ZoneHVAC:* component
         int CompNum;                 // Index of ZoneHVAC:* component
         int ZoneCompAvailMgrNum;     // Index of availability manager associated with the ZoneHVAC:* component
-        static int DummyArgument(1); // This variable is used when SimSysAvailManager is called for a ZoneHVAC:* component
+        static thread_local int DummyArgument(1); // This variable is used when SimSysAvailManager is called for a ZoneHVAC:* component
 
         if (GetAvailMgrInputFlag) {
             GetSysAvailManagerInputs();
@@ -510,7 +510,7 @@ namespace SystemAvailabilityManager {
         using DataZoneEquipment::NumValidSysAvailZoneComponents;
 
         // SUBROUTINE PARAMETER DEFINITIONS:
-        static std::string const RoutineName("GetSysAvailManagerInputs: "); // include trailing blank
+        static thread_local std::string const RoutineName("GetSysAvailManagerInputs: "); // include trailing blank
 
         // SUBROUTINE LOCAL VARIABLE DECLARATIONS:
         Array1D_string cAlphaFieldNames;
@@ -526,7 +526,7 @@ namespace SystemAvailabilityManager {
         int maxNumbers;                 // maximum number of numbers for this set of objects
         int numArgs;                    // maximum number of arguments for this set of objects
         int IOStatus;                   // Used in GetObjectItem
-        static bool ErrorsFound(false); // Set to true if errors in input, fatal at end of routine
+        static thread_local bool ErrorsFound(false); // Set to true if errors in input, fatal at end of routine
         int SysAvailNum;                // DO loop index for all System Availability Managers
         int CyclingTimeSteps;
         int ZoneEquipType;
@@ -2270,7 +2270,7 @@ namespace SystemAvailabilityManager {
         int CtrldZoneNum;
         int ZoneNum;
         Real64 TempTol;
-        static Array1D_bool ZoneCompNCControlType;
+        static thread_local Array1D_bool ZoneCompNCControlType;
         int CyclingRunTimeControlType;
 
         if (present(ZoneEquipType)) {
@@ -4141,13 +4141,13 @@ namespace SystemAvailabilityManager {
         using DataContaminantBalance::Contaminant;
 
         // SUBROUTINE PARAMETER DEFINITIONS:
-        static std::string const RoutineName("GetHybridVentilationInputs: "); // include trailing blank
+        static thread_local std::string const RoutineName("GetHybridVentilationInputs: "); // include trailing blank
 
         // SUBROUTINE LOCAL VARIABLE DECLARATIONS:
         int NumAlphas;                  // Number of Alphas for each GetObjectItem call
         int NumNumbers;                 // Number of Numbers for each GetObjectItem call
         int IOStatus;                   // Used in GetObjectItem
-        static bool ErrorsFound(false); // Set to true if errors in input, fatal at end of routine
+        static thread_local bool ErrorsFound(false); // Set to true if errors in input, fatal at end of routine
         int SysAvailNum;                // DO loop index for all System Availability Managers
         Real64 SchedMin;                // Minimum value specified in a schedule
         Real64 SchedMax;                // Maximum value specified in a schedule
@@ -4659,11 +4659,11 @@ namespace SystemAvailabilityManager {
         using DataZoneEquipment::ZoneEquipConfig;
 
         // SUBROUTINE LOCAL VARIABLE DECLARATIONS:
-        static bool MyOneTimeFlag(true); // One time flag
-        static bool MyEnvrnFlag(true);
+        static thread_local bool MyOneTimeFlag(true); // One time flag
+        static thread_local bool MyEnvrnFlag(true);
         int SysAvailNum;                // DO loop index for Sys Avail Manager objects
         int ControlledZoneNum;          // Index into the ZoneEquipConfig array
-        static bool ErrorsFound(false); // Set to true if errors in input, fatal at end of routine
+        static thread_local bool ErrorsFound(false); // Set to true if errors in input, fatal at end of routine
         int AirLoopNum;                 // Air loop number
         int ControlMode;                // Hybrid control mode
         int AirLoopCount;               // Air loop name count

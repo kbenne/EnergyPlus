@@ -113,7 +113,7 @@ namespace HVACHXAssistedCoolingCoil {
     int const On(1);  // normal compressor operation
     int const Off(0); // signal DXCoil that compressor shouldn't run
 
-    static std::string const BlankString;
+    static thread_local std::string const BlankString;
 
     // DERIVED TYPE DEFINITIONS
 
@@ -302,14 +302,14 @@ namespace HVACHXAssistedCoolingCoil {
         auto &GetWaterCoilOutletNode(WaterCoils::GetCoilOutletNode);
 
         // SUBROUTINE PARAMETER DEFINITIONS:
-        static std::string const RoutineName("GetHXAssistedCoolingCoilInput: "); // include trailing blank space
+        static thread_local std::string const RoutineName("GetHXAssistedCoolingCoilInput: "); // include trailing blank space
 
         // SUBROUTINE LOCAL VARIABLE DECLARATIONS:
         int HXAssistedCoilNum;          // Index number of the HXAssistedCoolingCoil for which input data is being read from the idf
         int NumAlphas;                  // Number of alpha inputs
         int NumNums;                    // Number of number inputs
         int IOStat;                     // Return status from GetObjectItem call
-        static bool ErrorsFound(false); // set TRUE if errors detected in input
+        static thread_local bool ErrorsFound(false); // set TRUE if errors detected in input
         int NumHXAssistedDXCoils;       // Number of HXAssistedCoolingCoil objects using a DX coil
         int NumHXAssistedWaterCoils;    // Number of HXAssistedCoolingCoil objects using a chilled water coil
         //    LOGICAL :: FanErrFlag              ! Error flag for fan operating mode mining call
@@ -329,9 +329,9 @@ namespace HVACHXAssistedCoolingCoil {
         Array1D<Real64> NumArray;         // Numeric input items for object
         Array1D_bool lAlphaBlanks;        // Logical array, alpha field input BLANK = .TRUE.
         Array1D_bool lNumericBlanks;      // Logical array, numeric field input BLANK = .TRUE.
-        static int MaxNums(0);            // Maximum number of numeric input fields
-        static int MaxAlphas(0);          // Maximum number of alpha input fields
-        static int TotalArgs(0);          // Total number of alpha and numeric arguments (max) for a
+        static thread_local int MaxNums(0);            // Maximum number of numeric input fields
+        static thread_local int MaxAlphas(0);          // Maximum number of alpha input fields
+        static thread_local int TotalArgs(0);          // Total number of alpha and numeric arguments (max) for a
 
         NumHXAssistedDXCoils = inputProcessor->getNumObjectsFound("CoilSystem:Cooling:DX:HeatExchangerAssisted");
         NumHXAssistedWaterCoils = inputProcessor->getNumObjectsFound("CoilSystem:Cooling:Water:HeatExchangerAssisted");
@@ -898,7 +898,7 @@ namespace HVACHXAssistedCoolingCoil {
         //  na
 
         // SUBROUTINE LOCAL VARIABLE DECLARATIONS:
-        static Real64 CoilOutputTempLast; // Exiting cooling coil temperature from last iteration
+        static thread_local Real64 CoilOutputTempLast; // Exiting cooling coil temperature from last iteration
         Real64 AirMassFlow;               // Inlet air mass flow rate
         Real64 Error;                     // Error (exiting coil temp from last iteration minus current coil exiting temp)
         Real64 ErrorLast;                 // check for oscillations
@@ -1134,7 +1134,7 @@ namespace HVACHXAssistedCoolingCoil {
 
         // FUNCTION LOCAL VARIABLE DECLARATIONS:
         int WhichCoil;
-        static int ErrCount(0);
+        static thread_local int ErrCount(0);
         bool errFlag;
 
         // Obtains and allocates HXAssistedCoolingCoil related parameters from input file
@@ -1718,7 +1718,7 @@ namespace HVACHXAssistedCoolingCoil {
 
         // FUNCTION LOCAL VARIABLE DECLARATIONS:
         int WhichCoil;
-        static int ErrCount(0);
+        static thread_local int ErrCount(0);
 
         // Obtains and allocates HXAssistedCoolingCoil related parameters from input file
         if (GetCoilsInputFlag) { // First time subroutine has been called, get input data

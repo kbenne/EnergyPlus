@@ -170,7 +170,7 @@ namespace Photovoltaics {
 
         // SUBROUTINE LOCAL VARIABLE DECLARATIONS:
         int PVnum;                      // index of unit in PV array for Equivalent one-diode model
-        static bool GetInputFlag(true); // one time get input flag
+        static thread_local bool GetInputFlag(true); // one time get input flag
 
         // Get PV data from input file
         if (GetInputFlag) {
@@ -315,7 +315,7 @@ namespace Photovoltaics {
         int NumAlphas; // Number of PV Array parameter alpha names being passed
         int NumNums;   // Number of PV Array numeric parameters are being passed
         int IOStat;
-        static bool ErrorsFound(false); // if errors detected in input
+        static thread_local bool ErrorsFound(false); // if errors detected in input
         int ThisParamObj;
         int dupPtr;
 
@@ -1243,8 +1243,8 @@ namespace Photovoltaics {
         // na
 
         // SUBROUTINE LOCAL VARIABLE DECLARATIONS:
-        static bool MyOneTimeFlag(true);
-        static Array1D_bool MyEnvrnFlag;
+        static thread_local bool MyOneTimeFlag(true);
+        static thread_local Array1D_bool MyEnvrnFlag;
         Real64 TimeElapsed; // Fraction of the current hour that has elapsed (h)
 
         // perform the one time initializations
@@ -1334,7 +1334,7 @@ namespace Photovoltaics {
         // na
 
         // SUBROUTINE LOCAL VARIABLE DECLARATIONS:
-        static Real64 PVTimeStep; // internal timestep (in seconds) for cell temperature mode 3
+        static thread_local Real64 PVTimeStep; // internal timestep (in seconds) for cell temperature mode 3
         Real64 DummyErr;
         Real64 ETA;
         Real64 Tambient;
@@ -1364,7 +1364,7 @@ namespace Photovoltaics {
         int K;
         Real64 CellTemp(0.0); // cell temperature in Kelvin
         Real64 CellTempC;     // cell temperature in degrees C
-        static bool firstTime(true);
+        static thread_local bool firstTime(true);
         // unused1208  INTEGER :: thisZone
 
         // if the cell temperature mode is 2, convert the timestep to seconds
@@ -1678,8 +1678,8 @@ namespace Photovoltaics {
         // SUBROUTINE PARAMETER DEFINITIONS:
         Real64 const DELTA(1.e-3);
         Real64 const EPSILON(1.e-3);
-        static Real64 const RONE((std::sqrt(5.0) - 1.0) / 2.0);
-        static Real64 const RTWO(RONE * RONE);
+        static thread_local Real64 const RONE((std::sqrt(5.0) - 1.0) / 2.0);
+        static thread_local Real64 const RTWO(RONE * RONE);
 
         // INTERFACE BLOCK SPECIFICATIONS:
         // na

@@ -133,8 +133,8 @@ namespace DataSurfaceLists {
         using General::RoundSigDigits;
 
         // SUBROUTINE PARAMETER DEFINITIONS:
-        static std::string const CurrentModuleObject1("ZoneHVAC:LowTemperatureRadiant:SurfaceGroup");
-        static std::string const CurrentModuleObject2("ZoneHVAC:VentilatedSlab:SlabGroup");
+        static thread_local std::string const CurrentModuleObject1("ZoneHVAC:LowTemperatureRadiant:SurfaceGroup");
+        static thread_local std::string const CurrentModuleObject2("ZoneHVAC:VentilatedSlab:SlabGroup");
         Real64 const FlowFractionTolerance(0.0001); // Smallest deviation from unity for the sum of all fractions
         Real64 const SurfListMinFlowFrac(0.001);    // Minimum allowed flow fraction (to avoid divide by zero)
 

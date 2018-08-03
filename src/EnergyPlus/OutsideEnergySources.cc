@@ -111,7 +111,7 @@ namespace OutsideEnergySources {
 
     // SUBROUTINE SPECIFICATIONS FOR MODULE OutsideEnergySources
     namespace {
-        // These were static variables within different functions. They were pulled out into the namespace
+        // These were static thread_local variables within different functions. They were pulled out into the namespace
         // to facilitate easier unit testing of those functions.
         // These are purposefully not in the header file as an extern variable. No one outside of this should
         // use these. They are cleared by clear_state() for use by unit tests, but normal simulations should be unaffected.
@@ -157,7 +157,7 @@ namespace OutsideEnergySources {
 
         // SUBROUTINE LOCAL VARIABLE DECLARATIONS:
         /////////// hoisted into namespace SimOutsideEnergyGetInputFlag ////////////
-        // static bool GetInputFlag( true ); // Get input once and once only
+        // static thread_local bool GetInputFlag( true ); // Get input once and once only
         /////////////////////////////////////////////////
         int EqNum;
         Real64 InletTemp;
@@ -247,7 +247,7 @@ namespace OutsideEnergySources {
         int NumDistrictUnitsHeat;
         int NumDistrictUnitsCool;
         int IndexCounter;
-        static bool ErrorsFound(false); // If errors detected in input
+        static thread_local bool ErrorsFound(false); // If errors detected in input
 
         // GET NUMBER OF ALL EQUIPMENT TYPES
         cCurrentModuleObject = "DistrictHeating";
@@ -499,7 +499,7 @@ namespace OutsideEnergySources {
 
         // SUBROUTINE LOCAL VARIABLE DECLARATIONS:
         int TempTypeFlag(0);
-        static Real64 TempPlantMdot(0.0); // local copy of plant flow
+        static thread_local Real64 TempPlantMdot(0.0); // local copy of plant flow
         int LoopNum;
         int LoopSideNum;
         int BranchIndex;
@@ -722,7 +722,7 @@ namespace OutsideEnergySources {
         // SUBROUTINE ARGUMENT DEFINITIONS:
 
         // SUBROUTINE PARAMETER DEFINITIONS:
-        static std::string const RoutineName("SimDistrictEnergy");
+        static thread_local std::string const RoutineName("SimDistrictEnergy");
 
         // INTERFACE BLOCK SPECIFICATIONS
         // na

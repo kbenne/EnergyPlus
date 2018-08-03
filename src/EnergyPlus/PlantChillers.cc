@@ -134,7 +134,7 @@ namespace PlantChillers {
     int const NotModulated(202);
     int const LeavingSetPointModulated(203);
 
-    static std::string const BlankString;
+    static thread_local std::string const BlankString;
 
     // MODULE VARIABLE DECLARATIONS:
     int NumElectricChillers(0);      // number of Electric chillers specified in input
@@ -652,7 +652,7 @@ namespace PlantChillers {
 
         // Locals
         // PARAMETERS
-        static std::string const RoutineName("GetElectricChillerInput: "); // include trailing blank space
+        static thread_local std::string const RoutineName("GetElectricChillerInput: "); // include trailing blank space
         // LOCAL VARIABLES
         int ChillerNum; // chiller counter
         int NumAlphas;  // Number of elements in the alpha array
@@ -660,7 +660,7 @@ namespace PlantChillers {
         int IOStat;     // IO Status when calling get input subroutine
         //  CHARACTER(len=MaxNameLength),DIMENSION(9)   :: AlphArray !character string data
         //  REAL(r64),                        DIMENSION(22)  :: NumArray  !numeric data
-        static bool ErrorsFound(false);
+        static thread_local bool ErrorsFound(false);
         bool errFlag;
         bool Okay;
         //  CHARACTER(len=MaxNameLength) :: cCurrentModuleObject  ! for ease in renaming.
@@ -1215,13 +1215,13 @@ namespace PlantChillers {
 
         // Locals
         // PARAMETERS
-        static std::string const RoutineName("GetEngineDrivenChillerInput: "); // include trailing blank space
+        static thread_local std::string const RoutineName("GetEngineDrivenChillerInput: "); // include trailing blank space
         // LOCAL VARIABLES
         int ChillerNum; // chiller counter
         int NumAlphas;  // Number of elements in the alpha array
         int NumNums;    // Number of elements in the numeric array
         int IOStat;     // IO Status when calling get input subroutine
-        static bool ErrorsFound(false);
+        static thread_local bool ErrorsFound(false);
         bool errFlag;
         bool Okay;
 
@@ -1908,13 +1908,13 @@ namespace PlantChillers {
 
         // Locals
         // PARAMETERS
-        static std::string const RoutineName("GetGTChillerInput: "); // include trailing blank space
+        static thread_local std::string const RoutineName("GetGTChillerInput: "); // include trailing blank space
         // LOCAL VARIABLES
         int ChillerNum; // chiller counter
         int NumAlphas;  // Number of elements in the alpha array
         int NumNums;    // Number of elements in the numeric array
         int IOStat;     // IO Status when calling get input subroutine
-        static bool ErrorsFound(false);
+        static thread_local bool ErrorsFound(false);
         bool errFlag;
         bool Okay;
 
@@ -2528,14 +2528,14 @@ namespace PlantChillers {
         using ScheduleManager::GetScheduleIndex;
 
         // SUBROUTINE PARAMETER DEFINITIONS:
-        static std::string const RoutineName("GetConstCOPChillerInput: "); // include trailing blank space
+        static thread_local std::string const RoutineName("GetConstCOPChillerInput: "); // include trailing blank space
 
         // SUBROUTINE LOCAL VARIABLE DECLARATIONS:
         int ChillerNum;
         int NumAlphas; // Number of elements in the alpha array
         int NumNums;   // Number of elements in the numeric array
         int IOStat;    // IO Status when calling get input subroutine
-        static bool ErrorsFound(false);
+        static thread_local bool ErrorsFound(false);
         bool errFlag;
         bool Okay;
 
@@ -2938,12 +2938,12 @@ namespace PlantChillers {
         using Psychrometrics::PsyRhoAirFnPbTdbW;
 
         // SUBROUTINE PARAMETER DEFINITIONS:
-        static std::string const RoutineName("InitElectricChiller");
+        static thread_local std::string const RoutineName("InitElectricChiller");
 
         // SUBROUTINE LOCAL VARIABLE DECLARATIONS:
-        static bool MyOneTimeFlag(true);
-        static Array1D_bool MyFlag;
-        static Array1D_bool MyEnvrnFlag;
+        static thread_local bool MyOneTimeFlag(true);
+        static thread_local Array1D_bool MyFlag;
+        static thread_local Array1D_bool MyEnvrnFlag;
         int CondInletNode;  // node number of water inlet node to the condenser
         int CondOutletNode; // node number of water outlet node from the condenser
         int EvapInletNode;
@@ -3337,12 +3337,12 @@ namespace PlantChillers {
         using Psychrometrics::PsyRhoAirFnPbTdbW;
 
         // SUBROUTINE PARAMETER DEFINITIONS:
-        static std::string const RoutineName("InitEngineDrivenChiller");
+        static thread_local std::string const RoutineName("InitEngineDrivenChiller");
 
         // SUBROUTINE LOCAL VARIABLE DECLARATIONS:
-        static bool MyOneTimeFlag(true);
-        static Array1D_bool MyEnvrnFlag;
-        static Array1D_bool MyFlag;
+        static thread_local bool MyOneTimeFlag(true);
+        static thread_local Array1D_bool MyEnvrnFlag;
+        static thread_local Array1D_bool MyFlag;
         int CondInletNode; // node number of water inlet node to the condenser
         int CondOutletNode;
         int EvapInletNode;
@@ -3681,12 +3681,12 @@ namespace PlantChillers {
         using Psychrometrics::PsyRhoAirFnPbTdbW;
 
         // SUBROUTINE PARAMETER DEFINITIONS:
-        static std::string const RoutineName("InitGTChiller");
+        static thread_local std::string const RoutineName("InitGTChiller");
 
         // SUBROUTINE LOCAL VARIABLE DECLARATIONS:
-        static bool MyOneTimeFlag(true);
-        static Array1D_bool MyEnvrnFlag;
-        static Array1D_bool MyFlag;
+        static thread_local bool MyOneTimeFlag(true);
+        static thread_local Array1D_bool MyEnvrnFlag;
+        static thread_local Array1D_bool MyFlag;
         int CondInletNode;  // node number of water inlet node to the condenser
         int CondOutletNode; // node number of water outlet node from the condenser
         int EvapInletNode;
@@ -4020,13 +4020,13 @@ namespace PlantChillers {
         using Psychrometrics::PsyRhoAirFnPbTdbW;
 
         // SUBROUTINE PARAMETER DEFINITIONS:
-        static std::string const RoutineName("InitConstCOPChiller");
+        static thread_local std::string const RoutineName("InitConstCOPChiller");
         Real64 const TempDesCondIn(25.0); // Design condenser inlet temp. C
 
         // SUBROUTINE LOCAL VARIABLE DECLARATIONS:
-        static bool OneTimeFlag(true);
-        static Array1D_bool MyFlag;
-        static Array1D_bool MyEnvironFlag;
+        static thread_local bool OneTimeFlag(true);
+        static thread_local Array1D_bool MyFlag;
+        static thread_local Array1D_bool MyEnvironFlag;
         int CondInletNode;  // node number of water inlet node to the condenser
         int CondOutletNode; // node number of water outlet node from the condenser
         int EvapInletNode;
@@ -4274,7 +4274,7 @@ namespace PlantChillers {
         using FluidProperties::GetSpecificHeatGlycol;
 
         // SUBROUTINE PARAMETER DEFINITIONS:
-        static std::string const RoutineName("SizeElectricChiller");
+        static thread_local std::string const RoutineName("SizeElectricChiller");
 
         // SUBROUTINE LOCAL VARIABLE DECLARATIONS:
         int PltSizNum(0);        // Plant Sizing index corresponding to CurLoopNum
@@ -4606,7 +4606,7 @@ namespace PlantChillers {
         using FluidProperties::GetSpecificHeatGlycol;
 
         // SUBROUTINE PARAMETER DEFINITIONS:
-        static std::string const RoutineName("SizeEngineDrivenChiller");
+        static thread_local std::string const RoutineName("SizeEngineDrivenChiller");
 
         // SUBROUTINE LOCAL VARIABLE DECLARATIONS:
         int PltSizNum;     // Plant Sizing index corresponding to CurLoopNum
@@ -4954,7 +4954,7 @@ namespace PlantChillers {
         using FluidProperties::GetSpecificHeatGlycol;
 
         // SUBROUTINE PARAMETER DEFINITIONS:
-        static std::string const RoutineName("SizeGTChiller");
+        static thread_local std::string const RoutineName("SizeGTChiller");
 
         // SUBROUTINE LOCAL VARIABLE DECLARATIONS:
         int PltSizNum;     // Plant Sizing index corresponding to CurLoopNum
@@ -5336,7 +5336,7 @@ namespace PlantChillers {
         using FluidProperties::GetSpecificHeatGlycol;
 
         // SUBROUTINE PARAMETER DEFINITIONS:
-        static std::string const RoutineName("SizeConstCOPChiller");
+        static thread_local std::string const RoutineName("SizeConstCOPChiller");
 
         // SUBROUTINE LOCAL VARIABLE DECLARATIONS:
         int PltSizNum;     // Plant Sizing index corresponding to CurLoopNum
@@ -5653,8 +5653,8 @@ namespace PlantChillers {
 
         // SUBROUTINE PARAMETER DEFINITIONS:
 
-        static gio::Fmt OutputFormat("(F6.2)");
-        static std::string const RoutineName("CalcElectricChillerModel");
+        static thread_local gio::Fmt OutputFormat("(F6.2)");
+        static thread_local std::string const RoutineName("CalcElectricChillerModel");
 
         // INTERFACE BLOCK SPECIFICATIONS
         // na
@@ -5693,10 +5693,10 @@ namespace PlantChillers {
         int LoopSideNum;
         int BranchNum;
         int CompNum;
-        static Real64 TimeStepSysLast(0.0);    // last system time step (used to check for downshifting)
+        static thread_local Real64 TimeStepSysLast(0.0);    // last system time step (used to check for downshifting)
         Real64 CurrentEndTime;                 // end time of time step for current simulation time step
-        static Real64 CurrentEndTimeLast(0.0); // end time of time step for last simulation time step
-        static std::string OutputChar;         // character string for warning messages
+        static thread_local Real64 CurrentEndTimeLast(0.0); // end time of time step for last simulation time step
+        static thread_local std::string OutputChar;         // character string for warning messages
         Real64 Cp;                             // local for fluid specif heat, for evaporator
         Real64 CpCond;                         // local for fluid specif heat, for condenser
 
@@ -6367,8 +6367,8 @@ namespace PlantChillers {
         Real64 const ReferenceTemp(25.0); // Reference temperature by which lower heating
         // value is reported.  This should be subtracted
         // off of when calculated exhaust energies.
-        static gio::Fmt OutputFormat("(F6.2)");
-        static std::string const RoutineName("CalcEngineDrivenChillerModel");
+        static thread_local gio::Fmt OutputFormat("(F6.2)");
+        static thread_local std::string const RoutineName("CalcEngineDrivenChillerModel");
 
         // INTERFACE BLOCK SPECIFICATIONS
         // na
@@ -6404,10 +6404,10 @@ namespace PlantChillers {
         Real64 FRAC;
         int LoopNum;
         int LoopSideNum;
-        static Real64 TimeStepSysLast(0.0);    // last system time step (used to check for downshifting)
+        static thread_local Real64 TimeStepSysLast(0.0);    // last system time step (used to check for downshifting)
         Real64 CurrentEndTime;                 // end time of time step for current simulation time step
-        static Real64 CurrentEndTimeLast(0.0); // end time of time step for last simulation time step
-        static std::string OutputChar;         // character string for warning messages
+        static thread_local Real64 CurrentEndTimeLast(0.0); // end time of time step for last simulation time step
+        static thread_local std::string OutputChar;         // character string for warning messages
         Real64 Cp;                             // local for fluid specif heat, for evaporator
         Real64 CpCond;                         // local for fluid specif heat, for condenser
 
@@ -7139,9 +7139,9 @@ namespace PlantChillers {
         // SUBROUTINE PARAMETER DEFINITIONS:
 
         Real64 const ExhaustCP(1.047); // Exhaust Gas Specific Heat
-        static gio::Fmt OutputFormat("(F6.2)");
-        static std::string const RoutineName("CalcGTChillerModel");
-        static std::string const RoutineNameHeatRecovery("ChillerHeatRecovery");
+        static thread_local gio::Fmt OutputFormat("(F6.2)");
+        static thread_local std::string const RoutineName("CalcGTChillerModel");
+        static thread_local std::string const RoutineNameHeatRecovery("ChillerHeatRecovery");
 
         // INTERFACE BLOCK SPECIFICATIONS
         // na
@@ -7172,7 +7172,7 @@ namespace PlantChillers {
         int EvapOutletNode;                     // evaporator outlet node number, water side
         int CondInletNode;                      // condenser inlet node number, water side
         int CondOutletNode;                     // condenser outlet node number, water side
-        static Real64 EvapMassFlowRateMax(0.0); // Max Design Evaporator Mass Flow Rate converted from Volume Flow Rate
+        static thread_local Real64 EvapMassFlowRateMax(0.0); // Max Design Evaporator Mass Flow Rate converted from Volume Flow Rate
         Real64 TempLowLimitEout;                // C - Evaporator low temp. limit cut off
         // Special variables for GT Chiller
         Real64 RPLoad;
@@ -7189,10 +7189,10 @@ namespace PlantChillers {
         Real64 UAtoCapRat;                     // (UACGC) Heat Exchanger UA to Capacity
         Real64 AmbientDeltaT;                  // (ATAIR) Difference between ambient actual and ambient design temperatures
         Real64 DesignSteamSatTemp;             // Saturization Temperature of Steam in Stack
-        static Real64 TimeStepSysLast(0.0);    // last system time step (used to check for downshifting)
+        static thread_local Real64 TimeStepSysLast(0.0);    // last system time step (used to check for downshifting)
         Real64 CurrentEndTime;                 // end time of time step for current simulation time step
-        static Real64 CurrentEndTimeLast(0.0); // end time of time step for last simulation time step
-        static std::string OutputChar;         // character string for warning messages
+        static thread_local Real64 CurrentEndTimeLast(0.0); // end time of time step for last simulation time step
+        static thread_local std::string OutputChar;         // character string for warning messages
 
         int HeatRecInNode;          // Heat Recovery Fluid Inlet Node Num
         int HeatRecOutNode;         // Heat Recovery Fluid Outlet Node Num
@@ -7990,8 +7990,8 @@ namespace PlantChillers {
         // SUBROUTINE PARAMETER DEFINITIONS:
 
         Real64 const DeltaTempTol(0.0001); // C - minimum significant mass flow rate
-        static gio::Fmt OutputFormat("(F6.2)");
-        static std::string const RoutineName("CalcConstCOPChillerModel");
+        static thread_local gio::Fmt OutputFormat("(F6.2)");
+        static thread_local std::string const RoutineName("CalcConstCOPChillerModel");
 
         // DERIVED TYPE DEFINITIONS
         // na
@@ -8006,10 +8006,10 @@ namespace PlantChillers {
         //  LOGICAL,SAVE           :: PossibleSubcooling=.FALSE.
         int LoopNum;
         int LoopSideNum;
-        static Real64 TimeStepSysLast(0.0);    // last system time step (used to check for downshifting)
+        static thread_local Real64 TimeStepSysLast(0.0);    // last system time step (used to check for downshifting)
         Real64 CurrentEndTime;                 // end time of time step for current simulation time step
-        static Real64 CurrentEndTimeLast(0.0); // end time of time step for last simulation time step
-        static std::string OutputChar;         // character string for warning messages
+        static thread_local Real64 CurrentEndTimeLast(0.0); // end time of time step for last simulation time step
+        static thread_local std::string OutputChar;         // character string for warning messages
         Real64 COP;                            // coefficient of performance
         Real64 Cp;                             // local for fluid specif heat, for evaporator
         Real64 CpCond;                         // local for fluid specif heat, for condenser
@@ -8530,7 +8530,7 @@ namespace PlantChillers {
         // SUBROUTINE ARGUMENT DEFINITIONS:
 
         // SUBROUTINE PARAMETER DEFINITIONS:
-        static std::string const RoutineName("ChillerHeatRecovery");
+        static thread_local std::string const RoutineName("ChillerHeatRecovery");
 
         // DERIVED TYPE DEFINITIONS
         // na
@@ -8649,7 +8649,7 @@ namespace PlantChillers {
         // SUBROUTINE ARGUMENT DEFINITIONS:
 
         // SUBROUTINE PARAMETER DEFINITIONS:
-        static std::string const RoutineName("ChillerHeatRecovery");
+        static thread_local std::string const RoutineName("ChillerHeatRecovery");
 
         // DERIVED TYPE DEFINITIONS
         // na

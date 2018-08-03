@@ -109,7 +109,7 @@ namespace RoomAirModelUserTempPattern {
 
     // Data
     // MODULE PARAMETER DEFINITIONS:
-    static std::string const BlankString;
+    static thread_local std::string const BlankString;
 
     // MODULE DERIVED TYPE DEFINITIONS:
 
@@ -220,8 +220,8 @@ namespace RoomAirModelUserTempPattern {
         // na
 
         // SUBROUTINE LOCAL VARIABLE DECLARATIONS:
-        static Array1D_bool MyEnvrnFlag; // flag for init once at start of environment
-        static bool MyOneTimeFlag(true); // one time setup flag
+        static thread_local Array1D_bool MyEnvrnFlag; // flag for init once at start of environment
+        static thread_local bool MyOneTimeFlag(true); // one time setup flag
         int SurfNum;                     // do loop counter
 
         if (MyOneTimeFlag) {
@@ -579,8 +579,8 @@ namespace RoomAirModelUserTempPattern {
         Real64 thisZeta;                     // non-dimensional height
         Real64 DeltaHeight;                  // height difference in m
         Real64 tempDeltaTai;                 // temporary temperature difference
-        static Array1D_bool SetupOutputFlag; // flag to set up output variable one-time if 2-grad model used
-        static bool MyOneTimeFlag(true);
+        static thread_local Array1D_bool SetupOutputFlag; // flag to set up output variable one-time if 2-grad model used
+        static thread_local bool MyOneTimeFlag(true);
 
         if (MyOneTimeFlag) {
             SetupOutputFlag.dimension(NumOfZones, true); // init

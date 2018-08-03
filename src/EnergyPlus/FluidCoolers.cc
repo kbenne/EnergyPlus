@@ -135,7 +135,7 @@ namespace FluidCoolers {
     int const FluidCooler_SingleSpeed(1);
     int const FluidCooler_TwoSpeed(2);
 
-    static std::string const BlankString;
+    static thread_local std::string const BlankString;
 
     // MODULE VARIABLE DECLARATIONS:
     int NumSimpleFluidCoolers(0); // Number of similar fluid coolers
@@ -326,7 +326,7 @@ namespace FluidCoolers {
         int NumAlphas;                    // Number of elements in the alpha array
         int NumNums;                      // Number of elements in the numeric array
         int IOStat;                       // IO Status when calling get input subroutine
-        static bool ErrorsFound(false);   // Logical flag set .TRUE. if errors found while getting input data
+        static thread_local bool ErrorsFound(false);   // Logical flag set .TRUE. if errors found while getting input data
         Array1D<Real64> NumArray(16);     // Numeric input data array
         Array1D_string AlphArray(5);      // Character string input data array
 
@@ -989,13 +989,13 @@ namespace FluidCoolers {
         using PlantUtilities::SetComponentFlowRate;
 
         // SUBROUTINE PARAMETER DEFINITIONS:
-        static std::string const RoutineName("InitFluidCooler");
+        static thread_local std::string const RoutineName("InitFluidCooler");
 
         // SUBROUTINE LOCAL VARIABLE DECLARATIONS:
-        static bool ErrorsFound(false); // Flag if input data errors are found
-        static bool MyOneTimeFlag(true);
-        static Array1D_bool MyEnvrnFlag;
-        static Array1D_bool OneTimeFlagForEachFluidCooler;
+        static thread_local bool ErrorsFound(false); // Flag if input data errors are found
+        static thread_local bool MyOneTimeFlag(true);
+        static thread_local Array1D_bool MyEnvrnFlag;
+        static thread_local Array1D_bool OneTimeFlagForEachFluidCooler;
         int TypeOf_Num(0);
         int LoopNum;
         int LoopSideNum;
@@ -1144,7 +1144,7 @@ namespace FluidCoolers {
         // SUBROUTINE PARAMETER DEFINITIONS:
         int const MaxIte(500);    // Maximum number of iterations
         Real64 const Acc(0.0001); // Accuracy of result
-        static std::string const CalledFrom("SizeFluidCooler");
+        static thread_local std::string const CalledFrom("SizeFluidCooler");
 
         // INTERFACE BLOCK SPECIFICATIONS
         // na
@@ -1893,7 +1893,7 @@ namespace FluidCoolers {
         //  LOGICAL, INTENT(IN)    :: RunFlag
 
         // SUBROUTINE PARAMETER DEFINITIONS:
-        static std::string const RoutineName("SingleSpeedFluidCooler");
+        static thread_local std::string const RoutineName("SingleSpeedFluidCooler");
 
         // INTERFACE BLOCK SPECIFICATIONS
         // na
@@ -2028,7 +2028,7 @@ namespace FluidCoolers {
         //  LOGICAL, INTENT(IN)    :: RunFlag
 
         // SUBROUTINE PARAMETER DEFINITIONS:
-        static std::string const RoutineName("TwoSpeedFluidCooler");
+        static thread_local std::string const RoutineName("TwoSpeedFluidCooler");
 
         // INTERFACE BLOCK SPECIFICATIONS
         // na
@@ -2152,7 +2152,7 @@ namespace FluidCoolers {
         // SUBROUTINE ARGUMENT DEFINITIONS:
 
         // SUBROUTINE PARAMETER DEFINITIONS:
-        static std::string const RoutineName("SimSimpleFluidCooler");
+        static thread_local std::string const RoutineName("SimSimpleFluidCooler");
 
         // INTERFACE BLOCK SPECIFICATIONS
         // na
@@ -2318,7 +2318,7 @@ namespace FluidCoolers {
         // SUBROUTINE ARGUMENT DEFINITIONS:
 
         // SUBROUTINE PARAMETER DEFINITIONS:
-        static gio::Fmt LowTempFmt("(' ',F6.2)");
+        static thread_local gio::Fmt LowTempFmt("(' ',F6.2)");
 
         // INTERFACE BLOCK SPECIFICATIONS
         // na

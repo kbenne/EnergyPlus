@@ -204,7 +204,7 @@ namespace SimAirServingZones {
     int NumOfTimeStepInDay; // number of zone time steps in a day
 
     namespace {
-        // These were static variables within different functions. They were pulled out into the namespace
+        // These were static thread_local variables within different functions. They were pulled out into the namespace
         // to facilitate easier unit testing of those functions.
         // These are purposefully not in the header file as an extern variable. No one outside of this should
         // use these. They are cleared by clear_state() for use by unit tests, but normal simulations should be unaffected.
@@ -393,7 +393,7 @@ namespace SimAirServingZones {
         using WaterCoils::GetCoilWaterInletNode;
 
         // SUBROUTINE PARAMETER DEFINITIONS:
-        static std::string const RoutineName("GetAirPathData: ");
+        static thread_local std::string const RoutineName("GetAirPathData: ");
 
         // SUBROUTINE LOCAL VARIABLE DEFINITIONS
         int NumNumbers;                // number of numbers returned by GetObjectItem
@@ -431,28 +431,28 @@ namespace SimAirServingZones {
         std::string ControllerListName;        // Name of a controller list object
         std::string AvailManagerListName;      // Name of an availability manager list object
         std::string ConnectorListName;         // Name of a connector list object
-        static Array1D_string BranchNames;     // Branch names from GetBranchList call
-        static Array1D_string CompTypes;       // Component types from GetBranchList call
-        static Array1D_string CompNames;       // Component names from GetBranchList call
-        static Array1D_string InletNodeNames;  // Component inlet node names from GetBranchData call
-        static Array1D_string OutletNodeNames; // Component outlet node names from GetBranchData call
-        static Array1D_string NodeNames;       // Outlet node names from GetLoopSplitter call
-        static Array1D_int NodeNumbers;        // Outlet node numbers from GetLoopSplitter call
-        static Array1D_int InletNodeNumbers;   // Component inlet node numbers from GetBranchData call
-        static Array1D_int OutletNodeNumbers;  // Component outlet node numbers from GetBranchData call
+        static thread_local Array1D_string BranchNames;     // Branch names from GetBranchList call
+        static thread_local Array1D_string CompTypes;       // Component types from GetBranchList call
+        static thread_local Array1D_string CompNames;       // Component names from GetBranchList call
+        static thread_local Array1D_string InletNodeNames;  // Component inlet node names from GetBranchData call
+        static thread_local Array1D_string OutletNodeNames; // Component outlet node names from GetBranchData call
+        static thread_local Array1D_string NodeNames;       // Outlet node names from GetLoopSplitter call
+        static thread_local Array1D_int NodeNumbers;        // Outlet node numbers from GetLoopSplitter call
+        static thread_local Array1D_int InletNodeNumbers;   // Component inlet node numbers from GetBranchData call
+        static thread_local Array1D_int OutletNodeNumbers;  // Component outlet node numbers from GetBranchData call
         Array1D_int DummyInteger(2);           // Placeholder for corresponding plant loop branch pressure drop info
-        static bool ErrorsFound(false);        // TRUE if errors detected in input
-        static Array1D_bool PackagedUnit;
+        static thread_local bool ErrorsFound(false);        // TRUE if errors detected in input
+        static thread_local Array1D_bool PackagedUnit;
         int test;
         int count;
         bool ErrInList;
-        static int ConListNum(0);          // index of a Connector List object in the input
-        static bool SplitterExists(false); // TRUE if there is a slitter in a primary air system
-        static bool MixerExists(false);    // TRUE if there is a mixer in a primary air system
+        static thread_local int ConListNum(0);          // index of a Connector List object in the input
+        static thread_local bool SplitterExists(false); // TRUE if there is a slitter in a primary air system
+        static thread_local bool MixerExists(false);    // TRUE if there is a mixer in a primary air system
         bool errFlag;
         bool IsNotOK;
         /////////// hoisted into namespace
-        // static int TestUniqueNodesNum( 0 );
+        // static thread_local int TestUniqueNodesNum( 0 );
         ///////////////////////////
         int NumOASysSimpControllers; // number of simple controllers in the OA Sys of an air primary system
         int NumOASysControllers;     // total number of controllers in the OA Sys
@@ -1501,7 +1501,7 @@ namespace SimAirServingZones {
         int PlenumOutNum;                  // DO loop index of supply plenum outlets
         Real64 MassFlowSaved;              // mass flow rate for a node saved from previous call
         Real64 MassFlowSet;                // desired mass flow rate for a node
-        static Real64 SumZoneDesFlow(0.0); // sum of the zone design air mass flow rates for zones served by a system
+        static thread_local Real64 SumZoneDesFlow(0.0); // sum of the zone design air mass flow rates for zones served by a system
         int SupAirPath;                    // supply air path do loop index
         int SupAirPathNum;                 // specific supply air path index
         int SplitterNum;                   // Zone equip splitter index
@@ -1517,30 +1517,30 @@ namespace SimAirServingZones {
         int RetFanIndex;
         bool FoundOASys;
         bool FoundCentralHeatCoil;
-        static int TUInNode(0); // inlet node number of a terminal unit
-        static Real64 MassFlowSetToler;
-        static Array1D_int CtrlZoneNumsCool;
-        static Array1D_int CtrlZoneNumsHeat;
-        static Array1D_int ZoneInletNodesCool;
-        static Array1D_int ZoneInletNodesHeat;
-        static Array1D_int TermInletNodesCool;
-        static Array1D_int TermInletNodesHeat;
-        static Array1D_int TermUnitSizingNumsCool;
-        static Array1D_int TermUnitSizingNumsHeat;
-        static Array1D_int SupNode;
-        static Array1D_int SupNodeType;
+        static thread_local int TUInNode(0); // inlet node number of a terminal unit
+        static thread_local Real64 MassFlowSetToler;
+        static thread_local Array1D_int CtrlZoneNumsCool;
+        static thread_local Array1D_int CtrlZoneNumsHeat;
+        static thread_local Array1D_int ZoneInletNodesCool;
+        static thread_local Array1D_int ZoneInletNodesHeat;
+        static thread_local Array1D_int TermInletNodesCool;
+        static thread_local Array1D_int TermInletNodesHeat;
+        static thread_local Array1D_int TermUnitSizingNumsCool;
+        static thread_local Array1D_int TermUnitSizingNumsHeat;
+        static thread_local Array1D_int SupNode;
+        static thread_local Array1D_int SupNodeType;
 
         // Dimension the local subcomponent arrays
 
         // Simulation Flags
-        static bool MyEnvrnFlag(true);
+        static thread_local bool MyEnvrnFlag(true);
         /////////// hoisted into namespace InitAirLoopsOneTimeFlag////////////
-        // static bool MyOneTimeFlag( true );
-        // static bool MyBranchSizingFlag( true ); //InitAirLoopsBranchSizingFlag
+        // static thread_local bool MyOneTimeFlag( true );
+        // static thread_local bool MyBranchSizingFlag( true ); //InitAirLoopsBranchSizingFlag
         ///////////////////////////
 
         bool ErrorsFound;
-        static Real64 OAReliefDiff(0.0); // local for massflow change across OA system, kg/s
+        static thread_local Real64 OAReliefDiff(0.0); // local for massflow change across OA system, kg/s
 
         Array1D_int tmpNodeARR;
         int nodeLoop;
@@ -2445,14 +2445,14 @@ namespace SimAirServingZones {
         // SUBROUTINE LOCAL VARIABLE DEFINITIONS
         // Last saved HVAC time stamp at beginning of step in seconds.
         // Used to control when to reset the statistic counters for each new HVAC step.
-        static Real64 SavedPreviousHVACTime(0.0);
+        static thread_local Real64 SavedPreviousHVACTime(0.0);
         Real64 rxTime;
         // Maximum of iteration counters across all air loops
-        static int IterMax(0);
+        static thread_local int IterMax(0);
         // Aggregated number of iterations across all air loops
-        static int IterTot(0);
+        static thread_local int IterTot(0);
         // Aggregated number fo times SimAirLoopComponents() has been invoked across all air loops
-        static int NumCallsTot(0);
+        static thread_local int NumCallsTot(0);
         // Primary Air Sys DO loop index
         int AirLoopNum;
         // Max number of iterations performed by controllers on each air loop
@@ -2466,7 +2466,7 @@ namespace SimAirServingZones {
         // DO loop index; there are 2 passes - the 2nd is done only if mass balance fails
         int AirLoopPass;
         // Output variable setup flag
-        static bool OutputSetupFlag(false);
+        static thread_local bool OutputSetupFlag(false);
         // Flag set by ResolveSysFlow; if TRUE, mass balance failed and there must be a second pass
         bool SysReSim;
         int CalledFrom;
@@ -2617,19 +2617,19 @@ namespace SimAirServingZones {
 
         // SUBROUTINE LOCAL VARIABLE DEFINITIONS
         // Maximum number of iterations performed by each controller on this air loop
-        static int IterMax(0);
+        static thread_local int IterMax(0);
         // Aggregated number of iterations performed by each controller on this air loop
-        static int IterTot(0);
+        static thread_local int IterTot(0);
         // Number of times SimAirLoopComponents() has been invoked per air loop for either Solve or ReSolve operations
-        static int NumCalls(0);
+        static thread_local int NumCalls(0);
         // TRUE when primary air system & controllers simulation has converged;
-        static bool AirLoopConvergedFlag(false);
+        static thread_local bool AirLoopConvergedFlag(false);
         // TRUE when speculative warm restart is allowed; FALSE otherwise.
-        static bool DoWarmRestartFlag(false);
+        static thread_local bool DoWarmRestartFlag(false);
         // If Status<0, no speculative warm restart attempted.
         // If Status==0, warm restart failed.
         // If Status>0, warm restart succeeded.
-        static int WarmRestartStatus(iControllerWarmRestartNone);
+        static thread_local int WarmRestartStatus(iControllerWarmRestartNone);
 
         // FLOW:
 
@@ -2751,7 +2751,7 @@ namespace SimAirServingZones {
         // SUBROUTINE PARAMETER DEFINITIONS:
         // Maximum iterations of an air system/controllers simulation sequence
         int const MaxIter(50);
-        static gio::Fmt fmtLD("*");
+        static thread_local gio::Fmt fmtLD("*");
 
         // INTERFACE BLOCK DEFINITIONS: None
 
@@ -2765,16 +2765,16 @@ namespace SimAirServingZones {
         // TRUE when air loop has been evaluated with latest actuated variables
         bool IsUpToDateFlag;
         // Iteration counter
-        static int Iter(0);
+        static thread_local int Iter(0);
         // Number of times that the maximum iterations was exceeded
-        static int ErrCount(0);
+        static thread_local int ErrCount(0);
         // Number of times that the maximum iterations was exceeded
-        static int MaxErrCount(0);
+        static thread_local int MaxErrCount(0);
         // Placeholder for environment name used in error reporting
-        static std::string ErrEnvironmentName;
+        static thread_local std::string ErrEnvironmentName;
         // A character string equivalent of ErrCount
         std::string CharErrOut;
-        static bool BypassOAController; // logical to tell ManageControllers to sim or not sim controller in OA System (don't sim here)
+        static thread_local bool BypassOAController; // logical to tell ManageControllers to sim or not sim controller in OA System (don't sim here)
 
         // FLOW:
 
@@ -2993,7 +2993,7 @@ namespace SimAirServingZones {
         // SUBROUTINE PARAMETER DEFINITIONS:
         // Maximum iterations of an air system/controllers simulation sequence
         int const MaxIter(50);
-        static gio::Fmt fmtLD("*");
+        static thread_local gio::Fmt fmtLD("*");
 
         // SUBROUTINE LOCAL VARIABLE DEFINITIONS
         // TRUE if controller supports speculative warm restart
@@ -3003,17 +3003,17 @@ namespace SimAirServingZones {
         // TRUE when air loop has been evaluated with latest actuated variables
         bool IsUpToDateFlag;
         // Iteration counter
-        static int Iter(0);
+        static thread_local int Iter(0);
         // Number of times that the maximum iterations was exceeded
-        static int ErrCount(0);
+        static thread_local int ErrCount(0);
         // Number of times that the maximum iterations was exceeded
-        static int MaxErrCount(0);
+        static thread_local int MaxErrCount(0);
         // Placeholder for environment name used in error reporting
-        static std::string ErrEnvironmentName;
+        static thread_local std::string ErrEnvironmentName;
         // A character string equivalent of ErrCount
         std::string CharErrOut;
-        int static AirLoopPass;
-        static bool BypassOAController;
+        int static thread_local AirLoopPass;
+        static thread_local bool BypassOAController;
 
         // FLOW:
 
@@ -3192,7 +3192,7 @@ namespace SimAirServingZones {
         // TRUE when air loop needs to be refreshed.
         // Note that it is not used by ManageControllers() in the WARM_RESTART mode.
         bool IsUpToDateFlag;
-        static bool BypassOAController; // logical to bypass HVAC controller calcs
+        static thread_local bool BypassOAController; // logical to bypass HVAC controller calcs
 
         // FLOW:
 
@@ -3869,7 +3869,7 @@ namespace SimAirServingZones {
 
         // SUBROUTINE LOCAL VARIABLE DECLARATIONS:
         /////////// hoisted into namespace SizeAirLoopsOneTimeFlag
-        // static bool MyOneTimeFlag( true );
+        // static thread_local bool MyOneTimeFlag( true );
         ///////////////////////////
 
         if (SizeAirLoopsOneTimeFlag) {
@@ -4009,7 +4009,7 @@ namespace SimAirServingZones {
         // Uses data from System Sizing input and the system to zone connection data
         // calculated in InitAirLoops and stored in AirToZoneNodeInfo in DataLoopNode..
 
-        static bool ErrorsFound(false); // Set to true if errors in input, fatal at end of routine
+        static thread_local bool ErrorsFound(false); // Set to true if errors in input, fatal at end of routine
 
         // have moved a large number of std 62.1 variables to DataSizing.hh so they can be used outside of this routine
 
@@ -4594,7 +4594,7 @@ namespace SimAirServingZones {
         Real64 MinOAFlow;                // design minimum outside air flow for a system
         Real64 ZoneOAFracCooling;        // zone OA fraction for cooling design air flow
         Real64 ZoneOAFracHeating;        // zone OA fraction for heating design air flow
-        static Real64 Ep(1.0);           // zone primary air fraction
+        static thread_local Real64 Ep(1.0);           // zone primary air fraction
         Real64 ZoneSA;                   // Zone supply air flow rate
         Real64 ZonePA;                   // Zone primary air flow rate
         Real64 ClgSupplyAirAdjustFactor; // temporary variable
@@ -5071,17 +5071,17 @@ namespace SimAirServingZones {
         // SUBROUTINE ARGUMENT DEFINITIONS:
 
         // SUBROUTINE PARAMETER DEFINITIONS:
-        static gio::Fmt fmtA("(A)");
-        static gio::Fmt SSizeFmt10("('Time')");
-        static gio::Fmt SSizeFmt11("(A1,A,A,A1,A,A,A1,A,A,A1,A,A)");
-        static gio::Fmt SSizeFmt12("(A1,A,A,I2,A,A1,A,A,I2,A,A1,A,A,I2,A,A1,A,A,I2,A,A1,A,A,I2,A)");
-        static gio::Fmt SSizeFmt20("(I2.2,':',I2.2,':00')");
-        static gio::Fmt SSizeFmt21("(A1,ES12.6,A1,ES12.6,A1,ES12.6,A1,ES12.6)");
-        static gio::Fmt SSizeFmt22("(A1,ES12.6,A1,ES12.6,A1,ES12.6,A1,ES12.6,A1,ES12.6)");
-        static gio::Fmt SSizeFmt30("('Coinc Peak   ')");
-        static gio::Fmt SSizeFmt31("(A1,ES12.6,A1,ES12.6,A1,ES12.6,A1,ES12.6)");
-        static gio::Fmt SSizeFmt40("('NonCoinc Peak')");
-        static gio::Fmt SSizeFmt41("(A1,ES12.6,A1,ES12.6,A1,ES12.6,A1,ES12.6 )");
+        static thread_local gio::Fmt fmtA("(A)");
+        static thread_local gio::Fmt SSizeFmt10("('Time')");
+        static thread_local gio::Fmt SSizeFmt11("(A1,A,A,A1,A,A,A1,A,A,A1,A,A)");
+        static thread_local gio::Fmt SSizeFmt12("(A1,A,A,I2,A,A1,A,A,I2,A,A1,A,A,I2,A,A1,A,A,I2,A,A1,A,A,I2,A)");
+        static thread_local gio::Fmt SSizeFmt20("(I2.2,':',I2.2,':00')");
+        static thread_local gio::Fmt SSizeFmt21("(A1,ES12.6,A1,ES12.6,A1,ES12.6,A1,ES12.6)");
+        static thread_local gio::Fmt SSizeFmt22("(A1,ES12.6,A1,ES12.6,A1,ES12.6,A1,ES12.6,A1,ES12.6)");
+        static thread_local gio::Fmt SSizeFmt30("('Coinc Peak   ')");
+        static thread_local gio::Fmt SSizeFmt31("(A1,ES12.6,A1,ES12.6,A1,ES12.6,A1,ES12.6)");
+        static thread_local gio::Fmt SSizeFmt40("('NonCoinc Peak')");
+        static thread_local gio::Fmt SSizeFmt41("(A1,ES12.6,A1,ES12.6,A1,ES12.6,A1,ES12.6 )");
 
         // INTERFACE BLOCK SPECIFICATIONS
         // na
@@ -5134,20 +5134,20 @@ namespace SimAirServingZones {
         Real64 RetTempRise;                 // difference between zone return temperature and zone temperature [delta K]
         Real64 SysCoolingEv;                // System level ventilation effectiveness for cooling mode
         Real64 SysHeatingEv;                // System level ventilation effectiveness for heating mode
-        static Array1D<Real64> EvBySysCool; // saved value of SysCoolingEv used in 62.1 tabular report
-        static Array1D<Real64> EvBySysHeat; // saved value of SysHeatingEv used in 62.1 tabular report
-        static Real64 Ep(1.0);              // zone primary air fraction
-        static Real64 Er(0.0);              // zone secondary recirculation fraction
-        static Real64 Fa(1.0);              // temporary variable used in multi-path VRP calc
-        static Real64 Fb(1.0);              // temporary variable used in multi-path VRP calc
-        static Real64 Fc(1.0);              // temporary variable used in multi-path VRP calc
-        static Real64 Xs(1.0);              // uncorrected system outdoor air fraction
-        static Real64 MinHeatingEvz(1.0);   // minimum zone ventilation efficiency for heating (to be used as system efficiency)
-        static Real64 MinCoolingEvz(1.0);   // minimum zone ventilation efficiency for cooling (to be used as system efficiency)
-        static Real64 ZoneOAFrac(0.0);      // zone OA fraction
-        static Real64 ZoneEz(1.0);          // zone air distribution effectiveness
-        static Real64 Vou(0.0);             // Uncorrected outdoor air intake for all zones per ASHRAE std 62.1
-        static Real64 Vot(0.0);             // Required outdoor air intake at primary AHU per ASHRAE std 62.1
+        static thread_local Array1D<Real64> EvBySysCool; // saved value of SysCoolingEv used in 62.1 tabular report
+        static thread_local Array1D<Real64> EvBySysHeat; // saved value of SysHeatingEv used in 62.1 tabular report
+        static thread_local Real64 Ep(1.0);              // zone primary air fraction
+        static thread_local Real64 Er(0.0);              // zone secondary recirculation fraction
+        static thread_local Real64 Fa(1.0);              // temporary variable used in multi-path VRP calc
+        static thread_local Real64 Fb(1.0);              // temporary variable used in multi-path VRP calc
+        static thread_local Real64 Fc(1.0);              // temporary variable used in multi-path VRP calc
+        static thread_local Real64 Xs(1.0);              // uncorrected system outdoor air fraction
+        static thread_local Real64 MinHeatingEvz(1.0);   // minimum zone ventilation efficiency for heating (to be used as system efficiency)
+        static thread_local Real64 MinCoolingEvz(1.0);   // minimum zone ventilation efficiency for cooling (to be used as system efficiency)
+        static thread_local Real64 ZoneOAFrac(0.0);      // zone OA fraction
+        static thread_local Real64 ZoneEz(1.0);          // zone air distribution effectiveness
+        static thread_local Real64 Vou(0.0);             // Uncorrected outdoor air intake for all zones per ASHRAE std 62.1
+        static thread_local Real64 Vot(0.0);             // Required outdoor air intake at primary AHU per ASHRAE std 62.1
         Real64 SysHtgPeakAirflow;           // Peak heating airflow
         int MatchingCooledZoneNum;          // temporary variable
         Real64 termunitsizingtempfrac;      // 1.0/(1.0+termunitsizing(ctrlzone)%inducrat)
@@ -7028,7 +7028,7 @@ namespace SimAirServingZones {
         using ReportSizingManager::RequestSizing;
 
         // SUBROUTINE PARAMETER DEFINITIONS:
-        static std::string const RoutineName("UpdateSysSizingForScalableInputs: "); // include trailing blank space
+        static thread_local std::string const RoutineName("UpdateSysSizingForScalableInputs: "); // include trailing blank space
 
         // SUBROUTINE LOCAL VARIABLE DECLARATIONS:
         Real64 TempSize;           // autosized value

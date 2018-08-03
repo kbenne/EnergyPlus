@@ -234,7 +234,7 @@ bool SurfaceOctreeCube::contains(Vertex const &l, Vertex const &u, Surface const
     return true;
 }
 
-// Static Data Member Definitions
+// static thread_local Data Member Definitions
 std::uint8_t const SurfaceOctreeCube::maxDepth_ = 255u;                   // Max tree depth
 SurfaceOctreeCube::size_type const SurfaceOctreeCube::maxSurfaces_ = 10u; // Max surfaces in a cube before subdividing
 

@@ -809,7 +809,7 @@ namespace Vectors {
         Real64 PyramidVolume;
 
         // Object Data
-        static Vector p0(0.0, 0.0, 0.0);
+        static thread_local Vector p0(0.0, 0.0, 0.0);
         Vector p3FaceOrigin;
 
         Real64 Volume = 0.0;

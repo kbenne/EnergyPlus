@@ -229,7 +229,7 @@ namespace RoomAirModelAirflowNetwork {
 
         // SUBROUTINE LOCAL VARIABLE DECLARATIONS:
         //////////// hoisted into namespace ////////////////////////////////////////////////
-        // static bool OneTimeFlag( true );  // one time setup flag // LoadPredictionRoomAirModelAirflowNetworkOneTimeFlag
+        // static thread_local bool OneTimeFlag( true );  // one time setup flag // LoadPredictionRoomAirModelAirflowNetworkOneTimeFlag
         ////////////////////////////////////////////////////////////////////////////////////
         int RAFNNum;
 
@@ -289,9 +289,9 @@ namespace RoomAirModelAirflowNetwork {
 
         // SUBROUTINE LOCAL VARIABLE DECLARATIONS:
         //////////// hoisted into namespace ////////////////////////////////////////////////
-        // static bool MyOneTimeFlag( true );  // one time setup flag // InitRoomAirModelAirflowNetworkOneTimeFlag
-        // static bool MyOneTimeFlagConf( true ); // one time setup flag for zone configuration // InitRoomAirModelAirflowNetworkOneTimeFlagConf
-        // static bool MyEnvrnFlag( true ); // one time setup flag for zone configuration // InitRoomAirModelAirflowNetworkEnvrnFlag
+        // static thread_local bool MyOneTimeFlag( true );  // one time setup flag // InitRoomAirModelAirflowNetworkOneTimeFlag
+        // static thread_local bool MyOneTimeFlagConf( true ); // one time setup flag for zone configuration // InitRoomAirModelAirflowNetworkOneTimeFlagConf
+        // static thread_local bool MyEnvrnFlag( true ); // one time setup flag for zone configuration // InitRoomAirModelAirflowNetworkEnvrnFlag
         ////////////////////////////////////////////////////////////////////////////////////
         Real64 SumLinkMCp;
         Real64 SumLinkMCpT;

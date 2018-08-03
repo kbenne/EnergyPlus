@@ -101,7 +101,7 @@ namespace MundtSimMgr {
     Real64 const MinSlope(0.001); // Bound on result from Mundt model
     Real64 const MaxSlope(5.0);   // Bound on result from Mundt Model
 
-    static std::string const BlankString;
+    static thread_local std::string const BlankString;
 
     // MODULE DERIVED TYPE DEFINITIONS:
 
@@ -183,7 +183,7 @@ namespace MundtSimMgr {
 
         // SUBROUTINE LOCAL VARIABLE DECLARATIONS:
         // na
-        static bool FirstTimeFlag(true); // Used for allocating arrays
+        static thread_local bool FirstTimeFlag(true); // Used for allocating arrays
         bool ErrorsFound;
 
         // FLOW:

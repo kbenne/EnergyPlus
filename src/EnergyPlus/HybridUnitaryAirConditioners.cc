@@ -210,12 +210,12 @@ namespace HybridUnitaryAirConditioners {
         using Fans::GetFanVolFlow;
 
         // Locals
-        static Array1D_bool MySizeFlag;
+        static thread_local Array1D_bool MySizeFlag;
 
-        static bool HybridCoolOneTimeFlag(true); // one time flag
-        static Array1D_bool MyEnvrnFlag;
-        static Array1D_bool MyFanFlag;
-        static Array1D_bool MyZoneEqFlag; // used to set up zone equipment availability managers
+        static thread_local bool HybridCoolOneTimeFlag(true); // one time flag
+        static thread_local Array1D_bool MyEnvrnFlag;
+        static thread_local Array1D_bool MyFanFlag;
+        static thread_local Array1D_bool MyZoneEqFlag; // used to set up zone equipment availability managers
 
         int InletNode;
 
@@ -425,13 +425,13 @@ namespace HybridUnitaryAirConditioners {
         int MaxNumbers;                   // Maximum number of numeric fields in all objects
         int NumFields;                    // Total number of fields in object
         int IOStatus;                     // Used in GetObjectItem
-        static bool ErrorsFound(false);   // Set to true if errors in input, fatal at end of routine
+        static thread_local bool ErrorsFound(false);   // Set to true if errors in input, fatal at end of routine
         bool IsNotOK;                     // Flag to verify name
         bool IsBlank;                     // Flag for blank name
         int UnitLoop;
 
         // SUBROUTINE PARAMETER DEFINITIONS:
-        static std::string const RoutineName("GetInputZoneEvaporativeCoolerUnit: ");
+        static thread_local std::string const RoutineName("GetInputZoneEvaporativeCoolerUnit: ");
         MaxNumbers = 0;
         MaxAlphas = 0;
         CurrentModuleObject = "ZoneHVAC:HybridUnitaryHVAC";
@@ -541,7 +541,7 @@ namespace HybridUnitaryAirConditioners {
                 // N1, \field System Maximum Supply AirFlow Rate
                 ZoneHybridUnitaryAirConditioner(UnitLoop).SystemMaximumSupplyAirFlowRate = Numbers(1);
 
-                // N2, \field External Static Pressure at System Maximum Supply Air Flow Rate
+                // N2, \field External static thread_local Pressure at System Maximum Supply Air Flow Rate
 
                 // In each time step, the result for system power, fan power, gas use, water user, or supply airflow rate will be determined as :
                 // TableValue * SysMaxSupply * ScalingFactor
@@ -1047,7 +1047,7 @@ namespace HybridUnitaryAirConditioners {
                                 "System",
                                 "Average",
                                 ZoneHybridUnitaryAirConditioner(UnitLoop).Name);
-            SetupOutputVariable("Zone Hybrid Unitary HVAC External Static Pressure",
+            SetupOutputVariable("Zone Hybrid Unitary HVAC External static thread_local Pressure",
                                 OutputProcessor::Unit::Pa,
                                 ZoneHybridUnitaryAirConditioner(UnitLoop).ExternalStaticPressure,
                                 "System",

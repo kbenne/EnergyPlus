@@ -239,8 +239,8 @@ void ManageHVACSizingSimulation(bool &ErrorsFound)
 
     bool Available; // an environment is available to process
     int HVACSizingIterCount;
-    static gio::Fmt Format_700("('Environment:WarmupDays,',I3)");
-    static gio::Fmt fmtLD("*");
+    static thread_local gio::Fmt Format_700("('Environment:WarmupDays,',I3)");
+    static thread_local gio::Fmt fmtLD("*");
 
     hvacSizingSimulationManager->DetermineSizingAnalysesNeeded();
 

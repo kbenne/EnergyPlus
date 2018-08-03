@@ -192,7 +192,7 @@ namespace SimulationManager {
     bool RunControlInInput(false);
 
     namespace {
-        // These were static variables within different functions. They were pulled out into the namespace
+        // These were static thread_local variables within different functions. They were pulled out into the namespace
         // to facilitate easier unit testing of those functions.
         // These are purposefully not in the header file as an extern variable. No one outside of SimulationManager should
         // use these. They are cleared by clear_state() for use by unit tests, but normal simulations should be unaffected.
@@ -302,9 +302,9 @@ namespace SimulationManager {
         // na
 
         // SUBROUTINE LOCAL VARIABLE DECLARATIONS:
-        static bool Available; // an environment is available to process
-        static bool ErrorsFound(false);
-        static bool TerminalError(false);
+        static thread_local bool Available; // an environment is available to process
+        static thread_local bool ErrorsFound(false);
+        static thread_local bool TerminalError(false);
         bool SimsDone;
         bool ErrFound;
         bool oneTimeUnderwaterBoundaryCheck = true;
@@ -312,7 +312,7 @@ namespace SimulationManager {
         int EnvCount;
 
         // Formats
-        static gio::Fmt Format_700("('Environment:WarmupDays,',I3)");
+        static thread_local gio::Fmt Format_700("('Environment:WarmupDays,',I3)");
 
         // CreateSQLiteDatabase();
         sqlite = EnergyPlus::CreateSQLiteDatabase();
@@ -705,7 +705,7 @@ namespace SimulationManager {
         using namespace DataIPShortCuts;
 
         // SUBROUTINE PARAMETER DEFINITIONS:
-        static Array1D_int const Div60(12, {1, 2, 3, 4, 5, 6, 10, 12, 15, 20, 30, 60});
+        static thread_local Array1D_int const Div60(12, {1, 2, 3, 4, 5, 6, 10, 12, 15, 20, 30, 60});
 
         // SUBROUTINE LOCAL VARIABLE DECLARATIONS:
         Array1D_string Alphas(6);
@@ -721,7 +721,7 @@ namespace SimulationManager {
         int Num1;
         int NumA;
         int NumRunControl;
-        static std::string VersionID;
+        static thread_local std::string VersionID;
         std::string CurrentModuleObject;
         bool CondFDAlgo;
         int Item;
@@ -1538,8 +1538,8 @@ namespace SimulationManager {
         // na
 
         // SUBROUTINE PARAMETER DEFINITIONS:
-        static gio::Fmt EndOfDataFormat("(\"End of Data\")"); // Signifies the end of the data block in the output file
-        static std::string const ThreadingHeader("! <Program Control Information:Threads/Parallel Sims>, Threading Supported,Maximum Number of "
+        static thread_local gio::Fmt EndOfDataFormat("(\"End of Data\")"); // Signifies the end of the data block in the output file
+        static thread_local std::string const ThreadingHeader("! <Program Control Information:Threads/Parallel Sims>, Threading Supported,Maximum Number of "
                                                  "Threads, Env Set Threads (OMP_NUM_THREADS), EP Env Set Threads (EP_OMP_NUM_THREADS), IDF Set "
                                                  "Threads, Number of Threads Used (Interior Radiant Exchange), Number Nominal Surfaces, Number "
                                                  "Parallel Sims");
@@ -1730,7 +1730,7 @@ namespace SimulationManager {
         using PlantPipingSystemsManager::SimulateGroundDomains;
 
         // SUBROUTINE LOCAL VARIABLE DECLARATIONS:
-        static bool Available(false); // an environment is available to process
+        static thread_local bool Available(false); // an environment is available to process
         //  integer :: env_iteration=0
         //  CHARACTER(len=32) :: cEnvChar
 
@@ -1839,12 +1839,12 @@ namespace SimulationManager {
         bool ParentComponentFound;
 
         // Formats
-        static gio::Fmt Format_701("(A)");
-        static gio::Fmt Format_702("('! <#',A,' Node Connections>,<Number of ',A,' Node Connections>')");
-        static gio::Fmt Format_703(
+        static thread_local gio::Fmt Format_701("(A)");
+        static thread_local gio::Fmt Format_702("('! <#',A,' Node Connections>,<Number of ',A,' Node Connections>')");
+        static thread_local gio::Fmt Format_703(
             "('! <',A,' Node Connection>,<Node Name>,<Node ObjectType>,<Node ObjectName>,','<Node ConnectionType>,<Node FluidStream>')");
-        static gio::Fmt Format_705("('! <#NonConnected Nodes>,<Number of NonConnected Nodes>',/,' #NonConnected Nodes,',A)");
-        static gio::Fmt Format_706("('! <NonConnected Node>,<NonConnected Node Number>,<NonConnected Node Name>')");
+        static thread_local gio::Fmt Format_705("('! <#NonConnected Nodes>,<Number of NonConnected Nodes>',/,' #NonConnected Nodes,',A)");
+        static thread_local gio::Fmt Format_706("('! <NonConnected Node>,<NonConnected Node Number>,<NonConnected Node Name>')");
 
         NonConnectedNodes.dimension(NumOfNodes, true);
 
@@ -1977,7 +1977,7 @@ namespace SimulationManager {
         using OutAirNodeManager::OutsideAirNodeList;
 
         // SUBROUTINE PARAMETER DEFINITIONS:
-        static std::string const errstring("**error**");
+        static thread_local std::string const errstring("**error**");
 
         // SUBROUTINE LOCAL VARIABLE DECLARATIONS:
         std::string ChrOut;
@@ -1989,21 +1989,21 @@ namespace SimulationManager {
         int Count1;
         int LoopSideNum;
         int Num;
-        static bool WarningOut(true);
+        static thread_local bool WarningOut(true);
         int NumOfControlledZones;
 
         // Formats
-        static gio::Fmt Format_700("('! <#Component Sets>,<Number of Component Sets>')");
-        static gio::Fmt Format_701("(A)");
-        static gio::Fmt Format_702("('! <Component Set>,<Component Set Count>,<Parent Object Type>,<Parent Object Name>,','<Component "
+        static thread_local gio::Fmt Format_700("('! <#Component Sets>,<Number of Component Sets>')");
+        static thread_local gio::Fmt Format_701("(A)");
+        static thread_local gio::Fmt Format_702("('! <Component Set>,<Component Set Count>,<Parent Object Type>,<Parent Object Name>,','<Component "
                                    "Type>,<Component Name>,<Inlet Node ID>,<Outlet Node ID>,<Description>')");
-        static gio::Fmt Format_707("(1X,A)");
-        static gio::Fmt Format_713("(A)");
-        static gio::Fmt Format_720("('! <#Zone Equipment Lists>,<Number of Zone Equipment Lists>')");
-        static gio::Fmt Format_721("(A)");
-        static gio::Fmt Format_722(
+        static thread_local gio::Fmt Format_707("(1X,A)");
+        static thread_local gio::Fmt Format_713("(A)");
+        static thread_local gio::Fmt Format_720("('! <#Zone Equipment Lists>,<Number of Zone Equipment Lists>')");
+        static thread_local gio::Fmt Format_721("(A)");
+        static thread_local gio::Fmt Format_722(
             "('! <Zone Equipment List>,<Zone Equipment List Count>,<Zone Equipment List Name>,<Zone Name>,<Number of Components>')");
-        static gio::Fmt Format_723("('! <Zone Equipment Component>,<Component Count>,<Component Type>,<Component Name>,','<Zone Name>,<Heating "
+        static thread_local gio::Fmt Format_723("('! <Zone Equipment Component>,<Component Count>,<Component Type>,<Component Name>,','<Zone Name>,<Heating "
                                    "Priority>,<Cooling Priority>')");
 
         // Report outside air node names on the Branch-Node Details file
@@ -2724,7 +2724,7 @@ namespace SimulationManager {
 
         // SUBROUTINE LOCAL VARIABLE DECLARATIONS:
         //////////// hoisted into namespace ////////////////////////////////////////////////
-        // static bool PreP_Fatal( false ); // True if a preprocessor flags a fatal error
+        // static thread_local bool PreP_Fatal( false ); // True if a preprocessor flags a fatal error
         ////////////////////////////////////////////////////////////////////////////////////
 
         DoingInputProcessing = false;

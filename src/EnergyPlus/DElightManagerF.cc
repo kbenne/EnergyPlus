@@ -175,34 +175,34 @@ namespace DElightManagerF {
         Real64 Ytrans;
 
         // Formats
-        static gio::Fmt Format_901("(\"Version EPlus : DElight input generated from EnergyPlus processed input \",A)");
-        static gio::Fmt Format_902("(,/,\"Building_Name \",A,/,\"Site_Latitude  \",f12.4,/,\"Site_Longitude \",f12.4,/,\"Site_Altitude  "
+        static thread_local gio::Fmt Format_901("(\"Version EPlus : DElight input generated from EnergyPlus processed input \",A)");
+        static thread_local gio::Fmt Format_902("(,/,\"Building_Name \",A,/,\"Site_Latitude  \",f12.4,/,\"Site_Longitude \",f12.4,/,\"Site_Altitude  "
                                    "\",f12.4,/,\"Bldg_Azimuth   \",f12.4,/,\"Site_Time_Zone \",f12.4,/,\"Atm_Moisture  0.07 0.07 0.07 0.07 0.07 0.07 "
                                    "0.07 0.07 0.07 0.07 0.07 0.07\",/,\"Atm_Turbidity 0.12 0.12 0.12 0.12 0.12 0.12 0.12 0.12 0.12 0.12 0.12 "
                                    "0.12\")");
-        static gio::Fmt Format_903("(,/,\"ZONES\",/,\"N_Zones \",I4)");
-        static gio::Fmt Format_904("(,/,\"ZONE DATA\",/,\"Zone \",A,/,\"BldgSystem_Zone_Origin \",f12.4,f12.4,f12.4,/,\"Zone_Azimuth    "
+        static thread_local gio::Fmt Format_903("(,/,\"ZONES\",/,\"N_Zones \",I4)");
+        static thread_local gio::Fmt Format_904("(,/,\"ZONE DATA\",/,\"Zone \",A,/,\"BldgSystem_Zone_Origin \",f12.4,f12.4,f12.4,/,\"Zone_Azimuth    "
                                    "\",f12.4,/,\"Zone_Multiplier \",I5,/,\"Zone_Floor_Area \",f12.4,/,\"Zone_Volume     "
                                    "\",f12.4,/,\"Zone_Installed_Lighting \",f12.4,/,\"Min_Input_Power    \",f12.4,/,\"Min_Light_Fraction "
                                    "\",f12.4,/,\"Light_Ctrl_Steps   \",I3,/,\"Light_Ctrl_Prob    \",f12.4,/,\"View_Azimuth  "
                                    "0.0\",/,\"Max_Grid_Node_Area \",f12.4)");
-        static gio::Fmt Format_905("(,/,\"ZONE LIGHTING SCHEDULES\",/,\"N_Lt_Scheds 0\")");
-        static gio::Fmt Format_906("(,/,\"ZONE SURFACES\",/,\"N_Surfaces \",I4)");
-        static gio::Fmt Format_907("(,/,\"ZONE SURFACE DATA\",/,\"Surface \",A,/,\"WCS_Azimuth \",f12.4,/,\"WCS_Tilt    \",f12.4,/,\"Vis_Refl    "
+        static thread_local gio::Fmt Format_905("(,/,\"ZONE LIGHTING SCHEDULES\",/,\"N_Lt_Scheds 0\")");
+        static thread_local gio::Fmt Format_906("(,/,\"ZONE SURFACES\",/,\"N_Surfaces \",I4)");
+        static thread_local gio::Fmt Format_907("(,/,\"ZONE SURFACE DATA\",/,\"Surface \",A,/,\"WCS_Azimuth \",f12.4,/,\"WCS_Tilt    \",f12.4,/,\"Vis_Refl    "
                                    "\",f12.4,/,\"Ext_Refl    \",f12.4,/,\"Gnd_Refl     0.2\",/,\"N_WCS_Vertices \",I6)");
-        static gio::Fmt Format_908("(\"Vertex \",f12.4,f12.4,f12.4)");
-        static gio::Fmt Format_909("(,/,\"SURFACE WINDOWS\",/,\"N_Windows \",I6)");
-        static gio::Fmt Format_910("(,/,\"SURFACE WINDOW DATA\",/,\"Window     \",A,/,\"Glass_Type \",I8,/,\"Shade_Flag   0\",/,\"Overhang_Fin_Depth "
+        static thread_local gio::Fmt Format_908("(\"Vertex \",f12.4,f12.4,f12.4)");
+        static thread_local gio::Fmt Format_909("(,/,\"SURFACE WINDOWS\",/,\"N_Windows \",I6)");
+        static thread_local gio::Fmt Format_910("(,/,\"SURFACE WINDOW DATA\",/,\"Window     \",A,/,\"Glass_Type \",I8,/,\"Shade_Flag   0\",/,\"Overhang_Fin_Depth "
                                    "   0.0 0.0 0.0\",/,\"Overhang_Fin_Distance 0.0 0.0 0.0\",/,\"N_WCS_Vertices \",I4)");
-        static gio::Fmt Format_911("(,/,\"SURFACE CFS\",/,\"N_CFS \",I6)");
-        static gio::Fmt Format_915(
+        static thread_local gio::Fmt Format_911("(,/,\"SURFACE CFS\",/,\"N_CFS \",I6)");
+        static thread_local gio::Fmt Format_915(
             "(,/,\"COMPLEX FENESTRATION DATA\",/,\"CFS_Name   \",A,/,\"CFS_Type   \",A,/,\"Fenestration_Rotation \",f12.4,/,\"N_WCS_Vertices \",I4)");
-        static gio::Fmt Format_912("(,/,\"ZONE REFERENCE POINTS\",/,\"N_Ref_Pts \",I4)");
-        static gio::Fmt Format_913("(,/,\"ZONE REFERENCE POINT DATA\",/,\"Reference_Point \",A,/,\"RefPt_WCS_Coords "
+        static thread_local gio::Fmt Format_912("(,/,\"ZONE REFERENCE POINTS\",/,\"N_Ref_Pts \",I4)");
+        static thread_local gio::Fmt Format_913("(,/,\"ZONE REFERENCE POINT DATA\",/,\"Reference_Point \",A,/,\"RefPt_WCS_Coords "
                                    "\",f12.4,f12.4,f12.4,/,\"Zone_Fraction \",f12.4,/,\"Light_Set_Pt \",f12.4,/,\"Light_Ctrl_Type \",I4)");
-        static gio::Fmt Format_914("(,/,\"BUILDING SHADES\",/,\"N_BShades 0\")");
-        static gio::Fmt Format_920("(,/,\"LIBRARY DATA\",/,\"GLASS TYPES\",/,\"N_Glass_Types \",I4)");
-        static gio::Fmt Format_921("(,/,\"GLASS TYPE DATA\",/,\"Name \",I6,/,\"EPlusDiffuse_Transmittance   "
+        static thread_local gio::Fmt Format_914("(,/,\"BUILDING SHADES\",/,\"N_BShades 0\")");
+        static thread_local gio::Fmt Format_920("(,/,\"LIBRARY DATA\",/,\"GLASS TYPES\",/,\"N_Glass_Types \",I4)");
+        static thread_local gio::Fmt Format_921("(,/,\"GLASS TYPE DATA\",/,\"Name \",I6,/,\"EPlusDiffuse_Transmittance   "
                                    "\",f12.4,/,\"EPlusDiffuse_Int_Reflectance \",f12.4,/,\"EPlus_Vis_Trans_Coeff_1 "
                                    "\",f17.9,/,\"EPlus_Vis_Trans_Coeff_2 \",f17.9,/,\"EPlus_Vis_Trans_Coeff_3 \",f17.9,/,\"EPlus_Vis_Trans_Coeff_4 "
                                    "\",f17.9,/,\"EPlus_Vis_Trans_Coeff_5 \",f17.9,/,\"EPlus_Vis_Trans_Coeff_6 \",f17.9)");
@@ -676,7 +676,7 @@ namespace DElightManagerF {
         int IOStat;
         int CFSNum = 0;
 
-        static std::string const cCurrentModuleObject("Daylighting:DELight:ComplexFenestration");
+        static thread_local std::string const cCurrentModuleObject("Daylighting:DELight:ComplexFenestration");
 
         TotDElightCFS = inputProcessor->getNumObjectsFound(cCurrentModuleObject);
         DElightComplexFene.allocate(TotDElightCFS);
@@ -737,7 +737,7 @@ namespace DElightManagerF {
         using DataSurfaces::WorldCoordSystem;
 
         // SUBROUTINE PARAMETER DEFINITIONS:
-        static std::string const CurrentModuleObject("GeometryTransform");
+        static thread_local std::string const CurrentModuleObject("GeometryTransform");
 
         // SUBROUTINE LOCAL VARIABLE DECLARATIONS:
         Array1D_string cAlphas(1);

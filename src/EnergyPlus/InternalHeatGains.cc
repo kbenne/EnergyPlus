@@ -144,7 +144,7 @@ namespace InternalHeatGains {
     bool GetInternalHeatGainsInputFlag(true); // Controls the GET routine calling (limited to first time)
     bool ErrorsFound(false);                  // if errors were found in the input
 
-    static std::string const BlankString;
+    static thread_local std::string const BlankString;
 
     // SUBROUTINE SPECIFICATIONS FOR MODULE InternalHeatGains
     // PUBLIC  SumInternalConvectionGainsByIndices
@@ -259,8 +259,8 @@ namespace InternalHeatGains {
         using NodeInputManager::GetOnlySingleNode;
 
         // SUBROUTINE PARAMETER DEFINITIONS:
-        static gio::Fmt fmtA("(A)");
-        static std::string const RoutineName("GetInternalHeatGains: ");
+        static thread_local gio::Fmt fmtA("(A)");
+        static thread_local std::string const RoutineName("GetInternalHeatGains: ");
         int const noOtherFuelTypeZero = 0;
 
         // SUBROUTINE LOCAL VARIABLE DECLARATIONS:
@@ -288,12 +288,12 @@ namespace InternalHeatGains {
         std::string StringOut;
         Real64 SchMin;
         Real64 SchMax;
-        static bool UsingThermalComfort(false);
+        static thread_local bool UsingThermalComfort(false);
         std::string liteName;
         int zonePt;
         Real64 mult;
-        static Real64 sumArea(0.0);
-        static Real64 sumPower(0.0);
+        static thread_local Real64 sumArea(0.0);
+        static thread_local Real64 sumPower(0.0);
         int ZoneNum;
         Real64 maxOccupLoad;
         std::string CurrentModuleObject;
@@ -303,14 +303,14 @@ namespace InternalHeatGains {
         int Item1;
 
         // Formats
-        static gio::Fmt Format_720("(' Zone Internal Gains Nominal, ',A,',',A,',',A,',')");
-        static gio::Fmt Format_721("('! <Zone Internal Gains Nominal>,Zone Name, Floor Area {m2},# Occupants,','Area per Occupant "
+        static thread_local gio::Fmt Format_720("(' Zone Internal Gains Nominal, ',A,',',A,',',A,',')");
+        static thread_local gio::Fmt Format_721("('! <Zone Internal Gains Nominal>,Zone Name, Floor Area {m2},# Occupants,','Area per Occupant "
                                    "{m2/person},Occupant per Area {person/m2},Interior Lighting {W/m2},','Electric Load {W/m2},Gas Load {W/m2},Other "
                                    "Load {W/m2},Hot Water Eq {W/m2},','Steam Equipment {W/m2},Sum Loads per Area {W/m2},Outdoor Controlled Baseboard "
                                    "Heat')");
-        static gio::Fmt Format_722("(' ',A,' Internal Gains Nominal, ',A,',',A,',',A,',',A,',',A,',')");
-        static gio::Fmt Format_723("('! <',A,' Internal Gains Nominal>,Name,Schedule Name,Zone Name,Zone Floor Area {m2},# Zone Occupants,',A)");
-        static gio::Fmt Format_724("(' ',A,', ',A)");
+        static thread_local gio::Fmt Format_722("(' ',A,' Internal Gains Nominal, ',A,',',A,',',A,',',A,',',A,',')");
+        static thread_local gio::Fmt Format_723("('! <',A,' Internal Gains Nominal>,Name,Schedule Name,Zone Name,Zone Floor Area {m2},# Zone Occupants,',A)");
+        static thread_local gio::Fmt Format_724("(' ',A,', ',A)");
 
         // FLOW:
         ZoneIntGain.allocate(NumOfZones);
@@ -5628,9 +5628,9 @@ namespace InternalHeatGains {
         // na
 
         // SUBROUTINE PARAMETER DEFINITIONS:
-        static Array1D<Real64> const C(
+        static thread_local Array1D<Real64> const C(
             9, {6.4611027, 0.946892, 0.0000255737, 7.139322, -0.0627909, 0.0000589271, -0.198550, 0.000940018, -0.00000149532});
-        static ZoneCatEUseData const zeroZoneCatEUse; // For initialization
+        static thread_local ZoneCatEUseData const zeroZoneCatEUse; // For initialization
 
         // INTERFACE BLOCK SPECIFICATIONS:
         // na
@@ -5653,8 +5653,8 @@ namespace InternalHeatGains {
 
         Real64 ReturnPlenumTemp;  // Air temperature of a zone's return air plenum (C)
         Real64 pulseMultipler;    // use to create a pulse for the load component report computations
-        static Real64 curQL(0.0); // radiant value prior to adjustment for pulse for load component report
-        static Real64 adjQL(0.0); // radiant value including adjustment for pulse for load component report
+        static thread_local Real64 curQL(0.0); // radiant value prior to adjustment for pulse for load component report
+        static thread_local Real64 adjQL(0.0); // radiant value including adjustment for pulse for load component report
 
         //  REAL(r64), ALLOCATABLE, SAVE, DIMENSION(:) :: QSA
 
@@ -6095,12 +6095,12 @@ namespace InternalHeatGains {
         // SUBROUTINE PARAMETER DEFINITIONS:
         // Operating Limits for environmental class: None, A1, A2, A3, A4, B, C
         // From ASHRAE 2011 Thermal Guidelines environmental classes for Air-Cooled ITE
-        static Array1D<Real64> const DBMin(7, {-99.0, 15.0, 10.0, 5.0, 5.0, 5.0, 5.0});           // Minimum dry-bulb temperature [C]
-        static Array1D<Real64> const DBMax(7, {99.0, 32.0, 35.0, 40.0, 45.0, 35.0, 40.0});        // Maximum dry-bulb temperature [C]
-        static Array1D<Real64> const DPMax(7, {99.0, 17.0, 21.0, 24.0, 24.0, 28.0, 28.0});        // Maximum dewpoint temperature [C]
-        static Array1D<Real64> const DPMin(7, {-99.0, -99.0, -99.0, -12.0, -12.0, -99.0, -99.0}); // Minimum dewpoint temperature [C]
-        static Array1D<Real64> const RHMin(7, {0.0, 20.0, 20.0, 8.0, 8.0, 8.0, 8.0});             // Minimum relative humidity [%]
-        static Array1D<Real64> const RHMax(7, {99.0, 80.0, 80.0, 85.0, 90.0, 80.0, 80.0});        // Minimum relative humidity [%]
+        static thread_local Array1D<Real64> const DBMin(7, {-99.0, 15.0, 10.0, 5.0, 5.0, 5.0, 5.0});           // Minimum dry-bulb temperature [C]
+        static thread_local Array1D<Real64> const DBMax(7, {99.0, 32.0, 35.0, 40.0, 45.0, 35.0, 40.0});        // Maximum dry-bulb temperature [C]
+        static thread_local Array1D<Real64> const DPMax(7, {99.0, 17.0, 21.0, 24.0, 24.0, 28.0, 28.0});        // Maximum dewpoint temperature [C]
+        static thread_local Array1D<Real64> const DPMin(7, {-99.0, -99.0, -99.0, -12.0, -12.0, -99.0, -99.0}); // Minimum dewpoint temperature [C]
+        static thread_local Array1D<Real64> const RHMin(7, {0.0, 20.0, 20.0, 8.0, 8.0, 8.0, 8.0});             // Minimum relative humidity [%]
+        static thread_local Array1D<Real64> const RHMax(7, {99.0, 80.0, 80.0, 85.0, 90.0, 80.0, 80.0});        // Minimum relative humidity [%]
 
         // INTERFACE BLOCK SPECIFICATIONS:
         // na
@@ -6109,7 +6109,7 @@ namespace InternalHeatGains {
         // na
 
         // SUBROUTINE LOCAL VARIABLE DECLARATIONS:
-        static std::string const RoutineName("CalcZoneITEq");
+        static thread_local std::string const RoutineName("CalcZoneITEq");
         int Loop;
         int NZ;
         int SupplyNodeNum;                                // Supply air node number (if zero, then not specified)
@@ -6503,7 +6503,7 @@ namespace InternalHeatGains {
         // SUBROUTINE LOCAL VARIABLE DECLARATIONS:
         int Loop;
         int ZoneLoop; // Counter for the # of zones (nz)
-        static Array1D_int TradIntGainTypes(8,
+        static thread_local Array1D_int TradIntGainTypes(8,
                                             {IntGainTypeOf_People,
                                              IntGainTypeOf_Lights,
                                              IntGainTypeOf_ElectricEquipment,
@@ -7668,18 +7668,18 @@ namespace InternalHeatGains {
         // na
 
         // SUBROUTINE LOCAL VARIABLE DECLARATIONS:
-        static int iZone(0);
-        static int TimeStepInDay(0);
-        static Array1D_int IntGainTypesPeople(1, {IntGainTypeOf_People});
-        static Array1D_int IntGainTypesLight(1, {IntGainTypeOf_Lights});
-        static Array1D_int IntGainTypesEquip(6,
+        static thread_local int iZone(0);
+        static thread_local int TimeStepInDay(0);
+        static thread_local Array1D_int IntGainTypesPeople(1, {IntGainTypeOf_People});
+        static thread_local Array1D_int IntGainTypesLight(1, {IntGainTypeOf_Lights});
+        static thread_local Array1D_int IntGainTypesEquip(6,
                                              {IntGainTypeOf_ElectricEquipment,
                                               IntGainTypeOf_ElectricEquipmentITEAirCooled,
                                               IntGainTypeOf_GasEquipment,
                                               IntGainTypeOf_HotWaterEquipment,
                                               IntGainTypeOf_SteamEquipment,
                                               IntGainTypeOf_OtherEquipment});
-        static Array1D_int IntGainTypesRefrig(10,
+        static thread_local Array1D_int IntGainTypesRefrig(10,
                                               {IntGainTypeOf_RefrigerationCase,
                                                IntGainTypeOf_RefrigerationCompressorRack,
                                                IntGainTypeOf_RefrigerationSystemAirCooledCondenser,
@@ -7690,9 +7690,9 @@ namespace InternalHeatGains {
                                                IntGainTypeOf_RefrigerationTransSysAirCooledGasCooler,
                                                IntGainTypeOf_RefrigerationTransSysSuctionPipeMT,
                                                IntGainTypeOf_RefrigerationTransSysSuctionPipeLT});
-        static Array1D_int IntGainTypesWaterUse(
+        static thread_local Array1D_int IntGainTypesWaterUse(
             3, {IntGainTypeOf_WaterUseEquipment, IntGainTypeOf_WaterHeaterMixed, IntGainTypeOf_WaterHeaterStratified});
-        static Array1D_int IntGainTypesHvacLoss(20,
+        static thread_local Array1D_int IntGainTypesHvacLoss(20,
                                                 {IntGainTypeOf_ZoneBaseboardOutdoorTemperatureControlled,
                                                  IntGainTypeOf_ThermalStorageChilledWaterMixed,
                                                  IntGainTypeOf_ThermalStorageChilledWaterStratified,
@@ -7713,7 +7713,7 @@ namespace InternalHeatGains {
                                                  IntGainTypeOf_SecCoolingDXCoilTwoSpeed,
                                                  IntGainTypeOf_SecCoolingDXCoilMultiSpeed,
                                                  IntGainTypeOf_SecHeatingDXCoilMultiSpeed});
-        static Array1D_int IntGainTypesPowerGen(9,
+        static thread_local Array1D_int IntGainTypesPowerGen(9,
                                                 {IntGainTypeOf_GeneratorFuelCell,
                                                  IntGainTypeOf_GeneratorMicroCHP,
                                                  IntGainTypeOf_ElectricLoadCenterTransformer,

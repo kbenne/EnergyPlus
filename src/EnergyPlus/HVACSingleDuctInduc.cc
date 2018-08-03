@@ -138,16 +138,16 @@ namespace HVACSingleDuctInduc {
     bool GetIUInputFlag(true); // First time, input is "gotten"
 
     namespace {
-        // These were static variables within different functions. They were pulled out into the namespace
+        // These were static thread_local variables within different functions. They were pulled out into the namespace
         // to facilitate easier unit testing of those functions.
         // These are purposefully not in the header file as an extern variable. No one outside of this should
         // use these. They are cleared by clear_state() for use by unit tests, but normal simulations should be unaffected.
         // This is purposefully in an anonymous namespace so nothing outside this implementation file can use it.
-        static bool MyOneTimeFlag(true);
-        static Array1D_bool MyEnvrnFlag;
-        static Array1D_bool MySizeFlag;
-        static Array1D_bool MyPlantScanFlag;
-        static Array1D_bool MyAirDistInitFlag;
+        static thread_local bool MyOneTimeFlag(true);
+        static thread_local Array1D_bool MyEnvrnFlag;
+        static thread_local Array1D_bool MySizeFlag;
+        static thread_local Array1D_bool MyPlantScanFlag;
+        static thread_local Array1D_bool MyAirDistInitFlag;
     } // namespace
 
     // SUBROUTINE SPECIFICATIONS FOR MODULE HVACSingleDuctInduc:
@@ -286,7 +286,7 @@ namespace HVACSingleDuctInduc {
         using MixerComponent::GetZoneMixerIndex;
 
         // SUBROUTINE PARAMETER DEFINITIONS:
-        static std::string const RoutineName("GetIndUnits "); // include trailing blank space
+        static thread_local std::string const RoutineName("GetIndUnits "); // include trailing blank space
 
         int IUIndex;                     // loop index
         int IUNum;                       // current fan coil number
@@ -297,12 +297,12 @@ namespace HVACSingleDuctInduc {
         Array1D<Real64> Numbers;         // Numeric input items for object
         Array1D_bool lAlphaBlanks;       // Logical array, alpha field input BLANK = .TRUE.
         Array1D_bool lNumericBlanks;     // Logical array, numeric field input BLANK = .TRUE.
-        static int NumAlphas(0);         // Number of Alphas for each GetObjectItem call
-        static int NumNumbers(0);        // Number of Numbers for each GetObjectItem call
-        static int TotalArgs(0);         // Total number of alpha and numeric arguments (max) for a
+        static thread_local int NumAlphas(0);         // Number of Alphas for each GetObjectItem call
+        static thread_local int NumNumbers(0);        // Number of Numbers for each GetObjectItem call
+        static thread_local int TotalArgs(0);         // Total number of alpha and numeric arguments (max) for a
         //  certain object in the input file
         int IOStatus;                   // Used in GetObjectItem
-        static bool ErrorsFound(false); // Set to true if errors in input, fatal at end of routine
+        static thread_local bool ErrorsFound(false); // Set to true if errors in input, fatal at end of routine
         bool IsNotOK;                   // Flag to verify name
         int CtrlZone;                   // controlled zome do loop index
         int SupAirIn;                   // controlled zone supply air inlet index
@@ -518,7 +518,7 @@ namespace HVACSingleDuctInduc {
         using PlantUtilities::ScanPlantLoopsForObject;
 
         // SUBROUTINE PARAMETER DEFINITIONS:
-        static std::string const RoutineName("InitIndUnit");
+        static thread_local std::string const RoutineName("InitIndUnit");
 
         // SUBROUTINE LOCAL VARIABLE DECLARATIONS:
         int PriNode;     // primary air inlet node number
@@ -529,7 +529,7 @@ namespace HVACSingleDuctInduc {
         Real64 IndRat;   // unit induction ratio
         Real64 RhoAir;   // air density at outside pressure and standard temperature and humidity
 
-        static bool ZoneEquipmentListChecked(false); // True after the Zone Equipment List has been checked for items
+        static thread_local bool ZoneEquipmentListChecked(false); // True after the Zone Equipment List has been checked for items
         int Loop;                                    // Loop checking control variable
         Real64 rho;                                  // local fluid density
         int HWOutletNode;                            // local node index for hot water coil's outlet node
@@ -764,7 +764,7 @@ namespace HVACSingleDuctInduc {
         using WaterCoils::SetCoilDesFlow;
 
         // SUBROUTINE PARAMETER DEFINITIONS:
-        static std::string const RoutineName("SizeIndUnit");
+        static thread_local std::string const RoutineName("SizeIndUnit");
 
         // SUBROUTINE LOCAL VARIABLE DECLARATIONS:
         int PltSizHeatNum; // index of plant sizing object for 1st heating loop
@@ -773,8 +773,8 @@ namespace HVACSingleDuctInduc {
         Real64 DesPriVolFlow;
         Real64 RhoAir;
         Real64 CpAir;
-        static int CoilWaterInletNode(0);
-        static int CoilWaterOutletNode(0);
+        static thread_local int CoilWaterInletNode(0);
+        static thread_local int CoilWaterOutletNode(0);
         bool ErrorsFound;
         Real64 Cp;  // local fluid specific heat
         Real64 rho; // local fluid density

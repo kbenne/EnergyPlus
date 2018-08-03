@@ -226,7 +226,7 @@ void DisplaySimDaysProgress( // This doesn't do anything!
     // na
 
     // SUBROUTINE LOCAL VARIABLE DECLARATIONS:
-    static int percent(0); // Current percent progress
+    static thread_local int percent(0); // Current percent progress
 
     if (KickOffSimulation && !DeveloperFlag) return;
     if (TotalSimDays > 0) {

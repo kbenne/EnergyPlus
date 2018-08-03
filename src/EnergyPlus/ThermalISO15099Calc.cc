@@ -361,18 +361,18 @@ namespace ThermalISO15099Calc {
 
         // Variables
 
-        static Array1D<Real64> thetas(maxlay2);
-        static Array1D<Real64> rir(maxlay2);
-        static Array1D<Real64> hcgass(maxlay1);
-        static Array1D<Real64> hrgass(maxlay1);
-        static Array1D<Real64> rs(maxlay3, 0.0);
+        static thread_local Array1D<Real64> thetas(maxlay2);
+        static thread_local Array1D<Real64> rir(maxlay2);
+        static thread_local Array1D<Real64> hcgass(maxlay1);
+        static thread_local Array1D<Real64> hrgass(maxlay1);
+        static thread_local Array1D<Real64> rs(maxlay3, 0.0);
 
         //  REAL(r64) :: grho(maxgas,3)
-        static Array1D<Real64> qs(maxlay3);
-        static Array1D<Real64> qvs(maxlay1);
-        static Array1D<Real64> LaminateAU(maxlay);
-        static Array1D<Real64> sumsolU(maxlay);
-        static Array1D<Real64> sol0(maxlay);
+        static thread_local Array1D<Real64> qs(maxlay3);
+        static thread_local Array1D<Real64> qvs(maxlay1);
+        static thread_local Array1D<Real64> LaminateAU(maxlay);
+        static thread_local Array1D<Real64> sumsolU(maxlay);
+        static thread_local Array1D<Real64> sol0(maxlay);
         Real64 shgct_NOSD;
         Real64 trmout;
 
@@ -387,10 +387,10 @@ namespace ThermalISO15099Calc {
         Real64 qc1;
         Real64 qc2;
         Real64 qcgg;
-        static Array1D<Real64> qcgas(maxlay1);
-        static Array1D<Real64> qcgaps(maxlay1);
-        static Array1D<Real64> qrgas(maxlay1);
-        static Array1D<Real64> qrgaps(maxlay1);
+        static thread_local Array1D<Real64> qcgas(maxlay1);
+        static thread_local Array1D<Real64> qcgaps(maxlay1);
+        static thread_local Array1D<Real64> qrgas(maxlay1);
+        static thread_local Array1D<Real64> qrgaps(maxlay1);
 
         Real64 ShadeHcModifiedOut;
         Real64 ShadeHcModifiedIn;
@@ -403,22 +403,22 @@ namespace ThermalISO15099Calc {
         int nlayer_NOSD;
         Real64 AchievedErrorTolerance_NOSD;
         int NumOfIter_NOSD;
-        static Array1D<Real64> Atop_NOSD(maxlay);
-        static Array1D<Real64> Abot_NOSD(maxlay);
-        static Array1D<Real64> Al_NOSD(maxlay);
-        static Array1D<Real64> Ar_NOSD(maxlay);
-        static Array1D<Real64> Ah_NOSD(maxlay);
-        static Array1D<Real64> EffectiveOpenness_NOSD(maxlay);
-        static Array1D<Real64> SlatThick_NOSD(maxlay);
-        static Array1D<Real64> SlatWidth_NOSD(maxlay);
-        static Array1D<Real64> SlatAngle_NOSD(maxlay);
-        static Array1D<Real64> SlatCond_NOSD(maxlay);
-        static Array1D<Real64> SlatSpacing_NOSD(maxlay);
-        static Array1D<Real64> SlatCurve_NOSD(maxlay);
-        static Array1D<Real64> vvent_NOSD(maxlay1);
-        static Array1D<Real64> tvent_NOSD(maxlay1);
-        static Array1D<Real64> qv_NOSD(maxlay1);
-        static Array1D<Real64> q_NOSD(maxlay3);
+        static thread_local Array1D<Real64> Atop_NOSD(maxlay);
+        static thread_local Array1D<Real64> Abot_NOSD(maxlay);
+        static thread_local Array1D<Real64> Al_NOSD(maxlay);
+        static thread_local Array1D<Real64> Ar_NOSD(maxlay);
+        static thread_local Array1D<Real64> Ah_NOSD(maxlay);
+        static thread_local Array1D<Real64> EffectiveOpenness_NOSD(maxlay);
+        static thread_local Array1D<Real64> SlatThick_NOSD(maxlay);
+        static thread_local Array1D<Real64> SlatWidth_NOSD(maxlay);
+        static thread_local Array1D<Real64> SlatAngle_NOSD(maxlay);
+        static thread_local Array1D<Real64> SlatCond_NOSD(maxlay);
+        static thread_local Array1D<Real64> SlatSpacing_NOSD(maxlay);
+        static thread_local Array1D<Real64> SlatCurve_NOSD(maxlay);
+        static thread_local Array1D<Real64> vvent_NOSD(maxlay1);
+        static thread_local Array1D<Real64> tvent_NOSD(maxlay1);
+        static thread_local Array1D<Real64> qv_NOSD(maxlay1);
+        static thread_local Array1D<Real64> q_NOSD(maxlay3);
         Real64 hin_NOSD;
         Real64 flux_NOSD;
         Real64 hcin_NOSD;
@@ -427,61 +427,61 @@ namespace ThermalISO15099Calc {
         Real64 hrout_NOSD;
         Real64 tamb_NOSD;
         Real64 troom_NOSD;
-        static Array1D_int LayerType_NOSD(maxlay);
+        static thread_local Array1D_int LayerType_NOSD(maxlay);
         Real64 ufactor_NOSD;
         Real64 sc_NOSD;
         Real64 hflux_NOSD;
         Real64 shgc_NOSD;
         Real64 hout_NOSD;
-        static Array1D<Real64> gap_NOSD(maxlay);
-        static Array1D<Real64> thick_NOSD(maxlay);
-        static Array1D<Real64> scon_NOSD(maxlay);
-        static Array1D<Real64> emis_NOSD(maxlay2);
-        static Array1D<Real64> rir_NOSD(maxlay2);
-        static Array1D<Real64> tir_NOSD(maxlay2);
-        static Array1D<Real64> theta_NOSD(maxlay2);
-        static Array2D<Real64> frct_NOSD(maxgas, maxlay1);
-        static Array2D_int iprop_NOSD(maxgas, maxlay1);
-        static Array1D_int nmix_NOSD(maxlay1);
-        static Array1D<Real64> presure_NOSD(maxlay1);
-        static Array1D<Real64> hcgas_NOSD(maxlay1);
-        static Array1D<Real64> hrgas_NOSD(maxlay1);
+        static thread_local Array1D<Real64> gap_NOSD(maxlay);
+        static thread_local Array1D<Real64> thick_NOSD(maxlay);
+        static thread_local Array1D<Real64> scon_NOSD(maxlay);
+        static thread_local Array1D<Real64> emis_NOSD(maxlay2);
+        static thread_local Array1D<Real64> rir_NOSD(maxlay2);
+        static thread_local Array1D<Real64> tir_NOSD(maxlay2);
+        static thread_local Array1D<Real64> theta_NOSD(maxlay2);
+        static thread_local Array2D<Real64> frct_NOSD(maxgas, maxlay1);
+        static thread_local Array2D_int iprop_NOSD(maxgas, maxlay1);
+        static thread_local Array1D_int nmix_NOSD(maxlay1);
+        static thread_local Array1D<Real64> presure_NOSD(maxlay1);
+        static thread_local Array1D<Real64> hcgas_NOSD(maxlay1);
+        static thread_local Array1D<Real64> hrgas_NOSD(maxlay1);
         // REAL(r64) ::  rs_NOSD(maxlay3)!,sol(maxlay)
-        static Array1D<Real64> LaminateA_NOSD(maxlay);
-        static Array1D<Real64> LaminateB_NOSD(maxlay);
-        static Array1D<Real64> sumsol_NOSD(maxlay);
-        static Array1D<Real64> Ra_NOSD(maxlay);
-        static Array1D<Real64> Nu_NOSD(maxlay);
+        static thread_local Array1D<Real64> LaminateA_NOSD(maxlay);
+        static thread_local Array1D<Real64> LaminateB_NOSD(maxlay);
+        static thread_local Array1D<Real64> sumsol_NOSD(maxlay);
+        static thread_local Array1D<Real64> Ra_NOSD(maxlay);
+        static thread_local Array1D<Real64> Nu_NOSD(maxlay);
         Real64 ShadeEmisRatioOut_NOSD;
         Real64 ShadeEmisRatioIn_NOSD;
         Real64 ShadeHcRatioOut_NOSD;
         Real64 ShadeHcRatioIn_NOSD;
         Real64 ShadeHcModifiedOut_NOSD;
         Real64 ShadeHcModifiedIn_NOSD;
-        static Array1D<Real64> Ebb(maxlay);
-        static Array1D<Real64> Ebf(maxlay);
-        static Array1D<Real64> Rb(maxlay);
-        static Array1D<Real64> Rf(maxlay);
-        static Array1D<Real64> Ebbs(maxlay);
-        static Array1D<Real64> Ebfs(maxlay);
-        static Array1D<Real64> Rbs(maxlay);
-        static Array1D<Real64> Rfs(maxlay);
-        static Array1D<Real64> Ebb_NOSD(maxlay);
-        static Array1D<Real64> Ebf_NOSD(maxlay);
-        static Array1D<Real64> Rb_NOSD(maxlay);
-        static Array1D<Real64> Rf_NOSD(maxlay);
+        static thread_local Array1D<Real64> Ebb(maxlay);
+        static thread_local Array1D<Real64> Ebf(maxlay);
+        static thread_local Array1D<Real64> Rb(maxlay);
+        static thread_local Array1D<Real64> Rf(maxlay);
+        static thread_local Array1D<Real64> Ebbs(maxlay);
+        static thread_local Array1D<Real64> Ebfs(maxlay);
+        static thread_local Array1D<Real64> Rbs(maxlay);
+        static thread_local Array1D<Real64> Rfs(maxlay);
+        static thread_local Array1D<Real64> Ebb_NOSD(maxlay);
+        static thread_local Array1D<Real64> Ebf_NOSD(maxlay);
+        static thread_local Array1D<Real64> Rb_NOSD(maxlay);
+        static thread_local Array1D<Real64> Rf_NOSD(maxlay);
 
-        static Array1D<Real64> ShadeGapKeffConv_NOSD(MaxGap);
-        static Array1D<Real64> qcgas_NOSD(maxlay1);
-        static Array1D<Real64> Keff_NOSD(maxlay1);
-        static Array1D<Real64> qrgas_NOSD(maxlay1);
-        static Array1D_int nslice_NOSD(maxlay);
-        static Array1D<Real64> vfreevent_NOSD(maxlay1);
+        static thread_local Array1D<Real64> ShadeGapKeffConv_NOSD(MaxGap);
+        static thread_local Array1D<Real64> qcgas_NOSD(maxlay1);
+        static thread_local Array1D<Real64> Keff_NOSD(maxlay1);
+        static thread_local Array1D<Real64> qrgas_NOSD(maxlay1);
+        static thread_local Array1D_int nslice_NOSD(maxlay);
+        static thread_local Array1D<Real64> vfreevent_NOSD(maxlay1);
 
         int FirstSpecularLayer;
         int LastSpecularLayer;
 
-        static Array1D<Real64> vfreevent(maxlay1);
+        static thread_local Array1D<Real64> vfreevent(maxlay1);
 
         // cbi...Other variables:
         Real64 flux;
@@ -493,26 +493,26 @@ namespace ThermalISO15099Calc {
         int j;
         int OriginalIndex;
         int UnshadedDebug;
-        static Real64 rtot(0.0);
-        static Real64 sft(0.0);
-        static Real64 hcins(0.0);
-        static Real64 hrins(0.0);
-        static Real64 hins(0.0);
-        static Real64 hcouts(0.0);
-        static Real64 hrouts(0.0);
-        static Real64 houts(0.0);
-        static Real64 ufactors(0.0);
-        static Real64 fluxs(0.0);
-        static Real64 qeff(0.0);
-        static Real64 flux_nonsolar(0.0);
-        static gio::Fmt fmtLD("*");
+        static thread_local Real64 rtot(0.0);
+        static thread_local Real64 sft(0.0);
+        static thread_local Real64 hcins(0.0);
+        static thread_local Real64 hrins(0.0);
+        static thread_local Real64 hins(0.0);
+        static thread_local Real64 hcouts(0.0);
+        static thread_local Real64 hrouts(0.0);
+        static thread_local Real64 houts(0.0);
+        static thread_local Real64 ufactors(0.0);
+        static thread_local Real64 fluxs(0.0);
+        static thread_local Real64 qeff(0.0);
+        static thread_local Real64 flux_nonsolar(0.0);
+        static thread_local gio::Fmt fmtLD("*");
 
-        static Array1D<Real64> Atop_eff(maxlay, 0.0);
-        static Array1D<Real64> Abot_eff(maxlay, 0.0);
-        static Array1D<Real64> Al_eff(maxlay, 0.0);
-        static Array1D<Real64> Ar_eff(maxlay, 0.0);
-        static Array1D<Real64> Ah_eff(maxlay, 0.0);
-        static Array1D<Real64> EffectiveOpenness(maxlay, 0.0);
+        static thread_local Array1D<Real64> Atop_eff(maxlay, 0.0);
+        static thread_local Array1D<Real64> Abot_eff(maxlay, 0.0);
+        static thread_local Array1D<Real64> Al_eff(maxlay, 0.0);
+        static thread_local Array1D<Real64> Ar_eff(maxlay, 0.0);
+        static thread_local Array1D<Real64> Ah_eff(maxlay, 0.0);
+        static thread_local Array1D<Real64> EffectiveOpenness(maxlay, 0.0);
 
         // Autodesk:Uninit Initialize variables used uninitialized
         shgc_NOSD = 0.0;            // Autodesk:Uninit Force default initialization
@@ -1448,11 +1448,11 @@ namespace ThermalISO15099Calc {
 
         Array2D<Real64> a(4 * nlayer, 4 * nlayer);
         Array1D<Real64> b(4 * nlayer);
-        static Array1D<Real64> hgas(maxlay1);
+        static thread_local Array1D<Real64> hgas(maxlay1);
         // REAL(r64) :: hhatv(maxlay3),hcv(maxlay3), Ebgap(maxlay3), Tgap(maxlay1)
-        static Array1D<Real64> Tgap(maxlay1);
-        static Array1D<Real64> hcgapMod(maxlay1);
-        static Array1D<Real64> hcv(maxlay1);
+        static thread_local Array1D<Real64> Tgap(maxlay1);
+        static thread_local Array1D<Real64> hcgapMod(maxlay1);
+        static thread_local Array1D<Real64> hcv(maxlay1);
 
         // REAL(r64) ::  alpha
         int maxiter;
@@ -1486,7 +1486,7 @@ namespace ThermalISO15099Calc {
         Array1D<Real64> thetaSave({1, 2 * nlayer});
         int currentTry;
 
-        //		static Array1D_int LayerTypeSpec( maxlay ); //Unused
+        //		static thread_local Array1D_int LayerTypeSpec( maxlay ); //Unused
 
         int CSMFlag;
         int i;
@@ -1507,8 +1507,8 @@ namespace ThermalISO15099Calc {
         // logical :: TurnOnNewton
 
         // Formats
-        static gio::Fmt Format_1111("('Outdoor: ',F9.6,' ;  alt2: ',F9.6,' ; alt3: ',F9.6,' ; alt4: ',F9.6)");
-        static gio::Fmt Format_1112("('Indoor:  ',F9.6,' ;  alt2: ',F9.6,' ; alt3: ',F9.6,' ; alt4: ',F9.6)");
+        static thread_local gio::Fmt Format_1111("('Outdoor: ',F9.6,' ;  alt2: ',F9.6,' ; alt3: ',F9.6,' ; alt4: ',F9.6)");
+        static thread_local gio::Fmt Format_1112("('Indoor:  ',F9.6,' ;  alt2: ',F9.6,' ; alt3: ',F9.6,' ; alt4: ',F9.6)");
 
         int SDLayerIndex = -1;
 
@@ -2620,8 +2620,8 @@ namespace ThermalISO15099Calc {
                             std::string &ErrorMessage                // Error message
     )
     {
-        static Array1D_int iprop1(maxgas);
-        static Array1D<Real64> frct1(maxgas);
+        static thread_local Array1D_int iprop1(maxgas);
+        static thread_local Array1D<Real64> frct1(maxgas);
 
         for (auto i = 1; i <= nlayer; ++i) {
             if (LayerType(i) != SPECULAR) {
@@ -2700,9 +2700,9 @@ namespace ThermalISO15099Calc {
         gcp.dim(3, maxgas);
 
         // Locals
-        static Array1D<Real64> frcti(maxgas);
+        static thread_local Array1D<Real64> frcti(maxgas);
         int j;
-        static Array1D_int ipropi(maxgas);
+        static thread_local Array1D_int ipropi(maxgas);
         Real64 tiltr;
         Real64 tmean;
         Real64 delt;
@@ -2869,8 +2869,8 @@ namespace ThermalISO15099Calc {
         Real64 ra;
         Real64 asp;
         Real64 gnu;
-        static Array1D<Real64> frctg(maxgas);
-        static Array1D_int ipropg(maxgas);
+        static thread_local Array1D<Real64> frctg(maxgas);
+        static thread_local Array1D_int ipropg(maxgas);
         int i;
         int j;
         int k;
@@ -2952,10 +2952,10 @@ namespace ThermalISO15099Calc {
         //   0 - does not have support pillar
         //   1 - have support pillar
 
-        static Real64 cpa(0.0);
-        static Real64 aveGlassConductivity(0.0);
-        static int i(0);
-        static int k(0);
+        static thread_local Real64 cpa(0.0);
+        static thread_local Real64 aveGlassConductivity(0.0);
+        static thread_local int i(0);
+        static thread_local int k(0);
 
         for (i = 1; i <= nlayer - 1; ++i) {
             k = 2 * i + 1;
@@ -3364,12 +3364,12 @@ namespace ThermalISO15099Calc {
         // character(len=*), intent(inout) :: ErrorMessage
 
         // localy used
-        static std::string dynFormat;
+        static thread_local std::string dynFormat;
         std::string a;
         int i;
 
         // Formats
-        static gio::Fmt Format_1000("(I3)");
+        static thread_local gio::Fmt Format_1000("(I3)");
 
         // open(unit=InArgumentsFile,  file=TRIM(DBGD)//'TarcogIterations.dbg',  status='unknown', position='APPEND',  &
         //          &  form='formatted', iostat=nperr)

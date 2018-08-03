@@ -73,7 +73,7 @@
 
 namespace EnergyPlus {
 
-static gio::Fmt fmtLD("*");
+static thread_local gio::Fmt fmtLD("*");
 
 void ReportSurfaces()
 {
@@ -240,10 +240,10 @@ void LinesOut(std::string const &option)
     // SUBROUTINE ARGUMENT DEFINITIONS:
 
     // SUBROUTINE PARAMETER DEFINITIONS:
-    static gio::Fmt fmt700("(5(f10.2,','),f10.2)");
-    static gio::Fmt fmtA("(A)");
-    static gio::Fmt fmtcoord("(2X,2(f10.2,','),f10.2,A,A)");
-    static std::string const vertexstring("X,Y,Z ==> Vertex");
+    static thread_local gio::Fmt fmt700("(5(f10.2,','),f10.2)");
+    static thread_local gio::Fmt fmtA("(A)");
+    static thread_local gio::Fmt fmtcoord("(2X,2(f10.2,','),f10.2,A,A)");
+    static thread_local std::string const vertexstring("X,Y,Z ==> Vertex");
 
     // INTERFACE BLOCK SPECIFICATIONS
     // na
@@ -252,8 +252,8 @@ void LinesOut(std::string const &option)
     // na
 
     // SUBROUTINE LOCAL VARIABLE DECLARATIONS:
-    static bool optiondone(false);
-    static std::string lastoption;
+    static thread_local bool optiondone(false);
+    static thread_local std::string lastoption;
     int unit; // Unit number on which to write file
     int surf; // Loop variable for surfaces
     int vert; // Loop counter
@@ -371,24 +371,24 @@ void DXFOut(std::string &PolygonAction,
     // na
 
     // SUBROUTINE LOCAL VARIABLE DECLARATIONS:
-    static Array1D<Real64> StemX(4, -10.0);
-    static Array1D<Real64> StemY(4, {3.0, 3.0, 0.0, 0.0});
-    static Array1D<Real64> StemZ(4, {0.1, 0.0, 0.0, 0.1});
-    static Array1D<Real64> Head1X(4, {-10.0, -10.0, -10.5, -10.5});
-    static Array1D<Real64> Head1Y(4, {3.0, 3.0, 2.133975, 2.133975});
-    static Array1D<Real64> Head1Z(4, {0.1, 0.0, 0.0, 0.1});
-    static Array1D<Real64> Head2X(4, {-10.0, -10.0, -9.5, -9.5});
-    static Array1D<Real64> Head2Y(4, {3.0, 3.0, 2.133975, 2.133975});
-    static Array1D<Real64> Head2Z(4, {0.1, 0.0, 0.0, 0.1});
-    static Array1D<Real64> NSide1X(4, -10.5);
-    static Array1D<Real64> NSide1Y(4, {4.5, 4.5, 3.5, 3.5});
-    static Array1D<Real64> NSide1Z(4, {0.1, 0.0, 0.0, 0.1});
-    static Array1D<Real64> NSide2X(4, {-10.5, -10.5, -9.5, -9.5});
-    static Array1D<Real64> NSide2Y(4, {4.5, 4.5, 3.5, 3.5});
-    static Array1D<Real64> NSide2Z(4, {0.1, 0.0, 0.0, 0.1});
-    static Array1D<Real64> NSide3X(4, -9.5);
-    static Array1D<Real64> NSide3Y(4, {4.5, 4.5, 3.5, 3.5});
-    static Array1D<Real64> NSide3Z(4, {0.1, 0.0, 0.0, 0.1});
+    static thread_local Array1D<Real64> StemX(4, -10.0);
+    static thread_local Array1D<Real64> StemY(4, {3.0, 3.0, 0.0, 0.0});
+    static thread_local Array1D<Real64> StemZ(4, {0.1, 0.0, 0.0, 0.1});
+    static thread_local Array1D<Real64> Head1X(4, {-10.0, -10.0, -10.5, -10.5});
+    static thread_local Array1D<Real64> Head1Y(4, {3.0, 3.0, 2.133975, 2.133975});
+    static thread_local Array1D<Real64> Head1Z(4, {0.1, 0.0, 0.0, 0.1});
+    static thread_local Array1D<Real64> Head2X(4, {-10.0, -10.0, -9.5, -9.5});
+    static thread_local Array1D<Real64> Head2Y(4, {3.0, 3.0, 2.133975, 2.133975});
+    static thread_local Array1D<Real64> Head2Z(4, {0.1, 0.0, 0.0, 0.1});
+    static thread_local Array1D<Real64> NSide1X(4, -10.5);
+    static thread_local Array1D<Real64> NSide1Y(4, {4.5, 4.5, 3.5, 3.5});
+    static thread_local Array1D<Real64> NSide1Z(4, {0.1, 0.0, 0.0, 0.1});
+    static thread_local Array1D<Real64> NSide2X(4, {-10.5, -10.5, -9.5, -9.5});
+    static thread_local Array1D<Real64> NSide2Y(4, {4.5, 4.5, 3.5, 3.5});
+    static thread_local Array1D<Real64> NSide2Z(4, {0.1, 0.0, 0.0, 0.1});
+    static thread_local Array1D<Real64> NSide3X(4, -9.5);
+    static thread_local Array1D<Real64> NSide3Y(4, {4.5, 4.5, 3.5, 3.5});
+    static thread_local Array1D<Real64> NSide3Z(4, {0.1, 0.0, 0.0, 0.1});
     //  integer, dimension(7) :: colorno=(/3,4,5,6,2,8,9/)
     int unit;       // Unit number on which to write file
     int surf;       // Loop variable for surfaces
@@ -402,10 +402,10 @@ void DXFOut(std::string &PolygonAction,
     std::string TempZoneName;
     std::string::size_type pos;
     std::string ShadeType;
-    static bool ThickPolyline(false);
-    static bool RegularPolyline(false);
-    static std::string PolylineWidth(" 0.55");
-    static bool TriangulateFace(false);
+    static thread_local bool ThickPolyline(false);
+    static thread_local bool RegularPolyline(false);
+    static thread_local std::string PolylineWidth(" 0.55");
+    static thread_local bool TriangulateFace(false);
     int ntri;
     int svert;
     int vv0;
@@ -420,34 +420,34 @@ void DXFOut(std::string &PolygonAction,
     Array1D<dTriangle> mytriangles;
 
     // Formats
-    static gio::Fmt Format_702("('  0',/,'SECTION',/,'  2',/,'ENTITIES')");
-    static gio::Fmt Format_707("('999',/,'DXF created from EnergyPlus')");
-    static gio::Fmt Format_708("('999',/,A,A,A)");
-    static gio::Fmt Format_800("('  0',/,'TEXT',/,'  8',/,'1',/,'  6',/,'Continuous',/,' 62',/,I3,/,' 10',/,f15.5,/,' 20',/,f15.5,/,' "
+    static thread_local gio::Fmt Format_702("('  0',/,'SECTION',/,'  2',/,'ENTITIES')");
+    static thread_local gio::Fmt Format_707("('999',/,'DXF created from EnergyPlus')");
+    static thread_local gio::Fmt Format_708("('999',/,A,A,A)");
+    static thread_local gio::Fmt Format_800("('  0',/,'TEXT',/,'  8',/,'1',/,'  6',/,'Continuous',/,' 62',/,I3,/,' 10',/,f15.5,/,' 20',/,f15.5,/,' "
                                "30',/,f15.5,/,' 40',/,' .25',/,'  1',/,'True North',/,' 41',/,' 0.0',/,'  "
                                "7',/,'MONOTXT',/,'210',/,'0.0',/,'220',/,'0.0',/,'230',/,'1.0')");
-    static gio::Fmt Format_801("('  0',/,'TEXT',/,'  8',/,'1',/,'  6',/,'Continuous',/,' 62',/,I3,/,' 10',/,f15.5,/,' 20',/,f15.5,/,' "
+    static thread_local gio::Fmt Format_801("('  0',/,'TEXT',/,'  8',/,'1',/,'  6',/,'Continuous',/,' 62',/,I3,/,' 10',/,f15.5,/,' 20',/,f15.5,/,' "
                                "30',/,f15.5,/,' 40',/,' .4',/,'  1',/,A,/,' 41',/,' 0.0',/,'  "
                                "7',/,'MONOTXT',/,'210',/,'0.0',/,'220',/,'0.0',/,'230',/,'1.0')");
-    static gio::Fmt Format_703_0("('  0',/,'3DFACE',/,'  8',/,'1',/,' 62',/,I3)");
-    static gio::Fmt Format_703_1("(' 10',/,f15.5,/,' 20',/,f15.5,/,' 30',/,f15.5)");
-    static gio::Fmt Format_703_2("(' 11',/,f15.5,/,' 21',/,f15.5,/,' 31',/,f15.5)");
-    static gio::Fmt Format_703_3("(' 12',/,f15.5,/,' 22',/,f15.5,/,' 32',/,f15.5)");
-    static gio::Fmt Format_703_4("(' 13',/,f15.5,/,' 23',/,f15.5,/,' 33',/,f15.5)");
-    static gio::Fmt Format_715("('  0',/,'POLYLINE',/,'  8',/,A,/,' 62',/,I3,/,' 66',/,'  1',/,' 10',/,' 0.0',/,' 20',/,' 0.0',/,' 30',/,f15.5,/,' "
+    static thread_local gio::Fmt Format_703_0("('  0',/,'3DFACE',/,'  8',/,'1',/,' 62',/,I3)");
+    static thread_local gio::Fmt Format_703_1("(' 10',/,f15.5,/,' 20',/,f15.5,/,' 30',/,f15.5)");
+    static thread_local gio::Fmt Format_703_2("(' 11',/,f15.5,/,' 21',/,f15.5,/,' 31',/,f15.5)");
+    static thread_local gio::Fmt Format_703_3("(' 12',/,f15.5,/,' 22',/,f15.5,/,' 32',/,f15.5)");
+    static thread_local gio::Fmt Format_703_4("(' 13',/,f15.5,/,' 23',/,f15.5,/,' 33',/,f15.5)");
+    static thread_local gio::Fmt Format_715("('  0',/,'POLYLINE',/,'  8',/,A,/,' 62',/,I3,/,' 66',/,'  1',/,' 10',/,' 0.0',/,' 20',/,' 0.0',/,' 30',/,f15.5,/,' "
                                "70',/,'   9',/,' 40',/,A,/,' 41',/,A)");
-    static gio::Fmt Format_716("('  0',/,'VERTEX',/,'  8',/,A,/,' 10',/,f15.5,/,' 20',/,f15.5,/,' 30',/,f15.5)");
-    static gio::Fmt Format_717("('  0',/,'SEQEND',/,'  8',/,A)");
-    static gio::Fmt Format_704("('  0',/,'3DFACE',/,'  8',/,A,/,' 62',/,I3,/,' 10',/,f15.5,/,' 20',/,f15.5,/,' 30',/,f15.5,/,' 11',/,f15.5,/,' "
+    static thread_local gio::Fmt Format_716("('  0',/,'VERTEX',/,'  8',/,A,/,' 10',/,f15.5,/,' 20',/,f15.5,/,' 30',/,f15.5)");
+    static thread_local gio::Fmt Format_717("('  0',/,'SEQEND',/,'  8',/,A)");
+    static thread_local gio::Fmt Format_704("('  0',/,'3DFACE',/,'  8',/,A,/,' 62',/,I3,/,' 10',/,f15.5,/,' 20',/,f15.5,/,' 30',/,f15.5,/,' 11',/,f15.5,/,' "
                                "21',/,f15.5,/,' 31',/,f15.5,/,' 12',/,f15.5,/,' 22',/,f15.5,/,' 32',/,f15.5)");
-    static gio::Fmt Format_704_0("('  0',/,'3DFACE',/,'  8',/,A,/,' 62',/,I3)");
-    static gio::Fmt Format_704_1("(' 10',/,f15.5,/,' 20',/,f15.5,/,' 30',/,f15.5)");
-    static gio::Fmt Format_704_2("(' 11',/,f15.5,/,' 21',/,f15.5,/,' 31',/,f15.5)");
-    static gio::Fmt Format_704_3("(' 12',/,f15.5,/,' 22',/,f15.5,/,' 32',/,f15.5)");
-    static gio::Fmt Format_705("(' 13',/,f15.5,/,' 23',/,f15.5,/,' 33',/,f15.5)");
-    static gio::Fmt Format_706("('  0',/,'ENDSEC',/,'  0',/,'EOF')");
-    static gio::Fmt Format_709("('  0',/,'CIRCLE',/,'  8',/,A,/,' 62',/,I3,/,' 10',/,f15.5,/,' 20',/,f15.5,/,' 30',/,f15.5,/,' 40',/,f15.5)");
-    static gio::Fmt Format_710("('999',/,A)");
+    static thread_local gio::Fmt Format_704_0("('  0',/,'3DFACE',/,'  8',/,A,/,' 62',/,I3)");
+    static thread_local gio::Fmt Format_704_1("(' 10',/,f15.5,/,' 20',/,f15.5,/,' 30',/,f15.5)");
+    static thread_local gio::Fmt Format_704_2("(' 11',/,f15.5,/,' 21',/,f15.5,/,' 31',/,f15.5)");
+    static thread_local gio::Fmt Format_704_3("(' 12',/,f15.5,/,' 22',/,f15.5,/,' 32',/,f15.5)");
+    static thread_local gio::Fmt Format_705("(' 13',/,f15.5,/,' 23',/,f15.5,/,' 33',/,f15.5)");
+    static thread_local gio::Fmt Format_706("('  0',/,'ENDSEC',/,'  0',/,'EOF')");
+    static thread_local gio::Fmt Format_709("('  0',/,'CIRCLE',/,'  8',/,A,/,' 62',/,I3,/,' 10',/,f15.5,/,' 20',/,f15.5,/,' 30',/,f15.5,/,' 40',/,f15.5)");
+    static thread_local gio::Fmt Format_710("('999',/,A)");
 
     if (PolygonAction == "TRIANGULATE3DFACE" || PolygonAction == "TRIANGULATE" || PolygonAction == "") {
         TriangulateFace = true;
@@ -924,24 +924,24 @@ void DXFOutLines(std::string const &ColorScheme)
     // na
 
     // SUBROUTINE LOCAL VARIABLE DECLARATIONS:
-    static Array1D<Real64> StemX(4, -10.0);
-    static Array1D<Real64> StemY(4, {3.0, 3.0, 0.0, 0.0});
-    static Array1D<Real64> StemZ(4, {0.1, 0.0, 0.0, 0.1});
-    static Array1D<Real64> Head1X(4, {-10.0, -10.0, -10.5, -10.5});
-    static Array1D<Real64> Head1Y(4, {3.0, 3.0, 2.133975, 2.133975});
-    static Array1D<Real64> Head1Z(4, {0.1, 0.0, 0.0, 0.1});
-    static Array1D<Real64> Head2X(4, {-10.0, -10.0, -9.5, -9.5});
-    static Array1D<Real64> Head2Y(4, {3.0, 3.0, 2.133975, 2.133975});
-    static Array1D<Real64> Head2Z(4, {0.1, 0.0, 0.0, 0.1});
-    static Array1D<Real64> NSide1X(4, -10.5);
-    static Array1D<Real64> NSide1Y(4, {4.5, 4.5, 3.5, 3.5});
-    static Array1D<Real64> NSide1Z(4, {0.1, 0.0, 0.0, 0.1});
-    static Array1D<Real64> NSide2X(4, {-10.5, -10.5, -9.5, -9.5});
-    static Array1D<Real64> NSide2Y(4, {4.5, 4.5, 3.5, 3.5});
-    static Array1D<Real64> NSide2Z(4, {0.1, 0.0, 0.0, 0.1});
-    static Array1D<Real64> NSide3X(4, -9.5);
-    static Array1D<Real64> NSide3Y(4, {4.5, 4.5, 3.5, 3.5});
-    static Array1D<Real64> NSide3Z(4, {0.1, 0.0, 0.0, 0.1});
+    static thread_local Array1D<Real64> StemX(4, -10.0);
+    static thread_local Array1D<Real64> StemY(4, {3.0, 3.0, 0.0, 0.0});
+    static thread_local Array1D<Real64> StemZ(4, {0.1, 0.0, 0.0, 0.1});
+    static thread_local Array1D<Real64> Head1X(4, {-10.0, -10.0, -10.5, -10.5});
+    static thread_local Array1D<Real64> Head1Y(4, {3.0, 3.0, 2.133975, 2.133975});
+    static thread_local Array1D<Real64> Head1Z(4, {0.1, 0.0, 0.0, 0.1});
+    static thread_local Array1D<Real64> Head2X(4, {-10.0, -10.0, -9.5, -9.5});
+    static thread_local Array1D<Real64> Head2Y(4, {3.0, 3.0, 2.133975, 2.133975});
+    static thread_local Array1D<Real64> Head2Z(4, {0.1, 0.0, 0.0, 0.1});
+    static thread_local Array1D<Real64> NSide1X(4, -10.5);
+    static thread_local Array1D<Real64> NSide1Y(4, {4.5, 4.5, 3.5, 3.5});
+    static thread_local Array1D<Real64> NSide1Z(4, {0.1, 0.0, 0.0, 0.1});
+    static thread_local Array1D<Real64> NSide2X(4, {-10.5, -10.5, -9.5, -9.5});
+    static thread_local Array1D<Real64> NSide2Y(4, {4.5, 4.5, 3.5, 3.5});
+    static thread_local Array1D<Real64> NSide2Z(4, {0.1, 0.0, 0.0, 0.1});
+    static thread_local Array1D<Real64> NSide3X(4, -9.5);
+    static thread_local Array1D<Real64> NSide3Y(4, {4.5, 4.5, 3.5, 3.5});
+    static thread_local Array1D<Real64> NSide3Z(4, {0.1, 0.0, 0.0, 0.1});
     //  integer, dimension(7) :: colorno=(/3,4,5,6,2,8,9/)
     int unit;       // Unit number on which to write file
     int surf;       // Loop variable for surfaces
@@ -964,28 +964,28 @@ void DXFOutLines(std::string const &ColorScheme)
     int write_stat;
 
     // Formats
-    static gio::Fmt Format_702("('  0',/,'SECTION',/,'  2',/,'ENTITIES')");
-    static gio::Fmt Format_707("('999',/,'DXF created from EnergyPlus')");
-    static gio::Fmt Format_708("('999',/,A,A,A)");
-    static gio::Fmt Format_800("('  0',/,'TEXT',/,'  8',/,'1',/,'  6',/,'Continuous',/,' 62',/,I3,/,' 10',/,f15.5,/,' 20',/,f15.5,/,' "
+    static thread_local gio::Fmt Format_702("('  0',/,'SECTION',/,'  2',/,'ENTITIES')");
+    static thread_local gio::Fmt Format_707("('999',/,'DXF created from EnergyPlus')");
+    static thread_local gio::Fmt Format_708("('999',/,A,A,A)");
+    static thread_local gio::Fmt Format_800("('  0',/,'TEXT',/,'  8',/,'1',/,'  6',/,'Continuous',/,' 62',/,I3,/,' 10',/,f15.5,/,' 20',/,f15.5,/,' "
                                "30',/,f15.5,/,' 40',/,' .25',/,'  1',/,'True North',/,' 41',/,' 0.0',/,'  "
                                "7',/,'MONOTXT',/,'210',/,'0.0',/,'220',/,'0.0',/,'230',/,'1.0')");
-    static gio::Fmt Format_801("('  0',/,'TEXT',/,'  8',/,'1',/,'  6',/,'Continuous',/,' 62',/,I3,/,' 10',/,f15.5,/,' 20',/,f15.5,/,' "
+    static thread_local gio::Fmt Format_801("('  0',/,'TEXT',/,'  8',/,'1',/,'  6',/,'Continuous',/,' 62',/,I3,/,' 10',/,f15.5,/,' 20',/,f15.5,/,' "
                                "30',/,f15.5,/,' 40',/,' .4',/,'  1',/,A,/,' 41',/,' 0.0',/,'  "
                                "7',/,'MONOTXT',/,'210',/,'0.0',/,'220',/,'0.0',/,'230',/,'1.0')");
-    static gio::Fmt Format_703_0("('  0',/,'3DFACE',/,'  8',/,'1',/,' 62',/,I3)");
-    static gio::Fmt Format_703_1("(' 10',/,f15.5,/,' 20',/,f15.5,/,' 30',/,f15.5)");
-    static gio::Fmt Format_703_2("(' 11',/,f15.5,/,' 21',/,f15.5,/,' 31',/,f15.5)");
-    static gio::Fmt Format_703_3("(' 12',/,f15.5,/,' 22',/,f15.5,/,' 32',/,f15.5)");
-    static gio::Fmt Format_703_4("(' 13',/,f15.5,/,' 23',/,f15.5,/,' 33',/,f15.5)");
-    static gio::Fmt Format_704("('  0',/,'3DFACE',/,'  8',/,A,/,' 62',/,I3,/,' 10',/,f15.5,/,' 20',/,f15.5,/,' 30',/,f15.5,/,' 11',/,f15.5,/,' "
+    static thread_local gio::Fmt Format_703_0("('  0',/,'3DFACE',/,'  8',/,'1',/,' 62',/,I3)");
+    static thread_local gio::Fmt Format_703_1("(' 10',/,f15.5,/,' 20',/,f15.5,/,' 30',/,f15.5)");
+    static thread_local gio::Fmt Format_703_2("(' 11',/,f15.5,/,' 21',/,f15.5,/,' 31',/,f15.5)");
+    static thread_local gio::Fmt Format_703_3("(' 12',/,f15.5,/,' 22',/,f15.5,/,' 32',/,f15.5)");
+    static thread_local gio::Fmt Format_703_4("(' 13',/,f15.5,/,' 23',/,f15.5,/,' 33',/,f15.5)");
+    static thread_local gio::Fmt Format_704("('  0',/,'3DFACE',/,'  8',/,A,/,' 62',/,I3,/,' 10',/,f15.5,/,' 20',/,f15.5,/,' 30',/,f15.5,/,' 11',/,f15.5,/,' "
                                "21',/,f15.5,/,' 31',/,f15.5,/,' 12',/,f15.5,/,' 22',/,f15.5,/,' 32',/,f15.5)");
-    static gio::Fmt Format_705("(' 13',/,f15.5,/,' 23',/,f15.5,/,' 33',/,f15.5)");
-    static gio::Fmt Format_711("('  0',/,'LINE',/,'  8',/,A,/,' 62',/,I3)");
-    static gio::Fmt Format_712("(' 10',/,f15.5,/,' 20',/,f15.5,/,' 30',/,f15.5,/,' 11',/,f15.5,/,' 21',/,f15.5,/,' 31',/,f15.5)");
-    static gio::Fmt Format_706("('  0',/,'ENDSEC',/,'  0',/,'EOF')");
-    static gio::Fmt Format_709("('  0',/,'CIRCLE',/,'  8',/,A,/,' 62',/,I3,/,' 10',/,f15.5,/,' 20',/,f15.5,/,' 30',/,f15.5,/,' 40',/,f15.5)");
-    static gio::Fmt Format_710("('999',/,A)");
+    static thread_local gio::Fmt Format_705("(' 13',/,f15.5,/,' 23',/,f15.5,/,' 33',/,f15.5)");
+    static thread_local gio::Fmt Format_711("('  0',/,'LINE',/,'  8',/,A,/,' 62',/,I3)");
+    static thread_local gio::Fmt Format_712("(' 10',/,f15.5,/,' 20',/,f15.5,/,' 30',/,f15.5,/,' 11',/,f15.5,/,' 21',/,f15.5,/,' 31',/,f15.5)");
+    static thread_local gio::Fmt Format_706("('  0',/,'ENDSEC',/,'  0',/,'EOF')");
+    static thread_local gio::Fmt Format_709("('  0',/,'CIRCLE',/,'  8',/,A,/,' 62',/,I3,/,' 10',/,f15.5,/,' 20',/,f15.5,/,' 30',/,f15.5,/,' 40',/,f15.5)");
+    static thread_local gio::Fmt Format_710("('999',/,A)");
 
     if (TotSurfaces > 0 && !allocated(Surface)) {
         // no error needed, probably in end processing, just return
@@ -1368,24 +1368,24 @@ void DXFOutWireFrame(std::string const &ColorScheme)
     // na
 
     // SUBROUTINE LOCAL VARIABLE DECLARATIONS:
-    static Array1D<Real64> StemX(4, -10.0);
-    static Array1D<Real64> StemY(4, {3.0, 3.0, 0.0, 0.0});
-    static Array1D<Real64> StemZ(4, {0.1, 0.0, 0.0, 0.1});
-    static Array1D<Real64> Head1X(4, {-10.0, -10.0, -10.5, -10.5});
-    static Array1D<Real64> Head1Y(4, {3.0, 3.0, 2.133975, 2.133975});
-    static Array1D<Real64> Head1Z(4, {0.1, 0.0, 0.0, 0.1});
-    static Array1D<Real64> Head2X(4, {-10.0, -10.0, -9.5, -9.5});
-    static Array1D<Real64> Head2Y(4, {3.0, 3.0, 2.133975, 2.133975});
-    static Array1D<Real64> Head2Z(4, {0.1, 0.0, 0.0, 0.1});
-    static Array1D<Real64> NSide1X(4, -10.5);
-    static Array1D<Real64> NSide1Y(4, {4.5, 4.5, 3.5, 3.5});
-    static Array1D<Real64> NSide1Z(4, {0.1, 0.0, 0.0, 0.1});
-    static Array1D<Real64> NSide2X(4, {-10.5, -10.5, -9.5, -9.5});
-    static Array1D<Real64> NSide2Y(4, {4.5, 4.5, 3.5, 3.5});
-    static Array1D<Real64> NSide2Z(4, {0.1, 0.0, 0.0, 0.1});
-    static Array1D<Real64> NSide3X(4, -9.5);
-    static Array1D<Real64> NSide3Y(4, {4.5, 4.5, 3.5, 3.5});
-    static Array1D<Real64> NSide3Z(4, {0.1, 0.0, 0.0, 0.1});
+    static thread_local Array1D<Real64> StemX(4, -10.0);
+    static thread_local Array1D<Real64> StemY(4, {3.0, 3.0, 0.0, 0.0});
+    static thread_local Array1D<Real64> StemZ(4, {0.1, 0.0, 0.0, 0.1});
+    static thread_local Array1D<Real64> Head1X(4, {-10.0, -10.0, -10.5, -10.5});
+    static thread_local Array1D<Real64> Head1Y(4, {3.0, 3.0, 2.133975, 2.133975});
+    static thread_local Array1D<Real64> Head1Z(4, {0.1, 0.0, 0.0, 0.1});
+    static thread_local Array1D<Real64> Head2X(4, {-10.0, -10.0, -9.5, -9.5});
+    static thread_local Array1D<Real64> Head2Y(4, {3.0, 3.0, 2.133975, 2.133975});
+    static thread_local Array1D<Real64> Head2Z(4, {0.1, 0.0, 0.0, 0.1});
+    static thread_local Array1D<Real64> NSide1X(4, -10.5);
+    static thread_local Array1D<Real64> NSide1Y(4, {4.5, 4.5, 3.5, 3.5});
+    static thread_local Array1D<Real64> NSide1Z(4, {0.1, 0.0, 0.0, 0.1});
+    static thread_local Array1D<Real64> NSide2X(4, {-10.5, -10.5, -9.5, -9.5});
+    static thread_local Array1D<Real64> NSide2Y(4, {4.5, 4.5, 3.5, 3.5});
+    static thread_local Array1D<Real64> NSide2Z(4, {0.1, 0.0, 0.0, 0.1});
+    static thread_local Array1D<Real64> NSide3X(4, -9.5);
+    static thread_local Array1D<Real64> NSide3Y(4, {4.5, 4.5, 3.5, 3.5});
+    static thread_local Array1D<Real64> NSide3Z(4, {0.1, 0.0, 0.0, 0.1});
     //  integer, dimension(7) :: colorno=(/3,4,5,6,2,8,9/)
     int unit;       // Unit number on which to write file
     int surf;       // Loop variable for surfaces
@@ -1400,7 +1400,7 @@ void DXFOutWireFrame(std::string const &ColorScheme)
     std::string SaveZoneName;
     std::string::size_type pos;
     std::string ShadeType;
-    static std::string PolylineWidth(" 0.55");
+    static thread_local std::string PolylineWidth(" 0.55");
     std::string cSurfNum;
     int surfcount;
     int refpt;
@@ -1408,30 +1408,30 @@ void DXFOutWireFrame(std::string const &ColorScheme)
     int write_stat;
 
     // Formats
-    static gio::Fmt Format_702("('  0',/,'SECTION',/,'  2',/,'ENTITIES')");
-    static gio::Fmt Format_707("('999',/,'DXF created from EnergyPlus')");
-    static gio::Fmt Format_708("('999',/,A,A,A)");
-    static gio::Fmt Format_800("('  0',/,'TEXT',/,'  8',/,'1',/,'  6',/,'Continuous',/,' 62',/,I3,/,' 10',/,f15.5,/,' 20',/,f15.5,/,' "
+    static thread_local gio::Fmt Format_702("('  0',/,'SECTION',/,'  2',/,'ENTITIES')");
+    static thread_local gio::Fmt Format_707("('999',/,'DXF created from EnergyPlus')");
+    static thread_local gio::Fmt Format_708("('999',/,A,A,A)");
+    static thread_local gio::Fmt Format_800("('  0',/,'TEXT',/,'  8',/,'1',/,'  6',/,'Continuous',/,' 62',/,I3,/,' 10',/,f15.5,/,' 20',/,f15.5,/,' "
                                "30',/,f15.5,/,' 40',/,' .25',/,'  1',/,'True North',/,' 41',/,' 0.0',/,'  "
                                "7',/,'MONOTXT',/,'210',/,'0.0',/,'220',/,'0.0',/,'230',/,'1.0')");
-    static gio::Fmt Format_801("('  0',/,'TEXT',/,'  8',/,'1',/,'  6',/,'Continuous',/,' 62',/,I3,/,' 10',/,f15.5,/,' 20',/,f15.5,/,' "
+    static thread_local gio::Fmt Format_801("('  0',/,'TEXT',/,'  8',/,'1',/,'  6',/,'Continuous',/,' 62',/,I3,/,' 10',/,f15.5,/,' 20',/,f15.5,/,' "
                                "30',/,f15.5,/,' 40',/,' .4',/,'  1',/,A,/,' 41',/,' 0.0',/,'  "
                                "7',/,'MONOTXT',/,'210',/,'0.0',/,'220',/,'0.0',/,'230',/,'1.0')");
-    static gio::Fmt Format_703_0("('  0',/,'3DFACE',/,'  8',/,'1',/,' 62',/,I3)");
-    static gio::Fmt Format_703_1("(' 10',/,f15.5,/,' 20',/,f15.5,/,' 30',/,f15.5)");
-    static gio::Fmt Format_703_2("(' 11',/,f15.5,/,' 21',/,f15.5,/,' 31',/,f15.5)");
-    static gio::Fmt Format_703_3("(' 12',/,f15.5,/,' 22',/,f15.5,/,' 32',/,f15.5)");
-    static gio::Fmt Format_703_4("(' 13',/,f15.5,/,' 23',/,f15.5,/,' 33',/,f15.5)");
-    static gio::Fmt Format_715("('  0',/,'POLYLINE',/,'  8',/,A,/,' 62',/,I3,/,' 66',/,'  1',/,' 10',/,' 0.0',/,' 20',/,' 0.0',/,' 30',/,f15.5,/,' "
+    static thread_local gio::Fmt Format_703_0("('  0',/,'3DFACE',/,'  8',/,'1',/,' 62',/,I3)");
+    static thread_local gio::Fmt Format_703_1("(' 10',/,f15.5,/,' 20',/,f15.5,/,' 30',/,f15.5)");
+    static thread_local gio::Fmt Format_703_2("(' 11',/,f15.5,/,' 21',/,f15.5,/,' 31',/,f15.5)");
+    static thread_local gio::Fmt Format_703_3("(' 12',/,f15.5,/,' 22',/,f15.5,/,' 32',/,f15.5)");
+    static thread_local gio::Fmt Format_703_4("(' 13',/,f15.5,/,' 23',/,f15.5,/,' 33',/,f15.5)");
+    static thread_local gio::Fmt Format_715("('  0',/,'POLYLINE',/,'  8',/,A,/,' 62',/,I3,/,' 66',/,'  1',/,' 10',/,' 0.0',/,' 20',/,' 0.0',/,' 30',/,f15.5,/,' "
                                "70',/,'   9',/,' 40',/,A,/,' 41',/,A)");
-    static gio::Fmt Format_716("('  0',/,'VERTEX',/,'  8',/,A,/,' 10',/,f15.5,/,' 20',/,f15.5,/,' 30',/,f15.5)");
-    static gio::Fmt Format_717("('  0',/,'SEQEND',/,'  8',/,A)");
-    static gio::Fmt Format_704("('  0',/,'3DFACE',/,'  8',/,A,/,' 62',/,I3,/,' 10',/,f15.5,/,' 20',/,f15.5,/,' 30',/,f15.5,/,' 11',/,f15.5,/,' "
+    static thread_local gio::Fmt Format_716("('  0',/,'VERTEX',/,'  8',/,A,/,' 10',/,f15.5,/,' 20',/,f15.5,/,' 30',/,f15.5)");
+    static thread_local gio::Fmt Format_717("('  0',/,'SEQEND',/,'  8',/,A)");
+    static thread_local gio::Fmt Format_704("('  0',/,'3DFACE',/,'  8',/,A,/,' 62',/,I3,/,' 10',/,f15.5,/,' 20',/,f15.5,/,' 30',/,f15.5,/,' 11',/,f15.5,/,' "
                                "21',/,f15.5,/,' 31',/,f15.5,/,' 12',/,f15.5,/,' 22',/,f15.5,/,' 32',/,f15.5)");
-    static gio::Fmt Format_705("(' 13',/,f15.5,/,' 23',/,f15.5,/,' 33',/,f15.5)");
-    static gio::Fmt Format_706("('  0',/,'ENDSEC',/,'  0',/,'EOF')");
-    static gio::Fmt Format_709("('  0',/,'CIRCLE',/,'  8',/,A,/,' 62',/,I3,/,' 10',/,f15.5,/,' 20',/,f15.5,/,' 30',/,f15.5,/,' 40',/,f15.5)");
-    static gio::Fmt Format_710("('999',/,A)");
+    static thread_local gio::Fmt Format_705("(' 13',/,f15.5,/,' 23',/,f15.5,/,' 33',/,f15.5)");
+    static thread_local gio::Fmt Format_706("('  0',/,'ENDSEC',/,'  0',/,'EOF')");
+    static thread_local gio::Fmt Format_709("('  0',/,'CIRCLE',/,'  8',/,A,/,' 62',/,I3,/,' 10',/,f15.5,/,' 20',/,f15.5,/,' 30',/,f15.5,/,' 40',/,f15.5)");
+    static thread_local gio::Fmt Format_710("('999',/,A)");
 
     if (TotSurfaces > 0 && !allocated(Surface)) {
         // no error needed, probably in end processing, just return
@@ -1778,7 +1778,7 @@ void DetailsForSurfaces(int const RptType) // (1=Vertices only, 10=Details only,
     // SUBROUTINE ARGUMENT DEFINITIONS:
 
     // SUBROUTINE PARAMETER DEFINITIONS:
-    static Array1D_string const ConvCoeffCalcs(
+    static thread_local Array1D_string const ConvCoeffCalcs(
         {1, 9}, {"ASHRAESimple", "ASHRAETARP", "CeilingDiffuser", "TrombeWall", "TARP", "MoWitt", "DOE-2", "BLAST", "AdaptiveConvectionAlgorithm"});
 
     // INTERFACE BLOCK SPECIFICATIONS
@@ -2285,7 +2285,7 @@ void CostInfoOut()
     int write_stat;
 
     // Formats
-    static gio::Fmt Format_801("(I5,',',A,',',A,',',A,',',f14.5,',',f14.5)");
+    static thread_local gio::Fmt Format_801("(I5,',',A,',',A,',',A,',',f14.5,',',f14.5)");
 
     if (TotSurfaces > 0 && !allocated(Surface)) {
         // no error needed, probably in end processing, just return
@@ -2369,7 +2369,7 @@ void VRMLOut(std::string &PolygonAction, std::string &ColorScheme)
     // SUBROUTINE ARGUMENT DEFINITIONS:
 
     // SUBROUTINE PARAMETER DEFINITIONS:
-    static Array1D_string const colorstring(7, {"WALL", "WINDOW", "FIXEDSHADE", "SUBSHADE", "ROOF", "FLOOR", "BLDGSHADE"});
+    static thread_local Array1D_string const colorstring(7, {"WALL", "WINDOW", "FIXEDSHADE", "SUBSHADE", "ROOF", "FLOOR", "BLDGSHADE"});
 
     // INTERFACE BLOCK SPECIFICATIONS
     // na
@@ -2390,10 +2390,10 @@ void VRMLOut(std::string &PolygonAction, std::string &ColorScheme)
     std::string TempZoneName;
     std::string::size_type pos;
     std::string ShadeType;
-    static bool ThickPolyline(false);
-    static bool RegularPolyline(false);
-    static std::string PolylineWidth(" 0.55");
-    static bool TriangulateFace(false);
+    static thread_local bool ThickPolyline(false);
+    static thread_local bool RegularPolyline(false);
+    static thread_local std::string PolylineWidth(" 0.55");
+    static thread_local bool TriangulateFace(false);
     int ntri;
     int svert;
     int vv0;
@@ -2407,17 +2407,17 @@ void VRMLOut(std::string &PolygonAction, std::string &ColorScheme)
     Array1D<dTriangle> mytriangles;
 
     // Formats
-    static gio::Fmt Format_702("('#VRML V2.0 utf8')");
-    static gio::Fmt Format_707("('WorldInfo {',/,3X,'title \"Building - ',A,'\"',/,3X,'info [\"EnergyPlus Program Version ',A,'\"]',/,3X,'info "
+    static thread_local gio::Fmt Format_702("('#VRML V2.0 utf8')");
+    static thread_local gio::Fmt Format_707("('WorldInfo {',/,3X,'title \"Building - ',A,'\"',/,3X,'info [\"EnergyPlus Program Version ',A,'\"]',/,3X,'info "
                                "[\"Surface Color Scheme ',A,'\"]',/,'}')");
-    static gio::Fmt Format_800("('Shape {',/,'appearance DEF ',A,' Appearance {',/,'material Material { diffuseColor ',A,' }',/,'}',/,'}')");
-    static gio::Fmt Format_801(
+    static thread_local gio::Fmt Format_800("('Shape {',/,'appearance DEF ',A,' Appearance {',/,'material Material { diffuseColor ',A,' }',/,'}',/,'}')");
+    static thread_local gio::Fmt Format_801(
         "('Shape {',/,'appearance USE ',A,/,'geometry IndexedFaceSet {',/,'solid TRUE',/,'coord DEF ',A,' Coordinate {',/,'point [')");
-    static gio::Fmt Format_802("(F15.5,1X,F15.5,1X,F15.5,',')");
-    static gio::Fmt Format_803("(']',/,'}',/,'coordIndex [')");
-    static gio::Fmt Format_804("(A)");
-    static gio::Fmt Format_805("(']',/,'ccw TRUE',/,'solid TRUE',/,'}',/,'}')");
-    static gio::Fmt Format_710("(A)");
+    static thread_local gio::Fmt Format_802("(F15.5,1X,F15.5,1X,F15.5,',')");
+    static thread_local gio::Fmt Format_803("(']',/,'}',/,'coordIndex [')");
+    static thread_local gio::Fmt Format_804("(A)");
+    static thread_local gio::Fmt Format_805("(']',/,'ccw TRUE',/,'solid TRUE',/,'}',/,'}')");
+    static thread_local gio::Fmt Format_710("(A)");
 
     if (PolygonAction == "TRIANGULATE3DFACE" || PolygonAction == "TRIANGULATE") {
         TriangulateFace = true;

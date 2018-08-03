@@ -180,8 +180,8 @@ namespace HVACUnitaryBypassVAV {
     int const UseCompressorOnFlow(1);  // Set compressor OFF air flow rate equal to compressor ON air flow rate
     int const UseCompressorOffFlow(2); // Set compressor OFF air flow rate equal to user defined value
 
-    static std::string const fluidNameSteam("STEAM");
-    static std::string const BlankString;
+    static thread_local std::string const fluidNameSteam("STEAM");
+    static thread_local std::string const BlankString;
 
     // DERIVED TYPE DEFINITIONS
 
@@ -505,7 +505,7 @@ namespace HVACUnitaryBypassVAV {
         using FluidProperties::GetSatDensityRefrig;
 
         // SUBROUTINE PARAMETER DEFINITIONS:
-        static std::string const getUnitaryHeatCoolVAVChangeoverBypass("GetUnitaryHeatCool:VAVChangeoverBypass");
+        static thread_local std::string const getUnitaryHeatCoolVAVChangeoverBypass("GetUnitaryHeatCool:VAVChangeoverBypass");
 
         // SUBROUTINE LOCAL VARIABLE DECLARATIONS:
         int CBVAVIndex;                   // Loop index
@@ -519,12 +519,12 @@ namespace HVACUnitaryBypassVAV {
         int NumAlphas;                    // Number of Alphas for each GetObjectItem call
         int NumNumbers;                   // Number of Numbers for each GetObjectItem call
         int IOStatus;                     // Used in GetObjectItem
-        static bool ErrorsFound(false);   // Set to true if errors in input, fatal at end of routine
-        static bool DXErrorsFound(false); // Set to true if errors in get coil input
+        static thread_local bool ErrorsFound(false);   // Set to true if errors in input, fatal at end of routine
+        static thread_local bool DXErrorsFound(false); // Set to true if errors in get coil input
         // unused0509  LOGICAL                        :: FanErrorsFound=.FALSE. ! Set to true if errors in get fan input
         std::string CurrentModuleObject;    // Object type for getting and error messages
-        static bool FanErrFlag(false);      // Error flag returned during CALL to GetFanType
-        static bool errFlag(false);         // Error flag returned during CALL to mining functions
+        static thread_local bool FanErrFlag(false);      // Error flag returned during CALL to GetFanType
+        static thread_local bool errFlag(false);         // Error flag returned during CALL to mining functions
         int AirLoopNum;                     // Index to air loop served by this system
         int AirLoopZoneNum;                 // Index to controlled zone
         int BranchNum;                      // Index to branch containing this system
@@ -1486,22 +1486,22 @@ namespace HVACUnitaryBypassVAV {
         using WaterCoils::SimulateWaterCoilComponents;
 
         // SUBROUTINE PARAMETER DEFINITIONS:
-        static std::string const RoutineName("InitCBVAV");
+        static thread_local std::string const RoutineName("InitCBVAV");
 
         // SUBROUTINE LOCAL VARIABLE DECLARATIONS:
         int InNode;                          // Inlet node number in CBVAV loop
         int OutNode;                         // Outlet node number in CBVAV loop
         int MixerOutsideAirNode;             // Outside air node number in CBVAV loop
         Real64 RhoAir;                       // Air density at InNode
-        static bool MyOneTimeFlag(true);     // Initialization flag
-        static Array1D_bool MyEnvrnFlag;     // Used for initializations each begin environment flag
-        static Array1D_bool MySizeFlag;      // Used for sizing CBVAV inputs one time
-        static Array1D_bool MyPlantScanFlag; // Used for initializations plant component for heating coils
+        static thread_local bool MyOneTimeFlag(true);     // Initialization flag
+        static thread_local Array1D_bool MyEnvrnFlag;     // Used for initializations each begin environment flag
+        static thread_local Array1D_bool MySizeFlag;      // Used for sizing CBVAV inputs one time
+        static thread_local Array1D_bool MyPlantScanFlag; // Used for initializations plant component for heating coils
         Real64 QSensUnitOut;                 // Output of CBVAV system with coils off
         Real64 OutsideAirMultiplier;         // Outside air multiplier schedule (= 1.0 if no schedule)
         std::string CurrentModuleObject;     // Object type for error messages
-        static bool EMSSetPointCheck(false); // local temporary
-        static bool ErrorsFound(false);      // Set to true if errors in input, fatal at end of routine
+        static thread_local bool EMSSetPointCheck(false); // local temporary
+        static thread_local bool ErrorsFound(false);      // Set to true if errors in input, fatal at end of routine
         int SteamIndex;                      // steam coil index
         Real64 FluidDensity;                 // steam or water coil fluid density
         Real64 CoilMaxVolFlowRate;           // water or steam max volumetric water flow rate

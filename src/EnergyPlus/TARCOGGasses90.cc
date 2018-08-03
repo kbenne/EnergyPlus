@@ -121,16 +121,16 @@ namespace TARCOGGasses90 {
 
         // Locals
 
-        static Real64 const two_sqrt_2(2.0 * std::sqrt(2.0));
-        static Array1D<Real64> fvis(maxgas);
-        static Array1D<Real64> fcon(maxgas);
-        static Array1D<Real64> fdens(maxgas);
-        static Array1D<Real64> fcp(maxgas);
-        static Array1D<Real64> kprime(maxgas);
-        static Array1D<Real64> kdblprm(maxgas);
-        static Array1D<Real64> mukpdwn(maxgas);
-        static Array1D<Real64> kpdown(maxgas);
-        static Array1D<Real64> kdpdown(maxgas);
+        static thread_local Real64 const two_sqrt_2(2.0 * std::sqrt(2.0));
+        static thread_local Array1D<Real64> fvis(maxgas);
+        static thread_local Array1D<Real64> fcon(maxgas);
+        static thread_local Array1D<Real64> fdens(maxgas);
+        static thread_local Array1D<Real64> fcp(maxgas);
+        static thread_local Array1D<Real64> kprime(maxgas);
+        static thread_local Array1D<Real64> kdblprm(maxgas);
+        static thread_local Array1D<Real64> mukpdwn(maxgas);
+        static thread_local Array1D<Real64> kpdown(maxgas);
+        static thread_local Array1D<Real64> kdpdown(maxgas);
         Real64 molmix;
         Real64 cpmixm;
         Real64 phimup;
@@ -285,8 +285,8 @@ namespace TARCOGGasses90 {
     {
 
         // Locals
-        static Real64 alpha(0.0);
-        static Real64 B(0.0);
+        static thread_local Real64 alpha(0.0);
+        static thread_local Real64 B(0.0);
 
         alpha = alpha1 * alpha2 / (alpha2 + alpha1 * (1 - alpha2));
 

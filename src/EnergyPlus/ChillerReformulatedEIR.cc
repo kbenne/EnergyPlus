@@ -325,16 +325,16 @@ namespace ChillerReformulatedEIR {
 
         // Locals
         // PARAMETERS
-        static std::string const RoutineName("GetElecReformEIRChillerInput: "); // include trailing blank space
+        static thread_local std::string const RoutineName("GetElecReformEIRChillerInput: "); // include trailing blank space
 
         // LOCAL VARIABLES
         int EIRChillerNum;                // Chiller counter
         int NumAlphas;                    // Number of elements in the alpha array
         int NumNums;                      // Number of elements in the numeric array
         int IOStat;                       // IO Status when calling get input subroutine
-        static bool ErrorsFound(false);   // True when input errors found
+        static thread_local bool ErrorsFound(false);   // True when input errors found
         bool errFlag;                     // Error flag, used to tell if a unique chiller name has been specified
-        static bool AllocatedFlag(false); // True when arrays are allocated
+        static thread_local bool AllocatedFlag(false); // True when arrays are allocated
         std::string PartLoadCurveType;    // Part load curve type
 
         // FLOW
@@ -894,10 +894,10 @@ namespace ChillerReformulatedEIR {
         using ScheduleManager::GetCurrentScheduleValue;
 
         // SUBROUTINE LOCAL VARIABLE DECLARATIONS:
-        static std::string const RoutineName("InitElecReformEIRChiller");
-        static bool MyOneTimeFlag(true); // One time logic flag for allocating MyEnvrnFlag array
-        static Array1D_bool MyFlag;
-        static Array1D_bool MyEnvrnFlag; // Logical array to initialize when appropriate
+        static thread_local std::string const RoutineName("InitElecReformEIRChiller");
+        static thread_local bool MyOneTimeFlag(true); // One time logic flag for allocating MyEnvrnFlag array
+        static thread_local Array1D_bool MyFlag;
+        static thread_local Array1D_bool MyEnvrnFlag; // Logical array to initialize when appropriate
         int EvapInletNode;               // Node number for evaporator water inlet node
         int EvapOutletNode;              // Node number for evaporator water outlet node
         int CondInletNode;               // Node number for condenser water inlet node
@@ -1237,7 +1237,7 @@ namespace ChillerReformulatedEIR {
         using StandardRatings::CalcChillerIPLV;
 
         // SUBROUTINE PARAMETER DEFINITIONS:
-        static std::string const RoutineName("SizeElecReformEIRChiller");
+        static thread_local std::string const RoutineName("SizeElecReformEIRChiller");
 
         // SUBROUTINE LOCAL VARIABLE DECLARATIONS:
         int PltSizNum(0);                  // Plant Sizing index corresponding to CurLoopNum
@@ -1249,8 +1249,8 @@ namespace ChillerReformulatedEIR {
         std::string equipName;             // Name of chiller
         Real64 CurveVal;                   // Used to verify EIR-FT/CAP-FT curves = 1 at reference conditions
         Real64 CondTemp;                   // Used to verify EIRFPLR curve is > than 0 at reference conditions
-        static bool FoundNegValue(false);  // Used to evaluate EIRFPLR curve objects
-        static int CurveCheck(0);          // Used to evaluate EIRFPLR curve objects
+        static thread_local bool FoundNegValue(false);  // Used to evaluate EIRFPLR curve objects
+        static thread_local int CurveCheck(0);          // Used to evaluate EIRFPLR curve objects
         Array1D<Real64> CurveValArray(11); // Used to evaluate EIRFPLR curve objects
         Array1D<Real64> CondTempArray(11); // Used to evaluate EIRFPLR curve objects
         Real64 CurveValTmp;                // Used to evaluate EIRFPLR curve objects
@@ -1267,16 +1267,16 @@ namespace ChillerReformulatedEIR {
         Real64 tmpEvapVolFlowRate;    // local evaporator design volume flow rate
         Real64 tmpCondVolFlowRate;    // local condenser design volume flow rate
         Real64 tmpHeatRecVolFlowRate; // local heat recovery design volume flow rate
-        static bool MyOneTimeFlag(true);
-        static Array1D_bool MyFlag;               // TRUE in order to calculate IPLV
+        static thread_local bool MyOneTimeFlag(true);
+        static thread_local Array1D_bool MyFlag;               // TRUE in order to calculate IPLV
         Real64 EvapVolFlowRateUser(0.0);          // Hardsized evaporator flow for reporting
         Real64 RefCapUser(0.0);                   // Hardsized reference capacity for reporting
         Real64 CondVolFlowRateUser(0.0);          // Hardsized condenser flow for reporting
         Real64 DesignHeatRecVolFlowRateUser(0.0); // Hardsized design heat recovery flow for reporting
 
         // Formats
-        static gio::Fmt Format_530("('Cond Temp (C) = ',11(F7.2))");
-        static gio::Fmt Format_531("('Curve Output  = ',11(F7.2))");
+        static thread_local gio::Fmt Format_530("('Cond Temp (C) = ',11(F7.2))");
+        static thread_local gio::Fmt Format_531("('Curve Output  = ',11(F7.2))");
 
         if (MyOneTimeFlag) {
             MyFlag.dimension(NumElecReformEIRChillers, true);
@@ -1956,7 +1956,7 @@ namespace ChillerReformulatedEIR {
         // SUBROUTINE ARGUMENT DEFINITIONS:
 
         // SUBROUTINE PARAMETER DEFINITIONS:
-        static std::string const RoutineName("EIRChillerHeatRecovery");
+        static thread_local std::string const RoutineName("EIRChillerHeatRecovery");
 
         // DERIVED TYPE DEFINITIONS:
         //  na
@@ -2288,8 +2288,8 @@ namespace ChillerReformulatedEIR {
 
         // SUBROUTINE PARAMETER DEFINITIONS:
 
-        static gio::Fmt OutputFormat("(F6.2)");
-        static std::string const RoutineName("CalcElecReformEIRChillerModel");
+        static thread_local gio::Fmt OutputFormat("(F6.2)");
+        static thread_local std::string const RoutineName("CalcElecReformEIRChillerModel");
 
         // INTERFACE BLOCK SPECIFICATIONS
         //  na

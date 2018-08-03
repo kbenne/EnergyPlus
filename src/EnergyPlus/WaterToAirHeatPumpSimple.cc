@@ -130,7 +130,7 @@ namespace WaterToAirHeatPumpSimple {
     // Data
     // MODULE PARAMETER DEFINITIONS
     Real64 const CelsiustoKelvin(KelvinConv); // Conversion from Celsius to Kelvin
-    static std::string const BlankString;
+    static thread_local std::string const BlankString;
 
     // DERIVED TYPE DEFINITIONS
 
@@ -333,7 +333,7 @@ namespace WaterToAirHeatPumpSimple {
         using namespace OutputReportPredefined;
 
         // SUBROUTINE PARAMETER DEFINITIONS:
-        static std::string const RoutineName("GetSimpleWatertoAirHPInput: "); // include trailing blank space
+        static thread_local std::string const RoutineName("GetSimpleWatertoAirHPInput: "); // include trailing blank space
 
         // SUBROUTINE LOCAL VARIABLE DECLARATIONS:
         int HPNum;               // The Water to Air HP that you are currently loading input into
@@ -343,10 +343,10 @@ namespace WaterToAirHeatPumpSimple {
         int NumAlphas;           // Number of variables in String format
         int NumNums;             // Number of variables in Numeric format
         int NumParams;           // Total number of input fields
-        static int MaxNums(0);   // Maximum number of numeric input fields
-        static int MaxAlphas(0); // Maximum number of alpha input fields
+        static thread_local int MaxNums(0);   // Maximum number of numeric input fields
+        static thread_local int MaxAlphas(0); // Maximum number of alpha input fields
         int IOStat;
-        static bool ErrorsFound(false);  // If errors detected in input
+        static thread_local bool ErrorsFound(false);  // If errors detected in input
         std::string CurrentModuleObject; // for ease in getting objects
         Array1D_string AlphArray;        // Alpha input items for object
         Array1D_string cAlphaFields;     // Alpha field names
@@ -838,14 +838,14 @@ namespace WaterToAirHeatPumpSimple {
         using Psychrometrics::PsyRhoAirFnPbTdbW;
 
         // Locals
-        static Array1D_bool MySizeFlag; // used for sizing PTHP inputs one time
+        static thread_local Array1D_bool MySizeFlag; // used for sizing PTHP inputs one time
 
         // SUBROUTINE ARGUMENT DEFINITIONS:
 
         // shut off after compressor cycle off  [s]
 
         // SUBROUTINE PARAMETER DEFINITIONS:
-        static std::string const RoutineName("InitSimpleWatertoAirHP");
+        static thread_local std::string const RoutineName("InitSimpleWatertoAirHP");
 
         // INTERFACE BLOCK SPECIFICATIONS
         // na
@@ -856,8 +856,8 @@ namespace WaterToAirHeatPumpSimple {
         // SUBROUTINE LOCAL VARIABLE DECLARATIONS:
         int AirInletNode;                // Node Number of the air inlet
         int WaterInletNode;              // Node Number of the Water inlet
-        static Array1D_bool MyEnvrnFlag; // used for initializations each begin environment flag
-        static Array1D_bool MyPlantScanFlag;
+        static thread_local Array1D_bool MyEnvrnFlag; // used for initializations each begin environment flag
+        static thread_local Array1D_bool MyPlantScanFlag;
         Real64 rho; // local fluid density
         Real64 Cp;  // local fluid specific heat
         bool errFlag;
@@ -1156,8 +1156,8 @@ namespace WaterToAirHeatPumpSimple {
         // SUBROUTINE ARGUMENT DEFINITIONS:
 
         // SUBROUTINE PARAMETER DEFINITIONS:
-        static std::string const RoutineName("SizeWaterToAirCoil");
-        static std::string const RoutineNameAlt("SizeHVACWaterToAir");
+        static thread_local std::string const RoutineName("SizeWaterToAirCoil");
+        static thread_local std::string const RoutineNameAlt("SizeHVACWaterToAir");
 
         // INTERFACE BLOCK SPECIFICATIONS
         // na
@@ -2009,8 +2009,8 @@ namespace WaterToAirHeatPumpSimple {
 
         // SUBROUTINE PARAMETER DEFINITIONS:
         Real64 const Tref(283.15); // Reference Temperature for performance curves,10C [K]
-        static std::string const RoutineName("CalcHPCoolingSimple");
-        static std::string const RoutineNameSourceSideInletTemp("CalcHPCoolingSimple:SourceSideInletTemp");
+        static thread_local std::string const RoutineName("CalcHPCoolingSimple");
+        static thread_local std::string const RoutineNameSourceSideInletTemp("CalcHPCoolingSimple:SourceSideInletTemp");
 
         // INTERFACE BLOCK SPECIFICATIONS
         // na
@@ -2060,13 +2060,13 @@ namespace WaterToAirHeatPumpSimple {
 
         bool LatDegradModelSimFlag; // Latent degradation model simulation flag
         int NumIteration;           // Iteration Counter
-        static int Count(0);        // No idea what this is for.
-        static bool firstTime(true);
-        static Real64 LoadSideInletDBTemp_Init; // rated conditions
-        static Real64 LoadSideInletWBTemp_Init; // rated conditions
-        static Real64 LoadSideInletHumRat_Init; // rated conditions
-        static Real64 LoadSideInletEnth_Init;   // rated conditions
-        static Real64 CpAir_Init;               // rated conditions
+        static thread_local int Count(0);        // No idea what this is for.
+        static thread_local bool firstTime(true);
+        static thread_local Real64 LoadSideInletDBTemp_Init; // rated conditions
+        static thread_local Real64 LoadSideInletWBTemp_Init; // rated conditions
+        static thread_local Real64 LoadSideInletHumRat_Init; // rated conditions
+        static thread_local Real64 LoadSideInletEnth_Init;   // rated conditions
+        static thread_local Real64 CpAir_Init;               // rated conditions
         Real64 LoadSideInletDBTemp_Unit;        // calc conditions for unit
         Real64 LoadSideInletWBTemp_Unit;        // calc conditions for unit
         Real64 LoadSideInletHumRat_Unit;        // calc conditions for unit
@@ -2353,8 +2353,8 @@ namespace WaterToAirHeatPumpSimple {
 
         // SUBROUTINE PARAMETER DEFINITIONS:
         Real64 const Tref(283.15); // Reference Temperature for performance curves,10C [K]
-        static std::string const RoutineName("CalcHPHeatingSimple");
-        static std::string const RoutineNameSourceSideInletTemp("CalcHPHeatingSimple:SourceSideInletTemp");
+        static thread_local std::string const RoutineName("CalcHPHeatingSimple");
+        static thread_local std::string const RoutineNameSourceSideInletTemp("CalcHPHeatingSimple:SourceSideInletTemp");
 
         // INTERFACE BLOCK SPECIFICATIONS
         // na

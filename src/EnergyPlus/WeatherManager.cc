@@ -173,7 +173,7 @@ namespace WeatherManager {
     Real64 const Sigma(5.6697e-8);    // Stefan-Boltzmann constant
     Real64 const TKelvin(KelvinConv); // conversion from Kelvin to Celsius
 
-    static std::string const BlankString;
+    static thread_local std::string const BlankString;
     Array1D_string const DaysOfWeek(7, {"SUNDAY", "MONDAY", "TUESDAY", "WEDNESDAY", "THURSDAY", "FRIDAY", "SATURDAY"});
 
     bool Debugout(false);
@@ -199,7 +199,7 @@ namespace WeatherManager {
     bool LocationGathered(false);     // flag to show if Location exists on Input File (we assume one is there and
     // correct on weather file)
     namespace {
-        // These were static variables within different functions. They were pulled out into the namespace
+        // These were static thread_local variables within different functions. They were pulled out into the namespace
         // to facilitate easier unit testing of those functions.
         // These are purposefully not in the header file as an extern variable. No one outside of this should
         // use these. They are cleared by clear_state() for use by unit tests, but normal simulations should be unaffected.
@@ -367,8 +367,8 @@ namespace WeatherManager {
     std::shared_ptr<BaseGroundTempsModel> siteFCFactorMethodGroundTempsPtr;
     std::shared_ptr<BaseGroundTempsModel> siteDeepGroundTempsPtr;
 
-    static gio::Fmt fmtA("(A)");
-    static gio::Fmt fmtAN("(A,$)");
+    static thread_local gio::Fmt fmtA("(A)");
+    static thread_local gio::Fmt fmtAN("(A,$)");
 
     std::vector<UnderwaterBoundary> underwaterBoundaries;
     AnnualMonthlyDryBulbWeatherData OADryBulbAverage; // processes outside air drybulb temperature
@@ -589,7 +589,7 @@ namespace WeatherManager {
 
         // SUBROUTINE LOCAL VARIABLE DECLARATIONS:
 
-        static bool PrintEnvrnStamp(false); // Set to true when the environment header should be printed
+        static thread_local bool PrintEnvrnStamp(false); // Set to true when the environment header should be printed
 
         // FLOW:
 
@@ -804,21 +804,21 @@ namespace WeatherManager {
         using ThermalComfort::CalcThermalComfortAdaptiveCEN15251;
 
         // SUBROUTINE PARAMETER DEFINITIONS:
-        static std::string const RoutineName("GetNextEnvironment: ");
-        static gio::Fmt EnvironFormat("('! <Environment>,Environment Name,Environment Type, Start Date, End Date,',    ' Start DayOfWeek, Duration "
+        static thread_local std::string const RoutineName("GetNextEnvironment: ");
+        static thread_local gio::Fmt EnvironFormat("('! <Environment>,Environment Name,Environment Type, Start Date, End Date,',    ' Start DayOfWeek, Duration "
                                       "{#days}, Source:Start DayOfWeek, ',        ' Use Daylight Saving, Use Holidays, Apply Weekend Holiday Rule, "
                                       "',    ' Use Rain Values, Use Snow Values',/,                                 '! <Environment:Special Days>, "
                                       "Special Day Name, Special Day Type, Source, ',  'Start Date, Duration {#days}',/,                             "
                                       "         '! <Environment:Daylight Saving>, Daylight Saving Indicator, Source,',           ' Start Date, End "
                                       "Date',/,                                           '! <Environment:WarmupDays>, NumberofWarmupDays')");
-        static gio::Fmt EnvNameFormat("('Environment',12(',',A))");
-        static gio::Fmt EnvDSTNFormat("('Environment:Daylight Saving,No,',A)");
-        static gio::Fmt EnvDSTYFormat("('Environment:Daylight Saving,Yes',3(',',A))");
-        static gio::Fmt EnvSpDyFormat("('Environment:Special Days',4(',',A),',',I3)");
-        static gio::Fmt DateFormat("(I2.2,'/',I2.2)");
-        static gio::Fmt DateFormatwithYear("(I2.2,'/',I2.2,'/',I4.4)");
-        static Array1D_string const SpecialDayNames(5, {"Holiday", "SummerDesignDay", "WinterDesignDay", "CustomDay1", "CustomDay2"});
-        static Array1D_string const ValidDayNames(12,
+        static thread_local gio::Fmt EnvNameFormat("('Environment',12(',',A))");
+        static thread_local gio::Fmt EnvDSTNFormat("('Environment:Daylight Saving,No,',A)");
+        static thread_local gio::Fmt EnvDSTYFormat("('Environment:Daylight Saving,Yes',3(',',A))");
+        static thread_local gio::Fmt EnvSpDyFormat("('Environment:Special Days',4(',',A),',',I3)");
+        static thread_local gio::Fmt DateFormat("(I2.2,'/',I2.2)");
+        static thread_local gio::Fmt DateFormatwithYear("(I2.2,'/',I2.2,'/',I4.4)");
+        static thread_local Array1D_string const SpecialDayNames(5, {"Holiday", "SummerDesignDay", "WinterDesignDay", "CustomDay1", "CustomDay2"});
+        static thread_local Array1D_string const ValidDayNames(12,
                                                   {"Sunday",
                                                    "Monday",
                                                    "Tuesday",
@@ -834,9 +834,9 @@ namespace WeatherManager {
 
         // SUBROUTINE LOCAL VARIABLE DECLARATIONS:
         //////////// hoisted into namespace changed to GetBranchInputOneTimeFlag////////////
-        //	static bool GetInputFlag( true ); // Set to true before execution starts changed to GetEnvironmentInputOneTimeFlag
-        //	static bool FirstCall( true ); // changed to GetEnvironmentFirstCall
-        // static bool PrntEnvHeaders( true );
+        //	static thread_local bool GetInputFlag( true ); // Set to true before execution starts changed to GetEnvironmentInputOneTimeFlag
+        //	static thread_local bool FirstCall( true ); // changed to GetEnvironmentFirstCall
+        // static thread_local bool PrntEnvHeaders( true );
         ////////////////////////////////////////////////
         int Loop;
         std::string StDate;
@@ -1810,7 +1810,7 @@ namespace WeatherManager {
         // SUBROUTINE ARGUMENT DEFINITIONS:
 
         // SUBROUTINE PARAMETER DEFINITIONS:
-        static std::string const RoutineName("SetDSTDateRanges: ");
+        static thread_local std::string const RoutineName("SetDSTDateRanges: ");
 
         // INTERFACE BLOCK SPECIFICATIONS:
         // na
@@ -1936,7 +1936,7 @@ namespace WeatherManager {
         // SUBROUTINE ARGUMENT DEFINITIONS:
 
         // SUBROUTINE PARAMETER DEFINITIONS:
-        static std::string const RoutineName("SetSpecialDayDates: ");
+        static thread_local std::string const RoutineName("SetSpecialDayDates: ");
 
         // INTERFACE BLOCK SPECIFICATIONS:
         // na
@@ -2062,8 +2062,8 @@ namespace WeatherManager {
         int Loop;
         int FirstSimDayofYear; // Variable which tells when to skip the day in a multi year simulation.
 
-        static bool FirstCall(true);                 // Some things should only be done once
-        static bool WaterMainsParameterReport(true); // should only be done once
+        static thread_local bool FirstCall(true);                 // Some things should only be done once
+        static thread_local bool WaterMainsParameterReport(true); // should only be done once
         //  LOGICAL, SAVE :: SetYear=.TRUE.
         int JDay5Start;
         int JDay5End;
@@ -2470,12 +2470,12 @@ namespace WeatherManager {
         using namespace GroundTemperatureManager;
 
         // SUBROUTINE PARAMETER DEFINITIONS:
-        static char time_stamp[10];
-        static char day_stamp[6];
-        static std::string const RoutineName("SetCurrentWeather");
+        static thread_local char time_stamp[10];
+        static thread_local char day_stamp[6];
+        static thread_local std::string const RoutineName("SetCurrentWeather");
 
         // SUBROUTINE LOCAL VARIABLE DECLARATIONS:
-        static int NextHour;
+        static thread_local int NextHour;
         Real64 TempVal;
         Real64 TempDPVal;
 
@@ -2708,9 +2708,9 @@ namespace WeatherManager {
         using ScheduleManager::GetScheduleValuesForDay;
 
         // SUBROUTINE PARAMETER DEFINITIONS:
-        static gio::Fmt fmtLD("*");
-        static gio::Fmt YMDHFmt("(I4.4,2('/',I2.2),1X,I2.2,':',I2.2)");
-        static gio::Fmt YMDHFmt1("(I4.4,2('/',I2.2),1X,'hour=',I2.2,' - expected hour=',I2.2)");
+        static thread_local gio::Fmt fmtLD("*");
+        static thread_local gio::Fmt YMDHFmt("(I4.4,2('/',I2.2),1X,I2.2,':',I2.2)");
+        static thread_local gio::Fmt YMDHFmt1("(I4.4,2('/',I2.2),1X,'hour=',I2.2,' - expected hour=',I2.2)");
 
         // DERIVED TYPE DEFINITIONS:
         // SUBROUTINE LOCAL VARIABLE DECLARATIONS:
@@ -2759,43 +2759,43 @@ namespace WeatherManager {
         Real64 C;
         Real64 AVSC;
         Real64 SkyTemp;
-        static int CurDayOfWeek;
-        static bool UseDayOfWeek;
+        static thread_local int CurDayOfWeek;
+        static thread_local bool UseDayOfWeek;
         bool SkipThisDay; // Used when LeapYear is/is not in effect
         bool TryAgain;
         int ReadStatus;
         int NumRewinds;
         std::string BadRecord;
         bool ErrorsFound;
-        static Real64 CurTime;
+        static thread_local Real64 CurTime;
         Real64 HourRep;
         int OSky;
         Real64 TDewK;
         Real64 ESky;
         bool ErrorFound;
         std::string ErrOut;
-        static bool LastHourSet; // for Interpolation
+        static thread_local bool LastHourSet; // for Interpolation
         int NxtHour;
         Real64 WtNow;
         Real64 WtPrevHour;
         Real64 WgtHourNow;
         Real64 WgtPrevHour;
         Real64 WgtNextHour;
-        static Real64 LastHrOutDryBulbTemp;
-        static Real64 LastHrOutDewPointTemp;
-        static Real64 LastHrOutBaroPress;
-        static Real64 LastHrOutRelHum;
-        static Real64 LastHrWindSpeed;
-        static Real64 LastHrWindDir;
-        static Real64 LastHrSkyTemp;
-        static Real64 LastHrHorizIRSky;
-        static Real64 LastHrBeamSolarRad;
-        static Real64 LastHrDifSolarRad;
-        static Real64 LastHrAlbedo;
-        static Real64 LastHrLiquidPrecip;
-        static Real64 NextHrBeamSolarRad;
-        static Real64 NextHrDifSolarRad;
-        static Real64 NextHrLiquidPrecip;
+        static thread_local Real64 LastHrOutDryBulbTemp;
+        static thread_local Real64 LastHrOutDewPointTemp;
+        static thread_local Real64 LastHrOutBaroPress;
+        static thread_local Real64 LastHrOutRelHum;
+        static thread_local Real64 LastHrWindSpeed;
+        static thread_local Real64 LastHrWindDir;
+        static thread_local Real64 LastHrSkyTemp;
+        static thread_local Real64 LastHrHorizIRSky;
+        static thread_local Real64 LastHrBeamSolarRad;
+        static thread_local Real64 LastHrDifSolarRad;
+        static thread_local Real64 LastHrAlbedo;
+        static thread_local Real64 LastHrLiquidPrecip;
+        static thread_local Real64 NextHrBeamSolarRad;
+        static thread_local Real64 NextHrDifSolarRad;
+        static thread_local Real64 NextHrLiquidPrecip;
         bool RecordDateMatch;
 
         struct HourlyWeatherData
@@ -3814,9 +3814,9 @@ namespace WeatherManager {
         // SUBROUTINE ARGUMENT DEFINITIONS:
 
         // SUBROUTINE PARAMETER DEFINITIONS:
-        static std::string const ValidDigits("0123456789");
-        static gio::Fmt fmtLD("*");
-        static gio::Fmt fmt9I1("(9I1)");
+        static thread_local std::string const ValidDigits("0123456789");
+        static thread_local gio::Fmt fmtLD("*");
+        static thread_local gio::Fmt fmt9I1("(9I1)");
 
         // INTERFACE BLOCK SPECIFICATIONS:
         // na
@@ -3835,7 +3835,7 @@ namespace WeatherManager {
         std::string DateError;
         Real64 RField21;
         int Count;
-        static int LCount(0);
+        static thread_local int LCount(0);
         bool DateInError;
 
         ++LCount;
@@ -4119,14 +4119,14 @@ namespace WeatherManager {
         // SUBROUTINE PARAMETER DEFINITIONS:
         Real64 const GlobalSolarConstant(1367.0);
         Real64 const ZHGlobalSolarConstant(1355.0);
-        static gio::Fmt EnvDDHdFormat("('! <Environment:Design Day Data>, Max Dry-Bulb Temp {C}, ',   'Temp Range {dC}, Temp Range Ind Type, ',   "
+        static thread_local gio::Fmt EnvDDHdFormat("('! <Environment:Design Day Data>, Max Dry-Bulb Temp {C}, ',   'Temp Range {dC}, Temp Range Ind Type, ',   "
                                       "'Hum Ind Value at Max Temp, Hum Ind Type,Pressure {Pa}, ',   'Wind Direction {deg CW from N}, ',    'Wind "
                                       "Speed {m/s}, Clearness, Rain, Snow')");
-        static gio::Fmt EnvDDayFormat("('Environment:Design Day Data,')");
-        static gio::Fmt DDayMiscHdFormat("('! <Environment:Design Day Misc>,DayOfYear,ASHRAE A Coeff,',   'ASHRAE B Coeff,ASHRAE C Coeff,Solar "
+        static thread_local gio::Fmt EnvDDayFormat("('Environment:Design Day Data,')");
+        static thread_local gio::Fmt DDayMiscHdFormat("('! <Environment:Design Day Misc>,DayOfYear,ASHRAE A Coeff,',   'ASHRAE B Coeff,ASHRAE C Coeff,Solar "
                                          "Constant-Annual Variation,',   'Eq of Time {minutes}, Solar Declination Angle {deg}, Solar Model')");
-        static gio::Fmt DDayMiscFormat("('Environment:Design Day Misc,',I3,',')");
-        static gio::Fmt MnDyFmt("(I2.2,'/',I2.2)");
+        static thread_local gio::Fmt DDayMiscFormat("('Environment:Design Day Misc,',I3,',')");
+        static thread_local gio::Fmt MnDyFmt("(I2.2,'/',I2.2)");
         Real64 const ZhangHuangModCoeff_C0(0.5598);   // 37.6865d0
         Real64 const ZhangHuangModCoeff_C1(0.4982);   // 13.9263d0
         Real64 const ZhangHuangModCoeff_C2(-0.6762);  // -20.2354d0
@@ -4135,11 +4135,11 @@ namespace WeatherManager {
         Real64 const ZhangHuangModCoeff_C5(0.014);    // -0.0980d0
         Real64 const ZhangHuangModCoeff_D(-17.853);   // -10.8568d0
         Real64 const ZhangHuangModCoeff_K(0.843);     // 49.3112d0
-        static std::string const RoutineNamePsyWFnTdbTwbPb("SetUpDesignDay:PsyWFnTdbTwbPb");
-        static std::string const RoutineNamePsyWFnTdpPb("SetUpDesignDay:PsyWFnTdpPb");
-        static std::string const RoutineNamePsyWFnTdbH("SetUpDesignDay:PsyWFnTdbH");
-        static std::string const WeatherManager("WeatherManager");
-        static std::string const RoutineNameLong("WeatherManager.cc subroutine SetUpDesignDay");
+        static thread_local std::string const RoutineNamePsyWFnTdbTwbPb("SetUpDesignDay:PsyWFnTdbTwbPb");
+        static thread_local std::string const RoutineNamePsyWFnTdpPb("SetUpDesignDay:PsyWFnTdpPb");
+        static thread_local std::string const RoutineNamePsyWFnTdbH("SetUpDesignDay:PsyWFnTdbH");
+        static thread_local std::string const WeatherManager("WeatherManager");
+        static thread_local std::string const RoutineNameLong("WeatherManager.cc subroutine SetUpDesignDay");
 
         // SUBROUTINE LOCAL VARIABLE DECLARATIONS:
         int Hour;
@@ -4166,7 +4166,7 @@ namespace WeatherManager {
         Real64 WBRange;       // working copy of wet-bulb daily range. C (or 1 if input is difference)
 
         Array1D_int Date0(8);
-        static bool PrintDDHeader;
+        static thread_local bool PrintDDHeader;
         std::string AlpUseRain;
         std::string AlpUseSnow;
         bool ConstantHumidityRatio;
@@ -4964,29 +4964,29 @@ namespace WeatherManager {
         // SUBROUTINE PARAMETER DEFINITIONS:
         Real64 const DayCorrection(Pi * 2.0 / 366.0);
 
-        static Array1D<Real64> const SineSolDeclCoef(
+        static thread_local Array1D<Real64> const SineSolDeclCoef(
             9, {0.00561800, 0.0657911, -0.392779, 0.00064440, -0.00618495, -0.00010101, -0.00007951, -0.00011691, 0.00002096}); // Fitted coefficients
                                                                                                                                 // of Fourier series |
                                                                                                                                 // Sine of declination
                                                                                                                                 // coefficients
-        static Array1D<Real64> const EqOfTimeCoef(
+        static thread_local Array1D<Real64> const EqOfTimeCoef(
             9, {0.00021971, -0.122649, 0.00762856, -0.156308, -0.0530028, -0.00388702, -0.00123978, -0.00270502, -0.00167992}); // Fitted coefficients
                                                                                                                                 // of Fourier Series |
                                                                                                                                 // Equation of Time
                                                                                                                                 // coefficients
-        static Array1D<Real64> const ASHRAE_A_Coef(
+        static thread_local Array1D<Real64> const ASHRAE_A_Coef(
             9, {1161.6685, 1.1554, 77.3575, -0.5359, -3.7622, 0.9875, -3.3924, -1.7445, 1.1198}); // Fitted coefficients of Fourier Series | ASHRAE A
                                                                                                   // Factor coefficients
         // English (original) units:
         //              368.49341,.366502,24.538624,-.169983,-1.193417,            &
         //              .313261,-1.076093,-.543376,.355197 ,                       &
 
-        static Array1D<Real64> const ASHRAE_B_Coef(
+        static thread_local Array1D<Real64> const ASHRAE_B_Coef(
             9, {0.171631, -0.00400448, -0.0344923, 0.00000209, 0.00325428, -0.00085429, 0.00229562, 0.0009034, -0.0011867}); // Fitted coefficients of
                                                                                                                              // Fourier Series |
                                                                                                                              // ASHRAE B Factor
                                                                                                                              // coefficients
-        static Array1D<Real64> const ASHRAE_C_Coef(
+        static thread_local Array1D<Real64> const ASHRAE_C_Coef(
             9, {0.0905151, -0.00322522, -0.0407966, 0.000104164, 0.00745899, -0.00086461, 0.0013111, 0.000808275, -0.00170515}); // Fitted
                                                                                                                                  // coefficients of
                                                                                                                                  // Fourier Series |
@@ -5274,7 +5274,7 @@ namespace WeatherManager {
         // List directed reads, as possible.
 
         // SUBROUTINE PARAMETER DEFINITIONS:
-        static Array1D_string const Header(8,
+        static thread_local Array1D_string const Header(8,
                                            {"LOCATION",
                                             "DESIGN CONDITIONS",
                                             "TYPICAL/EXTREME PERIODS",
@@ -5431,9 +5431,9 @@ namespace WeatherManager {
         // SUBROUTINE ARGUMENT DEFINITIONS:
 
         // SUBROUTINE PARAMETER DEFINITIONS:
-        static gio::Fmt LocHdFormat("('! <Site:Location>, Location Name, Latitude {N+/S- Deg}, Longitude {E+/W- Deg}, ',   ' Time Zone Number "
+        static thread_local gio::Fmt LocHdFormat("('! <Site:Location>, Location Name, Latitude {N+/S- Deg}, Longitude {E+/W- Deg}, ',   ' Time Zone Number "
                                     "{GMT+/-}, Elevation {m}, ',   ' Standard Pressure at Elevation {Pa}, Standard RhoAir at Elevation')");
-        static gio::Fmt LocFormat("('Site:Location',7(',',A))");
+        static thread_local gio::Fmt LocFormat("('Site:Location',7(',',A))");
 
         // INTERFACE BLOCK SPECIFICATIONS:
         // na
@@ -5704,14 +5704,14 @@ namespace WeatherManager {
         // SUBROUTINE LOCAL VARIABLE DECLARATIONS:
 
         // Format descriptor for the environment title
-        static gio::Fmt A("(a)");
-        static std::string EnvironmentString(",5,Environment Title[],Latitude[deg],Longitude[deg],Time Zone[],Elevation[m]");
-        static std::string TimeStepString(
+        static thread_local gio::Fmt A("(a)");
+        static thread_local std::string EnvironmentString(",5,Environment Title[],Latitude[deg],Longitude[deg],Time Zone[],Elevation[m]");
+        static thread_local std::string TimeStepString(
             ",8,Day of Simulation[],Month[],Day of Month[],DST Indicator[1=yes 0=no],Hour[],StartMinute[],EndMinute[],DayType");
-        static std::string DailyString(",5,Cumulative Day of Simulation[],Month[],Day of Month[],DST Indicator[1=yes 0=no],DayType  ! When Daily ");
-        static std::string MonthlyString(",2,Cumulative Days of Simulation[],Month[]  ! When Monthly ");
-        static std::string RunPeriodString(",1,Cumulative Days of Simulation[] ! When Run Period ");
-        static std::string YearlyString(",1,Calendar Year of Simulation[] ! When Annual ");
+        static thread_local std::string DailyString(",5,Cumulative Day of Simulation[],Month[],Day of Month[],DST Indicator[1=yes 0=no],DayType  ! When Daily ");
+        static thread_local std::string MonthlyString(",2,Cumulative Days of Simulation[],Month[]  ! When Monthly ");
+        static thread_local std::string RunPeriodString(",1,Cumulative Days of Simulation[] ! When Run Period ");
+        static thread_local std::string YearlyString(",1,Calendar Year of Simulation[] ! When Annual ");
 
         AssignReportNumber(EnvironmentReportNbr);
         if (EnvironmentReportNbr != 1) { //  problem
@@ -5784,8 +5784,8 @@ namespace WeatherManager {
         // SUBROUTINE ARGUMENT DEFINITIONS:
 
         // SUBROUTINE PARAMETER DEFINITIONS:
-        static gio::Fmt EndOfHeaderFormat("('End of Data Dictionary')");          // End of data dictionary marker
-        static gio::Fmt EnvironmentStampFormat("(a,',',a,3(',',f7.2),',',f7.2)"); // Format descriptor for environ stamp
+        static thread_local gio::Fmt EndOfHeaderFormat("('End of Data Dictionary')");          // End of data dictionary marker
+        static thread_local gio::Fmt EnvironmentStampFormat("(a,',',a,3(',',f7.2),',',f7.2)"); // Format descriptor for environ stamp
         //  CHARACTER(len=*), PARAMETER :: TimeStampFormat = "(i3,',',i4,',',i2,',',i2,',',i2)" ! Format descriptor for the date/time stamp
 
         // INTERFACE BLOCK SPECIFICATIONS:
@@ -5850,7 +5850,7 @@ namespace WeatherManager {
 
         // SUBROUTINE LOCAL VARIABLE DECLARATIONS:
         int Env; // Environment Loop Counter
-        static bool ErrorsFound(false);
+        static thread_local bool ErrorsFound(false);
         int RPD1;
         int RPD2;
         int RP;   // number of run periods
@@ -6429,7 +6429,7 @@ namespace WeatherManager {
         using namespace DataIPShortCuts;
 
         // SUBROUTINE PARAMETER DEFINITIONS:
-        static Array1D_string const ValidNames(12,
+        static thread_local Array1D_string const ValidNames(12,
                                                {"SUNDAY",
                                                 "MONDAY",
                                                 "TUESDAY",
@@ -6724,7 +6724,7 @@ namespace WeatherManager {
         using General::TrimSigDigits;
 
         // SUBROUTINE PARAMETER DEFINITIONS:
-        static Array1D_string const ValidDayTypes(5, {"HOLIDAY", "SUMMERDESIGNDAY", "WINTERDESIGNDAY", "CUSTOMDAY1", "CUSTOMDAY2"});
+        static thread_local Array1D_string const ValidDayTypes(5, {"HOLIDAY", "SUMMERDESIGNDAY", "WINTERDESIGNDAY", "CUSTOMDAY1", "CUSTOMDAY2"});
 
         // SUBROUTINE LOCAL VARIABLE DECLARATIONS:
         Array1D_string AlphArray(3);
@@ -7001,7 +7001,7 @@ namespace WeatherManager {
         using namespace OutputReportPredefined;
 
         // SUBROUTINE PARAMETER DEFINITIONS:
-        static Array1D_string const ValidNames(12,
+        static thread_local Array1D_string const ValidNames(12,
                                                {"SUNDAY",
                                                 "MONDAY",
                                                 "TUESDAY",
@@ -7014,7 +7014,7 @@ namespace WeatherManager {
                                                 "WINTERDESIGNDAY",
                                                 "CUSTOMDAY1",
                                                 "CUSTOMDAY2"});
-        static Array1D_string const HumidityIndicatingType({0, DDHumIndType_Count - 1},
+        static thread_local Array1D_string const HumidityIndicatingType({0, DDHumIndType_Count - 1},
                                                            {"Wetbulb [C]",
                                                             "Dewpoint [C]",
                                                             "Enthalpy [J/kg]",
@@ -7027,7 +7027,7 @@ namespace WeatherManager {
         //  REAL(r64), PARAMETER, DIMENSION(24) :: DefaultTempRangeMult=(/ .87d0,.92d0,.96d0,.99d0,1.0d0,.98d0,.93d0,  &
         //                   .84d0,.71d0,.56d0,.39d0,.23d0, .11d0,.03d0,.00d0,.03d0,.10d0,.21d0,.34d0,.47d0,.58d0,.68d0,.76d0,.82d0 /)
         // Below are the 2009 fractions, HOF, Chap 14, Table 6
-        static Array1D<Real64> const DefaultTempRangeMult(24, {0.88, 0.92, 0.95, 0.98, 1.0,  0.98, 0.91, 0.74, 0.55, 0.38, 0.23, 0.13,
+        static thread_local Array1D<Real64> const DefaultTempRangeMult(24, {0.88, 0.92, 0.95, 0.98, 1.0,  0.98, 0.91, 0.74, 0.55, 0.38, 0.23, 0.13,
                                                                0.05, 0.00, 0.00, 0.06, 0.14, 0.24, 0.39, 0.50, 0.59, 0.68, 0.75, 0.82});
 
         // SUBROUTINE LOCAL VARIABLE DECLARATIONS:
@@ -7874,7 +7874,7 @@ namespace WeatherManager {
         using General::FindNumberInList;
 
         // SUBROUTINE PARAMETER DEFINITIONS:
-        static std::string const RoutineName("GetWeatherProperties:");
+        static thread_local std::string const RoutineName("GetWeatherProperties:");
 
         // SUBROUTINE LOCAL VARIABLE DECLARATIONS:
         int Item;
@@ -8060,7 +8060,7 @@ namespace WeatherManager {
         using namespace GroundTemperatureManager;
 
         // Formats
-        static gio::Fmt Format_720("(' ',A,12(', ',F6.2))");
+        static thread_local gio::Fmt Format_720("(' ',A,12(', ',F6.2))");
 
         // FLOW:
         // Initialize Site:GroundTemperature:BuildingSurface object
@@ -8114,7 +8114,7 @@ namespace WeatherManager {
         Array1D<Real64> GndProps; // Temporary array to transfer ground reflectances
 
         // Formats
-        static gio::Fmt Format_720("(' Site:GroundReflectance',12(', ',F5.2))");
+        static thread_local gio::Fmt Format_720("(' Site:GroundReflectance',12(', ',F5.2))");
 
         // FLOW:
         cCurrentModuleObject = "Site:GroundReflectance";
@@ -8180,8 +8180,8 @@ namespace WeatherManager {
         Array1D<Real64> GndProps; // Temporary array to transfer ground reflectances
 
         // Formats
-        static gio::Fmt Format_720("(' Site:GroundReflectance:SnowModifier',2(', ',F7.3))");
-        static gio::Fmt Format_721("(A,12(', ',F5.2))");
+        static thread_local gio::Fmt Format_720("(' Site:GroundReflectance:SnowModifier',2(', ',F7.3))");
+        static thread_local gio::Fmt Format_721("(A,12(', ',F5.2))");
 
         // FLOW:
         cCurrentModuleObject = "Site:GroundReflectance:SnowModifier";
@@ -8436,7 +8436,7 @@ namespace WeatherManager {
         Real64 WeatherFileTempSensorHeight; // Height of the air temperature sensor at the weather station (m)
 
         // Formats
-        static gio::Fmt Format_720("('Environment:Weather Station',6(',',A))");
+        static thread_local gio::Fmt Format_720("('Environment:Weather Station',6(',',A))");
 
         // SUBROUTINE PARAMETER DEFINITIONS:
         // na
@@ -8581,17 +8581,17 @@ namespace WeatherManager {
         // na
 
         // SUBROUTINE PARAMETER DEFINITIONS:
-        static Array1D<Real64> const ADiffLumEff(
+        static thread_local Array1D<Real64> const ADiffLumEff(
             8, {97.24, 107.22, 104.97, 102.39, 100.71, 106.42, 141.88, 152.23}); // Diffuse luminous efficacy coefficients
-        static Array1D<Real64> const BDiffLumEff(8, {-0.46, 1.15, 2.96, 5.59, 5.94, 3.83, 1.90, 0.35});
-        static Array1D<Real64> const CDiffLumEff(8, {12.00, 0.59, -5.53, -13.95, -22.75, -36.15, -53.24, -45.27});
-        static Array1D<Real64> const DDiffLumEff(8, {-8.91, -3.95, -8.77, -13.90, -23.74, -28.83, -14.03, -7.98});
-        static Array1D<Real64> const ADirLumEff(
+        static thread_local Array1D<Real64> const BDiffLumEff(8, {-0.46, 1.15, 2.96, 5.59, 5.94, 3.83, 1.90, 0.35});
+        static thread_local Array1D<Real64> const CDiffLumEff(8, {12.00, 0.59, -5.53, -13.95, -22.75, -36.15, -53.24, -45.27});
+        static thread_local Array1D<Real64> const DDiffLumEff(8, {-8.91, -3.95, -8.77, -13.90, -23.74, -28.83, -14.03, -7.98});
+        static thread_local Array1D<Real64> const ADirLumEff(
             8, {57.20, 98.99, 109.83, 110.34, 106.36, 107.19, 105.75, 101.18}); // Direct luminous efficacy coefficients
-        static Array1D<Real64> const BDirLumEff(8, {-4.55, -3.46, -4.90, -5.84, -3.97, -1.25, 0.77, 1.58});
-        static Array1D<Real64> const CDirLumEff(8, {-2.98, -1.21, -1.71, -1.99, -1.75, -1.51, -1.26, -1.10});
-        static Array1D<Real64> const DDirLumEff(8, {117.12, 12.38, -8.81, -4.56, -6.16, -26.73, -34.44, -8.29});
-        static Array1D<Real64> const ExtraDirNormIll(12,
+        static thread_local Array1D<Real64> const BDirLumEff(8, {-4.55, -3.46, -4.90, -5.84, -3.97, -1.25, 0.77, 1.58});
+        static thread_local Array1D<Real64> const CDirLumEff(8, {-2.98, -1.21, -1.71, -1.99, -1.75, -1.51, -1.26, -1.10});
+        static thread_local Array1D<Real64> const DDirLumEff(8, {117.12, 12.38, -8.81, -4.56, -6.16, -26.73, -34.44, -8.29});
+        static thread_local Array1D<Real64> const ExtraDirNormIll(12,
                                                      {131153.0,
                                                       130613.0,
                                                       128992.0,
@@ -8762,10 +8762,10 @@ namespace WeatherManager {
         using General::JulianDay;
 
         // SUBROUTINE PARAMETER DEFINITIONS:
-        static gio::Fmt fmtLD("*");
+        static thread_local gio::Fmt fmtLD("*");
 
         // SUBROUTINE LOCAL VARIABLE DECLARATIONS:
-        static std::string Title;
+        static thread_local std::string Title;
         int Count;
         std::string WMO;
         std::string::size_type Pos;
@@ -9467,7 +9467,7 @@ namespace WeatherManager {
         // List directed reads, as possible.
 
         // SUBROUTINE PARAMETER DEFINITIONS:
-        static std::string const Header("DATA PERIODS");
+        static thread_local std::string const Header("DATA PERIODS");
 
         // SUBROUTINE LOCAL VARIABLE DECLARATIONS:
         std::string::size_type Pos;
@@ -9591,12 +9591,12 @@ namespace WeatherManager {
         // na
 
         // SUBROUTINE PARAMETER DEFINITIONS:
-        static std::string const MissString("Missing Data Found on Weather Data File");
-        static gio::Fmt msFmt("('Missing ',A,', Number of items=',I5)");
-        static std::string const InvString("Invalid Data Found on Weather Data File");
-        static gio::Fmt ivFmt("('Invalid ',A,', Number of items=',I5)");
-        static std::string const RangeString("Out of Range Data Found on Weather Data File");
-        static gio::Fmt rgFmt("('Out of Range ',A,' [',A,',',A,'], Number of items=',I5)");
+        static thread_local std::string const MissString("Missing Data Found on Weather Data File");
+        static thread_local gio::Fmt msFmt("('Missing ',A,', Number of items=',I5)");
+        static thread_local std::string const InvString("Invalid Data Found on Weather Data File");
+        static thread_local gio::Fmt ivFmt("('Invalid ',A,', Number of items=',I5)");
+        static thread_local std::string const RangeString("Out of Range Data Found on Weather Data File");
+        static thread_local gio::Fmt rgFmt("('Out of Range ',A,' [',A,',',A,'], Number of items=',I5)");
 
         // INTERFACE BLOCK SPECIFICATIONS:
         // na
@@ -10337,7 +10337,7 @@ namespace WeatherManager {
         // SUBROUTINE ARGUMENT DEFINITIONS:
 
         // SUBROUTINE PARAMETER DEFINITIONS:
-        static gio::Fmt fmtA("(A)");
+        static thread_local gio::Fmt fmtA("(A)");
 
         // INTERFACE BLOCK SPECIFICATIONS:
         // na
@@ -10352,9 +10352,9 @@ namespace WeatherManager {
         Real64 MonthlyDailyDryBulbMax(-200.0);                     // monthly-daily maximum outside air dry-bulb temperature
         Real64 MonthlyDailyDryBulbAvg(0.0);                        // monthly-daily average outside air dry-bulb temperature
         Real64 AnnualDailyAverageDryBulbTempSum(0.0);              // annual sum of daily average outside air dry-bulb temperature
-        static Real64 DailyAverageDryBulbTemp(0.0);                // daily average outside air dry-bulb temperature
-        static Array1D<Real64> MonthlyAverageDryBulbTemp(12, 0.0); // monthly-daily average outside air temperature
-        static Array1D<int> EndDayOfMonthLocal(12, 0);             // number of days in each month
+        static thread_local Real64 DailyAverageDryBulbTemp(0.0);                // daily average outside air dry-bulb temperature
+        static thread_local Array1D<Real64> MonthlyAverageDryBulbTemp(12, 0.0); // monthly-daily average outside air temperature
+        static thread_local Array1D<int> EndDayOfMonthLocal(12, 0);             // number of days in each month
         std::string lineIn;
         std::string lineAvg;
         std::string epwLine;

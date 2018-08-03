@@ -138,7 +138,7 @@ namespace HeatingCoils {
     Real64 const MinAirMassFlow(0.001);
     int NumDesuperheaterCoil; // Total number of desuperheater heating coil objects in input
 
-    static std::string const BlankString;
+    static thread_local std::string const BlankString;
 
     // reclaim heat object types
     int const COMPRESSORRACK_REFRIGERATEDCASE(1);
@@ -342,7 +342,7 @@ namespace HeatingCoils {
         using GlobalNames::VerifyUniqueCoilName;
 
         // SUBROUTINE PARAMETER DEFINITIONS:
-        static std::string const RoutineName("GetHeatingCoilInput: "); // include trailing blank space
+        static thread_local std::string const RoutineName("GetHeatingCoilInput: "); // include trailing blank space
 
         // SUBROUTINE LOCAL VARIABLE DECLARATIONS:
         int CoilNum; // The HeatingCoil that you are currently loading input into
@@ -354,7 +354,7 @@ namespace HeatingCoils {
         int FuelCoilNum;
         int DesuperheaterCoilNum;        // Index to desuperheater heating coil
         int RemainingCoils;              // Index for error checking DO loop for desuperheater coils on remaining heating coil
-        static int SourceIndexNum(0);    // Index to reclaim heating source (condenser) of a specific type
+        static thread_local int SourceIndexNum(0);    // Index to reclaim heating source (condenser) of a specific type
         std::string SourceTypeString;    // character string used in error message for desuperheating coil
         std::string SourceNameString;    // character string used in error message for desuperheating coil
         std::string CurrentModuleObject; // for ease in getting objects
@@ -364,9 +364,9 @@ namespace HeatingCoils {
         Array1D<Real64> Numbers;         // Numeric input items for object
         Array1D_bool lAlphaBlanks;       // Logical array, alpha field input BLANK = .TRUE.
         Array1D_bool lNumericBlanks;     // Logical array, numeric field input BLANK = .TRUE.
-        static int MaxNums(0);           // Maximum number of numeric input fields
-        static int MaxAlphas(0);         // Maximum number of alpha input fields
-        static int TotalArgs(0);         // Total number of alpha and numeric arguments (max) for a
+        static thread_local int MaxNums(0);           // Maximum number of numeric input fields
+        static thread_local int MaxAlphas(0);         // Maximum number of alpha input fields
+        static thread_local int TotalArgs(0);         // Total number of alpha and numeric arguments (max) for a
         //  certain object in the input file
         int NumAlphas;
         int NumNums;
@@ -1203,11 +1203,11 @@ namespace HeatingCoils {
         int RackNum;                              // Index to refrigerated case compressor rack
         int CondNum;                              // Index to refrigeration condenser
         int DXCoilNum;                            // Index to DX cooling coil
-        static int ValidSourceTypeCounter(0);     // Counter used to determine if desuperheater source name is valid
-        static bool HeatingCoilFatalError(false); // used for error checking
-        static Array1D_bool MySPTestFlag;         // used for error checking
-        static Array1D_bool ShowSingleWarning;    // Used for single warning message for desuperheater coil
-        static Array1D_bool MyEnvrnFlag;          // one time environment flag
+        static thread_local int ValidSourceTypeCounter(0);     // Counter used to determine if desuperheater source name is valid
+        static thread_local bool HeatingCoilFatalError(false); // used for error checking
+        static thread_local Array1D_bool MySPTestFlag;         // used for error checking
+        static thread_local Array1D_bool ShowSingleWarning;    // Used for single warning message for desuperheater coil
+        static thread_local Array1D_bool MyEnvrnFlag;          // one time environment flag
 
         if (MyOneTimeFlag) {
             // initialize the environment and sizing flags
@@ -1401,7 +1401,7 @@ namespace HeatingCoils {
         // SUBROUTINE ARGUMENT DEFINITIONS:
 
         // SUBROUTINE PARAMETER DEFINITIONS:
-        static std::string const RoutineName("SizeHeatingCoil: "); // include trailing blank space
+        static thread_local std::string const RoutineName("SizeHeatingCoil: "); // include trailing blank space
 
         // INTERFACE BLOCK SPECIFICATIONS
         // na
@@ -1776,9 +1776,9 @@ namespace HeatingCoils {
         // SUBROUTINE ARGUMENT DEFINITIONS:
 
         // SUBROUTINE PARAMETER DEFINITIONS:
-        static std::string const RoutineName("CalcMultiStageElectricHeatingCoil");
-        static std::string const RoutineNameAverageLoad("CalcMultiStageElectricHeatingCoil:Averageload");
-        static std::string const RoutineNameFullLoad("CalcMultiStageElectricHeatingCoil:fullload");
+        static thread_local std::string const RoutineName("CalcMultiStageElectricHeatingCoil");
+        static thread_local std::string const RoutineNameAverageLoad("CalcMultiStageElectricHeatingCoil:Averageload");
+        static thread_local std::string const RoutineNameFullLoad("CalcMultiStageElectricHeatingCoil:fullload");
 
         // INTERFACE BLOCK SPECIFICATIONS
         // na
@@ -2205,9 +2205,9 @@ namespace HeatingCoils {
         // SUBROUTINE ARGUMENT DEFINITIONS:
 
         // SUBROUTINE PARAMETER DEFINITIONS:
-        static std::string const RoutineName("CalcMultiStageGasHeatingCoil");
-        static std::string const RoutineNameAverageLoad("CalcMultiStageGasHeatingCoil:Averageload");
-        static std::string const RoutineNameFullLoad("CalcMultiStageGasHeatingCoil:fullload");
+        static thread_local std::string const RoutineName("CalcMultiStageGasHeatingCoil");
+        static thread_local std::string const RoutineNameAverageLoad("CalcMultiStageGasHeatingCoil:Averageload");
+        static thread_local std::string const RoutineNameFullLoad("CalcMultiStageGasHeatingCoil:fullload");
 
         // INTERFACE BLOCK SPECIFICATIONS
         // na

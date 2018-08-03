@@ -131,7 +131,7 @@ namespace CurveManager {
 
     // Data
     // MODULE PARAMETER DEFINITIONS
-    static std::string const BlankString;
+    static thread_local std::string const BlankString;
 
     // Curve Type parameters, these can differ from object types (e.g. a CurveType_TableOneIV can be linear, quadratic, etc)
     int const Linear(1);
@@ -348,7 +348,7 @@ namespace CurveManager {
         // na
 
         // FUNCTION LOCAL VARIABLE DECLARATIONS:
-        static bool MyBeginTimeStepFlag;
+        static thread_local bool MyBeginTimeStepFlag;
 
         // need to be careful on where and how resetting curve outputs to some "iactive value" is done
         // EMS can intercept curves and modify output
@@ -466,13 +466,13 @@ namespace CurveManager {
         int NumNumbers;                  // Number of Numbers for each GetObjectItem call
         int IOStatus;                    // Used in GetObjectItem
         std::string CurrentModuleObject; // for ease in renaming.
-        static int MaxTableNums(0);      // Maximum number of numeric input fields in Tables
-        static int MaxTableData(0);      // Maximum number of numeric input field pairs in Tables
-        static int TotalArgs(0);         // Total number of alpha and numeric arguments (max) for a
+        static thread_local int MaxTableNums(0);      // Maximum number of numeric input fields in Tables
+        static thread_local int MaxTableData(0);      // Maximum number of numeric input field pairs in Tables
+        static thread_local int TotalArgs(0);         // Total number of alpha and numeric arguments (max) for a
         //   certain object in the input file
-        static int TableNum(0);        // Index to TableData structure
-        static int TableDataIndex(0);  // Loop counter for table data
-        static int NumTableEntries(0); // Number of data pairs in table data
+        static thread_local int TableNum(0);        // Index to TableData structure
+        static thread_local int TableDataIndex(0);  // Loop counter for table data
+        static thread_local int NumTableEntries(0); // Number of data pairs in table data
         int NumXVar;
         int NumX2Var;
         Array1D<Real64> XVar;
@@ -3459,8 +3459,8 @@ namespace CurveManager {
 
         // Locals
         // SUBROUTINE PARAMETER DEFINITIONS:
-        static gio::Fmt fmtA("(A)");
-        static gio::Fmt fmtLD("*");
+        static thread_local gio::Fmt fmtA("(A)");
+        static thread_local gio::Fmt fmtLD("*");
 
         // INTERFACE BLOCK SPECIFICATIONS
         // na
@@ -3491,7 +3491,7 @@ namespace CurveManager {
         int TotalDataSets;
         int NumbersOffset;
         int BaseOffset;
-        static bool WriteHeaderOnce(true); // eio header file write flag
+        static thread_local bool WriteHeaderOnce(true); // eio header file write flag
         std::string CharTableData;         // used to echo each line of table data read in to eio file
         bool EchoTableDataToEio;           // logical set equal to global and used to report to eio file
         bool FileExists;
@@ -3499,12 +3499,12 @@ namespace CurveManager {
         non_adv.na_on(); // For non-advancing list-directed output
 
         // Formats
-        static gio::Fmt Format_140("('! Reading external file tabular data for ',A,' \"',A,'\"')");
-        static gio::Fmt Format_150("('! Reading tabular data for ',A,' \"',A,'\"')");
-        static gio::Fmt Format_110("('! <READING LOOKUP TABLE DATA>')");
-        static gio::Fmt Format_130("('READING LOOKUP TABLE DATA')");
-        static gio::Fmt Format_131("('END READING LOOKUP TABLE DATA')");
-        static gio::Fmt Format_160("(1X,10(I2,:,2X))");
+        static thread_local gio::Fmt Format_140("('! Reading external file tabular data for ',A,' \"',A,'\"')");
+        static thread_local gio::Fmt Format_150("('! Reading tabular data for ',A,' \"',A,'\"')");
+        static thread_local gio::Fmt Format_110("('! <READING LOOKUP TABLE DATA>')");
+        static thread_local gio::Fmt Format_130("('READING LOOKUP TABLE DATA')");
+        static thread_local gio::Fmt Format_131("('END READING LOOKUP TABLE DATA')");
+        static thread_local gio::Fmt Format_160("(1X,10(I2,:,2X))");
 
         // Autodesk:Uninit Initialize variables used uninitialized
         TotalDataSets = 0; // Autodesk:Uninit Force default initialization
@@ -4643,7 +4643,7 @@ namespace CurveManager {
 
         // FUNCTION LOCAL VARIABLE DECLARATIONS:
 
-        static Real64 const sqrt_2_inv(1.0 / std::sqrt(2.0));
+        static thread_local Real64 const sqrt_2_inv(1.0 / std::sqrt(2.0));
 
         Real64 CoeffZ1;         // cpw22Aug2010 Coefficient Z1 in exponential skew normal curve
         Real64 CoeffZ2;         // cpw22Aug2010 Coefficient Z2 in exponential skew normal curve
@@ -5424,35 +5424,35 @@ namespace CurveManager {
         Array1D<Real64> Results; // performance curve coefficients
         Array2D<Real64> A;       // linear algebra matrix
         std::string StrCurve;    // string representation of curve type
-        static bool WriteHeaderOnce(true);
+        static thread_local bool WriteHeaderOnce(true);
         bool EchoTableDataToEio; // logical set equal to global and used to report to eio file
 
         // Formats
-        static gio::Fmt Format_110("('! <CREATING NEW CURVE OBJECT>')");
-        static gio::Fmt Format_130("('CREATING NEW CURVE OBJECT')");
-        static gio::Fmt Format_140("('! Input as ',A,' \"',A,'\"')");
-        static gio::Fmt Format_150("('! RSquared       = ',A)");
-        static gio::Fmt Format_160("('! Standard Error = ',A)");
-        static gio::Fmt Format_170("('! Sample Size    = ',A)");
-        static gio::Fmt Format_180("('Curve:',A,',')");
-        static gio::Fmt Format_190("('FromTable_',A,',  !- Name')");
-        static gio::Fmt Format_200("('  ',A,',  !- Coefficient1 Constant')");
-        static gio::Fmt Format_210("('  ',A,',  !- Coefficient2 x')");
-        static gio::Fmt Format_300("('  ',A,',  !- Minimum Value of x')");
-        static gio::Fmt Format_310("('  ',A,',  !- Maximum Value of x')");
-        static gio::Fmt Format_340("('  ',A,',  !- Minimum Curve Output')");
-        static gio::Fmt Format_350("('  ',A,';  !- Maximum Curve Output')");
-        static gio::Fmt Format_360("('END CREATING NEW CURVE OBJECT')");
-        static gio::Fmt Format_220("('  ',A,',  !- Coefficient3 x**2')");
-        static gio::Fmt Format_230("('  ',A,',  !- !- Coefficient4 x**3')");
-        static gio::Fmt Format_240("('  ',A,',  !- Coefficient4 y')");
-        static gio::Fmt Format_250("('  ',A,',  !- !- Coefficient5 x**4')");
-        static gio::Fmt Format_260("('  ',A,',  !- Coefficient5 y**2')");
-        static gio::Fmt Format_270("('  ',A,',  !- Coefficient5 xy')");
-        static gio::Fmt Format_280("('  ',A,',  !- Coefficient6 x*y')");
-        static gio::Fmt Format_290("('  ',A,',  !- Coefficient6 x**2y')");
-        static gio::Fmt Format_320("('  ',A,',  !- Minimum Value of y')");
-        static gio::Fmt Format_330("('  ',A,',  !- Maximum Value of y')");
+        static thread_local gio::Fmt Format_110("('! <CREATING NEW CURVE OBJECT>')");
+        static thread_local gio::Fmt Format_130("('CREATING NEW CURVE OBJECT')");
+        static thread_local gio::Fmt Format_140("('! Input as ',A,' \"',A,'\"')");
+        static thread_local gio::Fmt Format_150("('! RSquared       = ',A)");
+        static thread_local gio::Fmt Format_160("('! Standard Error = ',A)");
+        static thread_local gio::Fmt Format_170("('! Sample Size    = ',A)");
+        static thread_local gio::Fmt Format_180("('Curve:',A,',')");
+        static thread_local gio::Fmt Format_190("('FromTable_',A,',  !- Name')");
+        static thread_local gio::Fmt Format_200("('  ',A,',  !- Coefficient1 Constant')");
+        static thread_local gio::Fmt Format_210("('  ',A,',  !- Coefficient2 x')");
+        static thread_local gio::Fmt Format_300("('  ',A,',  !- Minimum Value of x')");
+        static thread_local gio::Fmt Format_310("('  ',A,',  !- Maximum Value of x')");
+        static thread_local gio::Fmt Format_340("('  ',A,',  !- Minimum Curve Output')");
+        static thread_local gio::Fmt Format_350("('  ',A,';  !- Maximum Curve Output')");
+        static thread_local gio::Fmt Format_360("('END CREATING NEW CURVE OBJECT')");
+        static thread_local gio::Fmt Format_220("('  ',A,',  !- Coefficient3 x**2')");
+        static thread_local gio::Fmt Format_230("('  ',A,',  !- !- Coefficient4 x**3')");
+        static thread_local gio::Fmt Format_240("('  ',A,',  !- Coefficient4 y')");
+        static thread_local gio::Fmt Format_250("('  ',A,',  !- !- Coefficient5 x**4')");
+        static thread_local gio::Fmt Format_260("('  ',A,',  !- Coefficient5 y**2')");
+        static thread_local gio::Fmt Format_270("('  ',A,',  !- Coefficient5 xy')");
+        static thread_local gio::Fmt Format_280("('  ',A,',  !- Coefficient6 x*y')");
+        static thread_local gio::Fmt Format_290("('  ',A,',  !- Coefficient6 x**2y')");
+        static thread_local gio::Fmt Format_320("('  ',A,',  !- Minimum Value of y')");
+        static thread_local gio::Fmt Format_330("('  ',A,',  !- Maximum Value of y')");
 
         EchoTableDataToEio = DisplayAdvancedReportVariables;
 
@@ -6427,7 +6427,7 @@ namespace CurveManager {
         using namespace DataIPShortCuts;
 
         // SUBROUTINE PARAMETER DEFINITIONS:
-        static std::string const CurveObjectName("Curve:Functional:PressureDrop");
+        static thread_local std::string const CurveObjectName("Curve:Functional:PressureDrop");
 
         // SUBROUTINE LOCAL VARIABLE DECLARATIONS:
         int NumPressure;
@@ -6436,7 +6436,7 @@ namespace CurveManager {
         int NumAlphas;                // Number of Alphas for each GetObjectItem call
         int NumNumbers;               // Number of Numbers for each GetObjectItem call
         int IOStatus;                 // Used in GetObjectItem
-        static bool ErrsFound(false); // Set to true if errors in input, fatal at end of routine
+        static thread_local bool ErrsFound(false); // Set to true if errors in input, fatal at end of routine
         int CurveNum;
 
         NumPressure = inputProcessor->getNumObjectsFound(CurveObjectName);
@@ -6708,7 +6708,7 @@ namespace CurveManager {
         Real64 Term3;
         std::string RR;
         std::string Re;
-        static bool FrictionFactorErrorHasOccurred(false);
+        static thread_local bool FrictionFactorErrorHasOccurred(false);
 
         // Check for no flow before calculating values
         if (ReynoldsNumber == 0.0) {

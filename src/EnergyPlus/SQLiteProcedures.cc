@@ -67,19 +67,19 @@
 
 namespace EnergyPlus {
 
-const int SQLite::LocalReportEach = -1;    // Write out each time UpdatedataandLocalReport is called
-const int SQLite::LocalReportTimeStep = 0; // Write out at 'EndTimeStepFlag'
-const int SQLite::LocalReportHourly = 1;   // Write out at 'EndHourFlag'
-const int SQLite::LocalReportDaily = 2;    // Write out at 'EndDayFlag'
-const int SQLite::LocalReportMonthly = 3;  // Write out at end of month (must be determined)
-const int SQLite::LocalReportSim = 4;      // Write out once per environment 'EndEnvrnFlag'
-const int SQLite::LocalReportYearly = 5;   // Write out once per year
-const int SQLite::ReportNameId = 1;
-const int SQLite::ReportForStringId = 2;
-const int SQLite::TableNameId = 3;
-const int SQLite::RowNameId = 4;
-const int SQLite::ColumnNameId = 5;
-const int SQLite::UnitsId = 6;
+thread_local const int SQLite::LocalReportEach = -1;    // Write out each time UpdatedataandLocalReport is called
+thread_local const int SQLite::LocalReportTimeStep = 0; // Write out at 'EndTimeStepFlag'
+thread_local const int SQLite::LocalReportHourly = 1;   // Write out at 'EndHourFlag'
+thread_local const int SQLite::LocalReportDaily = 2;    // Write out at 'EndDayFlag'
+thread_local const int SQLite::LocalReportMonthly = 3;  // Write out at end of month (must be determined)
+thread_local const int SQLite::LocalReportSim = 4;      // Write out once per environment 'EndEnvrnFlag'
+thread_local const int SQLite::LocalReportYearly = 5;   // Write out once per year
+thread_local const int SQLite::ReportNameId = 1;
+thread_local const int SQLite::ReportForStringId = 2;
+thread_local const int SQLite::TableNameId = 3;
+thread_local const int SQLite::RowNameId = 4;
+thread_local const int SQLite::ColumnNameId = 5;
+thread_local const int SQLite::UnitsId = 6;
 
 std::unique_ptr<SQLite> sqlite;
 
@@ -1517,7 +1517,7 @@ void SQLite::createSQLiteTimeIndexRecord(int const reportingInterval,
         int intStartMinute = 0;
         int intervalInMinutes = 60;
 
-        static const std::vector<int> lastDayOfMonth = {31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
+        static thread_local const std::vector<int> lastDayOfMonth = {31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
 
         switch (reportingInterval) {
         case LocalReportEach:

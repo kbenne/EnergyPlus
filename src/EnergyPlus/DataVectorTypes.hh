@@ -532,7 +532,7 @@ namespace DataVectorTypes {
     //			v.z = z;
     //		}
     //
-    //	private: // Static Functions
+    //	private: // static thread_local Functions
     //
     //		// Square
     //		inline

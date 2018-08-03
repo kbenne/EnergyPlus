@@ -149,7 +149,7 @@ namespace CostEstimateManager {
         // na
 
         // SUBROUTINE LOCAL VARIABLE DECLARATIONS:
-        static bool GetCostInput(true);
+        static thread_local bool GetCostInput(true);
 
         if (GetCostInput) {
             GetCostEstimateInput();
@@ -188,7 +188,7 @@ namespace CostEstimateManager {
         int NumAlphas;                  // Number of Alphas for each GetObjectItem call
         int NumNumbers;                 // Number of Numbers for each GetObjectItem call
         int IOStatus;                   // Used in GetObjectItem
-        static bool ErrorsFound(false); // Set to true if errors in input, fatal at end of routine
+        static thread_local bool ErrorsFound(false); // Set to true if errors in input, fatal at end of routine
 
         NumLineItems = inputProcessor->getNumObjectsFound("ComponentCost:LineItem");
 

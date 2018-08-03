@@ -83,7 +83,7 @@ namespace HybridEvapCoolingModel {
     // METHODOLOGY EMPLOYED:
     // uses 6D lookup tables to provide performance data that describe 8 key performance metrics .
 
-    // Supply Air Temperature, Supply Air Humidity Ratio, Electric Power, Supply Fan Electric Power, External Static Pressure
+    // Supply Air Temperature, Supply Air Humidity Ratio, Electric Power, Supply Fan Electric Power, External static thread_local Pressure
     // System Second Fuel Consumption, System Third Fuel Consumption, System Water Use
 
     // Lookups include
@@ -231,7 +231,7 @@ namespace HybridEvapCoolingModel {
         // scaling Correction for extensive variables. The Normalization reference is specified as a model input, the Correction is equal to the
         // ScaledSystemMaximumSupplyAirMassFlowRate, which is calculated as  Correction=ScaledSystemMaximumSupplyAirMassFlowRate=
         // SystemMaximumSupplyAirFlowRate*ScalingFactor*AirDensity, where SystemMaximumSupplyAirFlowRate, and ScalingFactor are model inputs. The
-        // following tables are for intensive variables : Supply Air Temperature, Supply Air Humidity, External Static Pressure, The following tables
+        // following tables are for intensive variables : Supply Air Temperature, Supply Air Humidity, External static thread_local Pressure, The following tables
         // are for extensive variables : Electric Power, Fan Electric Power, Second Fuel Consumption, Third Fuel Consumption, Water Use Lookup Table
         //
         // X_1 is the outside air temperature (Tosa), X_2 is the outside humidity ratio (Wosa),
@@ -639,7 +639,7 @@ namespace HybridEvapCoolingModel {
                 }
             }
         }
-        // A23, \field Mode0 External Static Pressure Lookup Table Name
+        // A23, \field Mode0 External static thread_local Pressure Lookup Table Name
         inter_Alpha = inter_Alpha + 1;
         curveID = -1;
         if (lAlphaBlanks(inter_Alpha)) {

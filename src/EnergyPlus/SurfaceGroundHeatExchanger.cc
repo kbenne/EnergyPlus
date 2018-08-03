@@ -127,14 +127,14 @@ namespace SurfaceGroundHeatExchanger {
     Real64 const SmallNum(1.0e-30);         // Very small number to avoid div0 errors
     Real64 const StefBoltzmann(5.6697e-08); // Stefan-Boltzmann constant
     Real64 const SurfaceHXHeight(0.0);      // Surface Height above ground -- used in height dependent calcs.
-    static std::string const BlankString;
+    static thread_local std::string const BlankString;
 
     int const SurfCond_Ground(1);
     int const SurfCond_Exposed(2);
 
     namespace loc {
         int const MaxCTFTerms(19); // Maximum number of CTF terms allowed to still allow stability //Note Duplicate of DataHeatBalance::MaxCTFTerms to
-                                   // avoid static initialization order bug: Keep them in sync
+                                   // avoid static thread_local initialization order bug: Keep them in sync
     }                              // namespace loc
 
     // DERIVED TYPE DEFINITIONS
@@ -252,7 +252,7 @@ namespace SurfaceGroundHeatExchanger {
 
         // SUBROUTINE LOCAL VARIABLE DECLARATIONS:
 
-        static bool ErrorsFound(false); // Set to true if errors in input,
+        static thread_local bool ErrorsFound(false); // Set to true if errors in input,
         // fatal at end of routine
         int IOStatus;   // Used in GetObjectItem
         int Item;       // Item to be "gotten"
@@ -493,7 +493,7 @@ namespace SurfaceGroundHeatExchanger {
 
         // SUBROUTINE PARAMETER DEFINITIONS:
         Real64 const DesignVelocity(0.5); // Hypothetical design max pipe velocity [m/s]
-        static std::string const RoutineName("InitSurfaceGroundHeatExchanger");
+        static thread_local std::string const RoutineName("InitSurfaceGroundHeatExchanger");
 
         // SUBROUTINE LOCAL VARIABLE DECLARATIONS:
 
@@ -691,10 +691,10 @@ namespace SurfaceGroundHeatExchanger {
         Real64 OldPastFluxTop; // top surface flux - past value used during iteration
         Real64 OldPastFluxBtm; // bottom surface flux - past value used during iteration
         // variables used with current environmental conditions
-        static Real64 FluxTop; // top surface flux
-        static Real64 FluxBtm; // bottom surface flux
-        static Real64 TempBtm; // bottom surface temp
-        static Real64 TempTop; // top surface temp
+        static thread_local Real64 FluxTop; // top surface flux
+        static thread_local Real64 FluxBtm; // bottom surface flux
+        static thread_local Real64 TempBtm; // bottom surface temp
+        static thread_local Real64 TempTop; // top surface temp
         Real64 TempT;          // top surface temp - used in underrelaxation
         Real64 TempB;          // bottom surface temp - used in underrelaxation
         Real64 OldFluxTop;     // top surface flux - value used during iteration
@@ -705,7 +705,7 @@ namespace SurfaceGroundHeatExchanger {
         //  INTEGER, SAVE ::ErrCount1=0
         //  INTEGER, SAVE ::ErrCount2=0
         //  INTEGER, SAVE ::ErrCount3=0
-        static bool InitializeTempTop(false);
+        static thread_local bool InitializeTempTop(false);
         int LoopNum;
         int LoopSideNum;
 
@@ -1265,9 +1265,9 @@ namespace SurfaceGroundHeatExchanger {
         // SUBROUTINE PARAMETER DEFINITIONS:
         Real64 const MaxLaminarRe(2300.0); // Maximum Reynolds number for laminar flow
         int const NumOfPropDivisions(13);  // intervals in property correlation
-        static Array1D<Real64> const Temps(
+        static thread_local Array1D<Real64> const Temps(
             NumOfPropDivisions, {1.85, 6.85, 11.85, 16.85, 21.85, 26.85, 31.85, 36.85, 41.85, 46.85, 51.85, 56.85, 61.85}); // Temperature, in C
-        static Array1D<Real64> const Mu(NumOfPropDivisions,
+        static thread_local Array1D<Real64> const Mu(NumOfPropDivisions,
                                         {0.001652,
                                          0.001422,
                                          0.001225,
@@ -1281,12 +1281,12 @@ namespace SurfaceGroundHeatExchanger {
                                          0.000528,
                                          0.000489,
                                          0.000453}); // Viscosity, in Ns/m2
-        static Array1D<Real64> const Conductivity(
+        static thread_local Array1D<Real64> const Conductivity(
             NumOfPropDivisions, {0.574, 0.582, 0.590, 0.598, 0.606, 0.613, 0.620, 0.628, 0.634, 0.640, 0.645, 0.650, 0.656}); // Conductivity, in W/mK
-        static Array1D<Real64> const Pr(
+        static thread_local Array1D<Real64> const Pr(
             NumOfPropDivisions, {12.22, 10.26, 8.81, 7.56, 6.62, 5.83, 5.20, 4.62, 4.16, 3.77, 3.42, 3.15, 2.88}); // Prandtl number (dimensionless)
         int const WaterIndex(1);
-        static std::string const RoutineName("SurfaceGroundHeatExchanger:CalcHXEffectTerm");
+        static thread_local std::string const RoutineName("SurfaceGroundHeatExchanger:CalcHXEffectTerm");
 
         // INTERFACE BLOCK SPECIFICATIONS
         // na
@@ -1577,7 +1577,7 @@ namespace SurfaceGroundHeatExchanger {
         //  INTEGER, INTENT(IN) :: FlowLock            ! flow initialization/condition flag    !DSU
 
         // SUBROUTINE PARAMETER DEFINITIONS:
-        static std::string const RoutineName("SurfaceGroundHeatExchanger:Update");
+        static thread_local std::string const RoutineName("SurfaceGroundHeatExchanger:Update");
 
         // INTERFACE BLOCK SPECIFICATIONS
         // na

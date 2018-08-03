@@ -91,7 +91,7 @@ namespace OutputReportTabularAnnual {
         // is used for both user defined monthly reports and
         // predefined monthly reports.
 
-        static std::string const currentModuleObject("Output:Table:Annual");
+        static thread_local std::string const currentModuleObject("Output:Table:Annual");
 
         int jAlpha;
         int numParams;            // Number of elements combined
@@ -100,7 +100,7 @@ namespace OutputReportTabularAnnual {
         Array1D_string alphArray; // character string data
         Array1D<Real64> numArray; // numeric data
         int IOStat;               // IO Status when calling get input subroutine
-        // static bool ErrorsFound( false );
+        // static thread_local bool ErrorsFound( false );
         int objCount(0);
         int indexNums(0);
         std::string curVarMtr("");
@@ -653,8 +653,8 @@ namespace OutputReportTabularAnnual {
         Real64 sumDuration;
         bool createBinRangeTable = false;
 
-        static Real64 const storedMaxVal(std::numeric_limits<Real64>::max());
-        static Real64 const storedMinVal(std::numeric_limits<Real64>::lowest());
+        static thread_local Real64 const storedMaxVal(std::numeric_limits<Real64>::max());
+        static thread_local Real64 const storedMinVal(std::numeric_limits<Real64>::lowest());
 
         aggString = setupAggString();
         Real64 energyUnitsConversionFactor = AnnualTable::setEnergyUnitStringAndFactor(unitsStyle, energyUnitsString);

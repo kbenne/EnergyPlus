@@ -230,7 +230,7 @@ namespace DXFEarClipping {
 
         // Subroutine parameter definitions:
         Real64 const point_tolerance(0.00001);
-        static gio::Fmt fmtLD("*");
+        static thread_local gio::Fmt fmtLD("*");
 
         // Interface block specifications:
         // na
@@ -271,7 +271,7 @@ namespace DXFEarClipping {
         // unused  double precision :: ang
         // unused  double precision :: val
         std::string line;
-        static int errcount(0);
+        static thread_local int errcount(0);
 
         // Object Data
         Array1D<Vector_2d> vertex(nsides);
@@ -579,7 +579,7 @@ namespace DXFEarClipping {
         // Subroutine argument definitions:
 
         // Subroutine parameter definitions:
-        static gio::Fmt fmtLD("*");
+        static thread_local gio::Fmt fmtLD("*");
 
         // Interface block specifications:
         // na

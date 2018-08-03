@@ -128,7 +128,7 @@ namespace HVACStandAloneERV {
     // Data
     // MODULE PARAMETER DEFINITIONS
 
-    static std::string const BlankString;
+    static thread_local std::string const BlankString;
 
     int const ControllerSimple(1);
     int const ControllerOutsideAir(2);
@@ -306,7 +306,7 @@ namespace HVACStandAloneERV {
         int MaxAlphas;                    // Max between the two objects gotten here
         int MaxNumbers;                   // Max between the two objects gotten here
         int IOStatus;                     // Used in GetObjectItem
-        static bool ErrorsFound(false);   // Set to true if errors in input, fatal at end of routine
+        static thread_local bool ErrorsFound(false);   // Set to true if errors in input, fatal at end of routine
         int NumERVCtrlrs;                 // total number of CONTROLLER:STAND ALONE ERV objects
         int ERVControllerNum;             // index to ERV controller
         int WhichERV;                     // used in controller GetInput
@@ -314,9 +314,9 @@ namespace HVACStandAloneERV {
         int NodeNumber;                   // used to find zone with humidistat
         int HStatZoneNum;                 // used to find zone with humidistat
         int NumHstatZone;                 // index to humidity controlled zones
-        static int ControlledZoneNum(0);  // used to find zone with humidistat
-        static bool ZoneNodeFound(false); // used to find zone with humidistat
-        static bool HStatFound(false);    // used to find zone with humidistat
+        static thread_local int ControlledZoneNum(0);  // used to find zone with humidistat
+        static thread_local bool ZoneNodeFound(false); // used to find zone with humidistat
+        static thread_local bool HStatFound(false);    // used to find zone with humidistat
         bool errFlag;                     // Error flag used in mining calls
         Real64 SAFanVolFlowRate;          // supply air fan volumetric flow rate [m3/s]
         Real64 EAFanVolFlowRate;          // exhaust air fan volumetric flow rate [m3/s]
@@ -1221,7 +1221,7 @@ namespace HVACStandAloneERV {
         using MixedAir::SimOAController;
 
         // Locals
-        static Array1D_bool MySizeFlag;
+        static thread_local Array1D_bool MySizeFlag;
 
         // SUBROUTINE ARGUMENT DEFINITIONS:
 
@@ -1239,10 +1239,10 @@ namespace HVACStandAloneERV {
         int ExhInNode;    // exhaust air inlet node number
         int SupInletNode; // supply air inlet node number for Stand Alone ERV 'StandAloneERVNum'
         Real64 RhoAir;    // air density at SupInNode, standard conditions (dry air @ 20C,actual elevation pressure)
-        static bool MyOneTimeFlag(true);
-        static Array1D_bool MyEnvrnFlag;
-        static Array1D_bool MyZoneEqFlag;            // used to set up zone equipment availability managers
-        static bool ZoneEquipmentListChecked(false); // True after the Zone Equipment List has been checked for items
+        static thread_local bool MyOneTimeFlag(true);
+        static thread_local Array1D_bool MyEnvrnFlag;
+        static thread_local Array1D_bool MyZoneEqFlag;            // used to set up zone equipment availability managers
+        static thread_local bool ZoneEquipmentListChecked(false); // True after the Zone Equipment List has been checked for items
         int Loop;                                    // loop counter
 
         // Do the one time initializations

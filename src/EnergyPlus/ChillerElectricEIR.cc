@@ -138,7 +138,7 @@ namespace ChillerElectricEIR {
     int const NotModulated(202);
     int const LeavingSetPointModulated(203);
 
-    static std::string const BlankString;
+    static thread_local std::string const BlankString;
 
     // MODULE VARIABLE DECLARATIONS:
     int NumElectricEIRChillers(0);    // Number of electric EIR chillers specified in input
@@ -365,17 +365,17 @@ namespace ChillerElectricEIR {
 
         // Locals
         // PARAMETERS
-        static std::string const RoutineName("GetElectricEIRChillerInput: "); // include trailing blank space
+        static thread_local std::string const RoutineName("GetElectricEIRChillerInput: "); // include trailing blank space
 
         // LOCAL VARIABLES
         int EIRChillerNum;                 // Chiller counter
         int NumAlphas;                     // Number of elements in the alpha array
         int NumNums;                       // Number of elements in the numeric array
         int IOStat;                        // IO Status when calling get input subroutine
-        static bool ErrorsFound(false);    // True when input errors are found
+        static thread_local bool ErrorsFound(false);    // True when input errors are found
         Real64 CurveVal;                   // Used to verify EIR-FT and CAP-FT curves equal 1 at reference conditions
-        static bool FoundNegValue(false);  // Used to evaluate PLFFPLR curve objects
-        static int CurveCheck(0);          // Used to evaluate PLFFPLR curve objects
+        static thread_local bool FoundNegValue(false);  // Used to evaluate PLFFPLR curve objects
+        static thread_local int CurveCheck(0);          // Used to evaluate PLFFPLR curve objects
         Array1D<Real64> CurveValArray(11); // Used to evaluate PLFFPLR curve objects
         Real64 CurveValTmp;                // Used to evaluate PLFFPLR curve objects
         bool errFlag;                      // Used to tell if a unique chiller name has been specified
@@ -385,7 +385,7 @@ namespace ChillerElectricEIR {
         bool Okay;
 
         // Formats
-        static gio::Fmt Format_530("('Curve Output = ',11(F7.2))");
+        static thread_local gio::Fmt Format_530("('Curve Output = ',11(F7.2))");
 
         // FLOW
 
@@ -786,7 +786,7 @@ namespace ChillerElectricEIR {
                     ShowContinueError("EIR as a function of PLR curve output at various part-load ratios shown below:");
                     ShowContinueError("PLR          =    0.00   0.10   0.20   0.30   0.40   0.50   0.60   0.70   0.80   0.90   1.00");
                     gio::write(StringVar, "'Curve Output = '");
-                    static gio::Fmt fmtF72("((F7.2),$)");
+                    static thread_local gio::Fmt fmtF72("((F7.2),$)");
                     for (CurveValPtr = 1; CurveValPtr <= 11; ++CurveValPtr) {
                         gio::write(StringVar, fmtF72) << CurveValArray(CurveValPtr);
                     }
@@ -1135,10 +1135,10 @@ namespace ChillerElectricEIR {
         using PlantUtilities::SetComponentFlowRate;
 
         // SUBROUTINE LOCAL VARIABLE DECLARATIONS:
-        static std::string const RoutineName("InitElectricEIRChiller");
+        static thread_local std::string const RoutineName("InitElectricEIRChiller");
 
-        static Array1D_bool MyFlag;      // TRUE in order to set component location
-        static Array1D_bool MyEnvrnFlag; // TRUE when new environment is started
+        static thread_local Array1D_bool MyFlag;      // TRUE in order to set component location
+        static thread_local Array1D_bool MyEnvrnFlag; // TRUE when new environment is started
         int EvapInletNode;               // Node number for evaporator water inlet node
         int EvapOutletNode;              // Node number for evaporator water outlet node
         int CondInletNode;               // Node number for condenser water inlet node
@@ -1509,7 +1509,7 @@ namespace ChillerElectricEIR {
         using StandardRatings::CalcChillerIPLV;
 
         // SUBROUTINE PARAMETER DEFINITIONS:
-        static std::string const RoutineName("SizeElectricEIRChiller");
+        static thread_local std::string const RoutineName("SizeElectricEIRChiller");
 
         // SUBROUTINE LOCAL VARIABLE DECLARATIONS:
         int PltSizNum;     // Plant Sizing index corresponding to CurLoopNum
@@ -1920,8 +1920,8 @@ namespace ChillerElectricEIR {
         // Locals
         // SUBROUTINE PARAMETER DEFINITIONS:
 
-        static gio::Fmt OutputFormat("(F6.2)");
-        static std::string const RoutineName("CalcElectricEIRChillerModel");
+        static thread_local gio::Fmt OutputFormat("(F6.2)");
+        static thread_local std::string const RoutineName("CalcElectricEIRChillerModel");
 
         // SUBROUTINE LOCAL VARIABLE DECLARATIONS:
         Real64 FRAC;                        // Chiller cycling ratio
@@ -1950,10 +1950,10 @@ namespace ChillerElectricEIR {
         int LoopSideNum;  // Plant loop side which contains the current chiller (usually supply side)
         int BranchNum;
         int CompNum;
-        static Real64 TimeStepSysLast(0.0);    // last system time step (used to check for downshifting)
+        static thread_local Real64 TimeStepSysLast(0.0);    // last system time step (used to check for downshifting)
         Real64 CurrentEndTime;                 // end time of time step for current simulation time step
-        static Real64 CurrentEndTimeLast(0.0); // end time of time step for last simulation time step
-        static std::string OutputChar;         // character string for warning messages
+        static thread_local Real64 CurrentEndTimeLast(0.0); // end time of time step for last simulation time step
+        static thread_local std::string OutputChar;         // character string for warning messages
         Real64 Cp;                             // local fluid specific heat
         Real64 RhoAir;                         // air density [kg/m3]
 
@@ -2617,7 +2617,7 @@ namespace ChillerElectricEIR {
         // SUBROUTINE ARGUMENT DEFINITIONS:
 
         // SUBROUTINE PARAMETER DEFINITIONS:
-        static std::string const RoutineName("EIRChillerHeatRecovery");
+        static thread_local std::string const RoutineName("EIRChillerHeatRecovery");
 
         // DERIVED TYPE DEFINITIONS:
         //  na

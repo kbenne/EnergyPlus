@@ -98,7 +98,7 @@
 
 namespace EnergyPlus {
 
-static gio::Fmt fmtLD("*");
+static thread_local gio::Fmt fmtLD("*");
 
 // Integer constants for different system types handled by the routines in this file
 enum GeneralRoutinesEquipNums
@@ -173,15 +173,15 @@ void ControlCompOutput(std::string const &CompName,           // the component N
 
     // SUBROUTINE PARAMETER DEFINITIONS:
     // Iteration maximum for reheat control
-    static int const MaxIter(25);
-    static Real64 const iter_fac(1.0 / std::pow(2, MaxIter - 3));
+    static thread_local int const MaxIter(25);
+    static thread_local Real64 const iter_fac(1.0 / std::pow(2, MaxIter - 3));
     int const iReverseAction(1);
     int const iNormalAction(2);
 
     // Note - order in routine must match order below
     //  Plus -- order in ListOfComponents array must be in sorted order.
     int const NumComponents(11);
-    static Array1D_string const ListOfComponents(NumComponents,
+    static thread_local Array1D_string const ListOfComponents(NumComponents,
                                                  {"AIRTERMINAL:SINGLEDUCT:PARALLELPIU:REHEAT",
                                                   "AIRTERMINAL:SINGLEDUCT:SERIESPIU:REHEAT",
                                                   "COIL:HEATING:WATER",
@@ -198,7 +198,7 @@ void ControlCompOutput(std::string const &CompName,           // the component N
     // Interval Half Type used for Controller
 
     // SUBROUTINE LOCAL VARIABLE DECLARATIONS:
-    static int Iter(0); // Iteration limit for the interval halving process
+    static thread_local int Iter(0); // Iteration limit for the interval halving process
     Real64 CpAir;       // specific heat of air (J/kg-C)
     bool Converged;
     Real64 Denom;   // the denominator of the control signal
@@ -207,7 +207,7 @@ void ControlCompOutput(std::string const &CompName,           // the component N
     // INTEGER, SAVE    :: ErrCount1=0 ! for recurring error
     bool WaterCoilAirFlowControl;   // True if controlling air flow through water coil, water flow fixed
     int SimCompNum;                 // internal number for case statement
-    static Real64 HalvingPrec(0.0); // precision of halving algorithm
+    static thread_local Real64 HalvingPrec(0.0); // precision of halving algorithm
     bool BBConvergeCheckFlag;       // additional check on convergence specifically for radiant/convective baseboard units
 
     struct IntervalHalf
@@ -273,8 +273,8 @@ void ControlCompOutput(std::string const &CompName,           // the component N
     };
 
     // Object Data
-    static IntervalHalf ZoneInterHalf(0.0, 0.0, 0.0, 0.0, 0.0, 0.0, false, false, false, false);
-    static ZoneEquipControllerProps ZoneController(0.0, 0.0, 0.0, 0.0, 0.0);
+    static thread_local IntervalHalf ZoneInterHalf(0.0, 0.0, 0.0, 0.0, 0.0, 0.0, false, false, false, false);
+    static thread_local ZoneEquipControllerProps ZoneController(0.0, 0.0, 0.0, 0.0, 0.0);
 
     if (ControlCompTypeNum != 0) {
         SimCompNum = ControlCompTypeNum;
@@ -681,7 +681,7 @@ bool BBConvergeCheck(int const SimCompNum, Real64 const MaxFlow, Real64 const Mi
     bool BBConvergeCheck;
 
     // SUBROUTINE PARAMETER DEFINITIONS:
-    static Real64 const BBIterLimit(0.00001);
+    static thread_local Real64 const BBIterLimit(0.00001);
 
     if (SimCompNum != BBSteamRadConvNum && SimCompNum != BBWaterRadConvNum) {
         // For all zone equipment except radiant/convective baseboard (steam and water) units:
@@ -1063,7 +1063,7 @@ void CalcPassiveExteriorBaffleGap(Array1S_int const SurfPtrARR, // Array of inde
     Real64 const k(0.0267);          // thermal conductivity (W/m K) for air at 300 K (Mills 1999 Heat Transfer)
     Real64 const Sigma(5.6697e-08);  // Stefan-Boltzmann constant
     Real64 const KelvinConv(273.15); // Conversion from Celsius to Kelvin
-    static std::string const RoutineName("CalcPassiveExteriorBaffleGap");
+    static thread_local std::string const RoutineName("CalcPassiveExteriorBaffleGap");
     // INTERFACE BLOCK SPECIFICATIONS:
 
     // DERIVED TYPE DEFINITIONS:
@@ -1111,11 +1111,11 @@ void CalcPassiveExteriorBaffleGap(Array1S_int const SurfPtrARR, // Array of inde
     Real64 LocalOutDryBulbTemp;          // OutDryBulbTemp for here
     Real64 LocalWetBulbTemp;             // OutWetBulbTemp for here
     Real64 LocalOutHumRat;               // OutHumRat for here
-    static bool ICSCollectorIsOn(false); // ICS collector has OSCM on
+    static thread_local bool ICSCollectorIsOn(false); // ICS collector has OSCM on
     int CollectorNum;                    // current solar collector index
     Real64 ICSWaterTemp;                 // ICS solar collector water temp
     Real64 ICSULossbottom;               // ICS solar collector bottom loss Conductance
-    static bool MyICSEnvrnFlag(true);    // Local environment flag for ICS
+    static thread_local bool MyICSEnvrnFlag(true);    // Local environment flag for ICS
 
     Real64 const surfaceArea(sum_sub(Surface, &SurfaceData::Area, SurfPtrARR));
 
@@ -1573,15 +1573,15 @@ void TestSupplyAirPathIntegrity(bool &ErrFound)
     int WAirLoop;
 
     // Formats
-    static gio::Fmt Format_700("('! <#Supply Air Paths>,<Number of Supply Air Paths>')");
-    static gio::Fmt Format_701("(A)");
-    static gio::Fmt Format_702("('! <Supply Air Path>,<Supply Air Path Count>,<Supply Air Path Name>,<AirLoopHVAC Name>')");
-    static gio::Fmt Format_703("('! <#Components on Supply Air Path>,<Number of Components>')");
-    static gio::Fmt Format_704("('! <Supply Air Path Component>,<Component Count>,<Component Type>,<Component Name>,','<AirLoopHVAC Name>')");
-    static gio::Fmt Format_705("('! <#Nodes on Supply Air Path>,<Number of Nodes>')");
-    static gio::Fmt Format_706("('! <Supply Air Path Node>,<Node Type>,<Node Count>,<Node Name>,<AirLoopHVAC Name>')");
-    static gio::Fmt Format_707("('! <#Outlet Nodes on Supply Air Path Component>,<Number of Nodes>')");
-    static gio::Fmt Format_708("('! <Supply Air Path Component Nodes>,<Node Count>,<Component Type>,<Component Name>,','<Inlet Node Name>,<Outlet "
+    static thread_local gio::Fmt Format_700("('! <#Supply Air Paths>,<Number of Supply Air Paths>')");
+    static thread_local gio::Fmt Format_701("(A)");
+    static thread_local gio::Fmt Format_702("('! <Supply Air Path>,<Supply Air Path Count>,<Supply Air Path Name>,<AirLoopHVAC Name>')");
+    static thread_local gio::Fmt Format_703("('! <#Components on Supply Air Path>,<Number of Components>')");
+    static thread_local gio::Fmt Format_704("('! <Supply Air Path Component>,<Component Count>,<Component Type>,<Component Name>,','<AirLoopHVAC Name>')");
+    static thread_local gio::Fmt Format_705("('! <#Nodes on Supply Air Path>,<Number of Nodes>')");
+    static thread_local gio::Fmt Format_706("('! <Supply Air Path Node>,<Node Type>,<Node Count>,<Node Name>,<AirLoopHVAC Name>')");
+    static thread_local gio::Fmt Format_707("('! <#Outlet Nodes on Supply Air Path Component>,<Number of Nodes>')");
+    static thread_local gio::Fmt Format_708("('! <Supply Air Path Component Nodes>,<Node Count>,<Component Type>,<Component Name>,','<Inlet Node Name>,<Outlet "
                                "Node Name>,<AirLoopHVAC Name>')");
 
     // Do by Paths
@@ -1866,15 +1866,15 @@ void TestReturnAirPathIntegrity(bool &ErrFound, Array2S_int ValRetAPaths)
     int WAirLoop;
 
     // Formats
-    static gio::Fmt Format_700("('! <#Return Air Paths>,<Number of Return Air Paths>')");
-    static gio::Fmt Format_701("(A)");
-    static gio::Fmt Format_702("('! <Return Air Path>,<Return Air Path Count>,<Return Air Path Name>,<AirLoopHVAC Name>')");
-    static gio::Fmt Format_703("('! <#Components on Return Air Path>,<Number of Components>')");
-    static gio::Fmt Format_704("('! <Return Air Path Component>,<Component Count>,<Component Type>,<Component Name>,<AirLoopHVAC Name>')");
-    static gio::Fmt Format_705("('! <#Nodes on Return Air Path>,<Number of Nodes>')");
-    static gio::Fmt Format_706("('! <Return Air Path Node>,<Node Type>,<Node Count>,<Node Name>,<AirLoopHVAC Name>')");
-    static gio::Fmt Format_707("('! <#Inlet Nodes on Return Air Path Component>,<Number of Nodes>')");
-    static gio::Fmt Format_708("('! <Return Air Path Component Nodes>,<Node Count>,<Component Type>,<Component Name>,','<Inlet Node Name>,<Outlet "
+    static thread_local gio::Fmt Format_700("('! <#Return Air Paths>,<Number of Return Air Paths>')");
+    static thread_local gio::Fmt Format_701("(A)");
+    static thread_local gio::Fmt Format_702("('! <Return Air Path>,<Return Air Path Count>,<Return Air Path Name>,<AirLoopHVAC Name>')");
+    static thread_local gio::Fmt Format_703("('! <#Components on Return Air Path>,<Number of Components>')");
+    static thread_local gio::Fmt Format_704("('! <Return Air Path Component>,<Component Count>,<Component Type>,<Component Name>,<AirLoopHVAC Name>')");
+    static thread_local gio::Fmt Format_705("('! <#Nodes on Return Air Path>,<Number of Nodes>')");
+    static thread_local gio::Fmt Format_706("('! <Return Air Path Node>,<Node Type>,<Node Count>,<Node Name>,<AirLoopHVAC Name>')");
+    static thread_local gio::Fmt Format_707("('! <#Inlet Nodes on Return Air Path Component>,<Number of Nodes>')");
+    static thread_local gio::Fmt Format_708("('! <Return Air Path Component Nodes>,<Node Count>,<Component Type>,<Component Name>,','<Inlet Node Name>,<Outlet "
                                "Node Name>,<AirLoopHVAC Name>')");
 
     // Do by Paths

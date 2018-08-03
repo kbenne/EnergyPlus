@@ -188,8 +188,8 @@ namespace LowTempRadiantSystem {
     Real64 LowTempHeating(-200.0); // Used to indicate that a user does not have a heating control temperature
     Real64 HighTempCooling(200.0); // Used to indicate that a user does not have a cooling control temperature
 
-    static std::string const fluidNameWater("WATER");
-    static std::string const BlankString;
+    static thread_local std::string const fluidNameWater("WATER");
+    static thread_local std::string const BlankString;
 
     // DERIVED TYPE DEFINITIONS:
 
@@ -377,15 +377,15 @@ namespace LowTempRadiantSystem {
 
         // SUBROUTINE PARAMETER DEFINITIONS:
         Real64 const MinThrottlingRange(0.5); // Smallest throttling range allowed in degrees Celsius
-        static std::string const MeanAirTemperature("MeanAirTemperature");
-        static std::string const MeanRadiantTemperature("MeanRadiantTemperature");
-        static std::string const OperativeTemperature("OperativeTemperature");
-        static std::string const OutsideAirDryBulbTemperature("OutdoorDryBulbTemperature");
-        static std::string const OutsideAirWetBulbTemperature("OutdoorWetBulbTemperature");
-        static std::string const RoutineName("GetLowTempRadiantSystem: "); // include trailing blank space
-        static std::string const Off("Off");
-        static std::string const SimpleOff("SimpleOff");
-        static std::string const VariableOff("VariableOff");
+        static thread_local std::string const MeanAirTemperature("MeanAirTemperature");
+        static thread_local std::string const MeanRadiantTemperature("MeanRadiantTemperature");
+        static thread_local std::string const OperativeTemperature("OperativeTemperature");
+        static thread_local std::string const OutsideAirDryBulbTemperature("OutdoorDryBulbTemperature");
+        static thread_local std::string const OutsideAirWetBulbTemperature("OutdoorWetBulbTemperature");
+        static thread_local std::string const RoutineName("GetLowTempRadiantSystem: "); // include trailing blank space
+        static thread_local std::string const Off("Off");
+        static thread_local std::string const SimpleOff("SimpleOff");
+        static thread_local std::string const VariableOff("VariableOff");
         int const iHeatCAPMAlphaNum(5);             // get input index to Low Temperature Radiant system heating capacity sizing method
         int const iHeatDesignCapacityNumericNum(1); // get input index to Low Temperature Radiant system electric heating capacity
         int const iHeatCapacityPerFloorAreaNumericNum(
@@ -400,7 +400,7 @@ namespace LowTempRadiantSystem {
         Array1D_string cNumericFields;         // Numeric field names
         Array1D_bool AssignedAsRadiantSurface; // Set to true when a surface is part of a radiant system
         int CheckSurfNum;                      // Surface number to check to see if it has already been used by a radiant system
-        static bool ErrorsFound(false);        // Set to true if errors in input, fatal at end of routine
+        static thread_local bool ErrorsFound(false);        // Set to true if errors in input, fatal at end of routine
         int GlycolIndex;                       // Index of 'Water' in glycol data structure
         int IOStatus;                          // Used in GetObjectItem
         int Item;                              // Item to be "gotten"
@@ -1675,8 +1675,8 @@ namespace LowTempRadiantSystem {
 
         // SUBROUTINE PARAMETER DEFINITIONS:
         Real64 const ZeroTol(0.0000001); // Smallest non-zero value allowed
-        static std::string const RoutineName("InitLowTempRadiantSystem");
-        static gio::Fmt fmtF102("(F10.2)");
+        static thread_local std::string const RoutineName("InitLowTempRadiantSystem");
+        static thread_local gio::Fmt fmtF102("(F10.2)");
 
         // SUBROUTINE LOCAL VARIABLE DECLARATIONS:
         Real64 CurrentFlowSchedule; // Schedule value for flow fraction in a constant flow radiant system
@@ -1686,15 +1686,15 @@ namespace LowTempRadiantSystem {
         int SurfNum;                // Intermediate variable for keeping track of the surface number
         Real64 TotalEffic;          // Intermediate calculation variable for total pump efficiency
         int ZoneNum;                // Intermediate variable for keeping track of the zone number
-        static Array1D_bool MyEnvrnFlagHydr;
-        static Array1D_bool MyEnvrnFlagCFlo;
-        static Array1D_bool MyEnvrnFlagElec;
-        static bool MyEnvrnFlagGeneral(true);
-        static bool ZoneEquipmentListChecked(false); // True after the Zone Equipment List has been checked for items
+        static thread_local Array1D_bool MyEnvrnFlagHydr;
+        static thread_local Array1D_bool MyEnvrnFlagCFlo;
+        static thread_local Array1D_bool MyEnvrnFlagElec;
+        static thread_local bool MyEnvrnFlagGeneral(true);
+        static thread_local bool ZoneEquipmentListChecked(false); // True after the Zone Equipment List has been checked for items
         int Loop;
-        static bool MyOneTimeFlag(true); // Initialization flag
-        static Array1D_bool MyPlantScanFlagHydr;
-        static Array1D_bool MyPlantScanFlagCFlo;
+        static thread_local bool MyOneTimeFlag(true); // Initialization flag
+        static thread_local Array1D_bool MyPlantScanFlagHydr;
+        static thread_local Array1D_bool MyPlantScanFlagCFlo;
         Real64 mdot; // local fluid mass flow rate
         Real64 rho;  // local fluid density
         bool errFlag;
@@ -2287,11 +2287,11 @@ namespace LowTempRadiantSystem {
         using ReportSizingManager::RequestSizing;
 
         // SUBROUTINE PARAMETER DEFINITIONS:
-        static std::string const RoutineName("SizeLowTempRadiantSystem");
-        static int const OFF = 0;
-        static int const ClgHtg = 1;
-        static int const ClgOnly = 2;
-        static int const HtgOnly = 3;
+        static thread_local std::string const RoutineName("SizeLowTempRadiantSystem");
+        static thread_local int const OFF = 0;
+        static thread_local int const ClgHtg = 1;
+        static thread_local int const ClgOnly = 2;
+        static thread_local int const HtgOnly = 3;
 
         // SUBROUTINE LOCAL VARIABLE DECLARATIONS:
         int PltSizHeatNum(0);    // index of plant sizing object for 1st heating loop
@@ -3775,7 +3775,7 @@ namespace LowTempRadiantSystem {
 
         // SUBROUTINE PARAMETER DEFINITIONS:
         Real64 const LowCpFluidValue(100.0); // lowest allowed Cp fluid value (to avoid dividing by zero) [J/kg-K]
-        static std::string const RoutineName("CalcLowTempCFloRadiantSystem");
+        static thread_local std::string const RoutineName("CalcLowTempCFloRadiantSystem");
 
         // SUBROUTINE LOCAL VARIABLE DECLARATIONS:
         Real64 CpFluid;         // Specific heat of the fluid in the radiant system
@@ -4323,7 +4323,7 @@ namespace LowTempRadiantSystem {
         // SUBROUTINE PARAMETER DEFINITIONS:
         Real64 const TempCheckLimit(0.1); // Maximum allowed temperature difference between outlet temperature calculations
         Real64 const ZeroSystemResp(0.1); // Response below which the system response is really zero
-        static std::string const RoutineName("CalcLowTempCFloRadSysComps");
+        static thread_local std::string const RoutineName("CalcLowTempCFloRadSysComps");
 
         // SUBROUTINE LOCAL VARIABLE DECLARATIONS:
         int ConstrNum;                // Index for construction number in Construct derived type
@@ -4363,12 +4363,12 @@ namespace LowTempRadiantSystem {
         Real64 Cl;
         // For more info on Ca through Cl, see comments below
 
-        static Array1D<Real64> Ckj; // Coefficients for individual surfaces within a radiant system
-        static Array1D<Real64> Cmj;
-        static Array1D<Real64> WaterTempOut; // Array of outlet water temperatures for
+        static thread_local Array1D<Real64> Ckj; // Coefficients for individual surfaces within a radiant system
+        static thread_local Array1D<Real64> Cmj;
+        static thread_local Array1D<Real64> WaterTempOut; // Array of outlet water temperatures for
                                              // each surface in the radiant system
 
-        static bool FirstTimeFlag(true); // for setting size of Ckj, Cmj, WaterTempOut arrays
+        static thread_local bool FirstTimeFlag(true); // for setting size of Ckj, Cmj, WaterTempOut arrays
 
         // First, apply heat exchanger logic to find the heat source/sink to the system.
         // This involves finding out the heat transfer characteristics of the hydronic
@@ -4954,7 +4954,7 @@ namespace LowTempRadiantSystem {
         using PlantUtilities::SetComponentFlowRate;
 
         // SUBROUTINE PARAMETER DEFINITIONS:
-        static std::string const RoutineName("UpdateLowTempRadiantSystem");
+        static thread_local std::string const RoutineName("UpdateLowTempRadiantSystem");
 
         // SUBROUTINE LOCAL VARIABLE DECLARATIONS:
         Real64 BypassMassFlow;  // Local bypass for a constant flow radiant system (could have recirculation and/or bypass)
@@ -5179,8 +5179,8 @@ namespace LowTempRadiantSystem {
         Real64 const LowerRangeLimit(-300.0); // Low error trigger limit for when model is not working
 
         // SUBROUTINE LOCAL VARIABLE DECLARATIONS:
-        static bool WarnTooLow(false);
-        static bool WarnTooHigh(false);
+        static thread_local bool WarnTooLow(false);
+        static thread_local bool WarnTooHigh(false);
 
         WarnTooLow = false;
         WarnTooHigh = false;
@@ -5318,9 +5318,9 @@ namespace LowTempRadiantSystem {
         Real64 const MaxLaminarRe(2300.0); // Maximum Reynolds number for laminar flow
         int const NumOfPropDivisions(13);
         Real64 const MaxExpPower(50.0); // Maximum power after which EXP argument would be zero for DP variables
-        static Array1D<Real64> const Temps(
+        static thread_local Array1D<Real64> const Temps(
             NumOfPropDivisions, {1.85, 6.85, 11.85, 16.85, 21.85, 26.85, 31.85, 36.85, 41.85, 46.85, 51.85, 56.85, 61.85}); // Temperature, in C
-        static Array1D<Real64> const Mu(NumOfPropDivisions,
+        static thread_local Array1D<Real64> const Mu(NumOfPropDivisions,
                                         {0.001652,
                                          0.001422,
                                          0.001225,
@@ -5334,11 +5334,11 @@ namespace LowTempRadiantSystem {
                                          0.000528,
                                          0.000489,
                                          0.000453}); // Viscosity, in Ns/m2
-        static Array1D<Real64> const Conductivity(
+        static thread_local Array1D<Real64> const Conductivity(
             NumOfPropDivisions, {0.574, 0.582, 0.590, 0.598, 0.606, 0.613, 0.620, 0.628, 0.634, 0.640, 0.645, 0.650, 0.656}); // Conductivity, in W/mK
-        static Array1D<Real64> const Pr(
+        static thread_local Array1D<Real64> const Pr(
             NumOfPropDivisions, {12.22, 10.26, 8.81, 7.56, 6.62, 5.83, 5.20, 4.62, 4.16, 3.77, 3.42, 3.15, 2.88}); // Prandtl number (dimensionless)
-        static std::string const RoutineName("CalcRadSysHXEffectTerm");
+        static thread_local std::string const RoutineName("CalcRadSysHXEffectTerm");
 
         // SUBROUTINE LOCAL VARIABLE DECLARATIONS:
         int Index;
@@ -5581,7 +5581,7 @@ namespace LowTempRadiantSystem {
         using FluidProperties::GetSpecificHeatGlycol;
 
         // SUBROUTINE PARAMETER DEFINITIONS:
-        static std::string const RoutineName("ReportLowTempRadiantSystem");
+        static thread_local std::string const RoutineName("ReportLowTempRadiantSystem");
 
         // SUBROUTINE LOCAL VARIABLE DECLARATIONS:
         Real64 CpFluid;          // Specific heat of the fluid in the radiant system

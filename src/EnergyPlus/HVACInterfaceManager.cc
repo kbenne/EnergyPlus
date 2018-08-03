@@ -149,7 +149,7 @@ namespace HVACInterfaceManager {
         using namespace DataConvergParams;
         using DataContaminantBalance::Contaminant;
 
-        static Array1D<Real64> TmpRealARR(ConvergLogStackDepth); // Tuned Made static
+        static thread_local Array1D<Real64> TmpRealARR(ConvergLogStackDepth); // Tuned Made static
         Real64 DeltaEnergy;
 
         if ((CalledFrom == CalledFromAirSystemDemandSide) && (OutletNode == 0)) {
@@ -444,7 +444,7 @@ namespace HVACInterfaceManager {
         // SUBROUTINE ARGUMENT DEFINITIONS:
 
         // SUBROUTINE PARAMETER DEFINITIONS:
-        static std::string const RoutineName("UpdatePlantLoopInterface");
+        static thread_local std::string const RoutineName("UpdatePlantLoopInterface");
 
         // INTERFACE BLOCK SPECIFICATIONS:
         // na
@@ -620,7 +620,7 @@ namespace HVACInterfaceManager {
 
         // SUBROUTINE PARAMETER DEFINITIONS:
         Real64 const FracTotLoopMass(0.5); // Fraction of total loop mass assigned to the half loop
-        static std::string const RoutineName("UpdateHalfLoopInletTemp");
+        static thread_local std::string const RoutineName("UpdateHalfLoopInletTemp");
 
         // INTERFACE BLOCK SPECIFICATIONS:
         // na
@@ -776,7 +776,7 @@ namespace HVACInterfaceManager {
         // SUBROUTINE ARGUMENTS:
 
         // SUBROUTINE PARAMETER DEFINITIONS:
-        static std::string const RoutineName("UpdateCommonPipe");
+        static thread_local std::string const RoutineName("UpdateCommonPipe");
 
         // INTERFACE BLOCK SPECIFICATIONS:
         // na
@@ -925,21 +925,21 @@ namespace HVACInterfaceManager {
 
         // Locals
         // SUBROUTINE LOCAL VARIABLE DECLARATIONS
-        static Real64 MdotPri(0.0);      // flow rate on primary side kg/s
-        static Real64 MdotSec(0.0);      // flow rate on secondary side kg/s
-        static Real64 MdotPriRCLeg(0.0); // flow rate of primary recirculation thru common pipe kg/s
-        static Real64 MdotSecRCLeg(0.0); // flow rate of secondary recirculation thru common pipe kg/s
-        static Real64 TempSecInlet(0.0); // temperature at secondary inlet deg C
-        static Real64 TempPriInlet(0.0); // temperature at primary inlet deg C
-        static Real64 TempPriOutTankOut(0.0);
-        static Real64 TempSecOutTankOut(0.0);
-        static int NodeNumPriOut(0);
-        static int NodeNumSecOut(0);
-        static int NodeNumPriIn(0);
-        static int NodeNumSecIn(0);
+        static thread_local Real64 MdotPri(0.0);      // flow rate on primary side kg/s
+        static thread_local Real64 MdotSec(0.0);      // flow rate on secondary side kg/s
+        static thread_local Real64 MdotPriRCLeg(0.0); // flow rate of primary recirculation thru common pipe kg/s
+        static thread_local Real64 MdotSecRCLeg(0.0); // flow rate of secondary recirculation thru common pipe kg/s
+        static thread_local Real64 TempSecInlet(0.0); // temperature at secondary inlet deg C
+        static thread_local Real64 TempPriInlet(0.0); // temperature at primary inlet deg C
+        static thread_local Real64 TempPriOutTankOut(0.0);
+        static thread_local Real64 TempSecOutTankOut(0.0);
+        static thread_local int NodeNumPriOut(0);
+        static thread_local int NodeNumSecOut(0);
+        static thread_local int NodeNumPriIn(0);
+        static thread_local int NodeNumSecIn(0);
         int CPFlowDir; // flow direction in single common pipe
-        static Array1D_bool MyEnvrnFlag;
-        static bool OneTimeData(true);
+        static thread_local Array1D_bool MyEnvrnFlag;
+        static thread_local bool OneTimeData(true);
         Real64 CommonPipeTemp;
 
         // One time call to set up report variables and set common pipe 'type' flag
@@ -1078,29 +1078,29 @@ namespace HVACInterfaceManager {
         // na
 
         // SUBROUTINE LOCAL VARIABLE DECLARATIONS:
-        static Array1D_bool MyEnvrnFlag;
-        static bool OneTimeData(true);
+        static thread_local Array1D_bool MyEnvrnFlag;
+        static thread_local bool OneTimeData(true);
         int CurCallingCase;              // local temporary
-        static Real64 MdotPri(0.0);      // flow rate on primary side kg/s
-        static Real64 MdotSec(0.0);      // flow rate on secondary side kg/s
-        static Real64 MdotPriToSec(0.0); // flow rate between primary and secondary side kg/s
-        static Real64 MdotPriRCLeg(0.0); // flow rate on primary recirculation common pipe kg/s
-        static Real64 MdotSecRCLeg(0.0); // flow rate on secondary recirculation common pipe kg/s
-        static Real64 TempSecInlet(0.0); // temperature at secondary inlet deg C
-        static Real64 TempPriInlet(0.0); // temperature at primary inlet deg C
-        static Real64 TempPriOutTankOut(0.0);
-        static Real64 TempSecOutTankOut(0.0);
-        static Real64 TempCPPrimaryCntrlSetPoint(0.0);
+        static thread_local Real64 MdotPri(0.0);      // flow rate on primary side kg/s
+        static thread_local Real64 MdotSec(0.0);      // flow rate on secondary side kg/s
+        static thread_local Real64 MdotPriToSec(0.0); // flow rate between primary and secondary side kg/s
+        static thread_local Real64 MdotPriRCLeg(0.0); // flow rate on primary recirculation common pipe kg/s
+        static thread_local Real64 MdotSecRCLeg(0.0); // flow rate on secondary recirculation common pipe kg/s
+        static thread_local Real64 TempSecInlet(0.0); // temperature at secondary inlet deg C
+        static thread_local Real64 TempPriInlet(0.0); // temperature at primary inlet deg C
+        static thread_local Real64 TempPriOutTankOut(0.0);
+        static thread_local Real64 TempSecOutTankOut(0.0);
+        static thread_local Real64 TempCPPrimaryCntrlSetPoint(0.0);
         // REAL(r64)  :: TempCPCntrlCurrent  = 0.0d0
-        static Real64 TempCPSecondaryCntrlSetPoint(0.0);
+        static thread_local Real64 TempCPSecondaryCntrlSetPoint(0.0);
         // REAL(r64)  :: TempCPCntrlCurrent  = 0.0d0
-        static int NodeNumPriOut(0);
-        static int NodeNumSecOut(0);
-        static int NodeNumPriIn(0);
-        static int NodeNumSecIn(0);
+        static thread_local int NodeNumPriOut(0);
+        static thread_local int NodeNumSecOut(0);
+        static thread_local int NodeNumPriIn(0);
+        static thread_local int NodeNumSecIn(0);
 
-        static int MaxIterLimitCaseA(8);
-        static int MaxIterLimitCaseB(4);
+        static thread_local int MaxIterLimitCaseA(8);
+        static thread_local int MaxIterLimitCaseB(4);
 
         int loop; // interation loop counter
         //  INTEGER    :: loop2

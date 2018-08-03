@@ -162,10 +162,10 @@ namespace WaterManager {
         // na
 
         // SUBROUTINE LOCAL VARIABLE DECLARATIONS:
-        static bool GetInputFlag(true); // First time, input is "gotten"
-        static int RainColNum(0);
-        static int TankNum(0);
-        static int WellNum(0);
+        static thread_local bool GetInputFlag(true); // First time, input is "gotten"
+        static thread_local int RainColNum(0);
+        static thread_local int TankNum(0);
+        static thread_local int WellNum(0);
 
         if (GetInputFlag) {
             GetWaterManagerInput();
@@ -241,17 +241,17 @@ namespace WaterManager {
 
         // SUBROUTINE LOCAL VARIABLE DECLARATIONS:
         int Item;                       // Item to be "gotten"
-        static int NumAlphas(0);        // Number of Alphas for each GetObjectItem call
-        static int NumNumbers(0);       // Number of Numbers for each GetObjectItem call
-        static int IOStatus(0);         // Used in GetObjectItem
-        static bool ErrorsFound(false); // Set to true if errors in input, fatal at end of routine
-        static bool MyOneTimeFlag(true);
-        static int MaxNumAlphas(0);  // argument for call to GetObjectDefMaxArgs
-        static int MaxNumNumbers(0); // argument for call to GetObjectDefMaxArgs
-        static int TotalArgs(0);     // argument for call to GetObjectDefMaxArgs
-        static int alphaOffset(0);
-        static int SurfNum(0);
-        static std::string objNameMsg;
+        static thread_local int NumAlphas(0);        // Number of Alphas for each GetObjectItem call
+        static thread_local int NumNumbers(0);       // Number of Numbers for each GetObjectItem call
+        static thread_local int IOStatus(0);         // Used in GetObjectItem
+        static thread_local bool ErrorsFound(false); // Set to true if errors in input, fatal at end of routine
+        static thread_local bool MyOneTimeFlag(true);
+        static thread_local int MaxNumAlphas(0);  // argument for call to GetObjectDefMaxArgs
+        static thread_local int MaxNumNumbers(0); // argument for call to GetObjectDefMaxArgs
+        static thread_local int TotalArgs(0);     // argument for call to GetObjectDefMaxArgs
+        static thread_local int alphaOffset(0);
+        static thread_local int SurfNum(0);
+        static thread_local std::string objNameMsg;
         Array1D_string cAlphaFieldNames;
         Array1D_string cNumericFieldNames;
         Array1D_bool lNumericFieldBlanks;
@@ -259,12 +259,12 @@ namespace WaterManager {
         Array1D_string cAlphaArgs;
         Array1D<Real64> rNumericArgs;
         std::string cCurrentModuleObject;
-        static Real64 tmpMax(0.0);
-        static Real64 tmpMin(0.0);
-        static Real64 tmpNumerator(0.0);
-        static Real64 tmpArea(0.0);
-        static Real64 tmpDenominator(0.0);
-        static int ThisSurf(0);
+        static thread_local Real64 tmpMax(0.0);
+        static thread_local Real64 tmpMin(0.0);
+        static thread_local Real64 tmpNumerator(0.0);
+        static thread_local Real64 tmpArea(0.0);
+        static thread_local Real64 tmpDenominator(0.0);
+        static thread_local int ThisSurf(0);
         int NumIrrigation;
         int Dummy;
 
@@ -1135,25 +1135,25 @@ namespace WaterManager {
         // see DataWater.cc
 
         // SUBROUTINE LOCAL VARIABLE DECLARATIONS:
-        static Real64 OrigVdotDemandRequest(0.0);
-        static Real64 TotVdotDemandAvail(0.0);
-        static Real64 OrigVolDemandRequest(0.0);
-        static Real64 TotVolDemandAvail(0.0);
-        static Real64 OrigVdotSupplyAvail(0.0);
-        static Real64 TotVdotSupplyAvail(0.0);
-        static Real64 TotVolSupplyAvail(0.0);
+        static thread_local Real64 OrigVdotDemandRequest(0.0);
+        static thread_local Real64 TotVdotDemandAvail(0.0);
+        static thread_local Real64 OrigVolDemandRequest(0.0);
+        static thread_local Real64 TotVolDemandAvail(0.0);
+        static thread_local Real64 OrigVdotSupplyAvail(0.0);
+        static thread_local Real64 TotVdotSupplyAvail(0.0);
+        static thread_local Real64 TotVolSupplyAvail(0.0);
         //  REAL(r64)    :: TotVolSupplyAllow = 0.0d0
-        static Real64 overflowVdot(0.0);
-        static Real64 overflowVol(0.0);
-        static Real64 overflowTwater(0.0);
-        static Real64 NetVdotAdd(0.0);
-        static Real64 NetVolAdd(0.0);
-        static Real64 FillVolRequest(0.0);
-        static Real64 TotVolAllowed(0.0);
-        static Real64 AvailVolume(0.0);
-        static Real64 underflowVdot(0.0);
-        static Real64 VolumePredict(0.0);
-        static Real64 OverFillVolume(0.0);
+        static thread_local Real64 overflowVdot(0.0);
+        static thread_local Real64 overflowVol(0.0);
+        static thread_local Real64 overflowTwater(0.0);
+        static thread_local Real64 NetVdotAdd(0.0);
+        static thread_local Real64 NetVolAdd(0.0);
+        static thread_local Real64 FillVolRequest(0.0);
+        static thread_local Real64 TotVolAllowed(0.0);
+        static thread_local Real64 AvailVolume(0.0);
+        static thread_local Real64 underflowVdot(0.0);
+        static thread_local Real64 VolumePredict(0.0);
+        static thread_local Real64 OverFillVolume(0.0);
 
         if (BeginTimeStepFlag) {
             // initializations are done in UpdateWaterManager
@@ -1761,9 +1761,9 @@ namespace WaterManager {
         int TankNum;
         int RainColNum;
         int WellNum;
-        static bool MyEnvrnFlag(true);   // flag for init once at start of environment
-        static bool MyWarmupFlag(false); // flag for init after warmup complete
-        static bool MyTankDemandCheckFlag(true);
+        static thread_local bool MyEnvrnFlag(true);   // flag for init once at start of environment
+        static thread_local bool MyWarmupFlag(false); // flag for init after warmup complete
+        static thread_local bool MyTankDemandCheckFlag(true);
 
         if (BeginEnvrnFlag && MyEnvrnFlag) {
             for (TankNum = 1; TankNum <= NumWaterStorageTanks; ++TankNum) {

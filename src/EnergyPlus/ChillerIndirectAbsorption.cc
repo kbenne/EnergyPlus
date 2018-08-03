@@ -120,10 +120,10 @@ namespace ChillerIndirectAbsorption {
     int const ConstantFlow(201);
     int const NotModulated(202);
     int const LeavingSetPointModulated(203);
-    static std::string const BlankString;
-    static std::string const fluidNameSteam("STEAM");
-    static std::string const fluidNameWater("WATER");
-    static std::string const calcChillerAbsorptionIndirect("CALC Chiller:Absorption:Indirect ");
+    static thread_local std::string const BlankString;
+    static thread_local std::string const fluidNameSteam("STEAM");
+    static thread_local std::string const fluidNameWater("WATER");
+    static thread_local std::string const calcChillerAbsorptionIndirect("CALC Chiller:Absorption:Indirect ");
 
     // MODULE VARIABLE DECLARATIONS:
     int NumIndirectAbsorbers(0);         // number of Absorption Chillers specified in input
@@ -322,14 +322,14 @@ namespace ChillerIndirectAbsorption {
 
         // Locals
         // SUBROUTINE PARAMETER DEFINITIONS:
-        static std::string const RoutineName("GetIndirectAbsorberInput: "); // include trailing blank space
+        static thread_local std::string const RoutineName("GetIndirectAbsorberInput: "); // include trailing blank space
 
         // LOCAL VARIABLES
         int AbsorberNum; // Absorber counter
         int NumAlphas;   // Number of elements in the alpha array
         int NumNums;     // Number of elements in the numeric array
         int IOStat;      // IO Status when calling get input subroutine
-        static bool ErrorsFound(false);
+        static thread_local bool ErrorsFound(false);
         bool errFlag;                         // GetInput error flag
         Array1D_bool GenInputOutputNodesUsed; // Used for SetupOutputVariable
 
@@ -876,12 +876,12 @@ namespace ChillerIndirectAbsorption {
         using PlantUtilities::SetComponentFlowRate;
 
         // SUBROUTINE PARAMETER DEFINITIONS:
-        static std::string const RoutineName("InitIndirectAbsorpChiller");
+        static thread_local std::string const RoutineName("InitIndirectAbsorpChiller");
 
         // SUBROUTINE LOCAL VARIABLE DECLARATIONS:
-        static bool MyOneTimeFlag(true);
-        static Array1D_bool MyFlag;
-        static Array1D_bool MyEnvrnFlag;
+        static thread_local bool MyOneTimeFlag(true);
+        static thread_local Array1D_bool MyFlag;
+        static thread_local Array1D_bool MyEnvrnFlag;
         int CondInletNode;  // node number of water inlet node to the condenser
         int CondOutletNode; // node number of water outlet node from the condenser
         bool errFlag;
@@ -1180,8 +1180,8 @@ namespace ChillerIndirectAbsorption {
         using ReportSizingManager::ReportSizingOutput;
 
         // SUBROUTINE PARAMETER DEFINITIONS:
-        static std::string const RoutineName("SizeIndirectAbsorpChiller");
-        static std::string const SizeChillerAbsorptionIndirect("SIZE Chiller:Absorption:Indirect");
+        static thread_local std::string const RoutineName("SizeIndirectAbsorpChiller");
+        static thread_local std::string const SizeChillerAbsorptionIndirect("SIZE Chiller:Absorption:Indirect");
 
         // SUBROUTINE LOCAL VARIABLE DECLARATIONS:
         int PltSizIndex;            // Plant Sizing Do loop index
@@ -1209,7 +1209,7 @@ namespace ChillerIndirectAbsorption {
         Real64 tmpEvapVolFlowRate;      // local evaporator design volume flow rate
         Real64 tmpCondVolFlowRate;      // local condenser design volume flow rate
         Real64 tmpGeneratorVolFlowRate; // local generator design volume flow rate
-        static int DummWaterIndex(1);
+        static thread_local int DummWaterIndex(1);
         Real64 NomCapUser;               // Hardsized nominal capacity cooling power for reporting
         Real64 NomPumpPowerUser;         // Hardsized local nominal pump power for reporting
         Real64 EvapVolFlowRateUser;      // Hardsized local evaporator design volume flow rate for reporting
@@ -1812,9 +1812,9 @@ namespace ChillerIndirectAbsorption {
         // SUBROUTINE ARGUMENT DEFINITIONS:
 
         // SUBROUTINE PARAMETER DEFINITIONS:
-        static std::string const RoutineName("CalcIndirectAbsorberModel");
-        static std::string const LoopLossesChillerAbsorptionIndirect("Loop Losses: Chiller:Absorption:Indirect");
-        static std::string const LoopLossesChillerAbsorptionIndirectSpace("Loop Losses: Chiller:Absorption:Indirect ");
+        static thread_local std::string const RoutineName("CalcIndirectAbsorberModel");
+        static thread_local std::string const LoopLossesChillerAbsorptionIndirect("Loop Losses: Chiller:Absorption:Indirect");
+        static thread_local std::string const LoopLossesChillerAbsorptionIndirectSpace("Loop Losses: Chiller:Absorption:Indirect ");
 
         // INTERFACE BLOCK SPECIFICATIONS
         // na
@@ -1847,11 +1847,11 @@ namespace ChillerIndirectAbsorption {
         Real64 EnthSteamOutDry;          // enthalpy of dry steam at generator inlet
         Real64 EnthSteamOutWet;          // enthalpy of wet steam at generator inlet
         Real64 HfgSteam;                 // heat of vaporization of steam
-        static Array1D_bool MyEnvironFlag;
-        static Array1D_bool MyEnvironSteamFlag;
-        static bool OneTimeFlag(true);
+        static thread_local Array1D_bool MyEnvironFlag;
+        static thread_local Array1D_bool MyEnvironSteamFlag;
+        static thread_local bool OneTimeFlag(true);
         Real64 FRAC;                    // fraction of time step chiller cycles
-        static bool PossibleSubcooling; // flag to determine if supply water temperature is below setpoint
+        static thread_local bool PossibleSubcooling; // flag to determine if supply water temperature is below setpoint
         Real64 CpFluid;                 // specific heat of generator fluid
         Real64 SteamDeltaT;             // temperature difference of fluid through generator
         Real64 SteamOutletTemp;         // generator outlet temperature
@@ -1866,7 +1866,7 @@ namespace ChillerIndirectAbsorption {
         Real64 EnthPumpInlet;           // enthalpy of condensed steam entering pump (includes loop losses)
         int LoopSideNum;
         int LoopNum;
-        static int DummyWaterIndex(1);
+        static thread_local int DummyWaterIndex(1);
 
         if (OneTimeFlag) {
             MyEnvironFlag.allocate(NumIndirectAbsorbers);

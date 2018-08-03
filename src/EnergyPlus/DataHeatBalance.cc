@@ -1688,7 +1688,7 @@ namespace DataHeatBalance {
         // na
 
         // FUNCTION LOCAL VARIABLE DECLARATIONS:
-        static Array1D_int LayerPoint(MaxLayersInConstruct, 0); // Pointer array which refers back to
+        static thread_local Array1D_int LayerPoint(MaxLayersInConstruct, 0); // Pointer array which refers back to
         int nLayer;
         int Loop;
         bool Found;
@@ -2418,11 +2418,11 @@ namespace DataHeatBalance {
         // na
 
         // SUBROUTINE LOCAL VARIABLE DECLARATIONS:
-        static int loopSurfNum(0); // surface index
-        static int ConstrNum(0);   // construction index
-        static int NumLayers(0);   // number of material layers in a construction
-        static int Layer(0);       // construction material layer index
-        static int MaterNum(0);    // construction material index
+        static thread_local int loopSurfNum(0); // surface index
+        static thread_local int ConstrNum(0);   // construction index
+        static thread_local int NumLayers(0);   // number of material layers in a construction
+        static thread_local int Layer(0);       // construction material layer index
+        static thread_local int MaterNum(0);    // construction material index
 
         for (loopSurfNum = 1; loopSurfNum <= TotSurfaces; ++loopSurfNum) {
 

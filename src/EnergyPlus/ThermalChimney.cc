@@ -109,7 +109,7 @@ namespace ThermalChimney {
 
     int TotThermalChimney(0); // Total ThermalChimney Statements in input
 
-    static std::string const BlankString;
+    static thread_local std::string const BlankString;
 
     // Subroutine Specifications for the Heat Balance Module
     // Driver Routines
@@ -165,8 +165,8 @@ namespace ThermalChimney {
         // na
 
         // SUBROUTINE LOCAL VARIABLE DECLARATIONS:
-        static bool GetInputFlag(true);
-        static bool ErrorsFound(false);
+        static thread_local bool GetInputFlag(true);
+        static thread_local bool ErrorsFound(false);
 
         // Obtains and Allocates heat balance related parameters from input file
         if (GetInputFlag) {

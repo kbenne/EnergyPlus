@@ -579,7 +579,7 @@ public: // Methods
         return processSomeSurfaceRayIntersectsCube(a, dir, safe_inverse(dir), predicate); // Inefficient if called in loop with same dir
     }
 
-public: // Static Methods
+public: // static thread_local Methods
     // Octree-Safe Vector Inverse
     static Vertex safe_inverse(Vertex const &v)
     {
@@ -602,7 +602,7 @@ private: // Methods
     // Surface Branch Processing
     void surfaceBranch(Surface &surface);
 
-private: // Static Methods
+private: // static thread_local Methods
     // Vertex in Cube Defined by Lower and Upper Corners?
     static bool contains(Vertex const &l, Vertex const &u, Vertex const &v)
     {
@@ -612,7 +612,7 @@ private: // Static Methods
     // Surface in Cube Defined by Lower and Upper Corners?
     static bool contains(Vertex const &l, Vertex const &u, Surface const &surface);
 
-private:                                 // Static Data
+private:                                 // static thread_local Data
     static std::uint8_t const maxDepth_; // Max tree depth
     static size_type const maxSurfaces_; // Max surfaces in a cube before subdividing
 

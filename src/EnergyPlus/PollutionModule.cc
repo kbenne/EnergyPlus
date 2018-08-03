@@ -121,7 +121,7 @@ namespace PollutionModule {
     int const OtherFuel2PollFactor(10);
     int const PollFactorNumTypes(10);
 
-    static std::string const BlankString;
+    static thread_local std::string const BlankString;
 
     // DERIVED TYPE DEFINITIONS:
 
@@ -671,7 +671,7 @@ namespace PollutionModule {
         int NumNums;
         int Loop;
         int IOStat;
-        static bool ErrorsFound(false);
+        static thread_local bool ErrorsFound(false);
 
         if (!GetInputFlagPollution) return; // Input already gotten
 

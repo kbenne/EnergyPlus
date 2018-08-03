@@ -141,7 +141,7 @@ namespace ReturnAirPathManager {
         // Locals
         int ReturnAirPathNum;
         //////////// hoisted into namespace ////////////////////////////////////////////////
-        // static bool GetInputFlag( true ); // Flag set to make sure you get input once
+        // static thread_local bool GetInputFlag( true ); // Flag set to make sure you get input once
         ////////////////////////////////////////////////////////////////////////////////////
 
         // Obtains and Allocates Mixer related parameters from input file
@@ -177,7 +177,7 @@ namespace ReturnAirPathManager {
         int IOStat;
         int Counter;
         //////////// hoisted into namespace ////////////////////////////////////////////////
-        // static bool ErrorsFound( false );
+        // static thread_local bool ErrorsFound( false );
         ////////////////////////////////////////////////////////////////////////////////////
         bool IsNotOK; // Flag to verify name
 

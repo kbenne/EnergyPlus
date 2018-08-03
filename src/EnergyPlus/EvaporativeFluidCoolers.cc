@@ -142,7 +142,7 @@ namespace EvaporativeFluidCoolers {
     int const EvapFluidCooler_SingleSpeed(1);
     int const EvapFluidCooler_TwoSpeed(2);
 
-    static std::string const BlankString;
+    static thread_local std::string const BlankString;
     bool GetEvapFluidCoolerInputFlag(true);
 
     // MODULE VARIABLE DECLARATIONS:
@@ -361,7 +361,7 @@ namespace EvaporativeFluidCoolers {
         int NumAlphas;                        // Number of elements in the alpha array
         int NumNums;                          // Number of elements in the numeric array
         int IOStat;                           // IO Status when calling get input subroutine
-        static bool ErrorsFound(false);       // Logical flag set .TRUE. if errors found while getting input data
+        static thread_local bool ErrorsFound(false);       // Logical flag set .TRUE. if errors found while getting input data
         Array1D<Real64> NumArray(25);         // Numeric input data array
         Array1D_string AlphArray(13);         // Character string input data array
         std::string FluidName;
@@ -1346,13 +1346,13 @@ namespace EvaporativeFluidCoolers {
         using Psychrometrics::PsyTwbFnTdbWPb;
 
         // SUBROUTINE PARAMETER DEFINITIONS:
-        static std::string const RoutineName("InitEvapFluidCooler");
+        static thread_local std::string const RoutineName("InitEvapFluidCooler");
 
         // SUBROUTINE LOCAL VARIABLE DECLARATIONS:
-        static bool ErrorsFound(false); // Flag if input data errors are found
-        static bool MyOneTimeFlag(true);
-        static Array1D_bool MyEnvrnFlag;
-        static Array1D_bool OneTimeFlagForEachEvapFluidCooler;
+        static thread_local bool ErrorsFound(false); // Flag if input data errors are found
+        static thread_local bool MyOneTimeFlag(true);
+        static thread_local Array1D_bool MyEnvrnFlag;
+        static thread_local Array1D_bool OneTimeFlagForEachEvapFluidCooler;
         int TypeOf_Num(0);
         int LoopNum;
         int LoopSideNum;
@@ -1521,7 +1521,7 @@ namespace EvaporativeFluidCoolers {
         // SUBROUTINE PARAMETER DEFINITIONS:
         int const MaxIte(500);    // Maximum number of iterations
         Real64 const Acc(0.0001); // Accuracy of result
-        static std::string const CalledFrom("SizeEvapFluidCooler");
+        static thread_local std::string const CalledFrom("SizeEvapFluidCooler");
 
         // SUBROUTINE LOCAL VARIABLE DECLARATIONS:
         int PltSizCondNum;               // Plant Sizing index for condenser loop
@@ -2352,9 +2352,9 @@ namespace EvaporativeFluidCoolers {
         // SUBROUTINE ARGUMENT DEFINITIONS:
 
         // SUBROUTINE PARAMETER DEFINITIONS:
-        static std::string const RoutineName("CalcSingleSpeedEvapFluidCooler");
+        static thread_local std::string const RoutineName("CalcSingleSpeedEvapFluidCooler");
         int const MaxIteration(100); // Maximum fluid bypass iteration calculations
-        static std::string const MaxItChar("100");
+        static thread_local std::string const MaxItChar("100");
         Real64 const BypassFractionThreshold(0.01); // Threshold to stop bypass iteration
         Real64 const OWTLowerLimit(0.0);            // The limit of evaporative fluid cooler exit fluid temperature used
         // in the fluid bypass calculation to avoid fluid freezing. For water,
@@ -2579,7 +2579,7 @@ namespace EvaporativeFluidCoolers {
         // SUBROUTINE ARGUMENT DEFINITIONS:
 
         // SUBROUTINE PARAMETER DEFINITIONS:
-        static std::string const RoutineName("CalcTwoSpeedEvapFluidCooler");
+        static thread_local std::string const RoutineName("CalcTwoSpeedEvapFluidCooler");
 
         // INTERFACE BLOCK SPECIFICATIONS
         // na
@@ -2705,7 +2705,7 @@ namespace EvaporativeFluidCoolers {
         Real64 const WetBulbTolerance(0.00001); // Maximum error for exiting wet-bulb temperature between iterations
         // [delta K/K]
         Real64 const DeltaTwbTolerance(0.001); // Maximum error (tolerance) in DeltaTwb for iteration convergence [C]
-        static std::string const RoutineName("SimSimpleEvapFluidCooler");
+        static thread_local std::string const RoutineName("SimSimpleEvapFluidCooler");
 
         // INTERFACE BLOCK SPECIFICATIONS
         // na
@@ -2901,7 +2901,7 @@ namespace EvaporativeFluidCoolers {
         // SUBROUTINE ARGUMENT DEFINITIONS:
 
         // SUBROUTINE PARAMETER DEFINITIONS:
-        static std::string const RoutineName("CalculateWaterUseage");
+        static thread_local std::string const RoutineName("CalculateWaterUseage");
 
         // INTERFACE BLOCK SPECIFICATIONS:
         // na
@@ -2913,9 +2913,9 @@ namespace EvaporativeFluidCoolers {
         Real64 AirDensity;
         Real64 AirMassFlowRate;
         Real64 AvailTankVdot;
-        static Real64 BlowDownVdot(0.0);
-        static Real64 DriftVdot(0.0);
-        static Real64 EvapVdot(0.0);
+        static thread_local Real64 BlowDownVdot(0.0);
+        static thread_local Real64 DriftVdot(0.0);
+        static thread_local Real64 EvapVdot(0.0);
         Real64 InletAirEnthalpy;
         Real64 InSpecificHumRat;
         Real64 OutSpecificHumRat;
@@ -3079,7 +3079,7 @@ namespace EvaporativeFluidCoolers {
         // SUBROUTINE ARGUMENT DEFINITIONS:
 
         // SUBROUTINE PARAMETER DEFINITIONS:
-        static gio::Fmt LowTempFmt("(' ',F6.2)");
+        static thread_local gio::Fmt LowTempFmt("(' ',F6.2)");
         Real64 const TempAllowance(0.02); // Minimum difference b/w fluid cooler water outlet temp and
         // minimum condenser loop temp [C]
 

@@ -135,8 +135,8 @@ namespace CoolingPanelSimple {
     Array1D_bool MySizeFlagCoolPanel;
 
     // Other variables
-    static bool GetInputFlag(true); // One time get input flag
-    static bool MyOneTimeFlag(true);
+    static thread_local bool GetInputFlag(true); // One time get input flag
+    static thread_local bool MyOneTimeFlag(true);
 
     // SUBROUTINE SPECIFICATIONS FOR MODULE Simple Chilled Ceiling Panel
     // Object Data
@@ -289,7 +289,7 @@ namespace CoolingPanelSimple {
         using namespace DataIPShortCuts;
 
         // SUBROUTINE PARAMETER DEFINITIONS:
-        static std::string const RoutineName("GetCoolingPanelInput:");
+        static thread_local std::string const RoutineName("GetCoolingPanelInput:");
         Real64 const MaxFraction(1.0);
         Real64 const MinFraction(0.0);
         Real64 const MaxWaterTempAvg(30.0);       // Maximum limit of average water temperature in degree C
@@ -299,16 +299,16 @@ namespace CoolingPanelSimple {
         Real64 const WaterMassFlowDefault(0.063); // Default water mass flow rate in kg/s
         int const MinDistribSurfaces(1);          // Minimum number of surfaces that a baseboard heater can radiate to
         Real64 const MinThrottlingRange(0.5);     // Smallest throttling range allowed in degrees Celsius
-        static std::string const MeanAirTemperature("MeanAirTemperature");
-        static std::string const MeanRadiantTemperature("MeanRadiantTemperature");
-        static std::string const OperativeTemperature("OperativeTemperature");
-        static std::string const OutsideAirDryBulbTemperature("OutdoorDryBulbTemperature");
-        static std::string const OutsideAirWetBulbTemperature("OutdoorWetBulbTemperature");
-        static std::string const ZoneTotalLoad("ZoneTotalLoad");
-        static std::string const ZoneConvectiveLoad("ZoneConvectiveLoad");
-        static std::string const Off("Off");
-        static std::string const SimpleOff("SimpleOff");
-        static std::string const VariableOff("VariableOff");
+        static thread_local std::string const MeanAirTemperature("MeanAirTemperature");
+        static thread_local std::string const MeanRadiantTemperature("MeanRadiantTemperature");
+        static thread_local std::string const OperativeTemperature("OperativeTemperature");
+        static thread_local std::string const OutsideAirDryBulbTemperature("OutdoorDryBulbTemperature");
+        static thread_local std::string const OutsideAirWetBulbTemperature("OutdoorWetBulbTemperature");
+        static thread_local std::string const ZoneTotalLoad("ZoneTotalLoad");
+        static thread_local std::string const ZoneConvectiveLoad("ZoneConvectiveLoad");
+        static thread_local std::string const Off("Off");
+        static thread_local std::string const SimpleOff("SimpleOff");
+        static thread_local std::string const VariableOff("VariableOff");
 
         // SUBROUTINE LOCAL VARIABLE DECLARATIONS:
         Real64 AllFracsSummed; // Sum of the fractions radiant
@@ -318,7 +318,7 @@ namespace CoolingPanelSimple {
         int NumNumbers;        // Number of Numbers for each GetobjectItem call
         int SurfNum;           // Surface number Do loop counter
         int IOStat;
-        static bool ErrorsFound(false); // If errors detected in input
+        static thread_local bool ErrorsFound(false); // If errors detected in input
 
         NumCoolingPanels = inputProcessor->getNumObjectsFound(cCMO_CoolingPanel_Simple);
 
@@ -764,11 +764,11 @@ namespace CoolingPanelSimple {
         using PlantUtilities::ScanPlantLoopsForObject;
 
         // SUBROUTINE PARAMETER DEFINITIONS:
-        static std::string const RoutineName("ChilledCeilingPanelSimple:InitCoolingPanel");
+        static thread_local std::string const RoutineName("ChilledCeilingPanelSimple:InitCoolingPanel");
 
         // SUBROUTINE LOCAL VARIABLE DECLARATIONS:
-        static bool ZoneEquipmentListChecked(false);
-        static Array1D_bool MyEnvrnFlag;
+        static thread_local bool ZoneEquipmentListChecked(false);
+        static thread_local Array1D_bool MyEnvrnFlag;
         int Loop;
         int ZoneNode;
         int ZoneNum;
@@ -954,7 +954,7 @@ namespace CoolingPanelSimple {
         using ReportSizingManager::RequestSizing;
 
         // SUBROUTINE PARAMETER DEFINITIONS:
-        static std::string const RoutineName("SizeCoolingPanel");
+        static thread_local std::string const RoutineName("SizeCoolingPanel");
 
         // SUBROUTINE LOCAL VARIABLE DECLARATIONS:
         bool ErrorsFound(false);  // If errors detected in input
@@ -1233,7 +1233,7 @@ namespace CoolingPanelSimple {
         Real64 const MinFrac(0.0005); // Minimum fraction that delivers radiant heats to surfaces
         int const Maxiter(20);        // Maximum number of iterations to achieve tolerance
         Real64 const IterTol(0.005);  // Tolerance of 0.5%
-        static std::string const RoutineName("CalcCoolingPanel");
+        static thread_local std::string const RoutineName("CalcCoolingPanel");
 
         // SUBROUTINE LOCAL VARIABLE DECLARATIONS:
         int ZoneNum;
@@ -1546,8 +1546,8 @@ namespace CoolingPanelSimple {
         // SUBROUTINE LOCAL VARIABLE DECLARATIONS:
         int WaterInletNode;
         int WaterOutletNode;
-        static int Iter(0);
-        static bool MyEnvrnFlag(true);
+        static thread_local int Iter(0);
+        static thread_local bool MyEnvrnFlag(true);
 
         if (BeginEnvrnFlag && MyEnvrnFlag) {
             Iter = 0;

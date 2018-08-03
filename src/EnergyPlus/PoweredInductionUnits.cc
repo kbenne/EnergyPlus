@@ -143,8 +143,8 @@ namespace PoweredInductionUnits {
     int const HCoilType_SimpleHeating(3);
     int const HCoilType_SteamAirHeating(4);
 
-    static std::string const fluidNameSteam("STEAM");
-    static std::string const fluidNameWater("WATER");
+    static thread_local std::string const fluidNameSteam("STEAM");
+    static thread_local std::string const fluidNameWater("WATER");
 
     // MODULE VARIABLE DECLARATIONS:
     Array1D_bool CheckEquipName;
@@ -299,13 +299,13 @@ namespace PoweredInductionUnits {
         int NumAlphas;                  // Number of Alpha input fields for each GetObjectItem call
         int NumNumbers;                 // Number of Numeric input fields for each GetObjectItem call
         int IOStatus;                   // Used in GetObjectItem
-        static bool ErrorsFound(false); // Set to true if errors in input, fatal at end of routine
+        static thread_local bool ErrorsFound(false); // Set to true if errors in input, fatal at end of routine
         bool IsNotOK;                   // Flag to verify name
         int CtrlZone;                   // controlled zome do loop index
         int SupAirIn;                   // controlled zone supply air inlet index
         bool AirNodeFound;
         int ADUNum;
-        static std::string const RoutineName("GetPIUs: "); // include trailing blank space
+        static thread_local std::string const RoutineName("GetPIUs: "); // include trailing blank space
         bool SteamMessageNeeded;
         int FanType_Num; // integer representation of fan type
 
@@ -769,7 +769,7 @@ namespace PoweredInductionUnits {
         using PlantUtilities::ScanPlantLoopsForObject;
 
         // SUBROUTINE PARAMETER DEFINITIONS:
-        static std::string const RoutineName("InitPIU");
+        static thread_local std::string const RoutineName("InitPIU");
 
         // SUBROUTINE LOCAL VARIABLE DECLARATIONS:
         int PriNode;    // primary air inlet node number
@@ -777,11 +777,11 @@ namespace PoweredInductionUnits {
         int HotConNode; // hot water control node number in PIU
         int OutletNode; // unit air outlet node number
         Real64 RhoAir;  // air density at outside pressure and standard temperature and humidity
-        static bool MyOneTimeFlag(true);
-        static Array1D_bool MyEnvrnFlag;
-        static Array1D_bool MySizeFlag;
-        static Array1D_bool MyPlantScanFlag;
-        static bool ZoneEquipmentListChecked(false); // True after the Zone Equipment List has been checked for items
+        static thread_local bool MyOneTimeFlag(true);
+        static thread_local Array1D_bool MyEnvrnFlag;
+        static thread_local Array1D_bool MySizeFlag;
+        static thread_local Array1D_bool MyPlantScanFlag;
+        static thread_local bool ZoneEquipmentListChecked(false); // True after the Zone Equipment List has been checked for items
         int Loop;                                    // Loop checking control variable
         Real64 rho;                                  // local plant fluid density
         bool errFlag;
@@ -996,7 +996,7 @@ namespace PoweredInductionUnits {
         using ReportSizingManager::ReportSizingOutput;
 
         // SUBROUTINE PARAMETER DEFINITIONS:
-        static std::string const RoutineName("SizePIU");
+        static thread_local std::string const RoutineName("SizePIU");
 
         // SUBROUTINE LOCAL VARIABLE DECLARATIONS:
         int PltSizHeatNum; // index of plant sizing object for 1st heating loop
@@ -1011,14 +1011,14 @@ namespace PoweredInductionUnits {
         Real64 EnthSteamOutWet;
         Real64 LatentHeatSteam;
         Real64 SteamDensity;
-        static int CoilWaterInletNode(0);
-        static int CoilWaterOutletNode(0);
-        static int CoilSteamInletNode(0);
-        static int CoilSteamOutletNode(0);
+        static thread_local int CoilWaterInletNode(0);
+        static thread_local int CoilWaterOutletNode(0);
+        static thread_local int CoilSteamInletNode(0);
+        static thread_local int CoilSteamOutletNode(0);
         bool ErrorsFound;
         Real64 rho;
         Real64 Cp;
-        static int DummyWaterIndex(1);
+        static thread_local int DummyWaterIndex(1);
         bool IsAutoSize;               // Indicator to autosize
         Real64 MaxPriAirVolFlowDes;    // Autosized maximum primary air flow for reporting
         Real64 MaxPriAirVolFlowUser;   // Hardsized maximum primary air flow for reporting

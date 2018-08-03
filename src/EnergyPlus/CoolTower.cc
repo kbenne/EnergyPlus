@@ -105,7 +105,7 @@ namespace CoolTower {
     int const WaterFlowSchedule(0);
     int const WindDrivenFlow(1);
 
-    static std::string const BlankString;
+    static thread_local std::string const BlankString;
 
     // DERIVED TYPE DEFINITIONS
 
@@ -161,7 +161,7 @@ namespace CoolTower {
         // na
 
         // SUBROUTINE LOCAL VARIABLE DECLARATIONS:
-        static bool GetInputFlag(true);
+        static thread_local bool GetInputFlag(true);
         // unused1208  LOGICAL :: ErrorsFound=.FALSE.
         // unused1208  INTEGER :: CoolTowerNum
 
@@ -199,7 +199,7 @@ namespace CoolTower {
         using WaterManager::SetupTankDemandComponent;
 
         // SUBROUTINE PARAMETER DEFINITIONS:
-        static std::string const CurrentModuleObject("ZoneCoolTower:Shower");
+        static thread_local std::string const CurrentModuleObject("ZoneCoolTower:Shower");
         Real64 const MaximumWaterFlowRate(0.016667); // Maximum limit of water flow rate in m3/s (1000 l/min)
         Real64 const MinimumWaterFlowRate(0.0);      // Minimum limit of water flow rate
         Real64 const MaxHeight(30.0);                // Maximum effective tower height in m
@@ -216,7 +216,7 @@ namespace CoolTower {
         // na
 
         // SUBROUTINE LOCAL VARIABLE DECLARATIONS:
-        static bool ErrorsFound(false); // If errors detected in input
+        static thread_local bool ErrorsFound(false); // If errors detected in input
         int CoolTowerNum;               // Cooltower number
         int NumAlphas;                  // Number of Alphas for each GetobjectItem call
         int NumNumbers;                 // Number of Numbers for each GetobjectItem call

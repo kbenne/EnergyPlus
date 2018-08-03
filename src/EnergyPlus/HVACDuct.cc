@@ -135,7 +135,7 @@ namespace HVACDuct {
         using General::TrimSigDigits;
 
         // SUBROUTINE LOCAL VARIABLE DECLARATIONS:
-        static bool GetInputFlag(true); // First time, input is "gotten"
+        static thread_local bool GetInputFlag(true); // First time, input is "gotten"
         int DuctNum;                    // index of duct being simulated
 
         if (GetInputFlag) {
@@ -196,11 +196,11 @@ namespace HVACDuct {
 
         // SUBROUTINE LOCAL VARIABLE DECLARATIONS:
         int DuctNum; // duct index
-        static std::string const RoutineName("GetDuctInput:");
+        static thread_local std::string const RoutineName("GetDuctInput:");
         int NumAlphas;                  // Number of Alphas for each GetObjectItem call
         int NumNumbers;                 // Number of Numbers for each GetObjectItem call
         int IOStatus;                   // Used in GetObjectItem
-        static bool ErrorsFound(false); // Set to true if errors in input, fatal at end of routine
+        static thread_local bool ErrorsFound(false); // Set to true if errors in input, fatal at end of routine
 
         cCurrentModuleObject = "Duct";
         NumDucts = inputProcessor->getNumObjectsFound(cCurrentModuleObject);
@@ -270,8 +270,8 @@ namespace HVACDuct {
         // na
 
         // SUBROUTINE LOCAL VARIABLE DECLARATIONS:
-        static bool MyOneTimeFlag(true);
-        static Array1D_bool MyEnvrnFlag;
+        static thread_local bool MyOneTimeFlag(true);
+        static thread_local Array1D_bool MyEnvrnFlag;
 
         // do one time initializations
         if (MyOneTimeFlag) {

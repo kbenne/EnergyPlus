@@ -119,12 +119,12 @@ namespace ConvectionCoefficients {
     // MODULE PARAMETER DEFINITIONS:
     Real64 const AdaptiveHcInsideLowLimit(0.5);  // W/m2-K
     Real64 const AdaptiveHcOutsideLowLimit(1.0); // W/m2-K
-    static gio::Fmt fmtx("(A,I4,1x,A,1x,6f16.8)");
-    static gio::Fmt fmty("(A,1x,6f16.8)");
+    static thread_local gio::Fmt fmtx("(A,I4,1x,A,1x,6f16.8)");
+    static thread_local gio::Fmt fmty("(A,1x,6f16.8)");
 
     Real64 const MinFlow(0.01); // Minimum mass flow rate
     Real64 const MaxACH(100.0); // Maximum ceiling diffuser correlation limit
-    static std::string const BlankString;
+    static thread_local std::string const BlankString;
 
     Real64 const OneThird(1.0 / 3.0);   // 1/3 in highest precision
     Real64 const OneFourth(1.0 / 4.0);  // 1/4 in highest precision
@@ -295,9 +295,9 @@ namespace ConvectionCoefficients {
         // SUBROUTINE LOCAL VARIABLE DECLARATIONS:
         int ZoneNum;                          // DO loop counter for zones
         int SurfNum;                          // DO loop counter for surfaces in zone
-        static bool NodeCheck(true);          // for CeilingDiffuser Zones
-        static bool ActiveSurfaceCheck(true); // for radiant surfaces in zone
-        static bool MyEnvirnFlag(true);
+        static thread_local bool NodeCheck(true);          // for CeilingDiffuser Zones
+        static thread_local bool ActiveSurfaceCheck(true); // for radiant surfaces in zone
+        static thread_local bool MyEnvirnFlag(true);
 
         // FLOW:
         if (GetUserSuppliedConvectionCoeffs) {
@@ -1161,9 +1161,9 @@ namespace ConvectionCoefficients {
         // na
 
         // SUBROUTINE PARAMETER DEFINITIONS:
-        static std::string const RoutineName("GetUserConvectionCoefficients");
+        static thread_local std::string const RoutineName("GetUserConvectionCoefficients");
         int const NumValidSurfaceTypes(11);
-        static Array1D_string const ValidSurfaceTypes(11,
+        static thread_local Array1D_string const ValidSurfaceTypes(11,
                                                       {"ALLEXTERIORSURFACES",
                                                        "ALLEXTERIORWINDOWS",
                                                        "ALLEXTERIORWALLS",
@@ -1177,7 +1177,7 @@ namespace ConvectionCoefficients {
                                                        "ALLINTERIORFLOORS"});
 
         int const NumValidExtConvectionValueTypes(22);
-        static Array1D_string const ValidExtConvectionValueTypes(22,
+        static thread_local Array1D_string const ValidExtConvectionValueTypes(22,
                                                                  {"VALUE",
                                                                   "SCHEDULE",
                                                                   "SIMPLECOMBINED",
@@ -1201,7 +1201,7 @@ namespace ConvectionCoefficients {
                                                                   "ALAMDARIHAMMONDSTABLEHORIZONTAL",
                                                                   "ALAMDARIHAMMONDUNSTABLEHORIZONTAL"});
 
-        static Array1D_int const ExtConvectionValue(22,
+        static thread_local Array1D_int const ExtConvectionValue(22,
                                                     {-999,
                                                      -999,
                                                      ASHRAESimple,
@@ -1226,7 +1226,7 @@ namespace ConvectionCoefficients {
                                                      HcExt_AlamdariHammondUnstableHorizontal});
 
         int const NumValidSpecificExtWindConvValueTypes(15);
-        static Array1D_string const ValidSpecificExtWindConvValueTypes(15,
+        static thread_local Array1D_string const ValidSpecificExtWindConvValueTypes(15,
                                                                        {"SIMPLECOMBINED",
                                                                         "TARPWINDWARD",
                                                                         "TARPLEEWARD",
@@ -1242,7 +1242,7 @@ namespace ConvectionCoefficients {
                                                                         "BLOCKENWINDWARD",
                                                                         "CLEARROOF",
                                                                         "USERCURVE"});
-        static Array1D_int const MoreSpecificExtWindConvectionValue(15,
+        static thread_local Array1D_int const MoreSpecificExtWindConvectionValue(15,
                                                                     {HcExt_ASHRAESimpleCombined,
                                                                      HcExt_SparrowWindward,
                                                                      HcExt_SparrowLeeward,
@@ -1260,7 +1260,7 @@ namespace ConvectionCoefficients {
                                                                      HcExt_UserCurve});
 
         int const NumValidSpecificExtNatConvectValueTypes(10);
-        static Array1D_string const ValidSpecificExtNatConvectValueTypes(10,
+        static thread_local Array1D_string const ValidSpecificExtNatConvectValueTypes(10,
                                                                          {"ASHRAEVERTICALWALL",
                                                                           "ALAMDARIHAMMONDVERTICALWALL",
                                                                           "FOHANNOPOLIDORIVERTICALWALL",
@@ -1271,7 +1271,7 @@ namespace ConvectionCoefficients {
                                                                           "ISO15099WINDOWS",
                                                                           "USERCURVE",
                                                                           "NONE"});
-        static Array1D_int const SpecificExtNatConvectionValue(10,
+        static thread_local Array1D_int const SpecificExtNatConvectionValue(10,
                                                                {HcExt_NaturalASHRAEVerticalWall,
                                                                 HcExt_AlamdariHammondVerticalWall,
                                                                 HcExt_FohannoPolidoriVerticalWall,
@@ -1285,7 +1285,7 @@ namespace ConvectionCoefficients {
 
         // CeilingDiffuser and TrombeWall Interior types are only Zone Level settings.
         int const NumValidIntConvectionValueTypes(34);
-        static Array1D_string const ValidIntConvectionValueTypes(34,
+        static thread_local Array1D_string const ValidIntConvectionValueTypes(34,
                                                                  {"VALUE",
                                                                   "SCHEDULE",
                                                                   "SIMPLE",
@@ -1320,7 +1320,7 @@ namespace ConvectionCoefficients {
                                                                   "GOLDSTEINNOVOSELACCEILINGDIFFUSERWINDOW",
                                                                   "GOLDSTEINNOVOSELACCEILINGDIFFUSERWALLS",
                                                                   "GOLDSTEINNOVOSELACCEILINGDIFFUSERFLOOR"});
-        static Array1D_int const IntConvectionValue(34,
+        static thread_local Array1D_int const IntConvectionValue(34,
                                                     {-999,
                                                      -999,
                                                      ASHRAESimple,
@@ -1372,9 +1372,9 @@ namespace ConvectionCoefficients {
         int Count;
         int Status;
         int Found;
-        static bool ErrorsFound(false);
-        static bool errFlag(false);
-        static bool IsValidType(false);
+        static thread_local bool ErrorsFound(false);
+        static thread_local bool errFlag(false);
+        static thread_local bool IsValidType(false);
         int ExtValue;
         int IntValue;
         int Ptr;
@@ -4015,9 +4015,9 @@ namespace ConvectionCoefficients {
         // FUNCTION ARGUMENT DEFINITIONS:
 
         // FUNCTION PARAMETER DEFINITIONS:
-        static Array1D<Real64> const D(6, {11.58, 12.49, 10.79, 8.23, 10.22, 8.23});
-        static Array1D<Real64> const E(6, {5.894, 4.065, 4.192, 4.00, 3.100, 3.33});
-        static Array1D<Real64> const F(6, {0.0, 0.028, 0.0, -0.057, 0.0, -0.036});
+        static thread_local Array1D<Real64> const D(6, {11.58, 12.49, 10.79, 8.23, 10.22, 8.23});
+        static thread_local Array1D<Real64> const E(6, {5.894, 4.065, 4.192, 4.00, 3.100, 3.33});
+        static thread_local Array1D<Real64> const F(6, {0.0, 0.028, 0.0, -0.057, 0.0, -0.036});
 
         // INTERFACE BLOCK SPECIFICATIONS:
         // na
@@ -4891,10 +4891,10 @@ namespace ConvectionCoefficients {
 
         // Locals
         Real64 const OneThird((1.0 / 3.0)); // 1/3 in highest precision
-        static Real64 const pow_5_25(0.56 * root_4(1.0E+5));
-        static Real64 const pow_11_25(0.56 * root_4(1.0E+11));
-        static Real64 const pow_11_2(0.58 * std::pow(1.0E+11, 0.2));
-        static std::string const RoutineName("WindowTempsForNominalCond");
+        static thread_local Real64 const pow_5_25(0.56 * root_4(1.0E+5));
+        static thread_local Real64 const pow_11_25(0.56 * root_4(1.0E+11));
+        static thread_local Real64 const pow_11_2(0.58 * std::pow(1.0E+11, 0.2));
+        static thread_local std::string const RoutineName("WindowTempsForNominalCond");
 
         // SUBROUTINE ARGUMENT DEFINITIONS:
 
@@ -5028,7 +5028,7 @@ namespace ConvectionCoefficients {
         //       RE-ENGINEERED  na
 
         // PURPOSE OF THIS SUBROUTINE:
-        // do one-time setup needed to store static data
+        // do one-time setup needed to store static thread_local data
         // for adaptive convection algorithm
 
         // METHODOLOGY EMPLOYED:
@@ -5057,7 +5057,7 @@ namespace ConvectionCoefficients {
         // DERIVED TYPE DEFINITIONS:
 
         // SUBROUTINE LOCAL VARIABLE DECLARATIONS:
-        static bool FirstRoofSurf(true);
+        static thread_local bool FirstRoofSurf(true);
         int ZoneLoop;
         int SurfLoop;
         int VertLoop;
@@ -5131,48 +5131,48 @@ namespace ConvectionCoefficients {
         Vector dummy1;
         Vector dummy2;
         Vector dummy3;
-        static FacadeGeoCharactisticsStruct NorthFacade(332.5, 22.5, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0);
-        static FacadeGeoCharactisticsStruct NorthEastFacade(22.5, 67.5, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0);
-        static FacadeGeoCharactisticsStruct EastFacade(67.5, 112.5, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0);
-        static FacadeGeoCharactisticsStruct SouthEastFacade(112.5, 157.5, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0);
-        static FacadeGeoCharactisticsStruct SouthFacade(157.5, 202.5, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0);
-        static FacadeGeoCharactisticsStruct SouthWestFacade(202.5, 247.5, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0);
-        static FacadeGeoCharactisticsStruct WestFacade(247.5, 287.5, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0);
-        static FacadeGeoCharactisticsStruct NorthWestFacade(287.5, 332.5, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0);
+        static thread_local FacadeGeoCharactisticsStruct NorthFacade(332.5, 22.5, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0);
+        static thread_local FacadeGeoCharactisticsStruct NorthEastFacade(22.5, 67.5, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0);
+        static thread_local FacadeGeoCharactisticsStruct EastFacade(67.5, 112.5, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0);
+        static thread_local FacadeGeoCharactisticsStruct SouthEastFacade(112.5, 157.5, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0);
+        static thread_local FacadeGeoCharactisticsStruct SouthFacade(157.5, 202.5, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0);
+        static thread_local FacadeGeoCharactisticsStruct SouthWestFacade(202.5, 247.5, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0);
+        static thread_local FacadeGeoCharactisticsStruct WestFacade(247.5, 287.5, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0);
+        static thread_local FacadeGeoCharactisticsStruct NorthWestFacade(287.5, 332.5, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0);
 
         // Formats
-        static gio::Fmt Format_900("('! <Surface Convection Parameters>, Surface Name, Outside Model Assignment, Outside Area [m2], ','Outside "
+        static thread_local gio::Fmt Format_900("('! <Surface Convection Parameters>, Surface Name, Outside Model Assignment, Outside Area [m2], ','Outside "
                                    "Perimeter [m], Outside Height [m], Inside Model Assignment, ','Inside Height [m], Inside Perimeter Envelope [m], "
                                    "Inside Hydraulic Diameter [m], Window Wall Ratio, ','Window Location, Near Radiant {Yes/No}, Has Active HVAC "
                                    "{Yes/No}')");
-        static gio::Fmt Format_901("('Surface Convection Parameters,',A,',',A,',',A,',',A,',',A,',',A,',',A,',',A,',',A,',',A,',',A,',',A,',',A)");
-        static gio::Fmt Format_8000("('! <Building Convection Parameters:North Facade>, Perimeter, Height, Xmin, Xmax, Ymin, Ymax, Zmin, Zmax ')");
-        static gio::Fmt Format_8001("('Building Convection Parameters:North Facade, ',A,',',A,',',A,',',A,',',A,',',A,',',A,',',A)");
-        static gio::Fmt Format_8100(
+        static thread_local gio::Fmt Format_901("('Surface Convection Parameters,',A,',',A,',',A,',',A,',',A,',',A,',',A,',',A,',',A,',',A,',',A,',',A,',',A)");
+        static thread_local gio::Fmt Format_8000("('! <Building Convection Parameters:North Facade>, Perimeter, Height, Xmin, Xmax, Ymin, Ymax, Zmin, Zmax ')");
+        static thread_local gio::Fmt Format_8001("('Building Convection Parameters:North Facade, ',A,',',A,',',A,',',A,',',A,',',A,',',A,',',A)");
+        static thread_local gio::Fmt Format_8100(
             "('! <Building Convection Parameters:Northeast Facade>, Perimeter, Height, Xmin, Xmax, Ymin, Ymax, Zmin, Zmax ')");
-        static gio::Fmt Format_8101("('Building Convection Parameters:Northeast Facade, ',A,',',A,',',A,',',A,',',A,',',A,',',A,',',A)");
-        static gio::Fmt Format_8200("('! <Building Convection Parameters:East Facade>, Perimeter, Height, Xmin, Xmax, Ymin, Ymax, Zmin, Zmax ')");
-        static gio::Fmt Format_8201("('Building Convection Parameters:East Facade, ',A,',',A,',',A,',',A,',',A,',',A,',',A,',',A)");
-        static gio::Fmt Format_8300(
+        static thread_local gio::Fmt Format_8101("('Building Convection Parameters:Northeast Facade, ',A,',',A,',',A,',',A,',',A,',',A,',',A,',',A)");
+        static thread_local gio::Fmt Format_8200("('! <Building Convection Parameters:East Facade>, Perimeter, Height, Xmin, Xmax, Ymin, Ymax, Zmin, Zmax ')");
+        static thread_local gio::Fmt Format_8201("('Building Convection Parameters:East Facade, ',A,',',A,',',A,',',A,',',A,',',A,',',A,',',A)");
+        static thread_local gio::Fmt Format_8300(
             "('! <Building Convection Parameters:Southeast Facade>, Perimeter, Height, Xmin, Xmax, Ymin, Ymax, Zmin, Zmax ')");
-        static gio::Fmt Format_8301("('Building Convection Parameters:Southeast Facade, ',A,',',A,',',A,',',A,',',A,',',A,',',A,',',A)");
-        static gio::Fmt Format_8400("('! <Building Convection Parameters:South Facade>, Perimeter, Height, Xmin, Xmax, Ymin, Ymax, Zmin, Zmax ')");
-        static gio::Fmt Format_8401("('Building Convection Parameters:South Facade, ',A,',',A,',',A,',',A,',',A,',',A,',',A,',',A)");
-        static gio::Fmt Format_8500(
+        static thread_local gio::Fmt Format_8301("('Building Convection Parameters:Southeast Facade, ',A,',',A,',',A,',',A,',',A,',',A,',',A,',',A)");
+        static thread_local gio::Fmt Format_8400("('! <Building Convection Parameters:South Facade>, Perimeter, Height, Xmin, Xmax, Ymin, Ymax, Zmin, Zmax ')");
+        static thread_local gio::Fmt Format_8401("('Building Convection Parameters:South Facade, ',A,',',A,',',A,',',A,',',A,',',A,',',A,',',A)");
+        static thread_local gio::Fmt Format_8500(
             "('! <Building Convection Parameters:Southwest Facade>, Perimeter, Height, Xmin, Xmax, Ymin, Ymax, Zmin, Zmax ')");
-        static gio::Fmt Format_8501("('Building Convection Parameters:Southwest Facade, ',A,',',A,',',A,',',A,',',A,',',A,',',A,',',A)");
-        static gio::Fmt Format_8600("('! <Building Convection Parameters:West Facade>, Perimeter, Height, Xmin, Xmax, Ymin, Ymax, Zmin, Zmax ')");
-        static gio::Fmt Format_8601("('Building Convection Parameters:West Facade, ',A,',',A,',',A,',',A,',',A,',',A,',',A,',',A)");
-        static gio::Fmt Format_8700(
+        static thread_local gio::Fmt Format_8501("('Building Convection Parameters:Southwest Facade, ',A,',',A,',',A,',',A,',',A,',',A,',',A,',',A)");
+        static thread_local gio::Fmt Format_8600("('! <Building Convection Parameters:West Facade>, Perimeter, Height, Xmin, Xmax, Ymin, Ymax, Zmin, Zmax ')");
+        static thread_local gio::Fmt Format_8601("('Building Convection Parameters:West Facade, ',A,',',A,',',A,',',A,',',A,',',A,',',A,',',A)");
+        static thread_local gio::Fmt Format_8700(
             "('! <Building Convection Parameters:Northwest Facade>, Perimeter, Height, Xmin, Xmax, Ymin, Ymax, Zmin, Zmax ')");
-        static gio::Fmt Format_8701("('Building Convection Parameters:NorthwWest Facade, ',A,',',A,',',A,',',A,',',A,',',A,',',A,',',A)");
-        static gio::Fmt Format_8800("('! <Building Convection Parameters:Roof>, Area [m2], Perimeter [m], Height [m], ','XdYdZd:X, XdYdZd:Y, "
+        static thread_local gio::Fmt Format_8701("('Building Convection Parameters:NorthwWest Facade, ',A,',',A,',',A,',',A,',',A,',',A,',',A,',',A)");
+        static thread_local gio::Fmt Format_8800("('! <Building Convection Parameters:Roof>, Area [m2], Perimeter [m], Height [m], ','XdYdZd:X, XdYdZd:Y, "
                                     "XdYdZd:Z',',XdYdZu:X, XdYdZu:Y, XdYdZu:Z',',XdYuZd:X, XdYuZd:Y, XdYuZd:Z',',XdYuZu:X, XdYuZu:Y, "
                                     "XdYuZu:Z',',XuYdZd:X, XuYdZd:Y, XuYdZd:Z',',XuYuZd:X, XuYuZd:Y, XuYuZd:Z',',XuYdZu:X, XuYdZu:Y, "
                                     "XuYdZu:Z',',XuYuZu:X, XuYuZu:Y, XuYuZu:Z')");
-        static gio::Fmt Format_8801("('Building Convection Parameters:Roof,',A,',',A,',',A,',',A,',',A,',',A,',',A,',',A,',',A,',',A,',')");
-        static gio::Fmt Format_88012("(A,',',A,',',A,',',A,',',A,',',A,',',A,',',A,',',A,',',A,',')");
-        static gio::Fmt Format_88013("(A,',',A,',',A,',',A,',',A,',',A,',',A)");
+        static thread_local gio::Fmt Format_8801("('Building Convection Parameters:Roof,',A,',',A,',',A,',',A,',',A,',',A,',',A,',',A,',',A,',',A,',')");
+        static thread_local gio::Fmt Format_88012("(A,',',A,',',A,',',A,',',A,',',A,',',A,',',A,',',A,',',A,',')");
+        static thread_local gio::Fmt Format_88013("(A,',',A,',',A,',',A,',',A,',',A,',',A)");
 
         BldgVolumeSum = 0.0;
         RoofBoundZvals = 0.0;
@@ -5642,7 +5642,7 @@ namespace ConvectionCoefficients {
 
         // now send to EIO if surface reporting selected
         ScanForReports("Surfaces", DoReport, "Details");
-        if (DoReport) { // echo out static geometry data related to convection models
+        if (DoReport) { // echo out static thread_local geometry data related to convection models
 
             gio::write(OutputFileInits, Format_900); // header
             for (SurfLoop = 1; SurfLoop <= TotSurfaces; ++SurfLoop) {
@@ -5780,12 +5780,12 @@ namespace ConvectionCoefficients {
         // na
 
         // SUBROUTINE LOCAL VARIABLE DECLARATIONS:
-        static int ActiveWallCount(0);
-        static Real64 ActiveWallArea(0.0);
-        static int ActiveCeilingCount(0);
-        static Real64 ActiveCeilingArea(0.0);
-        static int ActiveFloorCount(0);
-        static Real64 ActiveFloorArea(0.0);
+        static thread_local int ActiveWallCount(0);
+        static thread_local Real64 ActiveWallArea(0.0);
+        static thread_local int ActiveCeilingCount(0);
+        static thread_local Real64 ActiveCeilingArea(0.0);
+        static thread_local int ActiveFloorCount(0);
+        static thread_local Real64 ActiveFloorArea(0.0);
         int ZoneLoop;
         int SurfLoop;
 
@@ -6421,8 +6421,8 @@ namespace ConvectionCoefficients {
         // na
 
         // SUBROUTINE LOCAL VARIABLE DECLARATIONS:
-        static Real64 Hf(0.0); // the forced, or wind driven portion of film coefficient
-        static Real64 Hn(0.0); // the natural, or bouyancy driven portion of film coefficient
+        static thread_local Real64 Hf(0.0); // the forced, or wind driven portion of film coefficient
+        static thread_local Real64 Hn(0.0); // the natural, or bouyancy driven portion of film coefficient
         int ConstructNum;
         Real64 SurfWindSpeed;
         Real64 SurfWindDir;
@@ -6649,7 +6649,7 @@ namespace ConvectionCoefficients {
         // na
 
         // SUBROUTINE LOCAL VARIABLE DECLARATIONS:
-        static Real64 DeltaTemp(0.0);
+        static thread_local Real64 DeltaTemp(0.0);
         Real64 surfWindDir;
 
         surfWindDir = Surface(SurfNum).WindDir;
@@ -6798,25 +6798,25 @@ namespace ConvectionCoefficients {
         // na
 
         // SUBROUTINE LOCAL VARIABLE DECLARATIONS:
-        static int ZoneNum(0);
-        static int PriorityEquipOn(0);
-        static Array1D_int HeatingPriorityStack({0, 10}, 0);
-        static Array1D_int CoolingPriorityStack({0, 10}, 0);
-        static Array1D_int FlowRegimeStack({0, 10}, 0);
-        static int EquipNum(0);
-        static int ZoneNode(0);
-        static int EquipOnCount(0);
-        static int EquipOnLoop(0);
-        static int thisZoneInletNode(0);
+        static thread_local int ZoneNum(0);
+        static thread_local int PriorityEquipOn(0);
+        static thread_local Array1D_int HeatingPriorityStack({0, 10}, 0);
+        static thread_local Array1D_int CoolingPriorityStack({0, 10}, 0);
+        static thread_local Array1D_int FlowRegimeStack({0, 10}, 0);
+        static thread_local int EquipNum(0);
+        static thread_local int ZoneNode(0);
+        static thread_local int EquipOnCount(0);
+        static thread_local int EquipOnLoop(0);
+        static thread_local int thisZoneInletNode(0);
         //  INTEGER :: thisZnEqInletNode = 0
-        static int FinalFlowRegime(0);
-        static Real64 Tmin(0.0);       // temporary min surf temp
-        static Real64 Tmax(0.0);       // temporary max surf temp
-        static Real64 GrH(0.0);        // Grashof number for zone height H
-        static Real64 Re(0.0);         // Reynolds number for zone air system flow
-        static Real64 Ri(0.0);         // Richardson Number, Gr/Re**2 for determining mixed regime
-        static Real64 AirDensity(0.0); // temporary zone air density
-        static Real64 DeltaTemp(0.0);  // temporary temperature difference (Tsurf - Tair)
+        static thread_local int FinalFlowRegime(0);
+        static thread_local Real64 Tmin(0.0);       // temporary min surf temp
+        static thread_local Real64 Tmax(0.0);       // temporary max surf temp
+        static thread_local Real64 GrH(0.0);        // Grashof number for zone height H
+        static thread_local Real64 Re(0.0);         // Reynolds number for zone air system flow
+        static thread_local Real64 Ri(0.0);         // Richardson Number, Gr/Re**2 for determining mixed regime
+        static thread_local Real64 AirDensity(0.0); // temporary zone air density
+        static thread_local Real64 DeltaTemp(0.0);  // temporary temperature difference (Tsurf - Tair)
         int SurfLoop;                  // local for separate looping across surfaces in the zone that has SurfNum
 
         EquipOnCount = 0;
@@ -8276,7 +8276,7 @@ namespace ConvectionCoefficients {
         // na
 
         // FUNCTION LOCAL VARIABLE DECLARATIONS:
-        static int ErrorIndex(0);
+        static thread_local int ErrorIndex(0);
 
         if (HydraulicDiameter > 0.0) {
             Hn = std::pow(pow_6(1.4 * std::pow(std::abs(DeltaTemp) / HydraulicDiameter, OneFourth)) + (1.63 * pow_2(DeltaTemp)),
@@ -8339,7 +8339,7 @@ namespace ConvectionCoefficients {
         // na
 
         // FUNCTION LOCAL VARIABLE DECLARATIONS:
-        static int ErrorIndex(0);
+        static thread_local int ErrorIndex(0);
 
         if (HydraulicDiameter > 0.0) {
             Hn = 0.6 * std::pow(std::abs(DeltaTemp) / pow_2(HydraulicDiameter), OneFifth);
@@ -8401,7 +8401,7 @@ namespace ConvectionCoefficients {
         // na
 
         // FUNCTION LOCAL VARIABLE DECLARATIONS:
-        static int ErrorIndex(0);
+        static thread_local int ErrorIndex(0);
 
         if (Height > 0.0) {
             Hn = std::pow(pow_6(1.5 * std::pow(std::abs(DeltaTemp) / Height, OneFourth)) + (1.23 * pow_2(DeltaTemp)),
@@ -8694,7 +8694,7 @@ namespace ConvectionCoefficients {
         // FUNCTION ARGUMENT DEFINITIONS:
 
         // FUNCTION PARAMETER DEFINITIONS:
-        static Real64 const pow_fac(2.175 / std::pow(1.0, 0.076));
+        static thread_local Real64 const pow_fac(2.175 / std::pow(1.0, 0.076));
 
         // INTERFACE BLOCK SPECIFICATIONS:
         // na
@@ -8809,7 +8809,7 @@ namespace ConvectionCoefficients {
 
         // FUNCTION LOCAL VARIABLE DECLARATIONS:
         Real64 cofpow;
-        static int ErrorIndex(0);
+        static thread_local int ErrorIndex(0);
 
         if ((DeltaTemp != 0.0) && (Height != 0.0)) {
             cofpow =
@@ -8894,8 +8894,8 @@ namespace ConvectionCoefficients {
         Real64 HcTmp2;
         Real64 HcTmp3;
         Real64 cofpow;
-        static int ErrorIndex(0);
-        static int ErrorIndex2(0);
+        static thread_local int ErrorIndex(0);
+        static thread_local int ErrorIndex2(0);
 
         if ((DeltaTemp != 0.0)) { // protect divide by zero
 
@@ -8994,7 +8994,7 @@ namespace ConvectionCoefficients {
 
         // FUNCTION LOCAL VARIABLE DECLARATIONS:
         Real64 cofpow;
-        static int ErrorIndex(0);
+        static thread_local int ErrorIndex(0);
 
         if ((HydraulicDiameter != 0.0) && (DeltaTemp != 0.0)) {
             cofpow = pow_3(0.6 * std::pow(std::abs(DeltaTemp) / HydraulicDiameter, OneFifth)) +
@@ -9073,7 +9073,7 @@ namespace ConvectionCoefficients {
 
         // FUNCTION LOCAL VARIABLE DECLARATIONS:
         Real64 cofpow;
-        static int ErrorIndex(0);
+        static thread_local int ErrorIndex(0);
 
         if ((HydraulicDiameter != 0.0) && (DeltaTemp != 0.0)) {
             cofpow = std::sqrt(pow_6(1.4 * std::pow(std::abs(DeltaTemp) / HydraulicDiameter, OneFourth)) +
@@ -9154,7 +9154,7 @@ namespace ConvectionCoefficients {
 
         // FUNCTION LOCAL VARIABLE DECLARATIONS:
         Real64 cofpow;
-        static int ErrorIndex(0);
+        static thread_local int ErrorIndex(0);
 
         if ((HydraulicDiameter != 0.0) && (DeltaTemp != 0.0)) {
             cofpow = pow_3(0.6 * std::pow(std::abs(DeltaTemp) / HydraulicDiameter, OneFifth)) +
@@ -9233,7 +9233,7 @@ namespace ConvectionCoefficients {
 
         // FUNCTION LOCAL VARIABLE DECLARATIONS:
         Real64 cofpow;
-        static int ErrorIndex(0);
+        static thread_local int ErrorIndex(0);
 
         if ((HydraulicDiameter != 0.0) && (DeltaTemp != 0.0)) {
             cofpow = std::sqrt(pow_6(1.4 * std::pow(std::abs(DeltaTemp) / HydraulicDiameter, OneFourth)) +
@@ -9311,9 +9311,9 @@ namespace ConvectionCoefficients {
         // na
 
         // FUNCTION LOCAL VARIABLE DECLARATIONS:
-        static Real64 RaH(0.0);
-        static Real64 BetaFilm(0.0);
-        static int ErrorIndex(0);
+        static thread_local Real64 RaH(0.0);
+        static thread_local Real64 BetaFilm(0.0);
+        static thread_local int ErrorIndex(0);
 
         BetaFilm = 1.0 / (KelvinConv + SurfTemp + 0.5 * DeltaTemp); // TODO check sign on DeltaTemp
         if (Height > 0.0) {
@@ -9427,8 +9427,8 @@ namespace ConvectionCoefficients {
         // na
 
         // FUNCTION LOCAL VARIABLE DECLARATIONS:
-        static int ErrorIndex(0);
-        static int ErrorIndex2(0);
+        static thread_local int ErrorIndex(0);
+        static thread_local int ErrorIndex2(0);
 
         if (ZoneExtPerimLength > 0.0) {
             if (WindWallRatio <= 0.5) {
@@ -9516,8 +9516,8 @@ namespace ConvectionCoefficients {
         // na
 
         // FUNCTION LOCAL VARIABLE DECLARATIONS:
-        static int ErrorIndex(0);
-        static int ErrorIndex2(0);
+        static thread_local int ErrorIndex(0);
+        static thread_local int ErrorIndex2(0);
 
         if (ZoneExtPerimLength > 0.0) {
             if (WindowLocationType == InConvWinLoc_WindowAboveThis) {
@@ -9594,7 +9594,7 @@ namespace ConvectionCoefficients {
         // na
 
         // FUNCTION LOCAL VARIABLE DECLARATIONS:
-        static int ErrorIndex(0);
+        static thread_local int ErrorIndex(0);
 
         if (ZoneExtPerimLength > 0.0) {
             Hc = 0.048 * std::pow(AirSystemFlowRate / ZoneExtPerimLength, 0.8);
@@ -9659,7 +9659,7 @@ namespace ConvectionCoefficients {
         // na
 
         // FUNCTION LOCAL VARIABLE DECLARATIONS:
-        static int ErrorIndex(0);
+        static thread_local int ErrorIndex(0);
 
         if (FaceArea > 0.0) {
             Hf = 2.53 * RoughnessMultiplier(RoughnessIndex) * std::sqrt(FacePerimeter * WindAtZ / FaceArea);
@@ -9723,7 +9723,7 @@ namespace ConvectionCoefficients {
         // na
 
         // FUNCTION LOCAL VARIABLE DECLARATIONS:
-        static int ErrorIndex(0);
+        static thread_local int ErrorIndex(0);
 
         if (FaceArea > 0.0) {
             Hf = 2.53 * 0.5 * RoughnessMultiplier(RoughnessIndex) * std::sqrt(FacePerimeter * WindAtZ / FaceArea);
@@ -9772,9 +9772,9 @@ namespace ConvectionCoefficients {
         // FUNCTION ARGUMENT DEFINITIONS:
 
         // FUNCTION PARAMETER DEFINITIONS:
-        static Real64 const temp_fac(pow_2(0.84));
-        static Real64 const wind_fac(pow_2(3.26));
-        static Real64 const two_thirds(2.0 / 3.0);
+        static thread_local Real64 const temp_fac(pow_2(0.84));
+        static thread_local Real64 const wind_fac(pow_2(3.26));
+        static thread_local Real64 const two_thirds(2.0 / 3.0);
 
         // INTERFACE BLOCK SPECIFICATIONS:
         // na
@@ -9821,9 +9821,9 @@ namespace ConvectionCoefficients {
         // FUNCTION ARGUMENT DEFINITIONS:
 
         // FUNCTION PARAMETER DEFINITIONS:
-        static Real64 const temp_fac(pow_2(0.84));
-        static Real64 const wind_fac(pow_2(3.55));
-        static Real64 const two_thirds(2.0 / 3.0);
+        static thread_local Real64 const temp_fac(pow_2(0.84));
+        static thread_local Real64 const wind_fac(pow_2(3.55));
+        static thread_local Real64 const two_thirds(2.0 / 3.0);
 
         // INTERFACE BLOCK SPECIFICATIONS:
         // na
@@ -10085,7 +10085,7 @@ namespace ConvectionCoefficients {
         // na
 
         // FUNCTION LOCAL VARIABLE DECLARATIONS:
-        static int ErrorIndex(0);
+        static thread_local int ErrorIndex(0);
 
         if (LengthScale > 0.0) {
             Hf = 8.6 * std::pow(WindAtZ, 0.6) / std::pow(LengthScale, 0.4);
@@ -10210,7 +10210,7 @@ namespace ConvectionCoefficients {
 
         // FUNCTION LOCAL VARIABLE DECLARATIONS:
         Real64 Theta; // angle between wind and surface azimuth
-        static int ErrorIndex(0);
+        static thread_local int ErrorIndex(0);
 
         Theta = WindDir - SurfAzimuth - 90.0; // TODO double check theta
         if (Theta > 180.0) Theta -= 360.0;
@@ -10284,7 +10284,7 @@ namespace ConvectionCoefficients {
 
         // FUNCTION LOCAL VARIABLE DECLARATIONS:
         Real64 Theta; // angle between wind and surface azimuth
-        static int ErrorIndex(0);
+        static thread_local int ErrorIndex(0);
 
         Theta = WindDir - LongAxisOutwardAzimuth - 90.0; // TODO double check theta
         if (Theta > 180.0) Theta -= 360.0;
@@ -10373,7 +10373,7 @@ namespace ConvectionCoefficients {
         Array1D<Real64> RfARR(6);
         Real64 Rf;
         Real64 BetaFilm;
-        static int ErrorIndex(0);
+        static thread_local int ErrorIndex(0);
 
         RfARR = {2.10, 1.67, 1.52, 1.13, 1.11, 1.0};
 

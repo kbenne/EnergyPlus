@@ -205,7 +205,7 @@ public:                                  // data
     Real64 fanHeatGainIdealPeak;                          // Fan heat gain to air during Ideal loads peak sizing [W]
     Real64 coilAndFanNetTotalCapacityIdealPeak;           // coil net total capacity including fan heat gain for ideal loads peak sizing [W]
 
-    // static plant info
+    // static thread_local plant info
     Real64 plantDesMaxMassFlowRate; // this coil's plant loop overall design flow rate [kg/s]
     Real64 plantDesRetTemp;         // this coil's plant loop design return temperature
     Real64 plantDesSupTemp;         // this coil's plant loop design supply temperature

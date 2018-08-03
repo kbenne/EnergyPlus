@@ -115,7 +115,7 @@ namespace RoomAirModelManager {
 
     // Data
     // MODULE PARAMETER DEFINITIONS
-    static std::string const BlankString;
+    static thread_local std::string const BlankString;
 
     // DERIVED TYPE DEFINITIONS
     // na
@@ -177,7 +177,7 @@ namespace RoomAirModelManager {
         // na
 
         // SUBROUTINE LOCAL VARIABLE DECLARATIONS:
-        //		static bool GetAirModelData( true ); // Used to "get" all air model data
+        //		static thread_local bool GetAirModelData( true ); // Used to "get" all air model data
 
         // FLOW:
         if (GetAirModelData) {
@@ -329,7 +329,7 @@ namespace RoomAirModelManager {
         using ScheduleManager::GetScheduleIndex;
 
         // SUBROUTINE PARAMETER DEFINITIONS:
-        static std::string const RoutineName("GetUserDefinedPatternData: ");
+        static thread_local std::string const RoutineName("GetUserDefinedPatternData: ");
 
         // SUBROUTINE LOCAL VARIABLE DECLARATIONS:
         int NumAlphas;  // number of alphas
@@ -1068,10 +1068,10 @@ namespace RoomAirModelManager {
         int Loop;
         int Loop2;
         int ThisZone;
-        static int CompNum(0);
-        static int TypeNum(0);
-        static int NodeNum1(0);
-        static int NodeNum2(0);
+        static thread_local int CompNum(0);
+        static thread_local int TypeNum(0);
+        static thread_local int NodeNum1(0);
+        static thread_local int NodeNum2(0);
 
         if (!UCSDModelUsed) return;
         cCurrentModuleObject = "RoomAirSettings:CrossVentilation";
@@ -1893,33 +1893,33 @@ namespace RoomAirModelManager {
         // SUBROUTINE LOCAL VARIABLE DECLARATIONS:
         int SurfNum;                             // DO loop counter for surfaces
         int ZNum;                                // DO loop counter for zones
-        static int contFloorBegin(0);            // counter
-        static int contFloorLast(0);             // counter
-        static int contFloor(0);                 // counter
-        static int contCeilingBegin(0);          // counter
-        static int contCeilingLast(0);           // counter
-        static int contCeiling(0);               // counter
-        static int contWallBegin(0);             // counter
-        static int contWallLast(0);              // counter
-        static int contWall(0);                  // counter
-        static int contWindowBegin(0);           // counter
-        static int contWindowLast(0);            // counter
-        static int contWindow(0);                // counter
-        static int contInternalBegin(0);         // counter
-        static int contInternalLast(0);          // counter
-        static int contInternal(0);              // counter
-        static int contDoorBegin(0);             // counter
-        static int contDoorLast(0);              // counter
-        static int contDoor(0);                  // counter
-        static int Loop(0);                      // counter
-        static int Loop2(0);                     // counter
-        static int i(0);                         // counter
-        static int N(0);                         // counter
-        static Real64 Z1ZoneAux(0.0);            // Auxiliary variables
-        static Real64 Z2ZoneAux(0.0);            // Auxiliary variables
-        static Real64 Z1Zone(0.0);               // Auxiliary variables
-        static Real64 Z2Zone(0.0);               // Auxiliary variables
-        static Real64 CeilingHeightDiffMax(0.1); // Maximum difference between wall height and ceiling height
+        static thread_local int contFloorBegin(0);            // counter
+        static thread_local int contFloorLast(0);             // counter
+        static thread_local int contFloor(0);                 // counter
+        static thread_local int contCeilingBegin(0);          // counter
+        static thread_local int contCeilingLast(0);           // counter
+        static thread_local int contCeiling(0);               // counter
+        static thread_local int contWallBegin(0);             // counter
+        static thread_local int contWallLast(0);              // counter
+        static thread_local int contWall(0);                  // counter
+        static thread_local int contWindowBegin(0);           // counter
+        static thread_local int contWindowLast(0);            // counter
+        static thread_local int contWindow(0);                // counter
+        static thread_local int contInternalBegin(0);         // counter
+        static thread_local int contInternalLast(0);          // counter
+        static thread_local int contInternal(0);              // counter
+        static thread_local int contDoorBegin(0);             // counter
+        static thread_local int contDoorLast(0);              // counter
+        static thread_local int contDoor(0);                  // counter
+        static thread_local int Loop(0);                      // counter
+        static thread_local int Loop2(0);                     // counter
+        static thread_local int i(0);                         // counter
+        static thread_local int N(0);                         // counter
+        static thread_local Real64 Z1ZoneAux(0.0);            // Auxiliary variables
+        static thread_local Real64 Z2ZoneAux(0.0);            // Auxiliary variables
+        static thread_local Real64 Z1Zone(0.0);               // Auxiliary variables
+        static thread_local Real64 Z2Zone(0.0);               // Auxiliary variables
+        static thread_local Real64 CeilingHeightDiffMax(0.1); // Maximum difference between wall height and ceiling height
         bool SetZoneAux;
         Array1D_int AuxSurf;
         int MaxSurf;
@@ -1928,18 +1928,18 @@ namespace RoomAirModelManager {
         Real64 HeightFactMax;
         Real64 WidthFact;
         Real64 HeightFact;
-        static int Loop3(0);    // counter
+        static thread_local int Loop3(0);    // counter
         int ZoneEquipConfigNum; // counter
         Real64 AinCV;
         int AirflowNetworkSurfPtr;
         int NSides;
-        static bool MyOneTimeFlag(true);
-        static Array1D_bool MyEnvrnFlag;
+        static thread_local bool MyOneTimeFlag(true);
+        static thread_local Array1D_bool MyEnvrnFlag;
 
-        static int CompNum(0);  // AirflowNetwork Component number
-        static int TypeNum(0);  // Airflownetwork Type Number within a component
-        static int NodeNum1(0); // The first node number in an AirflowNetwork linkage data
-        static int NodeNum2(0); // The Second node number in an AirflowNetwork linkage data
+        static thread_local int CompNum(0);  // AirflowNetwork Component number
+        static thread_local int TypeNum(0);  // Airflownetwork Type Number within a component
+        static thread_local int NodeNum1(0); // The first node number in an AirflowNetwork linkage data
+        static thread_local int NodeNum2(0); // The Second node number in an AirflowNetwork linkage data
 
         // Do the one time initializations
         if (MyOneTimeFlag) {

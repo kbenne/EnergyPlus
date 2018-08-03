@@ -110,7 +110,7 @@ namespace BranchInputManager {
     // MODULE PARAMETER DEFINITIONS
     std::string const cMIXER("Connector:Mixer");
     std::string const cSPLITTER("Connector:Splitter");
-    static std::string const BlankString;
+    static thread_local std::string const BlankString;
 
     // DERIVED TYPE DEFINITIONS
 
@@ -131,7 +131,7 @@ namespace BranchInputManager {
     std::string CurrentModuleObject; // for ease in getting objects
 
     namespace {
-        // These were static variables within different functions. They were pulled out into the namespace
+        // These were static thread_local variables within different functions. They were pulled out into the namespace
         // to facilitate easier unit testing of those functions.
         // These are purposefully not in the header file as an extern variable. No one outside of this should
         // use these. They are cleared by clear_state() for use by unit tests, but normal simulations should be unaffected.
@@ -378,7 +378,7 @@ namespace BranchInputManager {
         int MinCompsAllowed;
 
         // Object Data
-        static Array1D<ComponentData> BComponents; // Component data to be returned
+        static thread_local Array1D<ComponentData> BComponents; // Component data to be returned
 
         // NumComps now defined on input
 
@@ -1334,7 +1334,7 @@ namespace BranchInputManager {
         // na
 
         // SUBROUTINE PARAMETER DEFINITIONS:
-        static std::string const RoutineName("GetBranchInput: ");
+        static thread_local std::string const RoutineName("GetBranchInput: ");
 
         // INTERFACE BLOCK SPECIFICATIONS
         // na
@@ -1344,7 +1344,7 @@ namespace BranchInputManager {
 
         // SUBROUTINE LOCAL VARIABLE DECLARATIONS:
         //////////// hoisted into namespace changed GetBranchInputOneTimeFlag////////////
-        // static bool GetInputFlag( true ); // Set for first time call
+        // static thread_local bool GetInputFlag( true ); // Set for first time call
         ////////////////////////////////////////////////
         int BCount;              // Actual Num of Branches
         bool ErrFound;           // Flag for error detection
@@ -1604,7 +1604,7 @@ namespace BranchInputManager {
         // na
 
         // SUBROUTINE PARAMETER DEFINITIONS:
-        static std::string const RoutineName("GetBranchListInput: ");
+        static thread_local std::string const RoutineName("GetBranchListInput: ");
 
         // INTERFACE BLOCK SPECIFICATIONS
         // na
@@ -2050,7 +2050,7 @@ namespace BranchInputManager {
         int Loop1;
         int Count;
         int Found;
-        static bool ErrorsFound(false);
+        static thread_local bool ErrorsFound(false);
         std::string TestName;
         std::string BranchListName;
         std::string FoundSupplyDemandAir;
@@ -2295,7 +2295,7 @@ namespace BranchInputManager {
         int Loop1;
         int Count;
         int Found;
-        static bool ErrorsFound(false);
+        static thread_local bool ErrorsFound(false);
         std::string TestName;
         std::string BranchListName;
         std::string FoundSupplyDemandAir;
@@ -2904,7 +2904,7 @@ namespace BranchInputManager {
         // SUBROUTINE ARGUMENT DEFINITIONS:
 
         // SUBROUTINE PARAMETER DEFINITIONS:
-        static gio::Fmt fmtLD("*");
+        static thread_local gio::Fmt fmtLD("*");
 
         // INTERFACE BLOCK SPECIFICATIONS
         // na
@@ -2959,12 +2959,12 @@ namespace BranchInputManager {
         Array1D<BranchUniqueNodes> BranchNodes;
 
         // Formats
-        static gio::Fmt Format_700("('! <#Branch Lists>,<Number of Branch Lists>')");
-        static gio::Fmt Format_701("(A)");
-        static gio::Fmt Format_702("('! <Branch List>,<Branch List Count>,<Branch List Name>,<Loop Name>,<Loop Type>,<Number of Branches>')");
-        static gio::Fmt Format_704(
+        static thread_local gio::Fmt Format_700("('! <#Branch Lists>,<Number of Branch Lists>')");
+        static thread_local gio::Fmt Format_701("(A)");
+        static thread_local gio::Fmt Format_702("('! <Branch List>,<Branch List Count>,<Branch List Name>,<Loop Name>,<Loop Type>,<Number of Branches>')");
+        static thread_local gio::Fmt Format_704(
             "('! <Branch>,<Branch Count>,<Branch Name>,<Loop Name>,<Loop Type>,<Branch Inlet Node Name>,<Branch Outlet Node Name>')");
-        static gio::Fmt Format_706("('! <# Orphaned Branches>,<Number of Branches not on Branch Lists>')");
+        static thread_local gio::Fmt Format_706("('! <# Orphaned Branches>,<Number of Branches not on Branch Lists>')");
 
         BranchReported.dimension(NumOfBranches, false);
 

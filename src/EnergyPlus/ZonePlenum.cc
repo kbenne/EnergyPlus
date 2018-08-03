@@ -343,10 +343,10 @@ namespace ZonePlenum {
         Array1D_string cNumericFields;   // Numeric field names
         Array1D_bool lAlphaBlanks;       // Logical array, alpha field input BLANK = .TRUE.
         Array1D_bool lNumericBlanks;     // Logical array, numeric field input BLANK = .TRUE.
-        static bool ErrorsFound(false);
+        static thread_local bool ErrorsFound(false);
         bool NodeListError; // Flag for node list error
         bool UniqueNodeError;
-        static std::string const RoutineName("GetZonePlenumInput: "); // include trailing blank space
+        static thread_local std::string const RoutineName("GetZonePlenumInput: "); // include trailing blank space
         std::string InducedNodeListName;
 
         // Flow
@@ -736,8 +736,8 @@ namespace ZonePlenum {
         int ADUsToPlenIndex;     // index of an ADU that might leak to this plenum in the plenum ADU list
 
         //////////// hoisted into namespace ////////////////////////////////////////////////
-        // static bool MyEnvrnFlag( true ); // InitAirZoneReturnPlenumEnvrnFlag
-        // static bool MyOneTimeFlag( true ); // InitAirZoneReturnPlenumOneTimeFlag
+        // static thread_local bool MyEnvrnFlag( true ); // InitAirZoneReturnPlenumEnvrnFlag
+        // static thread_local bool MyOneTimeFlag( true ); // InitAirZoneReturnPlenumOneTimeFlag
         ////////////////////////////////////////////////////////////////////////////////////
         // FLOW:
 
@@ -918,7 +918,7 @@ namespace ZonePlenum {
         int PlenumZoneNum;
         int NodeIndex;
 
-        static bool MyEnvrnFlag(true);
+        static thread_local bool MyEnvrnFlag(true);
         // FLOW:
 
         // Do the Begin Environment initializations

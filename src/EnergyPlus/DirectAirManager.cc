@@ -91,7 +91,7 @@ namespace DirectAirManager {
     // To encapsulate the data and algorithms required to
     // simulate the direct air component  Direct air
     // is the component used to pass supply air directly
-    // into a zone without any thermostatic control.
+    // into a zone without any thermostatic thread_local control.
 
     // METHODOLOGY EMPLOYED:
 
@@ -120,17 +120,17 @@ namespace DirectAirManager {
     Array1D_bool CheckEquipName;
 
     namespace {
-        // These were static variables within different functions. They were pulled out into the namespace
+        // These were static thread_local variables within different functions. They were pulled out into the namespace
         // to facilitate easier unit testing of those functions.
         // These are purposefully not in the header file as an extern variable. No one outside of this should
         // use these. They are cleared by clear_state() for use by unit tests, but normal simulations should be unaffected.
         // This is purposefully in an anonymous namespace so nothing outside this implementation file can use it.
         bool GetDirectAirInputFlag(true);
-        static bool MyOneTimeFlag(true);
-        static bool ZoneEquipmentListChecked(false); // True after the Zone Equipment List has been checked for items
-        static Array1D_bool MyEnvrnFlag;
-        static Array1D_bool MySizeFlag;
-        static Array1D_bool MyDirectAirInitFlag;
+        static thread_local bool MyOneTimeFlag(true);
+        static thread_local bool ZoneEquipmentListChecked(false); // True after the Zone Equipment List has been checked for items
+        static thread_local Array1D_bool MyEnvrnFlag;
+        static thread_local Array1D_bool MySizeFlag;
+        static thread_local Array1D_bool MyDirectAirInitFlag;
     } // namespace
 
     // SUBROUTINE SPECIFICATIONS FOR MODULE AirLoopSplitter
@@ -250,8 +250,8 @@ namespace DirectAirManager {
         int NumAlphas; // Number of alphanumerics returned by GetObjectItem
         int DirectAirNum;
         int IOStat;
-        static std::string const RoutineName("GetDirectAirInput: "); // include trailing blank space
-        static bool ErrorsFound(false);
+        static thread_local std::string const RoutineName("GetDirectAirInput: "); // include trailing blank space
+        static thread_local bool ErrorsFound(false);
         int Loop;     // Do Loop Index
         int CtrlZone; // controlled zome do loop index
         int SupAirIn; // controlled zone supply air inlet index

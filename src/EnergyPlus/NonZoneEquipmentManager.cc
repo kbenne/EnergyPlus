@@ -112,8 +112,8 @@ namespace NonZoneEquipmentManager {
 
         // SUBROUTINE LOCAL VARIABLE DECLARATIONS:
         int WaterHeaterNum; // Water heater object number
-        static int NumOfWaterHeater;
-        static bool CountNonZoneEquip(true);
+        static thread_local int NumOfWaterHeater;
+        static thread_local bool CountNonZoneEquip(true);
 
         // FLOW:
         if (CountNonZoneEquip) {

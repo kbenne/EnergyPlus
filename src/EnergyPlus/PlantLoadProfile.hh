@@ -134,7 +134,7 @@ namespace PlantLoadProfile {
     // Object Data
     extern Array1D<PlantProfileData> PlantProfile;
 
-    // This could be static inside the class
+    // This could be static thread_local inside the class
     void GetPlantProfileInput();
 
     // As could this

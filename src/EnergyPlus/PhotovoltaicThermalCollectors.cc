@@ -138,7 +138,7 @@ namespace PhotovoltaicThermalCollectors {
 
     Real64 const SimplePVTWaterSizeFactor(1.905e-5); // [ m3/s/m2 ] average of collectors in SolarCollectors.idf
 
-    static std::string const BlankString;
+    static thread_local std::string const BlankString;
 
     // DERIVED TYPE DEFINITIONS:
 
@@ -180,7 +180,7 @@ namespace PhotovoltaicThermalCollectors {
         using General::TrimSigDigits;
 
         // SUBROUTINE LOCAL VARIABLE DECLARATIONS:
-        static bool GetInputFlag(true); // First time, input is "gotten"
+        static thread_local bool GetInputFlag(true); // First time, input is "gotten"
 
         if (GetInputFlag) {
             GetPVTcollectorsInput();
@@ -268,7 +268,7 @@ namespace PhotovoltaicThermalCollectors {
         int NumAlphas;                  // Number of Alphas for each GetObjectItem call
         int NumNumbers;                 // Number of Numbers for each GetObjectItem call
         int IOStatus;                   // Used in GetObjectItem
-        static bool ErrorsFound(false); // Set to true if errors in input, fatal at end of routine
+        static thread_local bool ErrorsFound(false); // Set to true if errors in input, fatal at end of routine
         int SurfNum;                    // local use only
         int ThisParamObj;
 
@@ -557,17 +557,17 @@ namespace PhotovoltaicThermalCollectors {
         using PlantUtilities::SetComponentFlowRate;
 
         // SUBROUTINE PARAMETER DEFINITIONS:
-        static std::string const RoutineName("InitPVTcollectors");
+        static thread_local std::string const RoutineName("InitPVTcollectors");
 
         // SUBROUTINE LOCAL VARIABLE DECLARATIONS:
         int InletNode;
         int OutletNode;
         int PVTindex;
         int SurfNum;
-        static bool ErrorsFound(false);
-        static bool MySetPointCheckFlag(true);
-        static bool MyOneTimeFlag(true);      // one time flag
-        static Array1D_bool SetLoopIndexFlag; // get loop number flag
+        static thread_local bool ErrorsFound(false);
+        static thread_local bool MySetPointCheckFlag(true);
+        static thread_local bool MyOneTimeFlag(true);      // one time flag
+        static thread_local Array1D_bool SetLoopIndexFlag; // get loop number flag
         bool errFlag;
         Real64 rho; // local fluid density kg/s
 
@@ -997,7 +997,7 @@ namespace PhotovoltaicThermalCollectors {
         // na
 
         // SUBROUTINE LOCAL VARIABLE DECLARATIONS:
-        static int SurfNum(0);
+        static thread_local int SurfNum(0);
         //  INTEGER   :: PlantLoopNum = 0
         //  REAL(r64) :: mdot  = 0.0D0
 
@@ -1106,7 +1106,7 @@ namespace PhotovoltaicThermalCollectors {
         // SUBROUTINE ARGUMENT DEFINITIONS:
 
         // SUBROUTINE PARAMETER DEFINITIONS:
-        static std::string const RoutineName("CalcPVTcollectors");
+        static thread_local std::string const RoutineName("CalcPVTcollectors");
 
         // INTERFACE BLOCK SPECIFICATIONS:
         // na
@@ -1116,25 +1116,25 @@ namespace PhotovoltaicThermalCollectors {
 
         // SUBROUTINE LOCAL VARIABLE DECLARATIONS:
 
-        static int InletNode(0);
-        static int OutletNode(0);
-        static Real64 Eff(0.0);
-        static int SurfNum(0);
-        static int RoughSurf(0);
-        static Real64 HcExt(0.0);
-        static Real64 HrSky(0.0);
-        static Real64 HrGround(0.0);
-        static Real64 HrAir(0.0);
-        static Real64 Tcollector(0.0);
-        static Real64 mdot(0.0);
-        static Real64 Tinlet(0.0);
-        static Real64 Winlet(0.0);
-        static Real64 CpInlet(0.0);
-        static Real64 PotentialOutletTemp(0.0);
-        static Real64 BypassFraction(0.0);
-        static Real64 PotentialHeatGain(0.0);
-        static Real64 WetBulbInlet(0.0);
-        static Real64 DewPointInlet(0.0);
+        static thread_local int InletNode(0);
+        static thread_local int OutletNode(0);
+        static thread_local Real64 Eff(0.0);
+        static thread_local int SurfNum(0);
+        static thread_local int RoughSurf(0);
+        static thread_local Real64 HcExt(0.0);
+        static thread_local Real64 HrSky(0.0);
+        static thread_local Real64 HrGround(0.0);
+        static thread_local Real64 HrAir(0.0);
+        static thread_local Real64 Tcollector(0.0);
+        static thread_local Real64 mdot(0.0);
+        static thread_local Real64 Tinlet(0.0);
+        static thread_local Real64 Winlet(0.0);
+        static thread_local Real64 CpInlet(0.0);
+        static thread_local Real64 PotentialOutletTemp(0.0);
+        static thread_local Real64 BypassFraction(0.0);
+        static thread_local Real64 PotentialHeatGain(0.0);
+        static thread_local Real64 WetBulbInlet(0.0);
+        static thread_local Real64 DewPointInlet(0.0);
 
         // flow
         SurfNum = PVT(PVTnum).SurfNum;
@@ -1391,8 +1391,8 @@ namespace PhotovoltaicThermalCollectors {
         // na
 
         // SUBROUTINE LOCAL VARIABLE DECLARATIONS:
-        static int PVTnum(0);
-        static int loop(0);
+        static thread_local int PVTnum(0);
+        static thread_local int loop(0);
 
         // first find PVT index that is associated with this PV generator
         for (loop = 1; loop <= NumPVT; ++loop) {

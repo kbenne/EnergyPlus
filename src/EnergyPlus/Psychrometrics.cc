@@ -110,7 +110,7 @@ namespace Psychrometrics {
 
     // Data
     // MODULE PARAMETER DEFINITIONS:
-    static std::string const BlankString;
+    static thread_local std::string const BlankString;
     // call for recurring errors
     int const iPsyTdpFnTdbTwbPb(1);
     int const iPsyRhFnTdbWPb(2);
@@ -311,8 +311,8 @@ namespace Psychrometrics {
         // na
 
         // SUBROUTINE PARAMETER DEFINITIONS:
-        static gio::Fmt fmtLD("*");
-        static gio::Fmt fmtA("(A)");
+        static thread_local gio::Fmt fmtLD("*");
+        static thread_local gio::Fmt fmtA("(A)");
 
         // INTERFACE BLOCK SPECIFICATIONS:
         // na
@@ -553,9 +553,9 @@ namespace Psychrometrics {
 
         // FUNCTION PARAMETER DEFINITIONS:
         int const itmax(100); // Maximum No of Iterations
-        static Real64 convTol(0.0001);
-        static std::string const RoutineName("PsyTwbFnTdbWPb");
-        static gio::Fmt fmtLD("*");
+        static thread_local Real64 convTol(0.0001);
+        static thread_local std::string const RoutineName("PsyTwbFnTdbWPb");
+        static thread_local gio::Fmt fmtLD("*");
 
         // INTERFACE BLOCK SPECIFICATIONS
         // na
@@ -565,8 +565,8 @@ namespace Psychrometrics {
 
         // FUNCTION LOCAL VARIABLE DECLARATIONS:
         Real64 tBoil;                       // Boiling temperature of water at given pressure
-        static Real64 last_Patm(-99999.0);  // barometric pressure {Pascals}  (last)
-        static Real64 last_tBoil(-99999.0); // Boiling temperature of water at given pressure (last)
+        static thread_local Real64 last_Patm(-99999.0);  // barometric pressure {Pascals}  (last)
+        static thread_local Real64 last_tBoil(-99999.0); // Boiling temperature of water at given pressure (last)
         Real64 newW;                        // Humidity ratio calculated with wet bulb guess
         Real64 W;                           // Humidity ratio entered and corrected as necessary
         Real64 ResultX;                     // ResultX is the final Iteration result passed back to the calling routine
@@ -1383,7 +1383,7 @@ namespace Psychrometrics {
         // FUNCTION PARAMETER DEFINITIONS:
         int const itmax(50); // Maximum number of iterations
         Real64 const convTol(0.0001);
-        static std::string const RoutineName("PsyTsatFnPb");
+        static thread_local std::string const RoutineName("PsyTsatFnPb");
 
         // INTERFACE BLOCK SPECIFICATIONS
         // na
@@ -1393,8 +1393,8 @@ namespace Psychrometrics {
 
         // FUNCTION LOCAL VARIABLE DECLARATIONS:
         bool FlagError; // set when errors should be flagged
-        static Real64 Press_Save(-99999.0);
-        static Real64 tSat_Save(-99999.0);
+        static thread_local Real64 Press_Save(-99999.0);
+        static thread_local Real64 tSat_Save(-99999.0);
         Real64 tSat; // Water temperature guess
         int iter;    // Iteration counter
 

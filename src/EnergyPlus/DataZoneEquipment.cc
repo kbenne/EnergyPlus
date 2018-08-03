@@ -289,7 +289,7 @@ namespace DataZoneEquipment {
         using namespace ScheduleManager;
 
         // SUBROUTINE PARAMETER DEFINITIONS:
-        static std::string const RoutineName("GetZoneEquipmentData1: "); // include trailing blank space
+        static thread_local std::string const RoutineName("GetZoneEquipmentData1: "); // include trailing blank space
 
         // SUBROUTINE LOCAL VARIABLE DECLARATIONS:
         int NumAlphas;
@@ -315,8 +315,8 @@ namespace DataZoneEquipment {
         Array1D_int NodeNums;
         int Counter;
         //////////// hoisted into namespace ////////////////////////////////////////////////
-        // static bool ErrorsFound( false ); // If errors detected in input // GetZoneEquipmentDataErrorsFound
-        // static int found( 0 );
+        // static thread_local bool ErrorsFound( false ); // If errors detected in input // GetZoneEquipmentDataErrorsFound
+        // static thread_local int found( 0 );
         ////////////////////////////////////////////////////////////////////////////////////
         bool IsNotOK; // Flag to verify nam
         bool NodeListError;
@@ -1489,8 +1489,8 @@ namespace DataZoneEquipment {
         Real64 ZoneContamControllerSched; // Schedule value for ZoneControl:ContaminantController
         Real64 CO2PeopleGeneration;       // CO2 generation from people at design level
         int PeopleNum;
-        static Array1D_bool MyEnvrnFlag;
-        static bool OneTimeFlag(true);
+        static thread_local Array1D_bool MyEnvrnFlag;
+        static thread_local bool OneTimeFlag(true);
 
         OAVolumeFlowRate = 0.0;
         if (DSOAPtr == 0) return OAVolumeFlowRate;

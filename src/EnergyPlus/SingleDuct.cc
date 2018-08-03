@@ -165,9 +165,9 @@ namespace SingleDuct {
     int const MinFracNotUsed(0);
     int NumATMixers(0);
 
-    static std::string const fluidNameSteam("STEAM");
-    static std::string const fluidNameWater("WATER");
-    static std::string const BlankString;
+    static thread_local std::string const fluidNameSteam("STEAM");
+    static thread_local std::string const fluidNameWater("WATER");
+    static thread_local std::string const BlankString;
 
     // DERIVED TYPE DEFINITIONS
 
@@ -207,7 +207,7 @@ namespace SingleDuct {
     // Array1D< AirTerminalSingleDuctConstantVolumeNoReheat > SingleDuctConstantVolumeNoReheat;
 
     namespace {
-        // These were static variables within different functions. They were pulled out into the namespace
+        // These were static thread_local variables within different functions. They were pulled out into the namespace
         // to facilitate easier unit testing of those functions.
         // These are purposefully not in the header file as an extern variable. No one outside of this should
         // use these. They are cleared by clear_state() for use by unit tests, but normal simulations should be unaffected.
@@ -363,24 +363,24 @@ namespace SingleDuct {
         using DataPlant::TypeOf_CoilWaterSimpleHeating;
         using DataSizing::OARequirements;
         // SUBROUTINE PARAMETER DEFINITIONS:
-        static std::string const RoutineName("GetSysInput: "); // include trailing blank
+        static thread_local std::string const RoutineName("GetSysInput: "); // include trailing blank
 
         // SUBROUTINE LOCAL VARIABLE DECLARATIONS:
 
-        static int SysNum(0);   // The Sys that you are currently loading input into
-        static int SysIndex(0); // The Sys that you are currently loading input into
-        static int NumVAVSys(0);
-        static int NumNoRHVAVSys(0);
-        static int NumVAVVS(0);
-        static int NumCBVAVSys(0);
-        static int NumNoRHCBVAVSys(0);
-        static int NumAlphas(0);
-        static int NumNums(0);
-        static int NumCVNoReheatSys(0);
+        static thread_local int SysNum(0);   // The Sys that you are currently loading input into
+        static thread_local int SysIndex(0); // The Sys that you are currently loading input into
+        static thread_local int NumVAVSys(0);
+        static thread_local int NumNoRHVAVSys(0);
+        static thread_local int NumVAVVS(0);
+        static thread_local int NumCBVAVSys(0);
+        static thread_local int NumNoRHCBVAVSys(0);
+        static thread_local int NumAlphas(0);
+        static thread_local int NumNums(0);
+        static thread_local int NumCVNoReheatSys(0);
         int NumZoneSiz;
         int ZoneSizIndex;
         int IOStat;
-        static bool ErrorsFound(false);  // If errors detected in input
+        static thread_local bool ErrorsFound(false);  // If errors detected in input
         bool IsNotOK;                    // Flag to verify name
         int CtrlZone;                    // controlled zone do loop index
         int SupAirIn;                    // controlled zone supply air inlet index
@@ -392,9 +392,9 @@ namespace SingleDuct {
         Array1D<Real64> Numbers;         // Numeric input items for object
         Array1D_bool lAlphaBlanks;       // Logical array, alpha field input BLANK = .TRUE.
         Array1D_bool lNumericBlanks;     // Logical array, numeric field input BLANK = .TRUE.
-        static int MaxNums(0);           // Maximum number of numeric input fields
-        static int MaxAlphas(0);         // Maximum number of alpha input fields
-        static int TotalArgs(0);         // Total number of alpha and numeric arguments (max) for a
+        static thread_local int MaxNums(0);           // Maximum number of numeric input fields
+        static thread_local int MaxAlphas(0);         // Maximum number of alpha input fields
+        static thread_local int TotalArgs(0);         // Total number of alpha and numeric arguments (max) for a
         //  certain object in the input file
         std::string AirTermSysInletNodeName;  // air terminal single duct system inlet node name
         std::string AirTermSysOutletNodeName; // air terminal single duct system outlet node name
@@ -1988,23 +1988,23 @@ namespace SingleDuct {
         auto &GetHeatingCoilCapacity(HeatingCoils::GetCoilCapacity);
 
         // SUBROUTINE PARAMETER DEFINITIONS:
-        static std::string const RoutineName("InitSys");
-        static std::string const RoutineNameFull("InitHVACSingleDuct");
+        static thread_local std::string const RoutineName("InitSys");
+        static thread_local std::string const RoutineNameFull("InitHVACSingleDuct");
 
         // SUBROUTINE LOCAL VARIABLE DECLARATIONS:
         int InletNode;
         int OutletNode;
         int SysIndex;
-        static bool ZoneEquipmentListChecked(false); // True after the Zone Equipment List has been checked for items
-        static Array1D_bool MyEnvrnFlag;
-        static Array1D_bool MySizeFlag;
-        static Array1D_bool GetGasElecHeatCoilCap; // Gets autosized value of coil capacity
+        static thread_local bool ZoneEquipmentListChecked(false); // True after the Zone Equipment List has been checked for items
+        static thread_local Array1D_bool MyEnvrnFlag;
+        static thread_local Array1D_bool MySizeFlag;
+        static thread_local Array1D_bool GetGasElecHeatCoilCap; // Gets autosized value of coil capacity
         Real64 SteamTemp;
         Real64 SteamDensity;
         Real64 rho;
         bool errFlag;
 
-        static Array1D_bool PlantLoopScanFlag;
+        static thread_local Array1D_bool PlantLoopScanFlag;
 
         // FLOW:
 
@@ -2342,33 +2342,33 @@ namespace SingleDuct {
         using WaterCoils::SetCoilDesFlow;
 
         // SUBROUTINE PARAMETER DEFINITIONS:
-        static std::string const RoutineName("SizeSys");
-        static std::string const RoutineNameFull("SizeHVACSingleDuct");
+        static thread_local std::string const RoutineName("SizeSys");
+        static thread_local std::string const RoutineNameFull("SizeHVACSingleDuct");
 
         // SUBROUTINE LOCAL VARIABLE DECLARATIONS:
         int PltSizHeatNum; // index of plant sizing object for 1st heating loop
-        static Real64 CoilInTemp(0.0);
-        static Real64 DesCoilLoad(0.0);
-        static Real64 DesZoneHeatLoad(0.0);
-        static Real64 ZoneDesTemp(0.0);
-        static Real64 ZoneDesHumRat(0.0);
+        static thread_local Real64 CoilInTemp(0.0);
+        static thread_local Real64 DesCoilLoad(0.0);
+        static thread_local Real64 DesZoneHeatLoad(0.0);
+        static thread_local Real64 ZoneDesTemp(0.0);
+        static thread_local Real64 ZoneDesHumRat(0.0);
         Real64 DesMassFlow;
         Real64 TempSteamIn;
         Real64 EnthSteamOutWet;
         Real64 EnthSteamInDry;
         Real64 LatentHeatSteam;
         Real64 SteamDensity;
-        static int CoilWaterInletNode(0);
-        static int CoilWaterOutletNode(0);
-        static int CoilSteamInletNode(0);
-        static int CoilSteamOutletNode(0);
+        static thread_local int CoilWaterInletNode(0);
+        static thread_local int CoilWaterOutletNode(0);
+        static thread_local int CoilSteamInletNode(0);
+        static thread_local int CoilSteamOutletNode(0);
 
         bool ErrorsFound;
         bool PlantSizingErrorsFound;
         Real64 rho; // local fluid density
         Real64 Cp;  // local fluid specific heat
-        static int DummyWaterIndex(1);
-        static Real64 UserInputMaxHeatAirVolFlowRate(0.0); // user input for MaxHeatAirVolFlowRate
+        static thread_local int DummyWaterIndex(1);
+        static thread_local Real64 UserInputMaxHeatAirVolFlowRate(0.0); // user input for MaxHeatAirVolFlowRate
         bool IsAutoSize;
         int ZoneNum(0);
         Real64 MinMinFlowRatio(0.0);              // the minimum minimum flow ratio
@@ -3197,20 +3197,20 @@ namespace SingleDuct {
         Real64 QHeatingDelivered;                // the actual output from heating coil
         Real64 LeakLoadMult;                     // load multiplier to adjust for downstream leaks
         Real64 MinFlowFrac;                      // minimum flow fraction (and minimum damper position)
-        static Real64 MinAirMassFlowRevAct(0.0); // minimum air mass flow rate used in "reverse action" air mass flow rate calculation
-        static Real64 MaxAirMassFlowRevAct(0.0); // maximum air mass flow rate used in "reverse action" air mass flow rate calculation
+        static thread_local Real64 MinAirMassFlowRevAct(0.0); // minimum air mass flow rate used in "reverse action" air mass flow rate calculation
+        static thread_local Real64 MaxAirMassFlowRevAct(0.0); // maximum air mass flow rate used in "reverse action" air mass flow rate calculation
         Real64 MassFlowBasedOnOA;                // supply air mass flow rate based on zone OA requirements
         Real64 AirLoopOAFrac;                    // fraction of outside air entering air loop
         Real64 DummyMdot;                        // temporary mass flow rate argument
 
-        static Real64 ZoneTemp(0.0);                      // zone air temperature [C]
-        static Real64 MaxHeatTemp(0.0);                   // maximum supply air temperature [C]
-        static Real64 MaxDeviceAirMassFlowReheat(0.0);    // air mass flow rate required to meet the coil heating load [W]
-        static Real64 MassFlowReqToLimitLeavingTemp(0.0); // air mass flow rate actually used [W]
-        static Real64 QZoneMaxRHTempLimit(0.0);           // maximum zone heat addition rate given constraints of MaxHeatTemp and max
+        static thread_local Real64 ZoneTemp(0.0);                      // zone air temperature [C]
+        static thread_local Real64 MaxHeatTemp(0.0);                   // maximum supply air temperature [C]
+        static thread_local Real64 MaxDeviceAirMassFlowReheat(0.0);    // air mass flow rate required to meet the coil heating load [W]
+        static thread_local Real64 MassFlowReqToLimitLeavingTemp(0.0); // air mass flow rate actually used [W]
+        static thread_local Real64 QZoneMaxRHTempLimit(0.0);           // maximum zone heat addition rate given constraints of MaxHeatTemp and max
         // available air mass flow rate [W]
-        static Real64 MinMassAirFlow(0.0); // the air flow rate during heating for normal acting damper
-        static Real64 QZoneMax2(0.0);      // temporary variable
+        static thread_local Real64 MinMassAirFlow(0.0); // the air flow rate during heating for normal acting damper
+        static thread_local Real64 QZoneMax2(0.0);      // temporary variable
 
         // Note to the perplexed
         // The SINGLE DUCT:VAV:REHEAT terminal unit originally contained 2 components: a damper
@@ -3760,15 +3760,15 @@ namespace SingleDuct {
         Real64 DummyMdot;
         Real64 QActualHeating;
         Real64 MinFlowFrac;                // minimum flow fraction (and minimum damper position)
-        static Real64 ZoneTemp(0.0);       // zone air temperature [C]
-        static Real64 MaxHeatTemp(0.0);    // maximum supply air temperature [C]
-        static Real64 MassFlowReq(0.0);    // air mass flow rate required to meet the coil heating load [W]
-        static Real64 MassFlowActual(0.0); // air mass flow rate actually used [W]
-        static Real64 QZoneMax(0.0);       // maximum zone heat addition rate given constraints of MaxHeatTemp and max
+        static thread_local Real64 ZoneTemp(0.0);       // zone air temperature [C]
+        static thread_local Real64 MaxHeatTemp(0.0);    // maximum supply air temperature [C]
+        static thread_local Real64 MassFlowReq(0.0);    // air mass flow rate required to meet the coil heating load [W]
+        static thread_local Real64 MassFlowActual(0.0); // air mass flow rate actually used [W]
+        static thread_local Real64 QZoneMax(0.0);       // maximum zone heat addition rate given constraints of MaxHeatTemp and max
         // available air mass flow rate [W]
-        static Real64 MinMassAirFlow(0.0); // the air flow rate during heating for normal acting damper
-        static Real64 QZoneMax2(0.0);      // temporary variable
-        static Real64 QZoneMax3(0.0);      // temporary variable
+        static thread_local Real64 MinMassAirFlow(0.0); // the air flow rate during heating for normal acting damper
+        static thread_local Real64 QZoneMax2(0.0);      // temporary variable
+        static thread_local Real64 QZoneMax3(0.0);      // temporary variable
 
         // Sys(SysNum)%InletNodeNum is the inlet node to the terminal unit and the damper
         // Sys(SysNum)%OutletNodeNum is the outlet node of the damper and the inlet node of the heating coil
@@ -4539,10 +4539,10 @@ namespace SingleDuct {
         Real64 MaxFlowWater;         // This is the value passed to the Controller depending if FirstHVACIteration or not
         Real64 MinFlowWater;         // This is the value passed to the Controller depending if FirstHVACIteration or not
         Real64 QActualHeating;       // the heating load seen by the reheat coil
-        static Real64 TAirMax(0.0);  // Maximum zone supply air temperature [C]
-        static Real64 QMax(0.0);     // Maximum heat addition rate imposed by the max zone supply air temperature [W]
-        static Real64 ZoneTemp(0.0); // Zone temperature [C]
-        static Real64 QMax2(0.0);
+        static thread_local Real64 TAirMax(0.0);  // Maximum zone supply air temperature [C]
+        static thread_local Real64 QMax(0.0);     // Maximum heat addition rate imposed by the max zone supply air temperature [W]
+        static thread_local Real64 ZoneTemp(0.0); // Zone temperature [C]
+        static thread_local Real64 QMax2(0.0);
         Real64 DummyMdot; // local fluid mass flow rate
 
         QToHeatSetPt = ZoneSysEnergyDemand(ZoneNum).RemainingOutputReqToHeatSP; // The calculated load from the Heat Balance
@@ -5374,7 +5374,7 @@ namespace SingleDuct {
         // Simulate an Air Terminal Mixer component
 
         // SUBROUTINE LOCAL VARIABLE DECLARATIONS:
-        static int SysNum(0);
+        static thread_local int SysNum(0);
 
         if (GetATMixerFlag) {
             GetATMixerFlag = false;
@@ -5434,8 +5434,8 @@ namespace SingleDuct {
         int NumAlphas;  // Number of alphanumerics returned by GetObjectItem
         int ATMixerNum; // Index of inlet side mixer air terminal unit
         int IOStat;
-        static std::string const RoutineName("GetATMixers: "); // include trailing blank space
-        static bool ErrorsFound(false);                        // Error flag
+        static thread_local std::string const RoutineName("GetATMixers: "); // include trailing blank space
+        static thread_local bool ErrorsFound(false);                        // Error flag
         int NodeNum;                                           // Index to node number
         int CtrlZone;                                          // Index to control zone
         bool ZoneNodeNotFound;                                 // Flag for error checking
@@ -5795,20 +5795,20 @@ namespace SingleDuct {
 
         // SUBROUTINE LOCAL VARIABLE DECLARATIONS:
 
-        static Real64 PriMassFlowRate(0.0);
-        static Real64 PriEnthalpy(0.0);
-        static Real64 PriHumRat(0.0);
-        static Real64 PriTemp(0.0);
+        static thread_local Real64 PriMassFlowRate(0.0);
+        static thread_local Real64 PriEnthalpy(0.0);
+        static thread_local Real64 PriHumRat(0.0);
+        static thread_local Real64 PriTemp(0.0);
 
-        static Real64 SecAirMassFlowRate(0.0);
-        static Real64 SecAirEnthalpy(0.0);
-        static Real64 SecAirHumRat(0.0);
-        static Real64 SecAirTemp(0.0);
+        static thread_local Real64 SecAirMassFlowRate(0.0);
+        static thread_local Real64 SecAirEnthalpy(0.0);
+        static thread_local Real64 SecAirHumRat(0.0);
+        static thread_local Real64 SecAirTemp(0.0);
 
-        static Real64 MixedAirMassFlowRate(0.0);
-        static Real64 MixedAirEnthalpy(0.0);
-        static Real64 MixedAirHumRat(0.0);
-        static Real64 MixedAirTemp(0.0);
+        static thread_local Real64 MixedAirMassFlowRate(0.0);
+        static thread_local Real64 MixedAirEnthalpy(0.0);
+        static thread_local Real64 MixedAirHumRat(0.0);
+        static thread_local Real64 MixedAirTemp(0.0);
 
         PriEnthalpy = Node(SysATMixer(SysNum).PriInNode).Enthalpy;
         PriHumRat = Node(SysATMixer(SysNum).PriInNode).HumRat;

@@ -272,10 +272,10 @@ namespace PlantUtilities {
         // na
 
         // SUBROUTINE LOCAL VARIABLE DECLARATIONS:
-        static bool OneTimeDiagSetup(true);
+        static thread_local bool OneTimeDiagSetup(true);
         bool EMSLoadOverride;
-        static Array1D_bool NodeErrorMsgIssued;
-        static bool NullPlantErrorMsgIssued;
+        static thread_local Array1D_bool NodeErrorMsgIssued;
+        static thread_local bool NullPlantErrorMsgIssued;
         Real64 MdotOldRequest; // initial value of mass flow
         int CompInletNodeNum;
         int CompOutletNodeNum;
@@ -1529,7 +1529,7 @@ namespace PlantUtilities {
         // SUBROUTINE ARGUMENT DEFINITIONS:
 
         // SUBROUTINE PARAMETER DEFINITIONS:
-        static std::string const RoutineName("UpdateChillerComponentCondenserSide");
+        static thread_local std::string const RoutineName("UpdateChillerComponentCondenserSide");
 
         // INTERFACE BLOCK SPECIFICATIONS:
         // na
@@ -1538,7 +1538,7 @@ namespace PlantUtilities {
         // na
 
         // SUBROUTINE LOCAL VARIABLE DECLARATIONS:
-        static bool DidAnythingChange(false); // set to true if conditions changed
+        static thread_local bool DidAnythingChange(false); // set to true if conditions changed
         int OtherLoopNum;                     // local loop pointer for remote connected loop
         int OtherLoopSide;                    // local loop side pointer for remote connected loop
         int ConnectLoopNum;                   // local do loop counter
@@ -1624,10 +1624,10 @@ namespace PlantUtilities {
         using FluidProperties::GetSpecificHeatGlycol;
 
         // SUBROUTINE PARAMETER DEFINITIONS:
-        static std::string const RoutineName("UpdateComponentHeatRecoverySide");
+        static thread_local std::string const RoutineName("UpdateComponentHeatRecoverySide");
 
         // SUBROUTINE LOCAL VARIABLE DECLARATIONS:
-        static bool DidAnythingChange(false); // set to true if conditions changed
+        static thread_local bool DidAnythingChange(false); // set to true if conditions changed
         int OtherLoopNum;                     // local loop pointer for remote connected loop
         int OtherLoopSide;                    // local loop side pointer for remote connected loop
         int ConnectLoopNum;                   // local do loop counter
@@ -1711,7 +1711,7 @@ namespace PlantUtilities {
         using DataPlant::PlantLoop;
 
         // SUBROUTINE LOCAL VARIABLE DECLARATIONS:
-        static bool DidAnythingChange(false); // set to true if conditions changed
+        static thread_local bool DidAnythingChange(false); // set to true if conditions changed
         int OtherLoopNum;                     // local loop pointer for remote connected loop
         int OtherLoopSide;                    // local loop side pointer for remote connected loop
         int ConnectLoopNum;                   // local do loop counter

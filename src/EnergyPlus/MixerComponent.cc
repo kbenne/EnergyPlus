@@ -155,7 +155,7 @@ namespace MixerComponent {
         // SUBROUTINE LOCAL VARIABLE DECLARATIONS:
         int MixerNum; // The Mixer that you are currently loading input into
         //////////// hoisted into namespace ////////////////////////////////////////////////
-        // static bool GetInputFlag( true ); // Flag set to make sure you get input once
+        // static thread_local bool GetInputFlag( true ); // Flag set to make sure you get input once
         ////////////////////////////////////////////////////////////////////////////////////
 
         // FLOW:
@@ -223,7 +223,7 @@ namespace MixerComponent {
         using NodeInputManager::GetOnlySingleNode;
 
         // SUBROUTINE PARAMETER DEFINITIONS:
-        static std::string const RoutineName("GetMixerInput: "); // include trailing blank space
+        static thread_local std::string const RoutineName("GetMixerInput: "); // include trailing blank space
 
         // SUBROUTINE LOCAL VARIABLE DECLARATIONS:
         int MixerNum; // The Mixer that you are currently loading input into
@@ -231,7 +231,7 @@ namespace MixerComponent {
         int NumNums;
         int NodeNum;
         int IOStat;
-        static bool ErrorsFound(false);
+        static thread_local bool ErrorsFound(false);
         int NumParams;
         int InNodeNum1;
         int InNodeNum2;

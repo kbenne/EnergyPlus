@@ -263,16 +263,16 @@ namespace PlantHeatExchangerFluidToFluid {
         using ScheduleManager::GetScheduleIndex;
 
         // SUBROUTINE PARAMETER DEFINITIONS:
-        static std::string const RoutineName("GetFluidHeatExchangerInput: ");
+        static thread_local std::string const RoutineName("GetFluidHeatExchangerInput: ");
 
         // SUBROUTINE LOCAL VARIABLE DECLARATIONS:
-        static bool ErrorsFound(false);
+        static thread_local bool ErrorsFound(false);
         int NumAlphas;               // Number of elements in the alpha array
         int NumNums;                 // Number of elements in the numeric array
         int IOStat;                  // IO Status when calling get input subroutine
-        static int MaxNumAlphas(0);  // argument for call to GetObjectDefMaxArgs
-        static int MaxNumNumbers(0); // argument for call to GetObjectDefMaxArgs
-        static int TotalArgs(0);     // argument for call to GetObjectDefMaxArgs
+        static thread_local int MaxNumAlphas(0);  // argument for call to GetObjectDefMaxArgs
+        static thread_local int MaxNumNumbers(0); // argument for call to GetObjectDefMaxArgs
+        static thread_local int TotalArgs(0);     // argument for call to GetObjectDefMaxArgs
         Array1D_string cAlphaFieldNames;
         Array1D_string cNumericFieldNames;
         Array1D_bool lNumericFieldBlanks;
@@ -655,14 +655,14 @@ namespace PlantHeatExchangerFluidToFluid {
         using PlantUtilities::InterConnectTwoPlantLoopSides;
 
         // SUBROUTINE PARAMETER DEFINITIONS:
-        static std::string const RoutineNameNoColon("InitFluidHeatExchanger");
+        static thread_local std::string const RoutineNameNoColon("InitFluidHeatExchanger");
 
         // SUBROUTINE LOCAL VARIABLE DECLARATIONS:
-        static bool MyOneTimeFlag(true); // one time flag
-        static Array1D_bool MyEnvrnFlag; // environment flag
-        static Array1D_bool MyFlag;
+        static thread_local bool MyOneTimeFlag(true); // one time flag
+        static thread_local Array1D_bool MyEnvrnFlag; // environment flag
+        static thread_local Array1D_bool MyFlag;
         bool errFlag;
-        static std::string const RoutineName("InitFluidHeatExchanger: ");
+        static thread_local std::string const RoutineName("InitFluidHeatExchanger: ");
         Real64 rho;
         int LoopNum2;
         int LoopSideNum;
@@ -903,7 +903,7 @@ namespace PlantHeatExchangerFluidToFluid {
         using ReportSizingManager::ReportSizingOutput;
 
         // SUBROUTINE PARAMETER DEFINITIONS:
-        static std::string const RoutineName("SizeFluidHeatExchanger");
+        static thread_local std::string const RoutineName("SizeFluidHeatExchanger");
 
         // SUBROUTINE LOCAL VARIABLE DECLARATIONS:
         int PltSizNumSupSide; // Plant Sizing index for Loop Supply Side
@@ -1156,7 +1156,7 @@ namespace PlantHeatExchangerFluidToFluid {
         // SUBROUTINE ARGUMENT DEFINITIONS:
 
         // SUBROUTINE PARAMETER DEFINITIONS:
-        static std::string const RoutineName("ControlFluidHeatExchanger");
+        static thread_local std::string const RoutineName("ControlFluidHeatExchanger");
 
         // INTERFACE BLOCK SPECIFICATIONS:
         // na
@@ -2022,7 +2022,7 @@ namespace PlantHeatExchangerFluidToFluid {
         // SUBROUTINE PARAMETER DEFINITIONS:
         int const CmaxMixedCminUnmixed(40);
         int const CmaxUnMixedCminMixed(41);
-        static std::string const RoutineName("CalcFluidHeatExchanger");
+        static thread_local std::string const RoutineName("CalcFluidHeatExchanger");
 
         // INTERFACE BLOCK SPECIFICATIONS:
         // na

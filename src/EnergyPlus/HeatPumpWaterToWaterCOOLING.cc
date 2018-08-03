@@ -155,7 +155,7 @@ namespace HeatPumpWaterToWaterCOOLING {
         using General::TrimSigDigits;
 
         // SUBROUTINE LOCAL VARIABLE DECLARATIONS:
-        static bool GetInput(true); // then TRUE, calls subroutine to read input file.
+        static thread_local bool GetInput(true); // then TRUE, calls subroutine to read input file.
         int GSHPNum;
 
         // Get input from IDF
@@ -246,7 +246,7 @@ namespace HeatPumpWaterToWaterCOOLING {
         Array1D_string AlphArray(5);  // character string data
         Array1D<Real64> NumArray(23); // numeric data
 
-        static bool ErrorsFound(false);
+        static thread_local bool ErrorsFound(false);
         bool errFlag;
 
         NumGSHPs = inputProcessor->getNumObjectsFound(ModuleCompNameUC);
@@ -564,12 +564,12 @@ namespace HeatPumpWaterToWaterCOOLING {
         using PlantUtilities::ScanPlantLoopsForObject;
 
         // SUBROUTINE PARAMETER DEFINITIONS:
-        static std::string const RoutineName("InitGshp");
+        static thread_local std::string const RoutineName("InitGshp");
 
         // SUBROUTINE LOCAL VARIABLE DECLARATIONS:
-        static Array1D_bool MyEnvrnFlag;
-        static Array1D_bool MyPlanScanFlag;
-        static bool MyOneTimeFlag(true);
+        static thread_local Array1D_bool MyEnvrnFlag;
+        static thread_local Array1D_bool MyPlanScanFlag;
+        static thread_local bool MyOneTimeFlag(true);
         Real64 rho; // local fluid density
         bool errFlag;
 
@@ -717,13 +717,13 @@ namespace HeatPumpWaterToWaterCOOLING {
         Real64 const RelaxParam(0.6);
         Real64 const SmallNum(1.0e-20);
         int const IterationLimit(500);
-        static std::string const RoutineName("CalcGshpModel");
-        static std::string const RoutineNameLoadSideRefridgTemp("CalcGSHPModel:LoadSideRefridgTemp");
-        static std::string const RoutineNameSourceSideRefridgTemp("CalcGSHPModel:SourceSideRefridgTemp");
-        static std::string const RoutineNameCompressInletTemp("CalcGSHPModel:CompressInletTemp");
-        static std::string const RoutineNameSuctionPr("CalcGSHPModel:SuctionPr");
-        static std::string const RoutineNameCompSuctionTemp("CalcGSHPModel:CompSuctionTemp");
-        static gio::Fmt fmtLD("*");
+        static thread_local std::string const RoutineName("CalcGshpModel");
+        static thread_local std::string const RoutineNameLoadSideRefridgTemp("CalcGSHPModel:LoadSideRefridgTemp");
+        static thread_local std::string const RoutineNameSourceSideRefridgTemp("CalcGSHPModel:SourceSideRefridgTemp");
+        static thread_local std::string const RoutineNameCompressInletTemp("CalcGSHPModel:CompressInletTemp");
+        static thread_local std::string const RoutineNameSuctionPr("CalcGSHPModel:SuctionPr");
+        static thread_local std::string const RoutineNameCompSuctionTemp("CalcGSHPModel:CompSuctionTemp");
+        static thread_local gio::Fmt fmtLD("*");
 
         // INTERFACE BLOCK SPECIFICATIONS
         // na
@@ -769,9 +769,9 @@ namespace HeatPumpWaterToWaterCOOLING {
         Real64 DutyFactor;
         int IterationCount;
 
-        static Real64 CurrentSimTime(0.0);
-        static Real64 PrevSimTime(0.0);
-        static bool OneTimeFlag(true);
+        static thread_local Real64 CurrentSimTime(0.0);
+        static thread_local Real64 PrevSimTime(0.0);
+        static thread_local bool OneTimeFlag(true);
         // Nodes
         int SourceSideInletNode;  // Source Side inlet node number, water side
         int SourceSideOutletNode; // Source Side outlet node number, water side

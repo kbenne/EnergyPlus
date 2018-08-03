@@ -189,7 +189,7 @@ namespace EcoRoofManager {
         Real64 const Cpa(1005.6);       // Specific heat of Water Vapor. (J/Kg.K)
 
         // SUBROUTINE LOCAL VARIABLE DECLARATIONS:
-        static int FirstEcoSurf(0); // Indicates lowest numbered surface that is an ecoroof
+        static thread_local int FirstEcoSurf(0); // Indicates lowest numbered surface that is an ecoroof
         // used to determine WHEN to updatesoilProps...
         int EcoLoop; // an integer loop variable for the simultaneous solution iteration
 
@@ -201,35 +201,35 @@ namespace EcoRoofManager {
         //  INTEGER :: OPtr
         //  INTEGER :: OSCScheduleIndex    ! Index number for OSC ConstTempSurfaceName
 
-        static bool QuickConductionSurf(false); // indicator for quick conduction surface
-        static Real64 LAI(0.2);                 // Leaf area index
-        static Real64 epsilonf(0.95);           // Leaf Emisivity
-        static Real64 epsilong(0.95);           // Soil Emisivity
-        static Real64 Alphag(0.3);              // Ground Albedo
-        static Real64 Alphaf(0.2);              // Leaf Albedo (reflectivity to solar radiation)
-        static Real64 e0(2.0);                  // Windless lower limit of exchange coefficient (from FASST docs)
-        static Real64 RH(50.0);                 // Relative humidity (%)
-        static Real64 Pa(101325.0);             // Atmospheric Pressure (PA)
-        static Real64 Tg(10.0);                 // Ground Surface temperature C ***** FROM PREVIOUS TIME STEP
-        static Real64 Tf(10.0);                 // Leaf temperature C ***** FROM PREVIOUS TIME STEP
+        static thread_local bool QuickConductionSurf(false); // indicator for quick conduction surface
+        static thread_local Real64 LAI(0.2);                 // Leaf area index
+        static thread_local Real64 epsilonf(0.95);           // Leaf Emisivity
+        static thread_local Real64 epsilong(0.95);           // Soil Emisivity
+        static thread_local Real64 Alphag(0.3);              // Ground Albedo
+        static thread_local Real64 Alphaf(0.2);              // Leaf Albedo (reflectivity to solar radiation)
+        static thread_local Real64 e0(2.0);                  // Windless lower limit of exchange coefficient (from FASST docs)
+        static thread_local Real64 RH(50.0);                 // Relative humidity (%)
+        static thread_local Real64 Pa(101325.0);             // Atmospheric Pressure (PA)
+        static thread_local Real64 Tg(10.0);                 // Ground Surface temperature C ***** FROM PREVIOUS TIME STEP
+        static thread_local Real64 Tf(10.0);                 // Leaf temperature C ***** FROM PREVIOUS TIME STEP
         Real64 Tgk;                             // Ground temperature in Kelvin
-        static Real64 Zf(0.2);                  // Height of plants (m)
+        static thread_local Real64 Zf(0.2);                  // Height of plants (m)
         // DJS Oct 2007 release - note I got rid of the initialization of moisture and meanrootmoisture here as these
         // values are now set at beginning of each new DD and each new warm-up loop.
         // DJS
-        static Real64 Moisture;               // m^3/m^3.The moisture content in the soil is the value provided by a user
-        static Real64 MoistureResidual(0.05); // m^3/m^3. Residual & maximum water contents are unique to each material.
+        static thread_local Real64 Moisture;               // m^3/m^3.The moisture content in the soil is the value provided by a user
+        static thread_local Real64 MoistureResidual(0.05); // m^3/m^3. Residual & maximum water contents are unique to each material.
         // See Frankenstein et al (2004b) for data.
-        static Real64 MoistureMax(0.5);      // Maximum volumetric moisture content (porosity) m^3/m^3
-        static Real64 MeanRootMoisture;      // Mean value of root moisture m^3/m^3
-        static Real64 SoilThickness(0.2);    // Soil thickness (m)
-        static Real64 StomatalResistanceMin; // s/m . ! Minimum stomatal resistance is unique for each veg. type.
-        static Real64 f3(1.0);               // As the value of gd for tall grass is 0, then f3 = 1
+        static thread_local Real64 MoistureMax(0.5);      // Maximum volumetric moisture content (porosity) m^3/m^3
+        static thread_local Real64 MeanRootMoisture;      // Mean value of root moisture m^3/m^3
+        static thread_local Real64 SoilThickness(0.2);    // Soil thickness (m)
+        static thread_local Real64 StomatalResistanceMin; // s/m . ! Minimum stomatal resistance is unique for each veg. type.
+        static thread_local Real64 f3(1.0);               // As the value of gd for tall grass is 0, then f3 = 1
         // ECMWF 2002 CY25R1 report has gd=0.0 for all veg except trees where gd=0.03.
 
         Real64 Ta;                // current air temperature
-        static Real64 Zog(0.001); // Ground roughness length scale (m)
-        static Real64 Za(2.0);    // Instrument height where atmospheric wind speed is measured (m)
+        static thread_local Real64 Zog(0.001); // Ground roughness length scale (m)
+        static thread_local Real64 Za(2.0);    // Instrument height where atmospheric wind speed is measured (m)
         Real64 Ws;                // Wind Speed (m/s)
         Real64 Waf;               // Windspeed within canopy (m/s)
 
@@ -237,10 +237,10 @@ namespace EcoRoofManager {
         Real64 qaf;  // mixing ratio of air near canopy
 
         Real64 qg;                 // mixing ratio of air at surface.
-        static Real64 Lf;          // latent heat flux
-        static Real64 Vfluxf(0.0); // Water evapotr. rate associated with latent heat from vegetation [m/s]
+        static thread_local Real64 Lf;          // latent heat flux
+        static thread_local Real64 Vfluxf(0.0); // Water evapotr. rate associated with latent heat from vegetation [m/s]
         Real64 RS;                 // shortwave radiation
-        static Real64 Qsoil(0.0);  // heat flux from the soil layer
+        static thread_local Real64 Qsoil(0.0);  // heat flux from the soil layer
 
         Real64 EpsilonOne;
         // unused1208  REAL(r64) :: e
@@ -257,8 +257,8 @@ namespace EcoRoofManager {
         Real64 Zo;               // foliage roughness length (m)
         Real64 Cfhn;             // transfer coefficient at near-neutral conditions
         Real64 Cf;               // bulk Transfer coefficient, equation 10 page 6 (FASST).
-        static Real64 sheatf;    // sensible heat flux coeff for foliage (W/m^2K)
-        static Real64 sensiblef; // sensible heat transfer TO foliage (W/m^2) DJS Jan 2011
+        static thread_local Real64 sheatf;    // sensible heat flux coeff for foliage (W/m^2K)
+        static thread_local Real64 sensiblef; // sensible heat transfer TO foliage (W/m^2) DJS Jan 2011
         Real64 ra;               // Aerodynamic Resistance
 
         Real64 f1inv; // intermediate calculation variable
@@ -291,8 +291,8 @@ namespace EcoRoofManager {
         Real64 Ce;               // bulk transfer coefficient (this is in fact Ceg in equation 28 main report)
         Real64 Gammah;           // latent heat exchange stability correction factor
         Real64 Chg;              // in fact it is the same as Ce (=Ceg) is transfer coefficient (but wot?)
-        static Real64 sheatg;    // intermediate calculation variable - sensible flux coef (W/m^2K for ground)
-        static Real64 sensibleg; // sensible heat flux TO ground (w/m^2) DJS Jan 2011
+        static thread_local Real64 sheatg;    // intermediate calculation variable - sensible flux coef (W/m^2K for ground)
+        static thread_local Real64 sensibleg; // sensible heat flux TO ground (w/m^2) DJS Jan 2011
         Real64 T3G;              // intermediate variable in the equation for Tg
         Real64 T2G;              // intermediate variable in the equation for Tg
         Real64 LeafTK;           // the current leaf's temperature (Kelvin)
@@ -301,15 +301,15 @@ namespace EcoRoofManager {
         Real64 Tif;              // previous leaf temperature
         Real64 rn;               // rn is the combined effect of both stomatal and aerodynamic resistances
         // in fact this is called r'' in the main report
-        static Real64 Lg(0.0);     // latent heat flux from ground surface
-        static Real64 Vfluxg(0.0); // Water evapotr. rate associated with latent heat from ground surface [m/s]
+        static thread_local Real64 Lg(0.0);     // latent heat flux from ground surface
+        static thread_local Real64 Vfluxg(0.0); // Water evapotr. rate associated with latent heat from ground surface [m/s]
         Real64 T1G;                // intermediate variable in the equation for Tg
         Real64 Qsoilpart1;         // intermediate variable for evaluating Qsoil (part without the unknown)
         Real64 Qsoilpart2;         // intermediate variable for evaluating Qsoil (part coeff of the ground temperature)
 
         //  INTEGER,EXTERNAL :: GetNewUnitNumber ! external function to return a new (unique) unit for ecoroof writing
-        static int unit(0);
-        static bool MyEnvrnFlag(true);
+        static thread_local int unit(0);
+        static thread_local bool MyEnvrnFlag(true);
 
         Ws = WindSpeedAt(Surface(SurfNum).Centroid.z); // use windspeed at Z of roof
         if (Ws < 2.0) {                                // Later we need to adjust for building roof height...
@@ -722,7 +722,7 @@ namespace EcoRoofManager {
         // SUBROUTINE ARGUMENT DEFINITIONS:
 
         // SUBROUTINE PARAMETER DEFINITIONS:
-        static Real64 const depth_fac((161240.0 * std::pow(2.0, -2.3)) / 60.0);
+        static thread_local Real64 const depth_fac((161240.0 * std::pow(2.0, -2.3)) / 60.0);
 
         // Soil Parameters from Reference listed in the code:
         Real64 const alpha(23.0); // These parameters are empirical constants
@@ -741,10 +741,10 @@ namespace EcoRoofManager {
         Real64 RatioMax;
         Real64 RatioMin;
         Real64 MoistureDiffusion;     // moisture transport down from near-surface to root zone
-        static Real64 TopDepth;       // Thickness of "near-surface" soil layer
-        static Real64 RootDepth(0.0); // Thickness of "root zone" soil layer //Autodesk Was used uninitialized
+        static thread_local Real64 TopDepth;       // Thickness of "near-surface" soil layer
+        static thread_local Real64 RootDepth(0.0); // Thickness of "root zone" soil layer //Autodesk Was used uninitialized
         // Note TopDepth+RootDepth = thickness of ecoroof soil layer
-        static Real64 TimeStepZoneSec; // Seconds per TimeStep
+        static thread_local Real64 TimeStepZoneSec; // Seconds per TimeStep
         Real64 SoilConductivity;       // Moisture dependent conductivity to be fed back into CTF Calculator
         Real64 SoilSpecHeat;           // Moisture dependent Spec. Heat to be fed back into CTF Calculator
         Real64 SoilAbsorpSolar;        // Moisture dependent Solar absorptance (1-albedo)
@@ -753,26 +753,26 @@ namespace EcoRoofManager {
         Real64 SatRatio;
         Real64 TestRatio; // Ratio to determine if timestep change in properties is too abrupt for CTF
 
-        static Real64 DryCond;     // Dry soil value of conductivity
-        static Real64 DryDens;     // Dry soil value of density
-        static Real64 DryAbsorp;   // Dry soil value of solar absorptance (1-albedo)
-        static Real64 DrySpecHeat; // Dry soil value of specific heat
+        static thread_local Real64 DryCond;     // Dry soil value of conductivity
+        static thread_local Real64 DryDens;     // Dry soil value of density
+        static thread_local Real64 DryAbsorp;   // Dry soil value of solar absorptance (1-albedo)
+        static thread_local Real64 DrySpecHeat; // Dry soil value of specific heat
         Real64 AvgMoisture;        // Average soil moisture over depth of ecoroof media
 
-        static bool UpdatebeginFlag(true); // one time flag
+        static thread_local bool UpdatebeginFlag(true); // one time flag
 
-        static Real64 CapillaryPotentialTop(-3.8997);  // This variable keeps track of the capillary potential of the soil in both layers and time (m)
-        static Real64 CapillaryPotentialRoot(-3.8997); // This variable keeps track of the capillary potential of the soil in both layers and time (m)
-        static Real64 SoilHydroConductivityTop(8.72e-6);  // This is the soil water conductivity in the soil (m/s)
-        static Real64 SoilHydroConductivityRoot(8.72e-6); // This is the soil water conductivity in the soil (m/s)
-        static Real64 SoilConductivityAveTop(8.72e-6);    // This is the average soil water conductivity (m/s)
-        static Real64 SoilConductivityAveRoot(8.72e-6);
-        static Real64 RelativeSoilSaturationTop; // Relative Soil Saturation (soil moisture-residual soil moisture)/(saturation soil moisture-residual
+        static thread_local Real64 CapillaryPotentialTop(-3.8997);  // This variable keeps track of the capillary potential of the soil in both layers and time (m)
+        static thread_local Real64 CapillaryPotentialRoot(-3.8997); // This variable keeps track of the capillary potential of the soil in both layers and time (m)
+        static thread_local Real64 SoilHydroConductivityTop(8.72e-6);  // This is the soil water conductivity in the soil (m/s)
+        static thread_local Real64 SoilHydroConductivityRoot(8.72e-6); // This is the soil water conductivity in the soil (m/s)
+        static thread_local Real64 SoilConductivityAveTop(8.72e-6);    // This is the average soil water conductivity (m/s)
+        static thread_local Real64 SoilConductivityAveRoot(8.72e-6);
+        static thread_local Real64 RelativeSoilSaturationTop; // Relative Soil Saturation (soil moisture-residual soil moisture)/(saturation soil moisture-residual
                                                  // soil moisture)
-        static Real64 RelativeSoilSaturationRoot;
-        static Real64 TestMoisture(0.15); // This makes sure that the moisture cannot change by too much in each step
+        static thread_local Real64 RelativeSoilSaturationRoot;
+        static thread_local Real64 TestMoisture(0.15); // This makes sure that the moisture cannot change by too much in each step
         int index1;
-        static int ErrIndex(0);
+        static thread_local int ErrIndex(0);
 
         // NOTE:  As Energyplus calls the energy balance manager (and hence CalcEcoroof)
         // once for each surface within each zone that has an ecoroof

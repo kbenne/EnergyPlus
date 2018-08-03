@@ -263,7 +263,7 @@ namespace HeatBalFiniteDiffManager {
         int MaterialNumAlpha;               // Number of material alpha names being passed
         int MaterialNumProp;                // Number of material properties being passed
         Array1D<Real64> MaterialProps(40);  // Temporary array to transfer material properties
-        static bool ErrorsFound(false);     // If errors detected in input
+        static thread_local bool ErrorsFound(false);     // If errors detected in input
         //  INTEGER :: CondFDMat                ! Number of variable property CondFD materials in input
         int Loop;
         int NumAlphas;
@@ -525,7 +525,7 @@ namespace HeatBalFiniteDiffManager {
         using DataSurfaces::HeatTransferModel_CondFD;
 
         // SUBROUTINE LOCAL VARIABLE DECLARATIONS:
-        static bool MyEnvrnFlag(true);
+        static thread_local bool MyEnvrnFlag(true);
         int SurfNum;
         int ConstrNum; // Loop counter
         bool ErrorsFound;
@@ -1058,7 +1058,7 @@ namespace HeatBalFiniteDiffManager {
         // Using/Aliasing
         using DataHeatBalance::CondFDRelaxFactor;
 
-        static Real64 MaxDelTemp(0.0);
+        static thread_local Real64 MaxDelTemp(0.0);
 
         int const ConstrNum(Surface(Surf).Construction);
 
@@ -1220,8 +1220,8 @@ namespace HeatBalFiniteDiffManager {
         using General::ScanForReports;
 
         // SUBROUTINE PARAMETER DEFINITIONS:
-        static gio::Fmt fmtLD("*");
-        static gio::Fmt fmtA("(A)");
+        static thread_local gio::Fmt fmtLD("*");
+        static thread_local gio::Fmt fmtA("(A)");
 
         // SUBROUTINE LOCAL VARIABLE DECLARATIONS:
         bool DoReport;
@@ -1233,9 +1233,9 @@ namespace HeatBalFiniteDiffManager {
         int Inodes;
 
         // Formats
-        static gio::Fmt Format_700("(' Construction CondFD,',A,2(',',A),',',A,',',A)");
-        static gio::Fmt Format_701("(' Material CondFD Summary,',A,',',A,',',A,',',A,',',A,',',A)");
-        static gio::Fmt Format_702("(' ConductionFiniteDifference Node,',A,',',A,',',A,',',A,',',A)");
+        static thread_local gio::Fmt Format_700("(' Construction CondFD,',A,2(',',A),',',A,',',A)");
+        static thread_local gio::Fmt Format_701("(' Material CondFD Summary,',A,',',A,',',A,',',A,',',A,',',A)");
+        static thread_local gio::Fmt Format_702("(' ConductionFiniteDifference Node,',A,',',A,',',A,',',A,',',A)");
 
         gio::write(OutputFileInits, fmtA) << "! <ConductionFiniteDifference HeatBalanceSettings>,Scheme Type,Space Discretization "
                                              "Constant,Relaxation Factor,Inside Face Surface Temperature Convergence Criteria";

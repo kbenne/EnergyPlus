@@ -101,7 +101,7 @@ namespace OutAirNodeManager {
 
     // Data
     // MODULE PARAMETER DEFINITIONS:
-    static std::string const BlankString;
+    static thread_local std::string const BlankString;
 
     // Type declarations in OutAirNodeManager module
 
@@ -183,7 +183,7 @@ namespace OutAirNodeManager {
 
         // Locals
         // SUBROUTINE PARAMETER DEFINITIONS:
-        static std::string const RoutineName("GetOutAirNodesInput: "); // include trailing blank space
+        static thread_local std::string const RoutineName("GetOutAirNodesInput: "); // include trailing blank space
 
         // SUBROUTINE LOCAL VARIABLE DECLARATIONS:
         int NumOutAirInletNodeLists;
@@ -213,9 +213,9 @@ namespace OutAirNodeManager {
         Array1D<Real64> Numbers;         // Numeric input items for object
         Array1D_bool lAlphaBlanks;       // Logical array, alpha field input BLANK = .TRUE.
         Array1D_bool lNumericBlanks;     // Logical array, numeric field input BLANK = .TRUE.
-        static int MaxNums(0);           // Maximum number of numeric input fields
-        static int MaxAlphas(0);         // Maximum number of alpha input fields
-        static int TotalArgs(0);         // Total number of alpha and numeric arguments (max) for a
+        static thread_local int MaxNums(0);           // Maximum number of numeric input fields
+        static thread_local int MaxAlphas(0);         // Maximum number of alpha input fields
+        static thread_local int TotalArgs(0);         // Total number of alpha and numeric arguments (max) for a
 
         NumOutAirInletNodeLists = inputProcessor->getNumObjectsFound("OutdoorAir:NodeList");
         NumOutsideAirNodeSingles = inputProcessor->getNumObjectsFound("OutdoorAir:Node");
@@ -602,7 +602,7 @@ namespace OutAirNodeManager {
         // SUBROUTINE LOCAL VARIABLE DECLARATIONS:
         Array1D_int TmpNums;
         int DummyNumber;
-        static bool errFlag(false);
+        static thread_local bool errFlag(false);
 
         if (GetOutAirNodesInputFlag) { // First time subroutine has been entered
             GetOutAirNodesInput();     // Get Out Air Nodes data

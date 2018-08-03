@@ -146,7 +146,7 @@ namespace HeatBalanceHAMTManager {
     Real64 const qvplim(100000.0); // Maximum latent heat W
     Real64 const rhmax(1.01);      // Maximum RH value
 
-    static std::string const BlankString;
+    static thread_local std::string const BlankString;
 
     // DERIVED TYPE DEFINITIONS:
 
@@ -223,7 +223,7 @@ namespace HeatBalanceHAMTManager {
 
         // SUBROUTINE LOCAL VARIABLE DECLARATIONS:
 
-        static bool OneTimeFlag(true);
+        static thread_local bool OneTimeFlag(true);
 
         if (OneTimeFlag) {
             OneTimeFlag = false;
@@ -248,13 +248,13 @@ namespace HeatBalanceHAMTManager {
         // gets input for the HAMT model
 
         // SUBROUTINE PARAMETER DEFINITIONS:
-        static std::string const cHAMTObject1("MaterialProperty:HeatAndMoistureTransfer:Settings");
-        static std::string const cHAMTObject2("MaterialProperty:HeatAndMoistureTransfer:SorptionIsotherm");
-        static std::string const cHAMTObject3("MaterialProperty:HeatAndMoistureTransfer:Suction");
-        static std::string const cHAMTObject4("MaterialProperty:HeatAndMoistureTransfer:Redistribution");
-        static std::string const cHAMTObject5("MaterialProperty:HeatAndMoistureTransfer:Diffusion");
-        static std::string const cHAMTObject6("MaterialProperty:HeatAndMoistureTransfer:ThermalConductivity");
-        static std::string const cHAMTObject7("SurfaceProperties:VaporCoefficients");
+        static thread_local std::string const cHAMTObject1("MaterialProperty:HeatAndMoistureTransfer:Settings");
+        static thread_local std::string const cHAMTObject2("MaterialProperty:HeatAndMoistureTransfer:SorptionIsotherm");
+        static thread_local std::string const cHAMTObject3("MaterialProperty:HeatAndMoistureTransfer:Suction");
+        static thread_local std::string const cHAMTObject4("MaterialProperty:HeatAndMoistureTransfer:Redistribution");
+        static thread_local std::string const cHAMTObject5("MaterialProperty:HeatAndMoistureTransfer:Diffusion");
+        static thread_local std::string const cHAMTObject6("MaterialProperty:HeatAndMoistureTransfer:ThermalConductivity");
+        static thread_local std::string const cHAMTObject7("SurfaceProperties:VaporCoefficients");
 
         // SUBROUTINE LOCAL VARIABLE DECLARATIONS:
 
@@ -720,7 +720,7 @@ namespace HeatBalanceHAMTManager {
 
         // SUBROUTINE PARAMETER DEFINITIONS:
         Real64 const adjdist(0.00005); // Allowable distance between two cells, also used as limit on cell length
-        static std::string const RoutineName("InitCombinedHeatAndMoistureFiniteElement: ");
+        static thread_local std::string const RoutineName("InitCombinedHeatAndMoistureFiniteElement: ");
 
         // INTERFACE BLOCK SPECIFICATIONS:
         // na
@@ -752,12 +752,12 @@ namespace HeatBalanceHAMTManager {
         bool DoReport;
 
         // Formats
-        static gio::Fmt Format_1966("('! <HAMT cells>, Surface Name, Construction Name, Cell Numbers')");
-        static gio::Fmt Format_1965("('! <HAMT origins>, Surface Name, Construction Name, Cell origins (m) ')");
-        static gio::Fmt Format_1968("('HAMT cells, ',A,',',A,400(,:,',',i4))");
-        static gio::Fmt Format_1967("('HAMT origins,',A,',',A,400(,:,',',f10.7))");
-        static gio::Fmt Format_108("('! <Material Nominal Resistance>, Material Name,  Nominal R')");
-        static gio::Fmt Format_111("('Material Nominal Resistance's,2(',',A))");
+        static thread_local gio::Fmt Format_1966("('! <HAMT cells>, Surface Name, Construction Name, Cell Numbers')");
+        static thread_local gio::Fmt Format_1965("('! <HAMT origins>, Surface Name, Construction Name, Cell origins (m) ')");
+        static thread_local gio::Fmt Format_1968("('HAMT cells, ',A,',',A,400(,:,',',i4))");
+        static thread_local gio::Fmt Format_1967("('HAMT origins,',A,',',A,400(,:,',',f10.7))");
+        static thread_local gio::Fmt Format_108("('! <Material Nominal Resistance>, Material Name,  Nominal R')");
+        static thread_local gio::Fmt Format_111("('Material Nominal Resistance's,2(',',A))");
 
         deltat = TimeStepZone * 3600.0;
 
@@ -1104,8 +1104,8 @@ namespace HeatBalanceHAMTManager {
         // SUBROUTINE ARGUMENT DEFINITIONS:
 
         // SUBROUTINE PARAMETER DEFINITIONS:
-        static std::string const HAMTExt("HAMT-Ext");
-        static std::string const HAMTInt("HAMT-Int");
+        static thread_local std::string const HAMTExt("HAMT-Ext");
+        static thread_local std::string const HAMTInt("HAMT-Int");
 
         // INTERFACE BLOCK SPECIFICATIONS:
         // na
@@ -1146,9 +1146,9 @@ namespace HeatBalanceHAMTManager {
         int adjl;
 
         //    INTEGER, SAVE :: tempErrCount=0
-        static int qvpErrCount(0);
+        static thread_local int qvpErrCount(0);
         //    INTEGER, SAVE :: tempErrReport=0
-        static int qvpErrReport(0);
+        static thread_local int qvpErrReport(0);
         Real64 denominator;
 
         if (BeginEnvrnFlag && MyEnvrnFlag(sid)) {

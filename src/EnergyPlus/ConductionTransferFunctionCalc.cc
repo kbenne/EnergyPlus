@@ -278,7 +278,7 @@ namespace ConductionTransferFunctionCalc {
         Real64 dxtmp;                             // Intermediate calculation variable ( = 1/dx/cap)
         Real64 dyn;                               // Nodal spacing in the direction perpendicular to the main direction
         // of heat transfer (only valid for a 2-D solution)
-        static bool ErrorsFound(false); // Flag for input error condition
+        static thread_local bool ErrorsFound(false); // Flag for input error condition
         int HistTerm;                   // Loop counter
         int ipts1;                      // Intermediate calculation for number of nodes per layer
         int ir;                         // Loop control for constructing Identity Matrix
@@ -2158,15 +2158,15 @@ namespace ConductionTransferFunctionCalc {
         int I;
 
         // Formats
-        static gio::Fmt fmtA("(A)");
-        static gio::Fmt Format_700("(' Construction CTF,',A,3(',',I4),',',F8.3,',',G15.4,4(',',F8.3),',',A)");
-        static gio::Fmt Format_701("(' Material CTF Summary,',A,',',F8.4,',',F14.3,',',F11.3,',',F13.3,',',G12.4)");
-        static gio::Fmt Format_702("(' Material:Air,',A,',',G12.4)");
-        static gio::Fmt Format_703("(' CTF,',I4,4(',',G20.8))");
-        static gio::Fmt Format_704("(' CTF,',I4,3(',',G20.8))");
-        static gio::Fmt Format_705("(' QTF,',I4,2(',',G20.8))");
-        static gio::Fmt Format_706("(' Source/Sink Loc Internal Temp QTF,',I4,3(',',G20.8))");
-        static gio::Fmt Format_707("(' User Loc Internal Temp QTF,',I4,3(',',G20.8))");
+        static thread_local gio::Fmt fmtA("(A)");
+        static thread_local gio::Fmt Format_700("(' Construction CTF,',A,3(',',I4),',',F8.3,',',G15.4,4(',',F8.3),',',A)");
+        static thread_local gio::Fmt Format_701("(' Material CTF Summary,',A,',',F8.4,',',F14.3,',',F11.3,',',F13.3,',',G12.4)");
+        static thread_local gio::Fmt Format_702("(' Material:Air,',A,',',G12.4)");
+        static thread_local gio::Fmt Format_703("(' CTF,',I4,4(',',G20.8))");
+        static thread_local gio::Fmt Format_704("(' CTF,',I4,3(',',G20.8))");
+        static thread_local gio::Fmt Format_705("(' QTF,',I4,2(',',G20.8))");
+        static thread_local gio::Fmt Format_706("(' Source/Sink Loc Internal Temp QTF,',I4,3(',',G20.8))");
+        static thread_local gio::Fmt Format_707("(' User Loc Internal Temp QTF,',I4,3(',',G20.8))");
 
         ScanForReports("Constructions", DoReport, "Constructions");
 

@@ -127,8 +127,8 @@ namespace PondGroundHeatExchanger {
 
     // Data
     // MODULE PARAMETER DEFINITIONS
-    static std::string const BlankString;
-    static std::string const fluidNameWater("WATER");
+    static thread_local std::string const BlankString;
+    static thread_local std::string const fluidNameWater("WATER");
     Real64 const SmallNum(1.0e-30);         // Very small number to avoid div0 errors
     Real64 const StefBoltzmann(5.6697e-08); // Stefan-Boltzmann constant
     //  REAL(r64), PARAMETER :: KelvinConv    = KelvinConv           ! Conversion from Celsius to Kelvin
@@ -226,7 +226,7 @@ namespace PondGroundHeatExchanger {
         using namespace DataLoopNode;
 
         // SUBROUTINE LOCAL VARIABLE DECLARATIONS:
-        static bool ErrorsFound(false); // Set to true if errors in input,
+        static thread_local bool ErrorsFound(false); // Set to true if errors in input,
         // fatal at end of routine
         int IOStatus;   // Used in GetObjectItem
         int Item;       // Item to be "gotten"
@@ -435,7 +435,7 @@ namespace PondGroundHeatExchanger {
         // SUBROUTINE PARAMETER DEFINITIONS:
         Real64 const DesignVelocity(0.5); // Hypothetical design max pipe velocity [m/s]
         Real64 const PondHeight(0.0);     // for now
-        static std::string const RoutineName("InitPondGroundHeatExchanger");
+        static thread_local std::string const RoutineName("InitPondGroundHeatExchanger");
 
         // INTERFACE BLOCK SPECIFICATIONS
         // na
@@ -556,7 +556,7 @@ namespace PondGroundHeatExchanger {
         // SUBROUTINE ARGUMENT DEFINITIONS:
 
         // SUBROUTINE PARAMETER DEFINITIONS:
-        static std::string const RoutineName("CalcPondGroundHeatExchanger");
+        static thread_local std::string const RoutineName("CalcPondGroundHeatExchanger");
 
         // INTERFACE BLOCK SPECIFICATIONS
         // na
@@ -666,7 +666,7 @@ namespace PondGroundHeatExchanger {
         Real64 const PrantlAir(0.71); // Prantl number for air - assumed constant
         Real64 const SchmidtAir(0.6); // Schmidt number for air - assumed constant
         Real64 const PondHeight(0.0); // for now
-        static std::string const RoutineName("PondGroundHeatExchanger:CalcTotalFlux");
+        static thread_local std::string const RoutineName("PondGroundHeatExchanger:CalcTotalFlux");
 
         // INTERFACE BLOCK SPECIFICATIONS
         // na
@@ -905,7 +905,7 @@ namespace PondGroundHeatExchanger {
         // FUNCTION PARAMETER DEFINITIONS:
         Real64 const MaxLaminarRe(2300.0); // Maximum Reynolds number for laminar flow
         Real64 const GravConst(9.81);      // gravitational constant - should be fixed!
-        static std::string const CalledFrom("PondGroundHeatExchanger:CalcEffectiveness");
+        static thread_local std::string const CalledFrom("PondGroundHeatExchanger:CalcEffectiveness");
 
         // INTERFACE BLOCK SPECIFICATIONS
         // na
@@ -997,7 +997,7 @@ namespace PondGroundHeatExchanger {
             CalcEffectiveness = 1.0;
         } else {
             NTU = Pi * TubeInDiameter * this->CircuitLength * NumCircuits / (TotalResistance * MassFlowRate * SpecificHeat);
-            // Calculate effectiveness - formula for static fluid
+            // Calculate effectiveness - formula for static thread_local fluid
             CalcEffectiveness = (1.0 - std::exp(-NTU));
         }
 
@@ -1056,7 +1056,7 @@ namespace PondGroundHeatExchanger {
         // SUBROUTINE ARGUMENT DEFINITIONS:
 
         // SUBROUTINE PARAMETER DEFINITIONS:
-        static std::string const RoutineName("PondGroundHeatExchanger:Update");
+        static thread_local std::string const RoutineName("PondGroundHeatExchanger:Update");
 
         // INTERFACE BLOCK SPECIFICATIONS
         // na

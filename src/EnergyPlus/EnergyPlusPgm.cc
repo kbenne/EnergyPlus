@@ -295,7 +295,7 @@ void EnergyPlusPgm(std::string const &filepath)
     // na
 
     // PROGRAM LOCAL VARIABLE DECLARATIONS:
-    static std::string cEnvValue;
+    static thread_local std::string cEnvValue;
 
     //                           INITIALIZE VARIABLES
     Time_Start = epElapsedTime();

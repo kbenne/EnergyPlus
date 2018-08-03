@@ -150,7 +150,7 @@ namespace ElectricBaseboardRadiator {
 
         // SUBROUTINE LOCAL VARIABLE DECLARATIONS:
         int BaseboardNum;               // Index of unit in baseboard array
-        static bool GetInputFlag(true); // One time get input flag
+        static thread_local bool GetInputFlag(true); // One time get input flag
 
         if (GetInputFlag) {
             GetElectricBaseboardInput();
@@ -225,7 +225,7 @@ namespace ElectricBaseboardRadiator {
         using General::TrimSigDigits;
 
         // SUBROUTINE PARAMETER DEFINITIONS:
-        static std::string const RoutineName("GetBaseboardInput: "); // include trailing blank space
+        static thread_local std::string const RoutineName("GetBaseboardInput: "); // include trailing blank space
         Real64 const MaxFraction(1.0);                               // Maximum limit of fractional values
         Real64 const MinFraction(0.0);                               // Minimum limit of fractional values
         //    INTEGER,PARAMETER :: MaxDistribSurfaces   = 20      ! Maximum number of surfaces that a baseboard heater can radiate to
@@ -243,7 +243,7 @@ namespace ElectricBaseboardRadiator {
         int NumNumbers;
         int SurfNum; // surface number that radiant heat delivered
         int IOStat;
-        static bool ErrorsFound(false); // If errors detected in input
+        static thread_local bool ErrorsFound(false); // If errors detected in input
 
         cCurrentModuleObject = cCMO_BBRadiator_Electric;
 
@@ -560,11 +560,11 @@ namespace ElectricBaseboardRadiator {
 
         // SUBROUTINE LOCAL VARIABLE DECLARATIONS:
         int ZoneNode;
-        static bool MyOneTimeFlag(true);
-        static bool ZoneEquipmentListChecked(false); // True after the Zone Equipment List has been checked for items
+        static thread_local bool MyOneTimeFlag(true);
+        static thread_local bool ZoneEquipmentListChecked(false); // True after the Zone Equipment List has been checked for items
         int ZoneNum;
         int Loop;
-        static Array1D_bool MyEnvrnFlag;
+        static thread_local Array1D_bool MyEnvrnFlag;
 
         // Do the one time initializations
         if (MyOneTimeFlag) {
@@ -671,7 +671,7 @@ namespace ElectricBaseboardRadiator {
         using ReportSizingManager::RequestSizing;
 
         // SUBROUTINE PARAMETER DEFINITIONS:
-        static std::string const RoutineName("SizeElectricBaseboard");
+        static thread_local std::string const RoutineName("SizeElectricBaseboard");
 
         // SUBROUTINE LOCAL VARIABLE DECLARATIONS:
         std::string CompName;     // component name
@@ -938,8 +938,8 @@ namespace ElectricBaseboardRadiator {
         using DataHVACGlobals::TimeStepSys;
 
         // SUBROUTINE LOCAL VARIABLE DECLARATIONS:
-        static int Iter(0);
-        static bool MyEnvrnFlag(true);
+        static thread_local int Iter(0);
+        static thread_local bool MyEnvrnFlag(true);
 
         if (BeginEnvrnFlag && MyEnvrnFlag) {
             Iter = 0;

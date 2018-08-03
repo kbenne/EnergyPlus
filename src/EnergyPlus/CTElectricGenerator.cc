@@ -246,7 +246,7 @@ namespace CTElectricGenerator {
         int IOStat;                     // IO Status when calling get input subroutine
         Array1D_string AlphArray(12);   // character string data
         Array1D<Real64> NumArray(12);   // numeric data
-        static bool ErrorsFound(false); // error flag
+        static thread_local bool ErrorsFound(false); // error flag
 
         // FLOW
 
@@ -612,7 +612,7 @@ namespace CTElectricGenerator {
         // SUBROUTINE PARAMETER DEFINITIONS:
         Real64 const ExhaustCP(1.047); // Exhaust Gas Specific Heat (J/kg-K)
         Real64 const KJtoJ(1000.0);    // convert Kjoules to joules
-        static std::string const RoutineName("CalcCTGeneratorModel");
+        static thread_local std::string const RoutineName("CalcCTGeneratorModel");
 
         // SUBROUTINE LOCAL VARIABLE DECLARATIONS:
         Real64 MinPartLoadRat;     // min allowed operating frac full load
@@ -838,16 +838,16 @@ namespace CTElectricGenerator {
         using PlantUtilities::SetComponentFlowRate;
 
         // SUBROUTINE PARAMETER DEFINITIONS:
-        static std::string const RoutineName("InitICEngineGenerators");
+        static thread_local std::string const RoutineName("InitICEngineGenerators");
 
         // SUBROUTINE LOCAL VARIABLE DECLARATIONS:
         int HeatRecInletNode;            // inlet node number in heat recovery loop
         int HeatRecOutletNode;           // outlet node number in heat recovery loop
-        static bool MyOneTimeFlag(true); // Initialization flag
+        static thread_local bool MyOneTimeFlag(true); // Initialization flag
 
-        static Array1D_bool MyEnvrnFlag; // Used for initializations each begin environment flag
-        static Array1D_bool MyPlantScanFlag;
-        static Array1D_bool MySizeAndNodeInitFlag;
+        static thread_local Array1D_bool MyEnvrnFlag; // Used for initializations each begin environment flag
+        static thread_local Array1D_bool MyPlantScanFlag;
+        static thread_local Array1D_bool MySizeAndNodeInitFlag;
         Real64 mdot;
         Real64 rho;
         bool errFlag;

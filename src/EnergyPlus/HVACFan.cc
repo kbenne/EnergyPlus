@@ -230,7 +230,7 @@ namespace HVACFan {
 
     void FanSystem::set_size()
     {
-        std::string static const routineName = "FanSystem::set_size ";
+        std::string static thread_local const routineName = "FanSystem::set_size ";
 
         Real64 tempFlow = designAirVolFlowRate;
         bool bPRINT = true;
@@ -329,7 +329,7 @@ namespace HVACFan {
     // oneTimePowerCurveCheck_( true )
     {
 
-        std::string const static routineName = "HVACFan constructor ";
+        std::string const static thread_local routineName = "HVACFan constructor ";
         int numAlphas;    // Number of elements in the alpha array
         int numNums;      // Number of elements in the numeric array
         int numTotFields; // Total number of alpha and numeric fields

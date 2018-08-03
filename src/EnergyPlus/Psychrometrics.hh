@@ -354,10 +354,10 @@ namespace Psychrometrics {
         // see PsyHFnTdbW ref. to ASHRAE Fundamentals
         // USAGE:  cpa = PsyCpAirFnWTdb(w,T)
 
-        // Static locals
-        static Real64 dwSave(-100.0);
-        static Real64 Tsave(-100.0);
-        static Real64 cpaSave(-100.0);
+        // static thread_local locals
+        static thread_local Real64 dwSave(-100.0);
+        static thread_local Real64 Tsave(-100.0);
+        static thread_local Real64 cpaSave(-100.0);
 
         // check if last call had the same input and if it did just use the saved output
         if ((Tsave == T) && (dwSave == dw)) return cpaSave;
@@ -381,10 +381,10 @@ namespace Psychrometrics {
         // Faster version with humidity ratio already adjusted
         assert(dw >= 1.0e-5);
 
-        // Static locals
-        static Real64 dwSave(-100.0);
-        static Real64 Tsave(-100.0);
-        static Real64 cpaSave(-100.0);
+        // static thread_local locals
+        static thread_local Real64 dwSave(-100.0);
+        static thread_local Real64 Tsave(-100.0);
+        static thread_local Real64 cpaSave(-100.0);
 
         // check if last call had the same input and if it did just use the saved output
         if ((Tsave == T) && (dwSave == dw)) return cpaSave;
@@ -771,7 +771,7 @@ namespace Psychrometrics {
         // values from PsyRhFnTdbWPb
 
         // FUNCTION PARAMETER DEFINITIONS:
-        static std::string const RoutineName("PsyRhFnTdbRhov");
+        static thread_local std::string const RoutineName("PsyRhFnTdbRhov");
 
 #ifdef EP_psych_stats
         ++NumTimesCalled(iPsyRhFnTdbRhov);
@@ -819,7 +819,7 @@ namespace Psychrometrics {
         // ASHRAE HANDBOOK FUNDAMENTALS 1985, P6.12, EQN 10,21,23
 
         // FUNCTION PARAMETER DEFINITIONS:
-        static std::string const RoutineName("PsyRhFnTdbWPb");
+        static thread_local std::string const RoutineName("PsyRhFnTdbWPb");
 
 #ifdef EP_psych_stats
         ++NumTimesCalled(iPsyRhFnTdbWPb);
@@ -874,7 +874,7 @@ namespace Psychrometrics {
         // ASHRAE HANDBOOK OF FUNDAMENTALS, 1972, P99, EQN 22
 
         // FUNCTION PARAMETER DEFINITIONS:
-        static std::string const RoutineName("PsyWFnTdpPb");
+        static thread_local std::string const RoutineName("PsyWFnTdpPb");
 
 #ifdef EP_psych_stats
         ++NumTimesCalled(iPsyWFnTdpPb);
@@ -924,7 +924,7 @@ namespace Psychrometrics {
         // ASHRAE HANDBOOK OF FUNDAMENTALS, 1972, P99, EQN 22
 
         // FUNCTION PARAMETER DEFINITIONS:
-        static std::string const RoutineName("PsyWFnTdbRhPb");
+        static thread_local std::string const RoutineName("PsyWFnTdbRhPb");
 
 #ifdef EP_psych_stats
         ++NumTimesCalled(iPsyWFnTdbRhPb);
@@ -986,7 +986,7 @@ namespace Psychrometrics {
         // ASHRAE HANDBOOK OF FUNDAMENTALS, 1972, P99, EQ 22,35
 
         // FUNCTION PARAMETER DEFINITIONS:
-        static std::string const RoutineName("PsyWFnTdbTwbPb");
+        static thread_local std::string const RoutineName("PsyWFnTdbTwbPb");
 
 #ifdef EP_psych_stats
         ++NumTimesCalled(iPsyWFnTdbTwbPb);

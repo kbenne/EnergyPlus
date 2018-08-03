@@ -111,7 +111,7 @@ namespace DisplacementVentMgr {
 
     // Data
     // MODULE PARAMETER DEFINITIONS:
-    static std::string const BlankString;
+    static thread_local std::string const BlankString;
 
     // DERIVED TYPE DEFINITIONS:
     // na
@@ -221,8 +221,8 @@ namespace DisplacementVentMgr {
         // na
 
         // SUBROUTINE LOCAL VARIABLE DECLARATIONS:
-        static bool MyOneTimeFlag(true);
-        static Array1D_bool MyEnvrnFlag;
+        static thread_local bool MyOneTimeFlag(true);
+        static thread_local Array1D_bool MyEnvrnFlag;
 
         // Do the one time initializations
         if (MyOneTimeFlag) {
@@ -553,7 +553,7 @@ namespace DisplacementVentMgr {
                                                Real64 zoneMultiplier,
                                                Real64 airCap)
     {
-        static const Real64 elevenOverSix = 11.0 / 6.0;
+        static thread_local const Real64 elevenOverSix = 11.0 / 6.0;
         return (temperatureHistoryTerm + HAT_floor + MCpT_Total + 0.6 * occupiedTemp * MCp_Total + nonAirSystemResponse / zoneMultiplier) /
                (elevenOverSix * airCap + HA_floor + 1.6 * MCp_Total);
     }
@@ -593,8 +593,8 @@ namespace DisplacementVentMgr {
         using ScheduleManager::GetScheduleIndex;
 
         // SUBROUTINE PARAMETER DEFINITIONS:
-        static Real64 const OneThird(1.0 / 3.0);
-        static Real64 const MinFlow_pow_fac(std::pow(1.0 / 24.55 * 1.0, 1.0 / 0.6));
+        static thread_local Real64 const OneThird(1.0 / 3.0);
+        static thread_local Real64 const MinFlow_pow_fac(std::pow(1.0 / 24.55 * 1.0, 1.0 / 0.6));
 
         // SUBROUTINE LOCAL VARIABLE DECLARATIONS:
         Real64 HeightFrac;               // Fractional height of transition between occupied and mixed subzones
@@ -636,9 +636,9 @@ namespace DisplacementVentMgr {
         Real64 ZoneMult; // total zone multiplier
         int Loop;
         int FlagApertures;
-        static Real64 TempDepCoef(0.0); // Formerly CoefSumha, coef in zone temp equation with dimensions of h*A
-        static Real64 TempIndCoef(0.0); // Formerly CoefSumhat, coef in zone temp equation with dimensions of h*A(T1
-        static Array1D_int IntGainTypesOccupied(29,
+        static thread_local Real64 TempDepCoef(0.0); // Formerly CoefSumha, coef in zone temp equation with dimensions of h*A
+        static thread_local Real64 TempIndCoef(0.0); // Formerly CoefSumhat, coef in zone temp equation with dimensions of h*A(T1
+        static thread_local Array1D_int IntGainTypesOccupied(29,
                                                 {IntGainTypeOf_People,
                                                  IntGainTypeOf_WaterHeaterMixed,
                                                  IntGainTypeOf_WaterHeaterStratified,
@@ -669,7 +669,7 @@ namespace DisplacementVentMgr {
                                                  IntGainTypeOf_RefrigerationSecondaryPipe,
                                                  IntGainTypeOf_RefrigerationWalkIn});
 
-        static Array1D_int IntGainTypesMixedSubzone(2, {IntGainTypeOf_DaylightingDeviceTubular, IntGainTypeOf_Lights});
+        static thread_local Array1D_int IntGainTypesMixedSubzone(2, {IntGainTypeOf_DaylightingDeviceTubular, IntGainTypeOf_Lights});
         Real64 RetAirGain;
 
         // Exact solution or Euler method

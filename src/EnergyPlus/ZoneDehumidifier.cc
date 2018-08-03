@@ -280,8 +280,8 @@ namespace ZoneDehumidifier {
         // na
 
         // SUBROUTINE PARAMETER DEFINITIONS:
-        static std::string const RoutineName("GetZoneDehumidifierInput");
-        static std::string const CurrentModuleObject("ZoneHVAC:Dehumidifier:DX");
+        static thread_local std::string const RoutineName("GetZoneDehumidifierInput");
+        static thread_local std::string const CurrentModuleObject("ZoneHVAC:Dehumidifier:DX");
         // Curve Types
         int const Quadratic(1);
         int const BiQuadratic(2);
@@ -297,17 +297,17 @@ namespace ZoneDehumidifier {
 
         // SUBROUTINE LOCAL VARIABLE DECLARATIONS:
         int ZoneDehumidIndex;           // Loop index
-        static int NumAlphas(0);        // Number of Alphas to allocate arrays, then used for each GetObjectItem call
-        static int NumNumbers(0);       // Number of Numbers to allocate arrays, then used for each GetObjectItem call
+        static thread_local int NumAlphas(0);        // Number of Alphas to allocate arrays, then used for each GetObjectItem call
+        static thread_local int NumNumbers(0);       // Number of Numbers to allocate arrays, then used for each GetObjectItem call
         int IOStatus;                   // Used in GetObjectItem
-        static bool ErrorsFound(false); // Set to true if errors in input, fatal at end of routine
+        static thread_local bool ErrorsFound(false); // Set to true if errors in input, fatal at end of routine
         Array1D_string Alphas;          // Alpha input items for object
         Array1D_string cAlphaFields;    // Alpha field names
         Array1D_string cNumericFields;  // Numeric field names
         Array1D<Real64> Numbers;        // Numeric input items for object
         Array1D_bool lAlphaBlanks;      // Logical array, alpha field input BLANK = .TRUE.
         Array1D_bool lNumericBlanks;    // Logical array, numeric field input BLANK = .TRUE.
-        static int TotalArgs(0);        // Total number of alpha and numeric arguments (max)
+        static thread_local int TotalArgs(0);        // Total number of alpha and numeric arguments (max)
         Real64 CurveVal;                // Output from curve object (water removal or energy factor curves)
 
         NumDehumidifiers = inputProcessor->getNumObjectsFound(CurrentModuleObject);
@@ -664,7 +664,7 @@ namespace ZoneDehumidifier {
         // SUBROUTINE ARGUMENT DEFINITIONS:
 
         // SUBROUTINE PARAMETER DEFINITIONS:
-        static std::string const RoutineName("InitZoneDehumidifier");
+        static thread_local std::string const RoutineName("InitZoneDehumidifier");
 
         // INTERFACE BLOCK SPECIFICATIONS
         // na
@@ -673,10 +673,10 @@ namespace ZoneDehumidifier {
         // na
 
         // SUBROUTINE LOCAL VARIABLE DECLARATIONS:
-        static Array1D_bool MyEnvrnFlag; // Used for initializations each begin environment flag
+        static thread_local Array1D_bool MyEnvrnFlag; // Used for initializations each begin environment flag
         //  LOGICAL, ALLOCATABLE, SAVE, DIMENSION(:) :: MySizeFlag  ! Used for sizing zone dehumidifier inputs one time
-        static bool MyOneTimeFlag(true);             // initialization flag
-        static bool ZoneEquipmentListChecked(false); // True after the Zone Equipment List has been checked for items
+        static thread_local bool MyOneTimeFlag(true);             // initialization flag
+        static thread_local bool ZoneEquipmentListChecked(false); // True after the Zone Equipment List has been checked for items
         int LoopIndex;                               // DO loop index
         int AirInletNode;                            // Inlet air node number
         Real64 RatedAirHumrat;                       // Humidity ratio (kg/kg) at rated inlet air conditions of 26.6667C, 60% RH
@@ -820,7 +820,7 @@ namespace ZoneDehumidifier {
         // SUBROUTINE ARGUMENT DEFINITIONS:
 
         // SUBROUTINE PARAMETER DEFINITIONS:
-        static std::string const RoutineName("CalcZoneDehumidifier");
+        static thread_local std::string const RoutineName("CalcZoneDehumidifier");
 
         // INTERFACE BLOCK SPECIFICATIONS:
         // na
@@ -847,8 +847,8 @@ namespace ZoneDehumidifier {
         Real64 hfg;                     // Enthalpy of evaporation of inlet air (J/kg)
         Real64 AirMassFlowRate;         // Air mass flow rate through this dehumidifier (kg/s)
         Real64 Cp;                      // Heat capacity of inlet air (J/kg-C)
-        static int AirInletNodeNum(0);  // Node number for the inlet air to the dehumidifier
-        static int AirOutletNodeNum(0); // Node number for the outlet air from the dehumidifier
+        static thread_local int AirInletNodeNum(0);  // Node number for the inlet air to the dehumidifier
+        static thread_local int AirOutletNodeNum(0); // Node number for the outlet air from the dehumidifier
 
         SensibleOutput = 0.0;
         LatentOutput = 0.0;

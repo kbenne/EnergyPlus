@@ -508,8 +508,8 @@ namespace SetPointManager {
     void GetSetPointManagerInputs()
     {
         // wrapper for GetInput to allow unit testing when fatal inputs are detected
-        static bool ErrorsFound(false);
-        static std::string const RoutineName("GetSetPointManagerInputs: "); // include trailing blank space
+        static thread_local bool ErrorsFound(false);
+        static thread_local std::string const RoutineName("GetSetPointManagerInputs: "); // include trailing blank space
 
         GetSetPointManagerInputData(ErrorsFound);
 
@@ -575,7 +575,7 @@ namespace SetPointManager {
 
         // Locals
         // SUBROUTINE PARAMETER DEFINITIONS:
-        static std::string const RoutineName("GetSetPointManagerInputs: "); // include trailing blank space
+        static thread_local std::string const RoutineName("GetSetPointManagerInputs: "); // include trailing blank space
 
         // SUBROUTINE LOCAL VARIABLE DECLARATIONS:
         Array1D_string cAlphaFieldNames;
@@ -585,8 +585,8 @@ namespace SetPointManager {
         Array1D_string cAlphaArgs;
         Array1D<Real64> rNumericArgs;
         std::string cCurrentModuleObject;
-        static int MaxNumAlphas(0);  // argument for call to GetObjectDefMaxArgs
-        static int MaxNumNumbers(0); // argument for call to GetObjectDefMaxArgs
+        static thread_local int MaxNumAlphas(0);  // argument for call to GetObjectDefMaxArgs
+        static thread_local int MaxNumNumbers(0); // argument for call to GetObjectDefMaxArgs
 
         int NumNums;   // Number of real numbers returned by GetObjectItem
         int NumAlphas; // Number of alphanumerics returned by GetObjectItem
@@ -600,16 +600,16 @@ namespace SetPointManager {
         int ZoneNum;        // loop index for zone nodes
         int NumNodes;
         Array1D_int NodeNums;
-        static bool NodeListError(false);
+        static thread_local bool NodeListError(false);
         bool ErrInList;
         int Found;
-        static bool NoSurfaceGroundTempObjWarning(true); // This will cause a warning to be issued if no "surface" ground
+        static thread_local bool NoSurfaceGroundTempObjWarning(true); // This will cause a warning to be issued if no "surface" ground
         // temperature object was input.
-        static bool NoShallowGroundTempObjWarning(true); // This will cause a warning to be issued if no "shallow" ground
+        static thread_local bool NoShallowGroundTempObjWarning(true); // This will cause a warning to be issued if no "shallow" ground
         // temperature object was input.
-        static bool NoDeepGroundTempObjWarning(true); // This will cause a warning to be issued if no "deep" ground
+        static thread_local bool NoDeepGroundTempObjWarning(true); // This will cause a warning to be issued if no "deep" ground
         // temperature object was input.
-        static bool NoFCGroundTempObjWarning(true); // This will cause a warning to be issued if no ground
+        static thread_local bool NoFCGroundTempObjWarning(true); // This will cause a warning to be issued if no ground
         // temperature object was input for FC Factor method
 
         NumNodesCtrld = 0;
@@ -3759,7 +3759,7 @@ namespace SetPointManager {
 
         // SUBROUTINE LOCAL VARIABLE DECLARATIONS:
 
-        static bool MyEnvrnFlag(true); // flag for init once at start of environment
+        static thread_local bool MyEnvrnFlag(true); // flag for init once at start of environment
 
         int SetZoneNum;
         int ControlledZoneNum;
@@ -3772,7 +3772,7 @@ namespace SetPointManager {
         int AirLoopNum;
         int LoopNum;
         int LoopNum2;
-        static bool ErrorsFound(false);
+        static thread_local bool ErrorsFound(false);
         int ConZoneNum;
         int MixedAirNode;
         int BranchNum;
@@ -3780,7 +3780,7 @@ namespace SetPointManager {
         int InletBranchNum;
         int CompNum;
         int CompNum2;
-        static bool LookForFan(false);
+        static thread_local bool LookForFan(false);
         std::string CompType;
         std::string cSetPointManagerType;
         int FanNodeIn;
@@ -3791,9 +3791,9 @@ namespace SetPointManager {
         int ZonesCooledIndex; // Cooled zones index in an air loop
         int BranchNumPlantSide;
         int CompNumPlantSide;
-        static int TypeNum(0);
-        static int NumChiller(0);
-        static int TypeOf_Num(0);
+        static thread_local int TypeNum(0);
+        static thread_local int NumChiller(0);
+        static thread_local int TypeOf_Num(0);
 
         ManagerOn = true;
 
@@ -5435,14 +5435,14 @@ namespace SetPointManager {
         int RetNode;
         int OAMixOAInNode;
         Real64 FanDeltaT;
-        static Real64 TSupNoHC(0.0); // supply temperature with no heating or cooling
+        static thread_local Real64 TSupNoHC(0.0); // supply temperature with no heating or cooling
         Real64 TMixAtMinOA;
         Real64 EnthMixAtMinOA;
         Real64 HumRatMixAtMinOA;
         int AirLoopNum;
         Real64 OAFrac;
         int LoopInNode;
-        static Real64 ExtrRateNoHC(0.0); // the heating (>0) or cooling (<0) that can be done by supply air at TSupNoHC [W]
+        static thread_local Real64 ExtrRateNoHC(0.0); // the heating (>0) or cooling (<0) that can be done by supply air at TSupNoHC [W]
 
         ZoneInletNode = this->ZoneInletNodeNum;
         ZoneNum = this->ControlZoneNum;
@@ -6025,7 +6025,7 @@ namespace SetPointManager {
         Real64 MinSetPoint;     // minimum allowed setpoint
         Real64 MaxSetPoint;     // maximum allowed setpoint
         bool HumiditySetPoint;  // logical to indicate if this is a humidity setpoint
-        static bool LocalSetPointCheckFailed(false);
+        static thread_local bool LocalSetPointCheckFailed(false);
 
         RefNode = this->RefNode;
         MixedOutNode = this->MixedOutNode;
@@ -7243,21 +7243,21 @@ namespace SetPointManager {
         // na
         // SUBROUTINE LOCAL VARIABLE DECLARATIONS:
         //////////// hoisted into namespace ////////////////////////////////////////////////
-        // static Real64 Dsn_EntCondTemp( 0.0 ); // The chiller design entering condenser temp, C; e.g. 29.44C {85F} // DCESPMDsn_EntCondTemp
-        // static Real64 Dsn_MinCondSetpt( 0.0 ); // The design minimum condenser water temp, C; e.g. 18.33C {65 F} // DCESPMDsn_MinCondSetpt
-        // static Real64 Cur_MinLiftTD( 0.0 ); // Minimum lift (TCond entering - Tevap leaving) TD this timestep // DCESPMCur_MinLiftTD
-        // static Real64 Design_Load_Sum( 0.0 ); // the design load of the chillers, W // DCESPMDesign_Load_Sum
-        // static Real64 Actual_Load_Sum( 0.0 ); // the actual load of the chillers, W // DCESPMActual_Load_Sum
-        // static Real64 Weighted_Actual_Load_Sum( 0.0 ); // Intermediate weighted value of actual load on plant, W // DCESPMWeighted_Actual_Load_Sum
-        // static Real64 Weighted_Design_Load_Sum( 0.0 ); // Intermediate weighted value of design load on plant, W // DCESPMWeighted_Design_Load_Sum
-        // static Real64 Weighted_Ratio( 0.0 ); // Weighted part load ratio of chillers // DCESPMWeighted_Ratio
-        // static Real64 Min_DesignWB( 0.0 ); // Minimum design twr wet bulb allowed, C // DCESPMMin_DesignWB
-        // static Real64 Min_ActualWb( 0.0 ); // Minimum actual oa wet bulb allowed, C // DCESPMMin_ActualWb
-        // static Real64 Opt_CondEntTemp( 0.0 ); // Optimized Condenser entering water temperature setpoint this timestep, C // DCESPMOpt_CondEntTemp
-        // static Real64 DesignClgCapacity_Watts( 0.0 ); // DCESPMDesignClgCapacity_Watts
-        // static Real64 CurrentLoad_Watts( 0.0 ); // DCESPMCurrentLoad_Watts
-        // static Real64 CondInletTemp( 0.0 ); // Condenser water inlet temperature (C) // DCESPMCondInletTemp
-        // static Real64 EvapOutletTemp( 0.0 ); // Evaporator water outlet temperature (C) // DCESPMEvapOutletTemp
+        // static thread_local Real64 Dsn_EntCondTemp( 0.0 ); // The chiller design entering condenser temp, C; e.g. 29.44C {85F} // DCESPMDsn_EntCondTemp
+        // static thread_local Real64 Dsn_MinCondSetpt( 0.0 ); // The design minimum condenser water temp, C; e.g. 18.33C {65 F} // DCESPMDsn_MinCondSetpt
+        // static thread_local Real64 Cur_MinLiftTD( 0.0 ); // Minimum lift (TCond entering - Tevap leaving) TD this timestep // DCESPMCur_MinLiftTD
+        // static thread_local Real64 Design_Load_Sum( 0.0 ); // the design load of the chillers, W // DCESPMDesign_Load_Sum
+        // static thread_local Real64 Actual_Load_Sum( 0.0 ); // the actual load of the chillers, W // DCESPMActual_Load_Sum
+        // static thread_local Real64 Weighted_Actual_Load_Sum( 0.0 ); // Intermediate weighted value of actual load on plant, W // DCESPMWeighted_Actual_Load_Sum
+        // static thread_local Real64 Weighted_Design_Load_Sum( 0.0 ); // Intermediate weighted value of design load on plant, W // DCESPMWeighted_Design_Load_Sum
+        // static thread_local Real64 Weighted_Ratio( 0.0 ); // Weighted part load ratio of chillers // DCESPMWeighted_Ratio
+        // static thread_local Real64 Min_DesignWB( 0.0 ); // Minimum design twr wet bulb allowed, C // DCESPMMin_DesignWB
+        // static thread_local Real64 Min_ActualWb( 0.0 ); // Minimum actual oa wet bulb allowed, C // DCESPMMin_ActualWb
+        // static thread_local Real64 Opt_CondEntTemp( 0.0 ); // Optimized Condenser entering water temperature setpoint this timestep, C // DCESPMOpt_CondEntTemp
+        // static thread_local Real64 DesignClgCapacity_Watts( 0.0 ); // DCESPMDesignClgCapacity_Watts
+        // static thread_local Real64 CurrentLoad_Watts( 0.0 ); // DCESPMCurrentLoad_Watts
+        // static thread_local Real64 CondInletTemp( 0.0 ); // Condenser water inlet temperature (C) // DCESPMCondInletTemp
+        // static thread_local Real64 EvapOutletTemp( 0.0 ); // Evaporator water outlet temperature (C) // DCESPMEvapOutletTemp
         ////////////////////////////////////////////////////////////////////////////////////
         Real64 NormDsnCondFlow(0.0);        // Normalized design condenser flow for cooling towers, m3/s per watt
         Real64 Twr_DesignWB(0.0);           // The cooling tower design inlet air wet bulb temperature, C
@@ -7435,14 +7435,14 @@ namespace SetPointManager {
         using DataLoopNode::Node;
 
         // SUBROUTINE LOCAL VARIABLE DECLARATIONS:
-        static Real64 CondWaterSetPoint(0.0); // Condenser entering water temperature setpoint this timestep, C
-        static Real64 EvapOutletTemp(0.0);    // Evaporator water outlet temperature (C)
-        static Real64 CondTempLimit(0.0);     // Condenser entering water temperature setpoint lower limit
-        static Real64 CurLoad(0.0);           // Current cooling load, W
-        static Real64 TotEnergy(0.0);         // Total energy consumptions at this time step
-        static Real64 TotEnergyPre(0.0);      // Total energy consumptions at the previous time step
-        static bool RunSubOptCondEntTemp(false);
-        static bool RunFinalOptCondEntTemp(false);
+        static thread_local Real64 CondWaterSetPoint(0.0); // Condenser entering water temperature setpoint this timestep, C
+        static thread_local Real64 EvapOutletTemp(0.0);    // Evaporator water outlet temperature (C)
+        static thread_local Real64 CondTempLimit(0.0);     // Condenser entering water temperature setpoint lower limit
+        static thread_local Real64 CurLoad(0.0);           // Current cooling load, W
+        static thread_local Real64 TotEnergy(0.0);         // Total energy consumptions at this time step
+        static thread_local Real64 TotEnergyPre(0.0);      // Total energy consumptions at the previous time step
+        static thread_local bool RunSubOptCondEntTemp(false);
+        static thread_local bool RunFinalOptCondEntTemp(false);
 
         if (MetersHaveBeenInitialized) {
             // Setup meter vars
@@ -8616,7 +8616,7 @@ namespace SetPointManager {
         // na
 
         // SUBROUTINE PARAMETER DEFINITIONS:
-        static std::string const RoutineName("ResetHumidityRatioCtrlVarType: ");
+        static thread_local std::string const RoutineName("ResetHumidityRatioCtrlVarType: ");
 
         // SUBROUTINE ARGUMENT DEFINITIONS:
         // na

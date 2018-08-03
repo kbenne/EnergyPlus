@@ -154,7 +154,7 @@ namespace PlantLoadProfile {
         // SUBROUTINE ARGUMENT DEFINITIONS:
 
         // SUBROUTINE LOCAL VARIABLE DECLARATIONS:
-        static std::string const RoutineName("SimulatePlantProfile");
+        static thread_local std::string const RoutineName("SimulatePlantProfile");
         Real64 DeltaTemp;
 
         this->InitPlantProfile();
@@ -203,7 +203,7 @@ namespace PlantLoadProfile {
         // SUBROUTINE ARGUMENT DEFINITIONS:
 
         // SUBROUTINE LOCAL VARIABLE DECLARATIONS:
-        static std::string const RoutineName("InitPlantProfile");
+        static thread_local std::string const RoutineName("InitPlantProfile");
         Real64 FluidDensityInit;
         bool errFlag;
 
@@ -372,7 +372,7 @@ namespace PlantLoadProfile {
 
         // Locals
         // SUBROUTINE LOCAL VARIABLE DECLARATIONS:
-        static bool ErrorsFound(false); // Set to true if errors in input, fatal at end of routine
+        static thread_local bool ErrorsFound(false); // Set to true if errors in input, fatal at end of routine
         int IOStatus;                   // Used in GetObjectItem
         int NumAlphas;                  // Number of Alphas for each GetObjectItem call
         int NumNumbers;                 // Number of Numbers for each GetObjectItem call

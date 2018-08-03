@@ -119,7 +119,7 @@ namespace SolarCollectors {
     int const ICSRectangularTank(1);
     // INTEGER, PARAMETER :: ICSProgressiveTube = 2
 
-    static std::string const fluidNameWater("WATER");
+    static thread_local std::string const fluidNameWater("WATER");
 
     // DERIVED TYPE DEFINITIONS:
 
@@ -261,7 +261,7 @@ namespace SolarCollectors {
 
         // Locals
         // SUBROUTINE LOCAL VARIABLE DECLARATIONS:
-        static bool ErrorsFound(false);       // Set to true if errors in input, fatal at end of routine
+        static thread_local bool ErrorsFound(false);       // Set to true if errors in input, fatal at end of routine
         int IOStatus;                         // Used in GetObjectItem
         int NumAlphas;                        // Number of Alphas for each GetObjectItem call
         int NumNumbers;                       // Number of Numbers for each GetObjectItem call
@@ -275,10 +275,10 @@ namespace SolarCollectors {
         int NumFields;                     // Total number of fields in object
         int MaxAlphas;                     // Maximum number of alpha fields in all objects
         int MaxNumbers;                    // Maximum number of numeric fields in all objects
-        static int NumOfICSParam(0);       // number of parameter objects for ICS colectors
-        static int NumOfICSUnits(0);       // number of ICS colector units
-        static int NumOfFlatPlateParam(0); // number of parameter objects for flat plate colectors
-        static int NumFlatPlateUnits(0);   // number of plat plate solar colector units
+        static thread_local int NumOfICSParam(0);       // number of parameter objects for ICS colectors
+        static thread_local int NumOfICSUnits(0);       // number of ICS colector units
+        static thread_local int NumOfFlatPlateParam(0); // number of parameter objects for flat plate colectors
+        static thread_local int NumFlatPlateUnits(0);   // number of plat plate solar colector units
 
         int FlatPlateParamNum; // plat plate solar colector parameters counter
         int ICSParamNum;       // ICS collector parameters counter
@@ -916,19 +916,19 @@ namespace SolarCollectors {
         // SUBROUTINE ARGUMENT DEFINITIONS:
 
         // SUBROUTINE LOCAL VARIABLE DECLARATIONS:
-        static std::string const RoutineName("InitSolarCollector");
+        static thread_local std::string const RoutineName("InitSolarCollector");
         int InletNode;
         int OutletNode;
 
         Real64 const BigNumber(9999.9); // Component desired mass flow rate
 
-        static bool MyOneTimeFlag(true);      // one time flag
-        static Array1D_bool SetLoopIndexFlag; // get loop number flag
+        static thread_local bool MyOneTimeFlag(true);      // one time flag
+        static thread_local Array1D_bool SetLoopIndexFlag; // get loop number flag
         Real64 rho;
         // LOGICAL     :: errFlag
         //  REAL(r64)                                :: Density                ! density of fluid
         bool errFlag;                       // local error flag
-        static Array1D_bool SetDiffRadFlag; // get diffuse radiation flag
+        static thread_local Array1D_bool SetDiffRadFlag; // get diffuse radiation flag
 
         int SurfNum;          // Surface object number for collector
         int ParamNum;         // Collector parameters object number
@@ -1154,7 +1154,7 @@ namespace SolarCollectors {
         // SUBROUTINE ARGUMENT DEFINITIONS:
 
         // SUBROUTINE LOCAL VARIABLE DECLARATIONS:
-        static std::string const RoutineName("CalcSolarCollector");
+        static thread_local std::string const RoutineName("CalcSolarCollector");
         int SurfNum;                  // Surface object number for collector
         int ParamNum;                 // Collector parameters object number
         Real64 Tilt;                  // Surface tilt angle (degrees)
@@ -1383,7 +1383,7 @@ namespace SolarCollectors {
         // Locals
         // SUBROUTINE ARGUMENT DEFINITIONS:
 
-        static gio::Fmt fmtLD("*");
+        static thread_local gio::Fmt fmtLD("*");
 
         // SUBROUTINE LOCAL VARIABLE DECLARATIONS:
         Real64 s;           // Intermediate variable
@@ -1463,7 +1463,7 @@ namespace SolarCollectors {
         // SUBROUTINE ARGUMENT DEFINITIONS:
 
         // SUBROUTINE PARAMETER DEFINITIONS:
-        static std::string const RoutineName("CalcICSSolarCollector");
+        static thread_local std::string const RoutineName("CalcICSSolarCollector");
 
         // SUBROUTINE LOCAL VARIABLE DECLARATIONS:
         //  REAL(r64) :: TimeElapsed             ! Fraction of the current hour that has elapsed (h)
@@ -2152,17 +2152,17 @@ namespace SolarCollectors {
         Real64 const gravity(9.806); // gravitational constant [m/s^2]
 
         int const NumOfPropDivisions(11);
-        static Array1D<Real64> const Temps(NumOfPropDivisions,
+        static thread_local Array1D<Real64> const Temps(NumOfPropDivisions,
                                            {-23.15, 6.85, 16.85, 24.85, 26.85, 36.85, 46.85, 56.85, 66.85, 76.85, 126.85}); // Temperature, in C
-        static Array1D<Real64> const Mu(
+        static thread_local Array1D<Real64> const Mu(
             NumOfPropDivisions,
             {0.0000161, 0.0000175, 0.000018, 0.0000184, 0.0000185, 0.000019, 0.0000194, 0.0000199, 0.0000203, 0.0000208, 0.0000229}); // Viscosity, in
                                                                                                                                       // kg/(m.s)
-        static Array1D<Real64> const Conductivity(
+        static thread_local Array1D<Real64> const Conductivity(
             NumOfPropDivisions, {0.0223, 0.0246, 0.0253, 0.0259, 0.0261, 0.0268, 0.0275, 0.0283, 0.0290, 0.0297, 0.0331}); // Conductivity, in W/mK
-        static Array1D<Real64> const Pr(
+        static thread_local Array1D<Real64> const Pr(
             NumOfPropDivisions, {0.724, 0.717, 0.714, 0.712, 0.712, 0.711, 0.71, 0.708, 0.707, 0.706, 0.703}); // Prandtl number (dimensionless)
-        static Array1D<Real64> const Density(NumOfPropDivisions,
+        static thread_local Array1D<Real64> const Density(NumOfPropDivisions,
                                              {1.413, 1.271, 1.224, 1.186, 1.177, 1.143, 1.110, 1.076, 1.043, 1.009, 0.883}); // Density, in kg/m3
 
         // INTERFACE BLOCK SPECIFICATIONS
@@ -2276,7 +2276,7 @@ namespace SolarCollectors {
 
         // FUNCTION PARAMETER DEFINITIONS:
         Real64 const gravity(9.806); // gravitational constant [m/s^2]
-        static std::string const CalledFrom("SolarCollectors:CalcConvCoeffAbsPlateAndWater");
+        static thread_local std::string const CalledFrom("SolarCollectors:CalcConvCoeffAbsPlateAndWater");
 
         // INTERFACE BLOCK SPECIFICATIONS
         // na
@@ -2378,7 +2378,7 @@ namespace SolarCollectors {
         // SUBROUTINE ARGUMENT DEFINITIONS: na
 
         // SUBROUTINE LOCAL VARIABLE DECLARATIONS:
-        static std::string const RoutineName("UpdateSolarCollector");
+        static thread_local std::string const RoutineName("UpdateSolarCollector");
         int InletNode;
         int OutletNode;
         Real64 Cp;

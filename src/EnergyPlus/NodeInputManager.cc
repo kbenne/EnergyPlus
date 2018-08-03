@@ -99,8 +99,8 @@ namespace NodeInputManager {
 
     // Data
     // MODULE PARAMETER DEFINITIONS
-    static std::string const BlankString;
-    static std::string const fluidNameSteam("STEAM");
+    static thread_local std::string const BlankString;
+    static thread_local std::string const fluidNameSteam("STEAM");
 
     // DERIVED TYPE DEFINITIONS
 
@@ -199,8 +199,8 @@ namespace NodeInputManager {
         // SUBROUTINE ARGUMENT DEFINITIONS:
 
         // SUBROUTINE PARAMETER DEFINITIONS:
-        static std::string const RoutineName("GetNodeNums: ");
-        static gio::Fmt fmtLD("*");
+        static thread_local std::string const RoutineName("GetNodeNums: ");
+        static thread_local gio::Fmt fmtLD("*");
 
         // INTERFACE BLOCK SPECIFICATIONS
         // na
@@ -327,7 +327,7 @@ namespace NodeInputManager {
         // SUBROUTINE ARGUMENT DEFINITIONS:
 
         // SUBROUTINE PARAMETER DEFINITIONS:
-        static std::string const RoutineName("GetNodeList: ");
+        static thread_local std::string const RoutineName("GetNodeList: ");
 
         // INTERFACE BLOCK SPECIFICATIONS
         // na
@@ -423,11 +423,11 @@ namespace NodeInputManager {
         std::string ChrOut2;
 
         // Formats
-        static gio::Fmt Format_700("('! #Nodes,<Number of Unique Nodes>')");
-        static gio::Fmt Format_701("(A)");
-        static gio::Fmt Format_702("('! <Node>,<NodeNumber>,<Node Name>,<Node Fluid Type>,<# Times Node Referenced After Definition>')");
-        static gio::Fmt Format_703("('! <Suspicious Node>,<NodeNumber>,<Node Name>,<Node Fluid Type>,<# Times Node Referenced After Definition>')");
-        static gio::Fmt fmtLD("*");
+        static thread_local gio::Fmt Format_700("('! #Nodes,<Number of Unique Nodes>')");
+        static thread_local gio::Fmt Format_701("(A)");
+        static thread_local gio::Fmt Format_702("('! <Node>,<NodeNumber>,<Node Name>,<Node Fluid Type>,<# Times Node Referenced After Definition>')");
+        static thread_local gio::Fmt Format_703("('! <Suspicious Node>,<NodeNumber>,<Node Name>,<Node Fluid Type>,<# Times Node Referenced After Definition>')");
+        static thread_local gio::Fmt fmtLD("*");
 
         if (!NodeVarsSetup) {
             if (!AbortProcessing) {
@@ -681,8 +681,8 @@ namespace NodeInputManager {
         // SUBROUTINE ARGUMENT DEFINITIONS:
 
         // SUBROUTINE PARAMETER DEFINITIONS:
-        static std::string const RoutineName("GetNodeListsInput: ");
-        static std::string const CurrentModuleObject("NodeList");
+        static thread_local std::string const RoutineName("GetNodeListsInput: ");
+        static thread_local std::string const CurrentModuleObject("NodeList");
 
         // INTERFACE BLOCK SPECIFICATIONS
         // na
@@ -825,7 +825,7 @@ namespace NodeInputManager {
         // SUBROUTINE ARGUMENT DEFINITIONS:
 
         // SUBROUTINE PARAMETER DEFINITIONS:
-        static gio::Fmt fmtLD("*");
+        static thread_local gio::Fmt fmtLD("*");
 
         // INTERFACE BLOCK SPECIFICATIONS
         // na
@@ -834,8 +834,8 @@ namespace NodeInputManager {
         // na
 
         // SUBROUTINE LOCAL VARIABLE DECLARATIONS:
-        static int NumNode(0); // Loop Variable
-        static std::string cNodeFluidType;
+        static thread_local int NumNode(0); // Loop Variable
+        static thread_local std::string cNodeFluidType;
 
         if (NodeFluidType != NodeType_Air && NodeFluidType != NodeType_Water && NodeFluidType != NodeType_Electric &&
             NodeFluidType != NodeType_Steam && NodeFluidType != NodeType_Unknown) {
@@ -935,7 +935,7 @@ namespace NodeInputManager {
         // FUNCTION ARGUMENT DEFINITIONS:
 
         // FUNCTION PARAMETER DEFINITIONS:
-        static std::string const RoutineName("GetOnlySingleNode: ");
+        static thread_local std::string const RoutineName("GetOnlySingleNode: ");
 
         // INTERFACE BLOCK SPECIFICATIONS
         // na
@@ -1251,24 +1251,24 @@ namespace NodeInputManager {
         using ScheduleManager::GetCurrentScheduleValue;
 
         // SUBROUTINE PARAMETER DEFINITIONS:
-        static std::string const RoutineName("CalcMoreNodeInfo");
-        static std::string const NodeReportingCalc("NodeReportingCalc:");
+        static thread_local std::string const RoutineName("CalcMoreNodeInfo");
+        static thread_local std::string const NodeReportingCalc("NodeReportingCalc:");
 
         // SUBROUTINE LOCAL VARIABLE DECLARATIONS:
         int iNode; // node loop index
         int iReq;  // requested report variables loop index
 
-        static Real64 RhoAirStdInit;
-        static Real64 RhoWaterStdInit;
-        static Array1D_int NodeWetBulbSchedPtr;
-        static Array1D_bool NodeRelHumidityRepReq;
-        static Array1D_int NodeRelHumiditySchedPtr;
-        static Array1D_bool NodeDewPointRepReq;
-        static Array1D_int NodeDewPointSchedPtr;
-        static Array1D_bool NodeSpecificHeatRepReq;
-        static Array1D_int NodeSpecificHeatSchedPtr;
-        static std::vector<std::string> nodeReportingStrings;
-        static std::vector<std::string> nodeFluidNames;
+        static thread_local Real64 RhoAirStdInit;
+        static thread_local Real64 RhoWaterStdInit;
+        static thread_local Array1D_int NodeWetBulbSchedPtr;
+        static thread_local Array1D_bool NodeRelHumidityRepReq;
+        static thread_local Array1D_int NodeRelHumiditySchedPtr;
+        static thread_local Array1D_bool NodeDewPointRepReq;
+        static thread_local Array1D_int NodeDewPointSchedPtr;
+        static thread_local Array1D_bool NodeSpecificHeatRepReq;
+        static thread_local Array1D_int NodeSpecificHeatSchedPtr;
+        static thread_local std::vector<std::string> nodeReportingStrings;
+        static thread_local std::vector<std::string> nodeFluidNames;
         bool ReportWetBulb;
         bool ReportRelHumidity;
         bool ReportDewPoint;

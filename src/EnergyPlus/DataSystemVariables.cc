@@ -226,8 +226,8 @@ namespace DataSystemVariables {
         // SUBROUTINE ARGUMENT DEFINITIONS:
 
         // SUBROUTINE PARAMETER DEFINITIONS:
-        static std::string const blank;
-        static gio::Fmt fmtA("(A)");
+        static thread_local std::string const blank;
+        static thread_local gio::Fmt fmtA("(A)");
 
         // INTERFACE BLOCK SPECIFICATIONS:
         // na
@@ -237,8 +237,8 @@ namespace DataSystemVariables {
 
         // SUBROUTINE LOCAL VARIABLE DECLARATIONS:
         bool FileExist(false);    // initialize to false, then override to true if present
-        static int EchoInputFile; // found unit number for "eplusout.audit"
-        static bool firstTime(true);
+        static thread_local int EchoInputFile; // found unit number for "eplusout.audit"
+        static thread_local bool firstTime(true);
         std::string InputFileName; // save for changing out path characters
         std::string::size_type pos;
 

@@ -100,7 +100,7 @@ namespace WaterUse {
     int const HeatRecoveryConfigEquipment(2);
     int const HeatRecoveryConfigPlantAndEquip(3);
 
-    static std::string const BlankString;
+    static thread_local std::string const BlankString;
 
     // MODULE VARIABLE DECLARATIONS:
     int NumWaterEquipment(0);
@@ -154,8 +154,8 @@ namespace WaterUse {
         int WaterEquipNum;
         int WaterConnNum;
         int NumIteration;
-        static int MaxIterationsErrorCount;
-        static bool MyEnvrnFlag(true);
+        static thread_local int MaxIterationsErrorCount;
+        static thread_local bool MyEnvrnFlag(true);
 
         // FLOW:
         if (GetWaterUseInputFlag) {
@@ -269,8 +269,8 @@ namespace WaterUse {
         //  INTEGER :: WaterEquipNum
         int WaterConnNum;
         int NumIteration;
-        static int MaxIterationsErrorCount;
-        static bool MyEnvrnFlag(true);
+        static thread_local int MaxIterationsErrorCount;
+        static thread_local bool MyEnvrnFlag(true);
 
         // FLOW:
         if (GetWaterUseInputFlag) {
@@ -382,7 +382,7 @@ namespace WaterUse {
         using WaterManager::SetupTankSupplyComponent;
 
         // SUBROUTINE LOCAL VARIABLE DECLARATIONS:
-        static bool ErrorsFound(false); // Set to true if errors in input, fatal at end of routine
+        static thread_local bool ErrorsFound(false); // Set to true if errors in input, fatal at end of routine
         int IOStatus;                   // Used in GetObjectItem
         int NumAlphas;                  // Number of Alphas for each GetObjectItem call
         int NumNumbers;                 // Number of Numbers for each GetObjectItem call
@@ -1217,7 +1217,7 @@ namespace WaterUse {
         Real64 FlowMassMax;
         Real64 MoistureMassMax;
 
-        static std::string const RoutineName("CalcEquipmentDrainTemp");
+        static thread_local std::string const RoutineName("CalcEquipmentDrainTemp");
 
         // FLOW:
 
@@ -1309,8 +1309,8 @@ namespace WaterUse {
         // SUBROUTINE LOCAL VARIABLE DECLARATIONS:
         int InletNode;
         int OutletNode;
-        static bool MyOneTimeFlag(true);      // one time flag                    !DSU
-        static Array1D_bool SetLoopIndexFlag; // get loop number flag             !DSU
+        static thread_local bool MyOneTimeFlag(true);      // one time flag                    !DSU
+        static thread_local Array1D_bool SetLoopIndexFlag; // get loop number flag             !DSU
         bool errFlag;
 
         if (MyOneTimeFlag) {                                       // DSU
@@ -1886,7 +1886,7 @@ namespace WaterUse {
         // SUBROUTINE LOCAL VARIABLE DECLARATIONS:
         int WaterEquipNum;
         int ZoneNum;
-        static bool MyEnvrnFlag(true);
+        static thread_local bool MyEnvrnFlag(true);
 
         // FLOW:
         if (NumWaterEquipment == 0) return;

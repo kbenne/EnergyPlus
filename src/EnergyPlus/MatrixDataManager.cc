@@ -93,7 +93,7 @@ namespace MatrixDataManager {
     // INTEGER, PARAMETER :: OneDimensional = 1
     int const TwoDimensional(2);
     // INTEGER, PARAMETER :: ThreeDimensional = 3
-    static std::string const BlankString;
+    static thread_local std::string const BlankString;
     // DERIVED TYPE DEFINITIONS:
     // na
 
@@ -139,7 +139,7 @@ namespace MatrixDataManager {
         int NumAlphas;                  // Number of Alphas for each GetObjectItem call
         int NumNumbers;                 // Number of Numbers for each GetObjectItem call
         int IOStatus;                   // Used in GetObjectItem
-        static bool ErrorsFound(false); // Set to true if errors in input, fatal at end of routine
+        static thread_local bool ErrorsFound(false); // Set to true if errors in input, fatal at end of routine
         int NumRows;
         int NumCols;
         int NumElements;
@@ -222,7 +222,7 @@ namespace MatrixDataManager {
         int MatrixIndexPtr; // Function result
 
         // FUNCTION LOCAL VARIABLE DECLARATIONS:
-        static bool GetInputFlag(true); // First time, input is "gotten"
+        static thread_local bool GetInputFlag(true); // First time, input is "gotten"
 
         if (GetInputFlag) {
             GetMatrixInput();

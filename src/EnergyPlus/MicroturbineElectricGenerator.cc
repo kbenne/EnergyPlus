@@ -107,7 +107,7 @@ namespace MicroturbineElectricGenerator {
     using DataGlobals::SecInHour;
 
     // MODULE PARAMETER DEFINITIONS:
-    static std::string const BlankString;
+    static thread_local std::string const BlankString;
 
     // MODULE VARIABLE DECLARATIONS:
     int NumMTGenerators(0); // number of MT Generators specified in input
@@ -258,7 +258,7 @@ namespace MicroturbineElectricGenerator {
         int NumAlphas;                   // Number of elements in the alpha array
         int NumNums;                     // Number of elements in the numeric array
         int IOStat;                      // IO Status when calling get input subroutine
-        static bool ErrorsFound(false);  // Error flag... trips fatal error message at end of get input
+        static thread_local bool ErrorsFound(false);  // Error flag... trips fatal error message at end of get input
         Real64 ElectOutFTempElevOutput;  // Output of Electrical Power Output Modifier Curve (function of temp and elev)
         Real64 ElecEfficFTempOutput;     // Output of Electrical Efficiency Modifier Curve (function of temp)
         Real64 ElecEfficFPLROutput;      // Output of Electrical Efficiency Modifier Curve (function of PLR)
@@ -273,8 +273,8 @@ namespace MicroturbineElectricGenerator {
         Real64 ExhFlowFPLROutput;        // Output of Exhaust Air Flow Modifier Curve (function of PLR)
         Real64 ExhAirTempFTempOutput;    // Output of Exhaust Air Temperature Modifier Curve (function of inlet air temp)
         Real64 ExhOutAirTempFPLROutput;  // Output of Exhaust Air Temperature Modifier Curve (function of PLR)
-        static Real64 Var1Min(0.0);      // Minimum value for variable 1, value obtained from a curve object
-        static Real64 Var1Max(0.0);      // Maximum value for variable 1, value obtained from a curve object
+        static thread_local Real64 Var1Min(0.0);      // Minimum value for variable 1, value obtained from a curve object
+        static thread_local Real64 Var1Max(0.0);      // Maximum value for variable 1, value obtained from a curve object
 
         Array1D<Real64> NumArray(19); // Numeric data array
 
@@ -1265,7 +1265,7 @@ namespace MicroturbineElectricGenerator {
         // SUBROUTINE ARGUMENT DEFINITIONS:
 
         // SUBROUTINE PARAMETER DEFINITIONS:
-        static std::string const RoutineName("InitMTGenerators");
+        static thread_local std::string const RoutineName("InitMTGenerators");
 
         // INTERFACE BLOCK SPECIFICATIONS
         //  na
@@ -1276,10 +1276,10 @@ namespace MicroturbineElectricGenerator {
         // SUBROUTINE LOCAL VARIABLE DECLARATIONS:
         int HeatRecInletNode;            // Inlet node number in heat recovery loop
         int HeatRecOutletNode;           // Outlet node number in heat recovery loop
-        static Array1D_bool MyEnvrnFlag; // Flag for init once at start of environment
-        static Array1D_bool MyPlantScanFlag;
-        static Array1D_bool MySizeAndNodeInitFlag;
-        static bool MyOneTimeFlag(true); // Initialization flag
+        static thread_local Array1D_bool MyEnvrnFlag; // Flag for init once at start of environment
+        static thread_local Array1D_bool MyPlantScanFlag;
+        static thread_local Array1D_bool MySizeAndNodeInitFlag;
+        static thread_local bool MyOneTimeFlag(true); // Initialization flag
         Real64 rho;                      // local temporary fluid density
         Real64 DesiredMassFlowRate;
         bool errFlag;
@@ -1485,7 +1485,7 @@ namespace MicroturbineElectricGenerator {
         int const MaxAncPowerIter(50);       // Maximum number of iteration (subroutine ancillary power iteration loop)
         Real64 const AncPowerDiffToler(5.0); // Tolerance for Ancillary Power Difference (W)
         Real64 const RelaxFactor(0.7);       // Relaxation factor for iteration loop
-        static std::string const RoutineName("CalcMTGeneratorModel");
+        static thread_local std::string const RoutineName("CalcMTGeneratorModel");
 
         // INTERFACE BLOCK SPECIFICATIONS:
         //  na

@@ -134,7 +134,7 @@ namespace WindowManager {
 
     // Data
     // MODULE PARAMETER DEFINITIONS:
-    static std::string const BlankString;
+    static thread_local std::string const BlankString;
 
     Real64 const sigma(5.6697e-8);    // Stefan-Boltzmann constant
     Real64 const TKelvin(KelvinConv); // conversion from Kelvin to Celsius
@@ -620,26 +620,26 @@ namespace WindowManager {
         Array1D<Real64> W3(3);
         Array1D<Real64> W21(3); // W1-W2, W3-W2, resp. (m)
         Array1D<Real64> W23(3);
-        static bool lSimpleGlazingSystem(false); // true if using simple glazing system block model
-        static Real64 SimpleGlazingSHGC(0.0);    // value of SHGC for simple glazing system block model
-        static Real64 SimpleGlazingU(0.0);       // value of U-factor for simple glazing system block model
-        static bool BGFlag(false);               // True if between-glass shade or blind
-        static Real64 tmpTrans(0.0);             // solar transmittance calculated from spectral data
-        static Real64 tmpTransVis(0.0);          // visible transmittance calculated from spectral data
-        static Real64 tmpReflectSolBeamFront(0.0);
-        static Real64 tmpReflectSolBeamBack(0.0);
-        static Real64 tmpReflectVisBeamFront(0.0);
-        static Real64 tmpReflectVisBeamBack(0.0);
+        static thread_local bool lSimpleGlazingSystem(false); // true if using simple glazing system block model
+        static thread_local Real64 SimpleGlazingSHGC(0.0);    // value of SHGC for simple glazing system block model
+        static thread_local Real64 SimpleGlazingU(0.0);       // value of U-factor for simple glazing system block model
+        static thread_local bool BGFlag(false);               // True if between-glass shade or blind
+        static thread_local Real64 tmpTrans(0.0);             // solar transmittance calculated from spectral data
+        static thread_local Real64 tmpTransVis(0.0);          // visible transmittance calculated from spectral data
+        static thread_local Real64 tmpReflectSolBeamFront(0.0);
+        static thread_local Real64 tmpReflectSolBeamBack(0.0);
+        static thread_local Real64 tmpReflectVisBeamFront(0.0);
+        static thread_local Real64 tmpReflectVisBeamBack(0.0);
 
         // Debug
-        static Array1D<Real64> DbgTheta(11, {0.0, 10.0, 20.0, 30.0, 40.0, 50.0, 60.0, 70.0, 80.0, 82.5, 89.5});
-        static Array1D<Real64> DbgTSol(11, 0.0);
-        static Array1D<Real64> DbgRbSol(11, 0.0);
-        static Array1D<Real64> DbgTVis(11, 0.0);
-        static Array2D<Real64> DbgFtAbs(5, 11, 0.0);
-        static Array2D<Real64> DbgBkAbs(5, 11, 0.0);
-        static Array1D<Real64> DbgFTAbsDiff(5, 0.0);
-        static Array1D<Real64> DbgBkAbsDiff(5, 0.0);
+        static thread_local Array1D<Real64> DbgTheta(11, {0.0, 10.0, 20.0, 30.0, 40.0, 50.0, 60.0, 70.0, 80.0, 82.5, 89.5});
+        static thread_local Array1D<Real64> DbgTSol(11, 0.0);
+        static thread_local Array1D<Real64> DbgRbSol(11, 0.0);
+        static thread_local Array1D<Real64> DbgTVis(11, 0.0);
+        static thread_local Array2D<Real64> DbgFtAbs(5, 11, 0.0);
+        static thread_local Array2D<Real64> DbgBkAbs(5, 11, 0.0);
+        static thread_local Array1D<Real64> DbgFTAbsDiff(5, 0.0);
+        static thread_local Array1D<Real64> DbgBkAbsDiff(5, 0.0);
 
         // EndDebug
 
@@ -2033,7 +2033,7 @@ namespace WindowManager {
             }
         }
 
-        // Set some static exterior-window frame and divider SurfaceWindow values
+        // Set some static thread_local exterior-window frame and divider SurfaceWindow values
         // from values in FrameDivider derived type
         for (SurfNum = 1; SurfNum <= TotSurfaces; ++SurfNum) {
             FrDivNum = Surface(SurfNum).FrameDivider;
@@ -2635,13 +2635,13 @@ namespace WindowManager {
         // New variables for thermochromic windows calc
         Real64 locTCSpecTemp;         // The temperature corresponding to the specified optical properties of the TC layer
         Real64 locTCLayerTemp;        // TC layer temperature at each time step. C
-        static bool locTCFlag(false); // True if this surface is a TC window
-        static Array1D<Real64> deltaTemp(100, 0.0);
+        static thread_local bool locTCFlag(false); // True if this surface is a TC window
+        static thread_local Array1D<Real64> deltaTemp(100, 0.0);
         int i;
-        static Array1D_int iMinDT(1, 0);
-        static Array1D_int IDConst(100, 0);
-        static Real64 dT0(0.0);
-        static Real64 dT1(0.0);
+        static thread_local Array1D_int iMinDT(1, 0);
+        static thread_local Array1D_int IDConst(100, 0);
+        static thread_local Real64 dT0(0.0);
+        static thread_local Real64 dT1(0.0);
         Real64 SurfOutsideEmiss; // temporary for result of outside surface emissivity
         Real64 Tsout;            // temporary for result of outside surface temp in Kelvin
         // integer :: CurrentThermalAlgorithm
@@ -3398,20 +3398,20 @@ namespace WindowManager {
 
         int ZoneNum;                    // Zone number corresponding to SurfNum
         int i;                          // Counter
-        static Array1D<Real64> hgap(5); // Gap gas conductance (W/m2-K) //Tuned Made static
+        static thread_local Array1D<Real64> hgap(5); // Gap gas conductance (W/m2-K) //Tuned Made static
         Real64 gr;                      // Grashof number of gas in a gap
         Real64 con;                     // Gap gas conductivity
         Real64 pr;                      // Gap gas Prandtl number
         Real64 nu;                      // Gap gas Nusselt number
-        static Array1D<Real64> hr(10);  // Radiative conductance (W/m2-K) //Tuned Made static
+        static thread_local Array1D<Real64> hr(10);  // Radiative conductance (W/m2-K) //Tuned Made static
         Real64 d;                       // +1 if number of row interchanges is even,
         // -1 if odd (in LU decomposition)
-        static Array1D_int indx(10);          // Vector of row permutations in LU decomposition //Tuned Made static
-        static Array2D<Real64> Aface(10, 10); // Coefficient in equation Aface*thetas = Bface //Tuned Made static
-        static Array1D<Real64> Bface(10);     // Coefficient in equation Aface*thetas = Bface //Tuned Made static
+        static thread_local Array1D_int indx(10);          // Vector of row permutations in LU decomposition //Tuned Made static
+        static thread_local Array2D<Real64> Aface(10, 10); // Coefficient in equation Aface*thetas = Bface //Tuned Made static
+        static thread_local Array1D<Real64> Bface(10);     // Coefficient in equation Aface*thetas = Bface //Tuned Made static
 
         int iter;                          // Iteration number
-        static Array1D<Real64> hrprev(10); // Value of hr from previous iteration //Tuned Made static
+        static thread_local Array1D<Real64> hrprev(10); // Value of hr from previous iteration //Tuned Made static
         Real64 errtemp;                    // Absolute value of sum of face temperature differences
         //   between iterations, divided by number of faces
         Real64 VGap;                         // Air velocity in gap between glass and shade/blind (m/s)
@@ -3422,12 +3422,12 @@ namespace WindowManager {
         Real64 TGapOutlet;                   // Temperature of air leaving gap between glass and shade/blind (K)
         Real64 TAirflowGapOutlet;            // Temperature of air leaving airflow gap between glass panes (K)
         Real64 TAirflowGapOutletC;           // Temperature of air leaving airflow gap between glass panes (C)
-        static Array1D<Real64> TGapNewBG(2); // For between-glass shade/blind, average gas temp in gaps on either //Tuned Made static
+        static thread_local Array1D<Real64> TGapNewBG(2); // For between-glass shade/blind, average gas temp in gaps on either //Tuned Made static
         //  side of shade/blind (K)
         Real64 hcv;                      // Convection coefficient from gap glass or shade/blind to gap air (W/m2-K)
         Real64 hcvAirflowGap;            // Convection coefficient from airflow gap glass to airflow gap air (W/m2-K)
         Real64 hcvPrev;                  // Value of hcv from previous iteration
-        static Array1D<Real64> hcvBG(2); // For between-glass shade/blind, convection coefficient from gap glass or //Tuned Made static
+        static thread_local Array1D<Real64> hcvBG(2); // For between-glass shade/blind, convection coefficient from gap glass or //Tuned Made static
         //  shade/blind to gap gas on either side of shade/blind (W/m2-K)
         Real64 ConvHeatFlowNatural; // Convective heat flow from gap between glass and interior shade or blind (W)
         Real64 ConvHeatFlowForced;  // Convective heat flow from forced airflow gap (W)
@@ -3446,7 +3446,7 @@ namespace WindowManager {
         int ShadeFlag;  // Shading flag
         // Real64 ShadeAbsFac1; // Fractions for apportioning absorbed radiation to shade/blind faces
         // Real64 ShadeAbsFac2;
-        static Array1D<Real64> AbsRadShadeFace(2); // Solar radiation, short-wave radiation from lights, and long-wave //Tuned Made static
+        static thread_local Array1D<Real64> AbsRadShadeFace(2); // Solar radiation, short-wave radiation from lights, and long-wave //Tuned Made static
         //  radiation from lights and zone equipment absorbed by faces of shade/blind (W/m2)
         Real64 ShadeArea;          // shade/blind area (m2)
         Real64 CondHeatGainGlass;  // Conduction through inner glass layer, outside to inside (W)
@@ -3461,7 +3461,7 @@ namespace WindowManager {
         int ConstrNum;        // Construction number, bare and with shading device
         int ConstrNumSh;
         Real64 TransDiff;                 // Diffuse shortwave transmittance
-        static Array1D<Real64> RhoIR(10); // Face IR reflectance //Tuned Made static
+        static thread_local Array1D<Real64> RhoIR(10); // Face IR reflectance //Tuned Made static
         Real64 FacRhoIR25;                // Intermediate variable
         Real64 FacRhoIR63;                // Intermediate variable
         Real64 RhoIRfp;                   // Intermediate variable
@@ -4837,7 +4837,7 @@ namespace WindowManager {
         int k;
         int imax; // Temporary variable
         //   as output: decomposed matrix
-        static Array1D<Real64> vv(10); // Stores the implicit scaling of each row //Tuned Made static
+        static thread_local Array1D<Real64> vv(10); // Stores the implicit scaling of each row //Tuned Made static
         Real64 aamax;                  // Absolute value of largest element of matrix
         Real64 dum;                    // Temporary variable
         Real64 sum;                    // Sum of products of matrix elements
@@ -5004,7 +5004,7 @@ namespace WindowManager {
         // SUBROUTINE PARAMETER DEFINITIONS:
         Real64 const pres(1.0e5);     // Gap gas pressure (Pa)
         Real64 const gaslaw(8314.51); // Molar gas constant (J/kMol-K)
-        static Real64 const two_sqrt_2(2.0 * std::sqrt(2.0));
+        static thread_local Real64 const two_sqrt_2(2.0 * std::sqrt(2.0));
 
         // INTERFACE BLOCK SPECIFICATIONS:
         // na
@@ -5019,14 +5019,14 @@ namespace WindowManager {
         int j;
         int NMix;                           // Number of gases in a mixture
         Real64 molmix;                      // Molecular weight of mixture
-        static Array1D<Real64> kprime(10);  // Monotonic thermal conductivity
-        static Array1D<Real64> kdblprm(10); // Conductivity term accounting for additional energy moved by
+        static thread_local Array1D<Real64> kprime(10);  // Monotonic thermal conductivity
+        static thread_local Array1D<Real64> kdblprm(10); // Conductivity term accounting for additional energy moved by
         //  the diffusional transport of internal energy in polyatomic gases.
         Real64 kpmix; // Monotonic thermal conductivity of mixture
         Real64 kdpmix;
-        static Array1D<Real64> mukpdwn(10); // Denominator term
-        static Array1D<Real64> kpdown(10);  // Denominator terms
-        static Array1D<Real64> kdpdown(10);
+        static thread_local Array1D<Real64> mukpdwn(10); // Denominator term
+        static thread_local Array1D<Real64> kpdown(10);  // Denominator terms
+        static thread_local Array1D<Real64> kdpdown(10);
         Real64 kmix;                      // For accumulating conductance of gas mixture
         Real64 mumix;                     // For accumulating viscosity of gas mixture
         Real64 visc(0.0);                 // Dynamic viscosity of mixture at tmean (g/m-s)
@@ -5039,11 +5039,11 @@ namespace WindowManager {
         Real64 psiterm;                   // Factor
         Real64 phikup;                    // Numerator factor
         Real64 rhomix;                    // Density of gas mixture (kg/m3)
-        static Array1D<Real64> frct(10);  // Fraction of each gas in a mixture
-        static Array1D<Real64> fvis(10);  // Viscosity of each gas in a mixture (g/m-s)
-        static Array1D<Real64> fcon(10);  // Conductance of each gas in a mixture (W/m2-K)
-        static Array1D<Real64> fdens(10); // Density of each gas in a mixture (kg/m3)
-        static Array1D<Real64> fcp(10);   // Specific heat of each gas in a mixture (J/m3-K)
+        static thread_local Array1D<Real64> frct(10);  // Fraction of each gas in a mixture
+        static thread_local Array1D<Real64> fvis(10);  // Viscosity of each gas in a mixture (g/m-s)
+        static thread_local Array1D<Real64> fcon(10);  // Conductance of each gas in a mixture (W/m2-K)
+        static thread_local Array1D<Real64> fdens(10); // Density of each gas in a mixture (kg/m3)
+        static thread_local Array1D<Real64> fcp(10);   // Specific heat of each gas in a mixture (J/m3-K)
 
         NMix = gnmix(IGap); // Autodesk:Logic Either assert NMix>0 or handle NMix<=0 in logic so that con and locals guar. initialized before use
 
@@ -5171,7 +5171,7 @@ namespace WindowManager {
         // SUBROUTINE PARAMETER DEFINITIONS:
         Real64 const pres(1.0e5);     // Gap gas pressure (Pa)
         Real64 const gaslaw(8314.51); // Molar gas constant (J/kMol-K)
-        static Real64 const two_sqrt_2(2.0 * std::sqrt(2.0));
+        static thread_local Real64 const two_sqrt_2(2.0 * std::sqrt(2.0));
 
         // INTERFACE BLOCK SPECIFICATIONS:
         // na
@@ -5290,7 +5290,7 @@ namespace WindowManager {
 
         int i;                             // Face counter
         int ShadeFlag;                     // Shading flag
-        static Array1D<Real64> rguess(11); // Combined radiative/convective resistance (m2-K/W) of //Tuned Made static
+        static thread_local Array1D<Real64> rguess(11); // Combined radiative/convective resistance (m2-K/W) of //Tuned Made static
         // inside or outside air film, or gap
         Real64 restot; // Total window resistance including outside
         //   and inside air films (m2-K/W)
@@ -7349,7 +7349,7 @@ namespace WindowManager {
         // SUBROUTINE PARAMETER DEFINITIONS:
         int const MaxIterations(100);  // Maximum allowed number of iterations
         Real64 const errtemptol(0.02); // Tolerance on errtemp for convergence
-        static std::string const RoutineName("WindowTempsForNominalCond");
+        static thread_local std::string const RoutineName("WindowTempsForNominalCond");
 
         // INTERFACE BLOCK SPECIFICATIONS:
         // na
@@ -7698,9 +7698,9 @@ namespace WindowManager {
         // na
 
         // SUBROUTINE PARAMETER DEFINITIONS:
-        static Array1D_string const Roughness(6, {"VeryRough", "Rough", "MediumRough", "MediumSmooth", "Smooth", "VerySmooth"});
-        static Array1D_string const GasTypeName({0, 4}, {"Custom", "Air", "Argon", "Krypton", "Xenon"});
-        static gio::Fmt fmtA("(A)");
+        static thread_local Array1D_string const Roughness(6, {"VeryRough", "Rough", "MediumRough", "MediumSmooth", "Smooth", "VerySmooth"});
+        static thread_local Array1D_string const GasTypeName({0, 4}, {"Custom", "Air", "Argon", "Krypton", "Xenon"});
+        static thread_local gio::Fmt fmtA("(A)");
 
         // INTERFACE BLOCK SPECIFICATIONS:
         // na
@@ -7709,11 +7709,11 @@ namespace WindowManager {
         // na
 
         // SUBROUTINE LOCAL VARIABLE DECLARATIONS:
-        static bool DoReport(false);
-        static bool HasWindows(false);
-        static bool HasComplexWindows(false);
-        static bool HasEQLWindows(false); // equivalent layer window defined
-        static Real64 TempVar(0.0);       // just temporary usage for complex fenestration
+        static thread_local bool DoReport(false);
+        static thread_local bool HasWindows(false);
+        static thread_local bool HasComplexWindows(false);
+        static thread_local bool HasEQLWindows(false); // equivalent layer window defined
+        static thread_local Real64 TempVar(0.0);       // just temporary usage for complex fenestration
 
         int ThisNum;
         int Layer;
@@ -7744,20 +7744,20 @@ namespace WindowManager {
         std::string GapVentType;
 
         // Formats
-        static gio::Fmt Format_700("(' WindowConstruction',8(',',A))");
-        static gio::Fmt Format_702("(' WindowMaterial:Gas',3(',',A))");
-        static gio::Fmt Format_703("(' WindowMaterial:Shade,',7(',',A))");
-        static gio::Fmt Format_704("(' WindowMaterial:Blind',8(',',A))");
-        static gio::Fmt Format_706("(' WindowMaterial:Screen',11(',',A))");
-        static gio::Fmt Format_707("(' WindowMaterial:Glazing',16(',',A))");
-        static gio::Fmt Format_708("(' WindowMaterial:Glazing:EquivalentLayer',17(',',A))");
-        static gio::Fmt Format_709("(' WindowMaterial:Shade:EquivalentLayer',10(',',A))");
-        static gio::Fmt Format_710("(' WindowMaterial:Drape:EquivalentLayer',11(',',A))");
-        static gio::Fmt Format_711("(' WindowMaterial:Screen:EquivalentLayer',11(',',A))");
-        static gio::Fmt Format_712("(' WindowMaterial:Blind:EquivalentLayer',16(',',A))");
-        static gio::Fmt Format_713("(' WindowMaterial:Gap:EquivalentLayer',4(',',A))");
-        static gio::Fmt Format_799("(' Construction:WindowEquivalentLayer',6(',',A))");
-        static gio::Fmt Format_800("(' WindowConstruction:Complex',5(',',A))");
+        static thread_local gio::Fmt Format_700("(' WindowConstruction',8(',',A))");
+        static thread_local gio::Fmt Format_702("(' WindowMaterial:Gas',3(',',A))");
+        static thread_local gio::Fmt Format_703("(' WindowMaterial:Shade,',7(',',A))");
+        static thread_local gio::Fmt Format_704("(' WindowMaterial:Blind',8(',',A))");
+        static thread_local gio::Fmt Format_706("(' WindowMaterial:Screen',11(',',A))");
+        static thread_local gio::Fmt Format_707("(' WindowMaterial:Glazing',16(',',A))");
+        static thread_local gio::Fmt Format_708("(' WindowMaterial:Glazing:EquivalentLayer',17(',',A))");
+        static thread_local gio::Fmt Format_709("(' WindowMaterial:Shade:EquivalentLayer',10(',',A))");
+        static thread_local gio::Fmt Format_710("(' WindowMaterial:Drape:EquivalentLayer',11(',',A))");
+        static thread_local gio::Fmt Format_711("(' WindowMaterial:Screen:EquivalentLayer',11(',',A))");
+        static thread_local gio::Fmt Format_712("(' WindowMaterial:Blind:EquivalentLayer',16(',',A))");
+        static thread_local gio::Fmt Format_713("(' WindowMaterial:Gap:EquivalentLayer',4(',',A))");
+        static thread_local gio::Fmt Format_799("(' Construction:WindowEquivalentLayer',6(',',A))");
+        static thread_local gio::Fmt Format_800("(' WindowConstruction:Complex',5(',',A))");
 
         ScanForReports("Constructions", DoReport, "Constructions");
 
@@ -8289,7 +8289,7 @@ namespace WindowManager {
         //       RE-ENGINEERED  na
 
         // PURPOSE OF THIS SUBROUTINE:
-        // Initialize static properties of window screens.
+        // Initialize static thread_local properties of window screens.
 
         // METHODOLOGY EMPLOYED:
         // Loop through all surfaces to determine which window has an exterior screen. Static
@@ -8304,7 +8304,7 @@ namespace WindowManager {
         // SUBROUTINE PARAMETER DEFINITIONS:
         int const M(18);
         int const N(18);
-        static gio::Fmt fmtA("(A)");
+        static thread_local gio::Fmt fmtA("(A)");
 
         // INTERFACE BLOCK SPECIFICATIONS:
         // na
@@ -8383,7 +8383,7 @@ namespace WindowManager {
                     ++ScreenNum;
                     SurfaceWindow(SurfNum).ScreenNumber = ScreenNum;
                     //     If a screen material is used more than once, the Material structure's screen data pointer holds the screen number
-                    //     of the last window surface. Use this method to access the screen parameter's only for static variables such as
+                    //     of the last window surface. Use this method to access the screen parameter's only for static thread_local variables such as
                     //     diffuse properties (InitGlassOpticalCalculations). For all cases where the screen properties are a function of
                     //     sun azimuth and altitude angles, use the SurfaceScreens structure.
                     Material(MatNum).ScreenDataPtr = ScreenNum;
@@ -9494,7 +9494,7 @@ namespace WindowManager {
         // Overwriting the default values
 
         // SUBROUTINE LOCAL VARIABLE DECLARATIONS:
-        static bool ErrorsFound(false); // If errors detected in input
+        static thread_local bool ErrorsFound(false); // If errors detected in input
         int NumAlphas;                  // Number of Alphas for each GetobjectItem call
         int NumNumbers;                 // Number of Numbers for each GetobjectItem call
         int NumArgs;
@@ -9502,13 +9502,13 @@ namespace WindowManager {
         Array1D_string cAlphaArgs;    // Alpha input items for object
         Array1D<Real64> rNumericArgs; // Numeric input items for object
 
-        static bool RunMeOnceFlag(false); // This subroutine only needs to be run once
+        static thread_local bool RunMeOnceFlag(false); // This subroutine only needs to be run once
         std::string cCurrentModuleObject;
         std::string cSolarSpectrum;
         std::string cVisibleSpectrum;
-        static int iSolarSpectrum(0);
-        static int iVisibleSpectrum(0);
-        static int NumSiteSpectrum(0);
+        static thread_local int iSolarSpectrum(0);
+        static thread_local int iVisibleSpectrum(0);
+        static thread_local int NumSiteSpectrum(0);
         int Loop;
         int iTmp;
 

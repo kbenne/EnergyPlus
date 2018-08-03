@@ -302,7 +302,7 @@ namespace ICEngineElectricGenerator {
         int IOStat;                     // IO Status when calling get input subroutine
         Array1D_string AlphArray(10);   // character string data
         Array1D<Real64> NumArray(11);   // numeric data
-        static bool ErrorsFound(false); // error flag
+        static thread_local bool ErrorsFound(false); // error flag
         Real64 xValue;                  // test curve limits
 
         // FLOW
@@ -671,7 +671,7 @@ namespace ICEngineElectricGenerator {
         // SUBROUTINE PARAMETER DEFINITIONS:
         Real64 const ExhaustCP(1.047); // Exhaust Gas Specific Heat (J/kg-K)
         Real64 const KJtoJ(1000.0);    // convert Kjoules to joules
-        static std::string const RoutineName("CalcICEngineGeneratorModel");
+        static thread_local std::string const RoutineName("CalcICEngineGeneratorModel");
 
         // DERIVED TYPE DEFINITIONS
 
@@ -898,7 +898,7 @@ namespace ICEngineElectricGenerator {
         // SUBROUTINE ARGUMENT DEFINITIONS:
 
         // SUBROUTINE PARAMETER DEFINITIONS:
-        static std::string const RoutineName("CalcICEngineGeneratorModel");
+        static thread_local std::string const RoutineName("CalcICEngineGeneratorModel");
 
         // DERIVED TYPE DEFINITIONS
         // na
@@ -996,7 +996,7 @@ namespace ICEngineElectricGenerator {
         // SUBROUTINE ARGUMENT DEFINITIONS:
 
         // SUBROUTINE PARAMETER DEFINITIONS:
-        static std::string const RoutineName("InitICEngineGenerators");
+        static thread_local std::string const RoutineName("InitICEngineGenerators");
 
         // INTERFACE BLOCK SPECIFICATIONS
         // na
@@ -1007,11 +1007,11 @@ namespace ICEngineElectricGenerator {
         // SUBROUTINE LOCAL VARIABLE DECLARATIONS:
         int HeatRecInletNode;            // inlet node number in heat recovery loop
         int HeatRecOutletNode;           // outlet node number in heat recovery loop
-        static bool MyOneTimeFlag(true); // Initialization flag
+        static thread_local bool MyOneTimeFlag(true); // Initialization flag
 
-        static Array1D_bool MyEnvrnFlag; // Used for initializations each begin environment flag
-        static Array1D_bool MyPlantScanFlag;
-        static Array1D_bool MySizeAndNodeInitFlag;
+        static thread_local Array1D_bool MyEnvrnFlag; // Used for initializations each begin environment flag
+        static thread_local Array1D_bool MyPlantScanFlag;
+        static thread_local Array1D_bool MySizeAndNodeInitFlag;
         Real64 mdot;
         Real64 rho;
         bool errFlag;

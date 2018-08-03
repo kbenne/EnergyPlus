@@ -278,7 +278,7 @@ namespace OutputProcessor {
         Real64 EITSValue;        // Value of this variable at the Zone Time Step for external interface
         Real64 StoreValue;       // At end of Zone Time Step, value is placed here for later reporting
         Real64 NumStored;        // Number of hours stored
-        StoreType storeType;     // Variable Type (Summed/Non-Static or Average/Static)
+        StoreType storeType;     // Variable Type (Summed/Non-static thread_local or Average/Static)
         bool Stored;             // True when value is stored
         bool Report;             // User has requested reporting of this variable in the IDF
         bool tsStored;           // if stored for this zone timestep
@@ -314,7 +314,7 @@ namespace OutputProcessor {
         Real64 EITSValue;    // Value of this variable at the Zone Time Step for external interface
         Real64 StoreValue;   // At end of Zone Time Step, value is placed here for later reporting
         Real64 NumStored;    // Number of hours stored
-        StoreType storeType; // Variable Type (Summed/Non-Static or Average/Static)
+        StoreType storeType; // Variable Type (Summed/Non-static thread_local or Average/Static)
         bool Stored;         // True when value is stored
         bool Report;         // User has requested reporting of this variable in the IDF
         bool tsStored;       // if stored for this zone timestep
@@ -342,7 +342,7 @@ namespace OutputProcessor {
     {
         // Members
         int IndexType;                 // Type whether Zone or HVAC
-        StoreType storeType;           // Variable Type (Summed/Non-Static or Average/Static)
+        StoreType storeType;           // Variable Type (Summed/Non-static thread_local or Average/Static)
         int VariableType;              // Integer, Real.
         int Next;                      // Next variable of same name (different units)
         bool ReportedOnDDFile;         // true after written to .rdd/.mdd file
@@ -362,7 +362,7 @@ namespace OutputProcessor {
     {
         // Members
         int IndexType;                   // Type whether Zone or HVAC
-        StoreType storeType;             // Variable Type (Summed/Non-Static or Average/Static)
+        StoreType storeType;             // Variable Type (Summed/Non-static thread_local or Average/Static)
         int ReportID;                    // Report variable ID number
         std::string VarName;             // Name of Variable key:variable
         std::string VarNameUC;           // Name of Variable (Uppercase)
@@ -383,7 +383,7 @@ namespace OutputProcessor {
     {
         // Members
         int IndexType;                      // Type whether Zone or HVAC
-        StoreType storeType;                // Variable Type (Summed/Non-Static or Average/Static)
+        StoreType storeType;                // Variable Type (Summed/Non-static thread_local or Average/Static)
         int ReportID;                       // Report variable ID number
         std::string VarName;                // Name of Variable
         std::string VarNameUC;              // Name of Variable

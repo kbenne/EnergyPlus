@@ -338,7 +338,7 @@ namespace WindowAC {
         // na
 
         // SUBROUTINE PARAMETER DEFINITIONS:
-        static std::string const RoutineName("GetWindowAC: "); // include trailing blank space
+        static thread_local std::string const RoutineName("GetWindowAC: "); // include trailing blank space
 
         // INTERFACE BLOCK SPECIFICATIONS
         // na
@@ -357,9 +357,9 @@ namespace WindowAC {
         int NumNumbers;                  // Number of Numbers for each GetObjectItem call
         Array1D_int OANodeNums(4);       // Node numbers of Outdoor air mixer (OA, EA, RA, MA)
         int IOStatus;                    // Used in GetObjectItem
-        static bool ErrorsFound(false);  // Set to true if errors in input, fatal at end of routine
-        static bool errFlag(false);      // Local error flag for GetOAMixerNodeNums
-        static bool FanErrFlag(false);   // Error flag used in GetFanIndex call
+        static thread_local bool ErrorsFound(false);  // Set to true if errors in input, fatal at end of routine
+        static thread_local bool errFlag(false);      // Local error flag for GetOAMixerNodeNums
+        static thread_local bool FanErrFlag(false);   // Error flag used in GetFanIndex call
         Real64 FanVolFlow;               // Fan volumetric flow rate
         bool CoilNodeErrFlag;            // Used in error messages for mining coil outlet node number
         std::string CurrentModuleObject; // Object type for getting and error messages
@@ -369,7 +369,7 @@ namespace WindowAC {
         Array1D<Real64> Numbers;         // Numeric input items for object
         Array1D_bool lAlphaBlanks;       // Logical array, alpha field input BLANK = .TRUE.
         Array1D_bool lNumericBlanks;     // Logical array, numeric field input BLANK = .TRUE.
-        static int TotalArgs(0);         // Total number of alpha and numeric arguments (max) for a
+        static thread_local int TotalArgs(0);         // Total number of alpha and numeric arguments (max) for a
         //  INTEGER                              :: FanType           ! Integer index for Fan type
         int CtrlZone;          // index to loop counter
         int NodeNum;           // index to loop counter
@@ -863,12 +863,12 @@ namespace WindowAC {
         int AirRelNode;     // relief air node number in window AC loop
         Real64 RhoAir;      // air density at InNode
         //////////// hoisted into namespace ////////////////////////////////////////////////
-        // static bool MyOneTimeFlag( true );
-        // static bool ZoneEquipmentListChecked( false ); // True after the Zone Equipment List has been checked for items
+        // static thread_local bool MyOneTimeFlag( true );
+        // static thread_local bool ZoneEquipmentListChecked( false ); // True after the Zone Equipment List has been checked for items
         ////////////////////////////////////////////////////////////////////////////////////
         int Loop;                         // loop counter
-        static Array1D_bool MyEnvrnFlag;  // one time initialization flag
-        static Array1D_bool MyZoneEqFlag; // used to set up zone equipment availability managers
+        static thread_local Array1D_bool MyEnvrnFlag;  // one time initialization flag
+        static thread_local Array1D_bool MyZoneEqFlag; // used to set up zone equipment availability managers
         Real64 QToCoolSetPt;              // sensible load to cooling setpoint (W)
         Real64 NoCompOutput;              // sensible load delivered with compressor off (W)
 
@@ -1024,7 +1024,7 @@ namespace WindowAC {
         using ReportSizingManager::RequestSizing;
 
         // SUBROUTINE PARAMETER DEFINITIONS:
-        static std::string const RoutineName("SizeWindowAC: "); // include trailing blank space
+        static thread_local std::string const RoutineName("SizeWindowAC: "); // include trailing blank space
 
         // SUBROUTINE LOCAL VARIABLE DECLARATIONS:
         Real64 MaxAirVolFlowDes;  // Autosized maximum air flow for reporting

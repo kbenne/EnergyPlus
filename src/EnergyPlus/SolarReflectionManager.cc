@@ -203,8 +203,8 @@ namespace SolarReflectionManager {
         int NumRecPts;   // Number of surface receiving points for reflected solar radiation
         Real64 VertexWt; // Vertex weighting factor for calculating receiving points
 
-        static Vector3<Real64> const unit_z(0.0, 0.0, 1.0);
-        static Vector3<Real64> const zero3(0.0);
+        static thread_local Vector3<Real64> const unit_z(0.0, 0.0, 1.0);
+        static thread_local Vector3<Real64> const zero3(0.0);
 
         // FLOW:
 
@@ -602,7 +602,7 @@ namespace SolarReflectionManager {
         // DERIVED TYPE DEFINITIONS: na
 
         // SUBROUTINE LOCAL VARIABLE DECLARATIONS:
-        static int IHr(0); // Hour number
+        static thread_local int IHr(0); // Hour number
 
         // FLOW:
 
@@ -659,12 +659,12 @@ namespace SolarReflectionManager {
         // na
 
         // SUBROUTINE LOCAL VARIABLE DECLARATIONS:
-        static Vector3<Real64> SunVec(0.0); // Unit vector to sun
-        static int RecSurfNum(0);           // Receiving surface number
-        static int SurfNum(0);              // Heat transfer surface number corresponding to RecSurfNum
-        static int RecPtNum(0);             // Receiving point number
-        static int NumRecPts(0);            // Number of receiving points on a receiving surface
-        static int HitPtSurfNum(0);         // Surface number of hit point: -1 = ground,
+        static thread_local Vector3<Real64> SunVec(0.0); // Unit vector to sun
+        static thread_local int RecSurfNum(0);           // Receiving surface number
+        static thread_local int SurfNum(0);              // Heat transfer surface number corresponding to RecSurfNum
+        static thread_local int RecPtNum(0);             // Receiving point number
+        static thread_local int NumRecPts(0);            // Number of receiving points on a receiving surface
+        static thread_local int HitPtSurfNum(0);         // Surface number of hit point: -1 = ground,
         // 0 = sky or obstruction with receiving point below ground level,
         // >0 = obstruction with receiving point above ground level
         Array1D<Real64> ReflBmToDiffSolObs(MaxRecPts); // Irradiance at a receiving point for
@@ -673,19 +673,19 @@ namespace SolarReflectionManager {
         Array1D<Real64> ReflBmToDiffSolGnd(MaxRecPts); // Irradiance at a receiving point for
         // beam solar diffusely reflected from the ground, divided by
         // beam normal irradiance
-        static int RayNum(0);                      // Ray number
+        static thread_local int RayNum(0);                      // Ray number
         bool hit;                                  // True iff obstruction is hit
-        static Vector3<Real64> OriginThisRay(0.0); // Origin point of a ray (m)
-        static Vector3<Real64> ObsHitPt(0.0);      // Hit point on obstruction (m)
-        static int ObsSurfNum(0);                  // Obstruction surface number
-        static Real64 CosIncBmAtHitPt(0.0);        // Cosine of incidence angle of beam solar at hit point
-        static Real64 CosIncBmAtHitPt2(0.0);       // Cosine of incidence angle of beam solar at hit point,
+        static thread_local Vector3<Real64> OriginThisRay(0.0); // Origin point of a ray (m)
+        static thread_local Vector3<Real64> ObsHitPt(0.0);      // Hit point on obstruction (m)
+        static thread_local int ObsSurfNum(0);                  // Obstruction surface number
+        static thread_local Real64 CosIncBmAtHitPt(0.0);        // Cosine of incidence angle of beam solar at hit point
+        static thread_local Real64 CosIncBmAtHitPt2(0.0);       // Cosine of incidence angle of beam solar at hit point,
         //  the mirrored shading surface
-        static Real64 BmReflSolRadiance(0.0); // Solar radiance at hit point due to incident beam, divided
+        static thread_local Real64 BmReflSolRadiance(0.0); // Solar radiance at hit point due to incident beam, divided
         //  by beam normal irradiance
-        static Real64 dReflBeamToDiffSol(0.0); // Contribution to reflection factor at a receiving point
+        static thread_local Real64 dReflBeamToDiffSol(0.0); // Contribution to reflection factor at a receiving point
         //  from beam solar reflected from a hit point
-        static Real64 SunLitFract(0.0); // Sunlit fraction
+        static thread_local Real64 SunLitFract(0.0); // Sunlit fraction
 
         ReflBmToDiffSolObs = 0.0;
         ReflBmToDiffSolGnd = 0.0;
@@ -881,7 +881,7 @@ namespace SolarReflectionManager {
         // DERIVED TYPE DEFINITIONS: na
 
         // SUBROUTINE LOCAL VARIABLE DECLARATIONS:
-        static int IHr(0); // Hour number
+        static thread_local int IHr(0); // Hour number
 
         // FLOW:
         if (!DetailedSolarTimestepIntegration) {
@@ -942,31 +942,31 @@ namespace SolarReflectionManager {
         // na
 
         // SUBROUTINE LOCAL VARIABLE DECLARATIONS:
-        static Vector3<Real64> SunVec(0.0);            // Unit vector to sun
-        static Vector3<Real64> SunVecMir(0.0);         // Unit vector to sun mirrored by a reflecting surface
-        static Vector3<Real64> RecPt(0.0);             // Receiving point (m)
-        static Vector3<Real64> HitPtRefl(0.0);         // Hit point on a reflecting surface (m)
+        static thread_local Vector3<Real64> SunVec(0.0);            // Unit vector to sun
+        static thread_local Vector3<Real64> SunVecMir(0.0);         // Unit vector to sun mirrored by a reflecting surface
+        static thread_local Vector3<Real64> RecPt(0.0);             // Receiving point (m)
+        static thread_local Vector3<Real64> HitPtRefl(0.0);         // Hit point on a reflecting surface (m)
         Array1D<Real64> ReflBmToDiffSolObs(MaxRecPts); // Irradiance at a receiving point for
         // beam solar diffusely reflected from obstructions, divided by
         // beam normal irradiance
         // unused  INTEGER           :: RayNum               =0   ! Ray number
         bool hitRefl;                                // True iff reflecting surface is hit
         bool hitObs;                                 // True iff obstruction is hit
-        static Vector3<Real64> HitPtObs(0.0);        // Hit point on obstruction (m)
+        static thread_local Vector3<Real64> HitPtObs(0.0);        // Hit point on obstruction (m)
         bool hitObsRefl;                             // True iff obstruction hit between rec. pt. and reflection point
-        static Vector3<Real64> ReflNorm(0.0);        // Unit normal to reflecting surface
+        static thread_local Vector3<Real64> ReflNorm(0.0);        // Unit normal to reflecting surface
         Array1D<Real64> ReflBmToBmSolObs(MaxRecPts); // Irradiance at a receiving point for
         // beam solar specularly reflected from obstructions, divided by
         // beam normal irradiance
         Real64 ReflDistanceSq;                            // Distance squared from receiving point to hit point on a reflecting surface (m)
         Real64 ReflDistance;                              // Distance from receiving point to hit point on a reflecting surface (m)
-        static Real64 SpecReflectance(0.0);               // Specular reflectance of a reflecting surface
-        static int ConstrNumRefl(0);                      // Construction number of a reflecting surface
-        static Real64 CosIncAngRefl(0.0);                 // Cosine of incidence angle of beam on reflecting surface
-        static Real64 CosIncAngRec(0.0);                  // Angle of incidence of reflected beam on receiving surface
-        static Real64 ReflFac(0.0);                       // Contribution to specular reflection factor
+        static thread_local Real64 SpecReflectance(0.0);               // Specular reflectance of a reflecting surface
+        static thread_local int ConstrNumRefl(0);                      // Construction number of a reflecting surface
+        static thread_local Real64 CosIncAngRefl(0.0);                 // Cosine of incidence angle of beam on reflecting surface
+        static thread_local Real64 CosIncAngRec(0.0);                  // Angle of incidence of reflected beam on receiving surface
+        static thread_local Real64 ReflFac(0.0);                       // Contribution to specular reflection factor
         Array1D<Real64> ReflFacTimesCosIncSum(MaxRecPts); // Sum of ReflFac times CosIncAngRefl
-        static Real64 CosIncWeighted(0.0);                // Cosine of incidence angle on receiving surf weighted by reflection factor
+        static thread_local Real64 CosIncWeighted(0.0);                // Cosine of incidence angle on receiving surf weighted by reflection factor
 
         ReflBmToDiffSolObs = 0.0;
         ReflFacTimesCosIncSum = 0.0;
@@ -1123,15 +1123,15 @@ namespace SolarReflectionManager {
         // DERIVED TYPE DEFINITIONS: na
 
         // SUBROUTINE LOCAL VARIABLE DECLARATIONS:
-        static int RecSurfNum(0);   // Receiving surface number
-        static int SurfNum(0);      // Heat transfer surface number corresponding to RecSurfNum
-        static int ObsSurfNum(0);   // Obstruction surface number
-        static int RecPtNum(0);     // Receiving point number
-        static int NumRecPts(0);    // Number of receiving points on a receiving surface
-        static int HitPtSurfNum(0); // Surface number of hit point: -1 = ground,
+        static thread_local int RecSurfNum(0);   // Receiving surface number
+        static thread_local int SurfNum(0);      // Heat transfer surface number corresponding to RecSurfNum
+        static thread_local int ObsSurfNum(0);   // Obstruction surface number
+        static thread_local int RecPtNum(0);     // Receiving point number
+        static thread_local int NumRecPts(0);    // Number of receiving points on a receiving surface
+        static thread_local int HitPtSurfNum(0); // Surface number of hit point: -1 = ground,
         // 0 = sky or obstruction with receiving point below ground level,
         // >0 = obstruction with receiving point above ground level
-        static int HitPtSurfNumX(0); // For a shading surface, HitPtSurfNum for original surface,
+        static thread_local int HitPtSurfNumX(0); // For a shading surface, HitPtSurfNum for original surface,
         // HitPitSurfNum + 1 for mirror surface
         Array1D<Real64> ReflSkySolObs(MaxRecPts); // Irradiance at a receiving point for sky diffuse solar
         // reflected from obstructions, divided by unobstructed
@@ -1139,19 +1139,19 @@ namespace SolarReflectionManager {
         Array1D<Real64> ReflSkySolGnd(MaxRecPts); // Irradiance at a receiving point for sky diffuse solar
         // reflected from ground, divided by unobstructed
         // sky diffuse horizontal irradiance
-        static int RayNum(0);                  // Ray number
-        static Vector3<Real64> HitPtRefl(0.0); // Coordinates of hit point on obstruction or ground (m)
+        static thread_local int RayNum(0);                  // Ray number
+        static thread_local Vector3<Real64> HitPtRefl(0.0); // Coordinates of hit point on obstruction or ground (m)
         bool hitObs;                           // True iff obstruction is hit
-        static Vector3<Real64> HitPtObs(0.0);  // Hit point on an obstruction (m)
+        static thread_local Vector3<Real64> HitPtObs(0.0);  // Hit point on an obstruction (m)
         // unused  REAL(r64)         :: ObsHitPt(3)          =0.0 ! Hit point on obstruction (m)
-        static Real64 SkyReflSolRadiance(0.0); // Reflected radiance at hit point divided by unobstructed
+        static thread_local Real64 SkyReflSolRadiance(0.0); // Reflected radiance at hit point divided by unobstructed
         //  sky diffuse horizontal irradiance
-        static Real64 dReflSkySol(0.0); // Contribution to reflection factor at a receiving point
+        static thread_local Real64 dReflSkySol(0.0); // Contribution to reflection factor at a receiving point
         //  from sky solar reflected from a hit point
-        static Vector3<Real64> URay(0.0);            // Unit vector along ray from ground hit point
-        static Vector3<Real64> SurfVertToGndPt(0.0); // Vector from a vertex of possible obstructing surface to ground
+        static thread_local Vector3<Real64> URay(0.0);            // Unit vector along ray from ground hit point
+        static thread_local Vector3<Real64> SurfVertToGndPt(0.0); // Vector from a vertex of possible obstructing surface to ground
         //  hit point (m)
-        static Vector3<Real64> SurfVert(0.0); // Surface vertex (m)
+        static thread_local Vector3<Real64> SurfVert(0.0); // Surface vertex (m)
         // FLOW:
 
         Real64 const DPhi(PiOvr2 / (AltAngStepsForSolReflCalc / 2.0));      // Altitude angle and increment (radians)

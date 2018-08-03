@@ -123,7 +123,7 @@ namespace RuntimeLanguageProcessor {
     int const ParenthesisLeft(10);  // indicates left side parenthesis found in parsing
     int const ParenthesisRight(11); // indicates right side parenthesis found in parsing
 
-    static std::string const BlankString;
+    static thread_local std::string const BlankString;
 
     // DERIVED TYPE DEFINITIONS:
 
@@ -166,8 +166,8 @@ namespace RuntimeLanguageProcessor {
     int ActualTimeNum(0);
     int WarmUpFlagNum(0);
 
-    static gio::Fmt fmtLD("*");
-    static gio::Fmt fmtA("(A)");
+    static thread_local gio::Fmt fmtLD("*");
+    static thread_local gio::Fmt fmtA("(A)");
 
     // SUBROUTINE SPECIFICATIONS:
 
@@ -252,10 +252,10 @@ namespace RuntimeLanguageProcessor {
         // Locals
         // SUBROUTINE LOCAL VARIABLE DECLARATIONS:
 
-        static Real64 tmpCurrentTime(0.0);
-        static Real64 tmpMinutes(0.0);
-        static Real64 tmpHours(0.0);
-        static Real64 tmpCurEnvirNum(0.0);
+        static thread_local Real64 tmpCurrentTime(0.0);
+        static thread_local Real64 tmpMinutes(0.0);
+        static thread_local Real64 tmpHours(0.0);
+        static thread_local Real64 tmpCurEnvirNum(0.0);
         Array1D_int datevalues(8);
         // value(1)   Current year
         // value(2)   Current month
@@ -899,7 +899,7 @@ namespace RuntimeLanguageProcessor {
         int InstructionNum;
         int InstructionNum2;
         int ExpressionNum;
-        static int VariableNum;
+        static thread_local int VariableNum;
         int WhileLoopExitCounter;      // to avoid infinite loop in While loop
         bool seriousErrorFound(false); // once it gets set true (inside EvaluateExpresssion) it will trigger a fatal (in WriteTrace)
 
@@ -1050,7 +1050,7 @@ namespace RuntimeLanguageProcessor {
         // SUBROUTINE ARGUMENT DEFINITIONS:
 
         // SUBROUTINE LOCAL VARIABLE DECLARATIONS:
-        static bool MyOneTimeFlag(false);
+        static thread_local bool MyOneTimeFlag(false);
         int LineNum;
         std::string NameString;
         std::string LineNumString;
@@ -1162,7 +1162,7 @@ namespace RuntimeLanguageProcessor {
         bool LastED; // last character in a numeric was an E or D
 
         // Object Data
-        static Array1D<TokenType> Token;
+        static thread_local Array1D<TokenType> Token;
 
         // FLOW:
         CountDoLooping = 0;
@@ -2089,7 +2089,7 @@ namespace RuntimeLanguageProcessor {
         // Object Data
         Array1D<ErlValueType> Operand;
 
-        static std::string const EMSBuiltInFunction("EMS Built-In Function");
+        static thread_local std::string const EMSBuiltInFunction("EMS Built-In Function");
 
         // FLOW:
 
@@ -2724,7 +2724,7 @@ namespace RuntimeLanguageProcessor {
 
         // Locals
         // SUBROUTINE PARAMETER DEFINITIONS:
-        static std::string const RoutineName("GetRuntimeLanguageUserInput: ");
+        static thread_local std::string const RoutineName("GetRuntimeLanguageUserInput: ");
 
         // SUBROUTINE LOCAL VARIABLE DECLARATIONS:
         int GlobalNum;
@@ -2735,27 +2735,27 @@ namespace RuntimeLanguageProcessor {
         int NumAlphas; // Number of elements in the alpha array
         int NumNums;   // Number of elements in the numeric array
         int IOStat;    // IO Status when calling get input subroutine
-        static bool ErrorsFound(false);
+        static thread_local bool ErrorsFound(false);
         int VariableNum(0); // temporary
         int RuntimeReportVarNum;
         // unused0909  INTEGER    :: Pos
         // unused0909  CHARACTER(len=MaxNameLength) :: VariableName
         bool Found;
-        static std::string FreqString;    // temporary
-        static std::string VarTypeString; // temporary
-        static std::string ResourceTypeString;
-        static std::string GroupTypeString;
-        static std::string EndUseTypeString;
-        static std::string EndUseSubCatString;
+        static thread_local std::string FreqString;    // temporary
+        static thread_local std::string VarTypeString; // temporary
+        static thread_local std::string ResourceTypeString;
+        static thread_local std::string GroupTypeString;
+        static thread_local std::string EndUseTypeString;
+        static thread_local std::string EndUseSubCatString;
 
         int TrendNum;
         int NumTrendSteps;
         int loop;
         int ErlVarLoop;
         int CurveIndexNum;
-        static int MaxNumAlphas(0);  // argument for call to GetObjectDefMaxArgs
-        static int MaxNumNumbers(0); // argument for call to GetObjectDefMaxArgs
-        static int TotalArgs(0);     // argument for call to GetObjectDefMaxArgs
+        static thread_local int MaxNumAlphas(0);  // argument for call to GetObjectDefMaxArgs
+        static thread_local int MaxNumNumbers(0); // argument for call to GetObjectDefMaxArgs
+        static thread_local int TotalArgs(0);     // argument for call to GetObjectDefMaxArgs
         Array1D_string cAlphaFieldNames;
         Array1D_string cNumericFieldNames;
         Array1D_bool lNumericFieldBlanks;

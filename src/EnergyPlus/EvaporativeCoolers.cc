@@ -144,7 +144,7 @@ namespace EvaporativeCoolers {
     int const ZoneCoolingLoadOnOffCycling(21);
     int const ZoneCoolingLoadVariableSpeedFan(22);
 
-    static std::string const BlankString;
+    static thread_local std::string const BlankString;
 
     // DERIVED TYPE DEFINITIONS
 
@@ -299,7 +299,7 @@ namespace EvaporativeCoolers {
         int NumAlphas;
         int NumNums;
         int IOStat;
-        static bool ErrorsFound(false);
+        static thread_local bool ErrorsFound(false);
 
         GetInputEvapComponentsFlag = false;
         // Start getting the input data
@@ -957,9 +957,9 @@ namespace EvaporativeCoolers {
         int ControlNode;
         int OutNode;
         int EvapUnitNum;
-        static bool MySetPointCheckFlag(true);
-        static bool MyOneTimeFlag(true);
-        static bool localSetPointCheck(false);
+        static thread_local bool MySetPointCheckFlag(true);
+        static thread_local bool MyOneTimeFlag(true);
+        static thread_local bool localSetPointCheck(false);
 
         if (MyOneTimeFlag) {
             MySizeFlag.dimension(NumEvapCool, true);
@@ -1104,10 +1104,10 @@ namespace EvaporativeCoolers {
         using ReportSizingManager::ReportSizingOutput;
 
         // SUBROUTINE LOCAL VARIABLE DECLARATIONS:
-        static bool CoolerOnOApath(false);
-        static bool CoolerOnMainAirLoop(false);
-        static int AirSysBranchLoop(0);
-        static int BranchComp(0);
+        static thread_local bool CoolerOnOApath(false);
+        static thread_local bool CoolerOnMainAirLoop(false);
+        static thread_local int AirSysBranchLoop(0);
+        static thread_local int BranchComp(0);
         bool HardSizeNoDesRun;          // Indicator to a hard-sized field with no design sizing data
         bool IsAutoSize;                // Indicator to autosize
         Real64 IndirectVolFlowRateDes;  // Autosized volume flow rate for reporting
@@ -2245,9 +2245,9 @@ namespace EvaporativeCoolers {
         Real64 PurgeHumRat;
         Real64 PurgeEnthalpy;
         Real64 PurgeTemp;
-        static Real64 BlowDownVdot(0.0);
-        static Real64 DriftVdot(0.0);
-        static Real64 EvapVdot(0.0);
+        static thread_local Real64 BlowDownVdot(0.0);
+        static thread_local Real64 DriftVdot(0.0);
+        static thread_local Real64 EvapVdot(0.0);
 
         // If the Evaporative Cooler  is operating there should be some mass flow rate
         //  Also the evap cooler has to be scheduled to be available
@@ -2499,9 +2499,9 @@ namespace EvaporativeCoolers {
         Real64 RhoWater;
         Real64 RhoAir; // Density of the primary side air
         Real64 MassFlowRateSecMin;
-        static Real64 BlowDownVdot(0.0);
-        static Real64 DriftVdot(0.0);
-        static Real64 EvapVdot(0.0);
+        static thread_local Real64 BlowDownVdot(0.0);
+        static thread_local Real64 DriftVdot(0.0);
+        static thread_local Real64 EvapVdot(0.0);
 
         FlowRatioSecDry = 0.0;
         FlowRatioSecWet = 0.0;
@@ -3241,9 +3241,9 @@ namespace EvaporativeCoolers {
         Real64 MassFlowRateSysDesign;  // primary air design mass flow rate
         Real64 MassFlowRateSys;        // primary air current mass flow rate
         int InletNode;                 // inlet node number
-        static Real64 BlowDownVdot(0.0);
-        static Real64 DriftVdot(0.0);
-        static Real64 EvapVdot(0.0);
+        static thread_local Real64 BlowDownVdot(0.0);
+        static thread_local Real64 DriftVdot(0.0);
+        static thread_local Real64 EvapVdot(0.0);
         bool EvapCoolerOperatingLimitFlag(false);
 
         EvapCoolerOperatingLimitFlag = false;
@@ -3414,7 +3414,7 @@ namespace EvaporativeCoolers {
         int InletNode;
         int OutletNodeSec;
         int InletNodeSec;
-        static Real64 AvailWaterRate(0.0);
+        static thread_local Real64 AvailWaterRate(0.0);
 
         OutletNode = EvapCond(EvapCoolNum).OutletNode;
         InletNode = EvapCond(EvapCoolNum).InletNode;
@@ -3611,7 +3611,7 @@ namespace EvaporativeCoolers {
         using NodeInputManager::GetOnlySingleNode;
 
         // SUBROUTINE PARAMETER DEFINITIONS:
-        static std::string const RoutineName("GetInputZoneEvaporativeCoolerUnit: ");
+        static thread_local std::string const RoutineName("GetInputZoneEvaporativeCoolerUnit: ");
 
         // SUBROUTINE LOCAL VARIABLE DECLARATIONS:
         std::string CurrentModuleObject; // Object type for getting and error messages
@@ -3627,7 +3627,7 @@ namespace EvaporativeCoolers {
         int MaxNumbers;                  // Maximum number of numeric fields in all objects
         int NumFields;                   // Total number of fields in object
         int IOStatus;                    // Used in GetObjectItem
-        static bool ErrorsFound(false);  // Set to true if errors in input, fatal at end of routine
+        static thread_local bool ErrorsFound(false);  // Set to true if errors in input, fatal at end of routine
         bool errFlag;
         Real64 FanVolFlow;
         int UnitLoop;
@@ -4039,7 +4039,7 @@ namespace EvaporativeCoolers {
         using General::TrimSigDigits;
 
         // Locals
-        static Array1D_bool MySizeFlag;
+        static thread_local Array1D_bool MySizeFlag;
 
         // SUBROUTINE ARGUMENT DEFINITIONS:
 
@@ -4053,12 +4053,12 @@ namespace EvaporativeCoolers {
         // na
 
         // SUBROUTINE LOCAL VARIABLE DECLARATIONS:
-        static bool MyOneTimeFlag(true); // one time flag
-        static Array1D_bool MyEnvrnFlag;
-        static Array1D_bool MyFanFlag;
-        static Array1D_bool MyZoneEqFlag; // used to set up zone equipment availability managers
+        static thread_local bool MyOneTimeFlag(true); // one time flag
+        static thread_local Array1D_bool MyEnvrnFlag;
+        static thread_local Array1D_bool MyFanFlag;
+        static thread_local Array1D_bool MyZoneEqFlag; // used to set up zone equipment availability managers
         int Loop;
-        static bool ZoneEquipmentListChecked(false); // True after the Zone Equipment List has been checked for items
+        static thread_local bool ZoneEquipmentListChecked(false); // True after the Zone Equipment List has been checked for items
         Real64 TimeElapsed;
 
         if (MyOneTimeFlag) {
@@ -4250,7 +4250,7 @@ namespace EvaporativeCoolers {
         // SUBROUTINE ARGUMENT DEFINITIONS:
 
         // SUBROUTINE PARAMETER DEFINITIONS:
-        static std::string const RoutineName("SizeZoneEvaporativeCoolerUnit: "); // include trailing blank space
+        static thread_local std::string const RoutineName("SizeZoneEvaporativeCoolerUnit: "); // include trailing blank space
 
         // INTERFACE BLOCK SPECIFICATIONS:
         // na
@@ -4771,7 +4771,7 @@ namespace EvaporativeCoolers {
         Real64 MinHumRat;
         Array1D<Real64> Par(5); // Parameters passed to RegulaFalsi
         Real64 FanSpeedRatio;
-        static Real64 ErrorToler(0.001); // error tolerance
+        static thread_local Real64 ErrorToler(0.001); // error tolerance
         int SolFla;                      // Flag of RegulaFalsi solver
         Real64 FullFlowSensibleOutputProvided;
 

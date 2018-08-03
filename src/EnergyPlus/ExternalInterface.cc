@@ -181,7 +181,7 @@ namespace ExternalInterface {
         using DataGlobals::WarmupFlag;
 
         // SUBROUTINE LOCAL VARIABLE DECLARATIONS:
-        static bool GetInputFlag(true); // First time, input is "gotten"
+        static thread_local bool GetInputFlag(true); // First time, input is "gotten"
         std::string errorMessage;       // Error message
         int retValErrMsg;
 
@@ -475,7 +475,7 @@ namespace ExternalInterface {
 
         // SUBROUTINE PARAMETER DEFINITIONS:
 
-        static bool firstCall(true);                                   // First time, input has been read
+        static thread_local bool firstCall(true);                                   // First time, input has been read
         std::string const simCfgFilNam("variables.cfg");               // Configuration file
         std::string const xmlStrInKey("schedule,variable,actuator\0"); // xml values in string, separated by ','
 
@@ -484,8 +484,8 @@ namespace ExternalInterface {
         std::string xmlStrOut;    // xml values in string, separated by ';'
         std::string xmlStrOutTyp; // xml values in string, separated by ';'
         std::string xmlStrIn;     // xml values in string, separated by ';'
-        static int nOutVal;       // Number of output values (E+ -> ExternalInterface)
-        static int nInpVar;       // Number of input values (ExternalInterface -> E+)
+        static thread_local int nOutVal;       // Number of output values (E+ -> ExternalInterface)
+        static thread_local int nInpVar;       // Number of input values (ExternalInterface -> E+)
         int retVal;               // Return value of function call, used for error handling
         int mainVersion;          // The version number
         bool socFileExist;        // Set to true if socket configuration
@@ -708,7 +708,7 @@ namespace ExternalInterface {
         using ScheduleManager::ExternalInterfaceSetSchedule;
 
         // SUBROUTINE PARAMETER DEFINITIONS:
-        static bool FirstCallGetSetDoStep(true); // Flag to check when External Interface is called first time
+        static thread_local bool FirstCallGetSetDoStep(true); // Flag to check when External Interface is called first time
 
         // SUBROUTINE LOCAL VARIABLE DECLARATIONS:
         int i, j, k; // Loop counters
@@ -1078,7 +1078,7 @@ namespace ExternalInterface {
         int retValfmiVersion;
         int retValfmiPathLib;
         Array1D_string NameListInstances(5);
-        static bool FirstCallIni(true); // First time, input has been read
+        static thread_local bool FirstCallIni(true); // First time, input has been read
         bool fileExist;
         std::string tempFullFileName;
         Array1D_string strippedFileName; // remove path from entered file name
@@ -1962,10 +1962,10 @@ namespace ExternalInterface {
         // SUBROUTINE LOCAL VARIABLE DECLARATIONS:
         int i, j, k; // Loop counter
 
-        static bool FirstCallDesignDays(true); // Flag fo first call during warmup
-        static bool FirstCallWUp(true);        // Flag fo first call during warmup
-        static bool FirstCallTStep(true);      // Flag for first call during time stepping
-        static int fmiEndSimulation(0);        // Flag to indicate end of simulation
+        static thread_local bool FirstCallDesignDays(true); // Flag fo first call during warmup
+        static thread_local bool FirstCallWUp(true);        // Flag fo first call during warmup
+        static thread_local bool FirstCallTStep(true);      // Flag for first call during time stepping
+        static thread_local int fmiEndSimulation(0);        // Flag to indicate end of simulation
 
         Array1D_string Alphas(5);
         Array1D_int keyIndexes(1);     // Array index for
@@ -2279,11 +2279,11 @@ namespace ExternalInterface {
         Array1D<Real64> dblValRea(nDblMax);
         std::string retValCha;
         bool continueSimulation; // Flag, true if simulation should continue
-        static bool firstCall(true);
-        static bool showContinuationWithoutUpdate(true);
+        static thread_local bool firstCall(true);
+        static thread_local bool showContinuationWithoutUpdate(true);
 
         // Formats
-        static gio::Fmt Format_1000("(I2)");
+        static thread_local gio::Fmt Format_1000("(I2)");
 
         if (firstCall) {
             DisplayString("ExternalInterface starts first data exchange.");

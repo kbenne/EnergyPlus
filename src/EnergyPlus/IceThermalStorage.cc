@@ -116,7 +116,7 @@ namespace IceThermalStorage {
 
     // Data
     // MODULE PARAMETER DEFINITIONS
-    static std::string const BlankString;
+    static thread_local std::string const BlankString;
 
     std::string const cIceStorageSimple("ThermalStorage:Ice:Simple");
     std::string const cIceStorageDetailed("ThermalStorage:Ice:Detailed");
@@ -250,11 +250,11 @@ namespace IceThermalStorage {
         Real64 Cp; // local plant fluid specific heat
 
         // SUBROUTINE PARAMETER DEFINITIONS:
-        static std::string const RoutineName("SimIceStorage");
+        static thread_local std::string const RoutineName("SimIceStorage");
 
         // SUBROUTINE LOCAL VARIABLE DECLARATIONS:
-        static bool firstTime(true);
-        static bool MyEnvrnFlag(true);
+        static thread_local bool firstTime(true);
+        static thread_local bool MyEnvrnFlag(true);
         int IceStorageNum;
 
         // FLOW
@@ -469,7 +469,7 @@ namespace IceThermalStorage {
         Real64 const SIEquiv100GPMinMassFlowRate(6.31); // Used to non-dimensionalize flow rate for use in CubicLinear charging equation
                                                         // Flow rate divided by nominal 100GPM used to non-dimensionalize volume flow rate
                                                         // Assumes approximate density of 1000 kg/m3 to get an estimate for mass flow rate
-        static std::string const RoutineName("SimDetailedIceStorage");
+        static thread_local std::string const RoutineName("SimDetailedIceStorage");
 
         // INTERFACE BLOCK SPECIFICATIONS
         // na
@@ -1387,9 +1387,9 @@ namespace IceThermalStorage {
         // na
 
         // SUBROUTINE LOCAL VARIABLE DECLARATIONS:
-        static bool MyOneTimeFlag(true);
-        static Array1D_bool MyPlantScanFlag;
-        static Array1D_bool MyEnvrnFlag;
+        static thread_local bool MyOneTimeFlag(true);
+        static thread_local Array1D_bool MyPlantScanFlag;
+        static thread_local Array1D_bool MyEnvrnFlag;
         int CompNum; // local do loop index
         // FLOW:
 
@@ -1511,9 +1511,9 @@ namespace IceThermalStorage {
         // na
 
         // SUBROUTINE LOCAL VARIABLE DECLARATIONS:
-        static Array1D_bool MyPlantScanFlag;
-        static bool MyOneTimeFlag(true);
-        static Array1D_bool MyEnvrnFlag;
+        static thread_local Array1D_bool MyPlantScanFlag;
+        static thread_local bool MyOneTimeFlag(true);
+        static thread_local Array1D_bool MyEnvrnFlag;
         bool errFlag;
         int CompNum; // local do loop counter
 
@@ -2036,7 +2036,7 @@ namespace IceThermalStorage {
         // SUBROUTINE ARGUMENT DEFINITIONS:
 
         // SUBROUTINE PARAMETER DEFINITIONS:
-        static std::string const RoutineName("CalcIceStorageDischarge");
+        static thread_local std::string const RoutineName("CalcIceStorageDischarge");
 
         // INTERFACE BLOCK SPECIFICATIONS
         // na
@@ -2048,13 +2048,13 @@ namespace IceThermalStorage {
         // SUBROUTINE LOCAL VARIABLE DECLARATIONS:
         // External function
         // Local
-        static Real64 Umax(0.0); // Max Urate adjusted Urate based on Error protection (I) [fraction]
-        static Real64 Umin(0.0); // Min Urate adjusted Urate based on Error protection (I) [fraction]
-        static Real64 Uact(0.0); // Acting between Usys and UsysLow Urate adjusted Urate based on Error protection (I) [fraction]
-        static Real64 Umyload(0.0);
+        static thread_local Real64 Umax(0.0); // Max Urate adjusted Urate based on Error protection (I) [fraction]
+        static thread_local Real64 Umin(0.0); // Min Urate adjusted Urate based on Error protection (I) [fraction]
+        static thread_local Real64 Uact(0.0); // Acting between Usys and UsysLow Urate adjusted Urate based on Error protection (I) [fraction]
+        static thread_local Real64 Umyload(0.0);
         // unused  REAL(r64)    :: QiceMin
-        static Real64 Qice(0.0);
-        static Real64 DeltaTemp(0.0);
+        static thread_local Real64 Qice(0.0);
+        static thread_local Real64 DeltaTemp(0.0);
 
         int LoopNum;
         int LoopSideNum;

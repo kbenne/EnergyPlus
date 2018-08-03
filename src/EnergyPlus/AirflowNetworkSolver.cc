@@ -124,7 +124,7 @@ namespace AirflowNetworkSolver {
 
     int const NrInt(20); // Number of intervals for a large opening
 
-    static std::string const BlankString;
+    static thread_local std::string const BlankString;
 
     // Common block AFEDAT
     Array1D<Real64> AFECTL;
@@ -210,12 +210,12 @@ namespace AirflowNetworkSolver {
         int n;
 
         // Formats
-        static gio::Fmt Format_900("(1X,i2)");
-        static gio::Fmt Format_901("(1X,2I4,4F9.4)");
-        static gio::Fmt Format_902("(1X,2I4,4F9.4)");
-        static gio::Fmt Format_903("(9X,4F9.4)");
-        static gio::Fmt Format_904("(1X,2I4,1F9.4)");
-        static gio::Fmt Format_910("(1X,I4,2(I4,F9.4),I4,2F4.1)");
+        static thread_local gio::Fmt Format_900("(1X,i2)");
+        static thread_local gio::Fmt Format_901("(1X,2I4,4F9.4)");
+        static thread_local gio::Fmt Format_902("(1X,2I4,4F9.4)");
+        static thread_local gio::Fmt Format_903("(9X,4F9.4)");
+        static thread_local gio::Fmt Format_904("(1X,2I4,1F9.4)");
+        static thread_local gio::Fmt Format_910("(1X,I4,2(I4,F9.4),I4,2F4.1)");
 
         // Assume a network to simulate multizone airflow is a subset of the network to simulate air distribution system.
         // Network array size is allocated based on the network of air distribution system.
@@ -512,11 +512,11 @@ namespace AirflowNetworkSolver {
         int ITER;
 
         // Formats
-        static gio::Fmt Format_900("(,/,11X,'i    n    m       DP',12x,'F1',12X,'F2')");
-        static gio::Fmt Format_901("(1X,A6,3I5,3F14.6)");
-        static gio::Fmt Format_902("(,/,11X,'n       P',12x,'sumF')");
-        static gio::Fmt Format_903("(1X,A6,I5,3F14.6)");
-        static gio::Fmt Format_907("(,/,' CPU seconds for ',A,F12.3)");
+        static thread_local gio::Fmt Format_900("(,/,11X,'i    n    m       DP',12x,'F1',12X,'F2')");
+        static thread_local gio::Fmt Format_901("(1X,A6,3I5,3F14.6)");
+        static thread_local gio::Fmt Format_902("(,/,11X,'n       P',12x,'sumF')");
+        static thread_local gio::Fmt Format_903("(1X,A6,I5,3F14.6)");
+        static thread_local gio::Fmt Format_907("(,/,' CPU seconds for ',A,F12.3)");
 
         // FLOW:
 
@@ -660,7 +660,7 @@ namespace AirflowNetworkSolver {
         // REAL(r64), INTENT(INOUT) :: AU(IK(NetworkNumOfNodes+1)-1) ! the upper triangle of [A] before and after factoring
 
         // SUBROUTINE PARAMETER DEFINITIONS:
-        static gio::Fmt fmtLD("*");
+        static thread_local gio::Fmt fmtLD("*");
 
         // INTERFACE BLOCK SPECIFICATIONS
         // na
@@ -698,7 +698,7 @@ namespace AirflowNetworkSolver {
         Array1D<Real64> CCF(NetworkNumOfNodes);
 
         // Formats
-        static gio::Fmt Format_901("(A5,I3,2E14.6,0P,F8.4,F24.14)");
+        static thread_local gio::Fmt Format_901("(A5,I3,2E14.6,0P,F8.4,F24.14)");
 
         // FLOW:
         ACC1 = 0.0;
@@ -899,7 +899,7 @@ namespace AirflowNetworkSolver {
         Array1D<Real64> DF(2);
 
         // Formats
-        static gio::Fmt Format_901("(A5,3I3,4E16.7)");
+        static thread_local gio::Fmt Format_901("(A5,3I3,4E16.7)");
 
         // FLOW:
         for (n = 1; n <= NetworkNumOfNodes; ++n) {
@@ -1144,7 +1144,7 @@ namespace AirflowNetworkSolver {
         int CompNum;
 
         // Formats
-        static gio::Fmt Format_901("(A5,I3,6X,4E16.7)");
+        static thread_local gio::Fmt Format_901("(A5,I3,6X,4E16.7)");
 
         // FLOW:
         // Crack standard condition: T=20C, p=101325 Pa and 0 g/kg
@@ -1270,7 +1270,7 @@ namespace AirflowNetworkSolver {
         int CompNum;
 
         // Formats
-        static gio::Fmt Format_901("(A5,I3,6X,4E16.7)");
+        static thread_local gio::Fmt Format_901("(A5,I3,6X,4E16.7)");
 
         // FLOW:
         // Crack standard condition from given inputs
@@ -1420,7 +1420,7 @@ namespace AirflowNetworkSolver {
         Real64 AA1;
 
         // Formats
-        static gio::Fmt Format_901("(A5,I3,6X,4E16.7)");
+        static thread_local gio::Fmt Format_901("(A5,I3,6X,4E16.7)");
 
         // FLOW:
         CompNum = AirflowNetworkCompData(j).TypeNum;
@@ -1603,8 +1603,8 @@ namespace AirflowNetworkSolver {
         Real64 OpenFactor;
 
         // Formats
-        static gio::Fmt Format_900("(A5,9X,4E16.7)");
-        static gio::Fmt Format_903("(A5,3I3,4E16.7)");
+        static thread_local gio::Fmt Format_900("(A5,9X,4E16.7)");
+        static thread_local gio::Fmt Format_903("(A5,3I3,4E16.7)");
 
         // FLOW:
         CompNum = AirflowNetworkCompData(j).TypeNum;
@@ -1885,7 +1885,7 @@ namespace AirflowNetworkSolver {
         Real64 FlowExpo;
 
         // Formats
-        static gio::Fmt Format_901("(A5,I3,5E14.6)");
+        static thread_local gio::Fmt Format_901("(A5,I3,5E14.6)");
 
         // FLOW:
         CompNum = AirflowNetworkCompData(JA).TypeNum;
@@ -2101,7 +2101,7 @@ namespace AirflowNetworkSolver {
         int CompNum;
 
         // Formats
-        static gio::Fmt Format_901("(A5,I3,6X,4E16.7)");
+        static thread_local gio::Fmt Format_901("(A5,I3,6X,4E16.7)");
 
         // FLOW:
         // Get component number
@@ -2175,7 +2175,7 @@ namespace AirflowNetworkSolver {
         // SUBROUTINE ARGUMENT DEFINITIONS:
 
         // SUBROUTINE PARAMETER DEFINITIONS:
-        static Real64 const sqrt_2(std::sqrt(2.0));
+        static thread_local Real64 const sqrt_2(std::sqrt(2.0));
 
         // INTERFACE BLOCK SPECIFICATIONS
         // na
@@ -2192,7 +2192,7 @@ namespace AirflowNetworkSolver {
         int CompNum;
 
         // Formats
-        static gio::Fmt Format_901("(A5,I3,6X,4E16.7)");
+        static thread_local gio::Fmt Format_901("(A5,I3,6X,4E16.7)");
 
         // FLOW:
         // Get component properties
@@ -2303,7 +2303,7 @@ namespace AirflowNetworkSolver {
         int CompNum;
 
         // Formats
-        static gio::Fmt Format_901("(A5,I3,6X,4E16.7)");
+        static thread_local gio::Fmt Format_901("(A5,I3,6X,4E16.7)");
 
         // FLOW:
         // Get component properties
@@ -2508,7 +2508,7 @@ namespace AirflowNetworkSolver {
         Real64 area;
 
         // Formats
-        static gio::Fmt Format_901("(A5,I3,6X,4E16.7)");
+        static thread_local gio::Fmt Format_901("(A5,I3,6X,4E16.7)");
 
         // FLOW:
         // Get component properties
@@ -2685,7 +2685,7 @@ namespace AirflowNetworkSolver {
         Real64 area;
 
         // Formats
-        static gio::Fmt Format_901("(A5,I3,6X,4E16.7)");
+        static thread_local gio::Fmt Format_901("(A5,I3,6X,4E16.7)");
 
         // FLOW:
         // Get component properties
@@ -2860,7 +2860,7 @@ namespace AirflowNetworkSolver {
         int InletNode;
 
         // Formats
-        static gio::Fmt Format_901("(A5,I3,6X,4E16.7)");
+        static thread_local gio::Fmt Format_901("(A5,I3,6X,4E16.7)");
 
         // FLOW:
         CompNum = AirflowNetworkCompData(j).TypeNum;
@@ -3598,7 +3598,7 @@ namespace AirflowNetworkSolver {
         Real64 RhoCor;
 
         // Formats
-        static gio::Fmt Format_901("(A5,6X,4E16.7)");
+        static thread_local gio::Fmt Format_901("(A5,6X,4E16.7)");
 
         // FLOW:
         // Calculate normal density and viscocity at Crack standard condition: T=20C, p=101325 Pa and 0 g/kg
@@ -4041,8 +4041,8 @@ namespace AirflowNetworkSolver {
         int i;
 
         // Formats
-        static gio::Fmt Format_901("(1X,A,$)");
-        static gio::Fmt Format_902("(1X,5E15.07,$)");
+        static thread_local gio::Fmt Format_901("(1X,A,$)");
+        static thread_local gio::Fmt Format_902("(1X,5E15.07,$)");
 
         // FLOW:
         // Write values for debug
@@ -4099,8 +4099,8 @@ namespace AirflowNetworkSolver {
         int i;
 
         // Formats
-        static gio::Fmt Format_901("(1X,A,$)");
-        static gio::Fmt Format_902("(1X,5E15.07,$)");
+        static thread_local gio::Fmt Format_901("(1X,A,$)");
+        static thread_local gio::Fmt Format_902("(1X,5E15.07,$)");
 
         // FLOW:
         gio::write(UOUT, Format_901) << S;
@@ -4176,7 +4176,7 @@ namespace AirflowNetworkSolver {
 
         // SUBROUTINE PARAMETER DEFINITIONS:
         Real64 const RealMin(1e-37);
-        static Real64 const sqrt_1_2(std::sqrt(1.2));
+        static thread_local Real64 const sqrt_1_2(std::sqrt(1.2));
 
         // INTERFACE BLOCK SPECIFICATIONS
         // na
@@ -4186,7 +4186,7 @@ namespace AirflowNetworkSolver {
 
         // SUBROUTINE LOCAL VARIABLE DECLARATIONS:
 
-        static Real64 const sqrt_2(std::sqrt(2.0));
+        static thread_local Real64 const sqrt_2(std::sqrt(2.0));
 
         int CompNum;
         Real64 Width;
@@ -5263,8 +5263,8 @@ namespace AirflowNetworkSolver {
         Real64 Rho0;
         Real64 Rho1;
         Real64 BetaRho;
-        static int L(0);
-        static int ilayptr(0);
+        static thread_local int L(0);
+        static thread_local int ilayptr(0);
 
         // FLOW:
         Dp = 0.0;

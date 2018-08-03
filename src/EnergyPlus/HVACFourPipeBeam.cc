@@ -108,17 +108,17 @@ namespace FourPipeBeam {
         using namespace DataIPShortCuts;
         using DataGlobals::ScheduleAlwaysOn;
         using ScheduleManager::GetScheduleIndex;
-        static std::string const routineName("FourPipeBeamFactory "); // include trailing blank space
+        static thread_local std::string const routineName("FourPipeBeamFactory "); // include trailing blank space
 
         int beamIndex; // loop index
 
-        static int NumAlphas(0);  // Number of Alphas for each GetObjectItem call
-        static int NumNumbers(0); // Number of Numbers for each GetObjectItem call
+        static thread_local int NumAlphas(0);  // Number of Alphas for each GetObjectItem call
+        static thread_local int NumNumbers(0); // Number of Numbers for each GetObjectItem call
 
         //  certain object in the input file
         int IOStatus; // Used in GetObjectItem
         bool errFlag = false;
-        static bool ErrorsFound(false); // Set to true if errors in input, fatal at end of routine
+        static thread_local bool ErrorsFound(false); // Set to true if errors in input, fatal at end of routine
         bool found = false;
         int ctrlZone; // controlled zome do loop index
         int supAirIn; // controlled zone supply air inlet index
@@ -527,7 +527,7 @@ namespace FourPipeBeam {
         using PlantUtilities::SetComponentFlowRate;
         using ScheduleManager::GetCurrentScheduleValue;
 
-        static std::string const routineName("HVACFourPipeBeam::init");
+        static thread_local std::string const routineName("HVACFourPipeBeam::init");
 
         bool errFlag = false;
 
@@ -727,9 +727,9 @@ namespace FourPipeBeam {
         using namespace std::placeholders;
         using General::SolveRoot;
 
-        static std::string const routineName("HVACFourPipeBeam::set_size ");
-        static int pltSizCoolNum(0); // index of plant sizing object for the cooling loop
-        static int pltSizHeatNum(0);
+        static thread_local std::string const routineName("HVACFourPipeBeam::set_size ");
+        static thread_local int pltSizCoolNum(0); // index of plant sizing object for the cooling loop
+        static thread_local int pltSizHeatNum(0);
 
         bool ErrorsFound = false;
         Real64 rho;                     // local fluid density
@@ -1010,7 +1010,7 @@ namespace FourPipeBeam {
     )
     {
 
-        static std::string const routineName("Real64 HVACFourPipeBeam::residualSizing ");
+        static thread_local std::string const routineName("Real64 HVACFourPipeBeam::residualSizing ");
         Real64 rho;      // local fluid density
         Real64 Residuum; // residual to be minimized to zero
 
@@ -1271,7 +1271,7 @@ namespace FourPipeBeam {
         // SUBROUTINE ARGUMENT DEFINITIONS:
 
         // SUBROUTINE PARAMETER DEFINITIONS:
-        static std::string const routineName("HVACFourPipeBeam::calc ");
+        static thread_local std::string const routineName("HVACFourPipeBeam::calc ");
 
         // INTERFACE BLOCK SPECIFICATIONS
         // na

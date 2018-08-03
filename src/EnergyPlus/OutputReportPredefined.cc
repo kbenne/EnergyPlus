@@ -2618,7 +2618,7 @@ namespace OutputReportPredefined {
         // SUBROUTINE ARGUMENT DEFINITIONS:
 
         // SUBROUTINE PARAMETER DEFINITIONS:
-        static gio::Fmt fmtI1("(I1)");
+        static thread_local gio::Fmt fmtI1("(I1)");
 
         // INTERFACE BLOCK SPECIFICATIONS:
         // na
@@ -2730,7 +2730,7 @@ namespace OutputReportPredefined {
         // SUBROUTINE ARGUMENT DEFINITIONS:
 
         // SUBROUTINE PARAMETER DEFINITIONS:
-        static gio::Fmt fmtLD("*");
+        static thread_local gio::Fmt fmtLD("*");
 
         // INTERFACE BLOCK SPECIFICATIONS:
         // na

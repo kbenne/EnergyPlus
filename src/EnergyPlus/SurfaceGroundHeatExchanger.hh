@@ -73,7 +73,7 @@ namespace SurfaceGroundHeatExchanger {
 
     namespace loc {
         extern int const MaxCTFTerms; // Maximum number of CTF terms allowed to still allow stability //Note Duplicate of DataHeatBalance::MaxCTFTerms
-                                      // to avoid static initialization order bug: Keep them in sync
+                                      // to avoid static thread_local initialization order bug: Keep them in sync
     }                                 // namespace loc
 
     // DERIVED TYPE DEFINITIONS

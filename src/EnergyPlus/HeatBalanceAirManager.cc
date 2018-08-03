@@ -123,10 +123,10 @@ namespace HeatBalanceAirManager {
     std::unordered_set<std::string> UniqueZoneNames;
     std::unordered_map<std::string, std::string> UniqueInfiltrationNames;
     // MODULE PARAMETER DEFINITIONS:
-    static std::string const BlankString;
+    static thread_local std::string const BlankString;
 
     namespace {
-        // These were static variables within different functions. They were pulled out into the namespace
+        // These were static thread_local variables within different functions. They were pulled out into the namespace
         // to facilitate easier unit testing of those functions.
         // These are purposefully not in the header file as an extern variable. No one outside of this should
         // use these. They are cleared by clear_state() for use by unit tests, but normal simulations should be unaffected.
@@ -193,7 +193,7 @@ namespace HeatBalanceAirManager {
 
         // SUBROUTINE LOCAL VARIABLE DECLARATIONS:
         /////////// hoisted into namespace changed to ManageAirHeatBalanceGetInputFlag////////////
-        // static bool ManageAirHeatBalanceGetInputFlag( true );
+        // static thread_local bool ManageAirHeatBalanceGetInputFlag( true );
         /////////////////////////////////////////////
         // FLOW:
 
@@ -250,7 +250,7 @@ namespace HeatBalanceAirManager {
         // na
 
         // SUBROUTINE LOCAL VARIABLE DECLARATIONS:
-        static bool ErrorsFound(false);
+        static thread_local bool ErrorsFound(false);
 
         // FLOW:
 
@@ -285,7 +285,7 @@ namespace HeatBalanceAirManager {
         using ScheduleManager::GetScheduleIndex;
 
         // Formats
-        static gio::Fmt Format_720("('! <AirFlow Model>, Simple',/,' AirFlow Model, ',A)");
+        static thread_local gio::Fmt Format_720("('! <AirFlow Model>, Simple',/,' AirFlow Model, ',A)");
 
         // SUBROUTINE LOCAL VARIABLE DECLARATIONS:
 
@@ -369,11 +369,11 @@ namespace HeatBalanceAirManager {
         using SystemAvailabilityManager::GetHybridVentilationControlStatus;
 
         // SUBROUTINE PARAMETER DEFINITIONS:
-        static gio::Fmt fmtA("(A)");
+        static thread_local gio::Fmt fmtA("(A)");
         Real64 const VentilTempLimit(100.0);                               // degrees Celsius
         Real64 const MixingTempLimit(100.0);                               // degrees Celsius
         Real64 const VentilWSLimit(40.0);                                  // m/s
-        static std::string const RoutineName("GetSimpleAirModelInputs: "); // include trailing blank space
+        static thread_local std::string const RoutineName("GetSimpleAirModelInputs: "); // include trailing blank space
         // Refrigeration Door Mixing Protection types, factors used to moderate mixing flow.
         Real64 const RefDoorNone(0.0);
         Real64 const RefDoorAirCurtain(0.5);
@@ -428,11 +428,11 @@ namespace HeatBalanceAirManager {
         int IsSourceZone;
 
         // Formats
-        static gio::Fmt Format_720("(' ',A,' Airflow Stats Nominal, ',A,',',A,',',A,',',A,',',A,',')");
-        static gio::Fmt Format_721("('! <',A,' Airflow Stats Nominal>,Name,Schedule Name,Zone Name, Zone Floor Area {m2}, # Zone Occupants,',A)");
-        static gio::Fmt Format_722("(' ',A,', ',A)");
-        static gio::Fmt Format_723("(' ',A,' Airflow Stats Nominal, ',A,',',A,',',A,',',A,',',A,',',A,',',A)");
-        static gio::Fmt Format_724("('! <',A,' Airflow Stats Nominal>, ',A)");
+        static thread_local gio::Fmt Format_720("(' ',A,' Airflow Stats Nominal, ',A,',',A,',',A,',',A,',',A,',')");
+        static thread_local gio::Fmt Format_721("('! <',A,' Airflow Stats Nominal>,Name,Schedule Name,Zone Name, Zone Floor Area {m2}, # Zone Occupants,',A)");
+        static thread_local gio::Fmt Format_722("(' ',A,', ',A)");
+        static thread_local gio::Fmt Format_723("(' ',A,' Airflow Stats Nominal, ',A,',',A,',',A,',',A,',',A,',',A,',',A)");
+        static thread_local gio::Fmt Format_724("('! <',A,' Airflow Stats Nominal>, ',A)");
 
         RepVarSet.dimension(NumOfZones, true);
 
@@ -3976,8 +3976,8 @@ namespace HeatBalanceAirManager {
         using DataRoomAirModel::UserDefinedUsed;
 
         // SUBROUTINE PARAMETER DEFINITIONS:
-        static gio::Fmt RoomAirHeader("('! <RoomAir Model>, Zone Name, Mixing/Mundt/UCSDDV/UCSDCV/UCSDUFI/UCSDUFE/User Defined')");
-        static gio::Fmt RoomAirZoneFmt("('RoomAir Model,',A,',',A)");
+        static thread_local gio::Fmt RoomAirHeader("('! <RoomAir Model>, Zone Name, Mixing/Mundt/UCSDDV/UCSDCV/UCSDUFI/UCSDUFE/User Defined')");
+        static thread_local gio::Fmt RoomAirZoneFmt("('RoomAir Model,',A,',',A)");
 
         // SUBROUTINE LOCAL VARIABLE DECLARATIONS:
         int NumAlphas; // States which alpha value to read from a

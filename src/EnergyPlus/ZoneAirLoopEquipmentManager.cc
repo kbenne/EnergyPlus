@@ -126,7 +126,7 @@ namespace ZoneAirLoopEquipmentManager {
     // na
 
     namespace {
-        // These were static variables within different functions. They were pulled out into the namespace
+        // These were static thread_local variables within different functions. They were pulled out into the namespace
         // to facilitate easier unit testing of those functions.
         // These are purposefully not in the header file as an extern variable. No one outside of this should
         // use these. They are cleared by clear_state() for use by unit tests, but normal simulations should be unaffected.
@@ -263,8 +263,8 @@ namespace ZoneAirLoopEquipmentManager {
         // na
 
         // SUBROUTINE PARAMETER DEFINITIONS:
-        static std::string const RoutineName("GetZoneAirLoopEquipment: ");            // include trailing blank space
-        static std::string const CurrentModuleObject("ZoneHVAC:AirDistributionUnit"); // Object type for getting and error messages
+        static thread_local std::string const RoutineName("GetZoneAirLoopEquipment: ");            // include trailing blank space
+        static thread_local std::string const CurrentModuleObject("ZoneHVAC:AirDistributionUnit"); // Object type for getting and error messages
 
         // INTERFACE BLOCK SPECIFICATIONS
         // na
@@ -278,14 +278,14 @@ namespace ZoneAirLoopEquipmentManager {
         int NumAlphas;
         int NumNums;
         int IOStat;
-        static Array1D_string AlphArray(5);      // Tuned Made static
-        static Array1D<Real64> NumArray(2);      // Tuned Made static
-        static bool ErrorsFound(false);          // If errors detected in input
+        static thread_local Array1D_string AlphArray(5);      // Tuned Made static
+        static thread_local Array1D<Real64> NumArray(2);      // Tuned Made static
+        static thread_local bool ErrorsFound(false);          // If errors detected in input
         bool IsNotOK;                            // Flag to verify name
-        static Array1D_string cAlphaFields(5);   // Alpha field names //Tuned Made static
-        static Array1D_string cNumericFields(2); // Numeric field names //Tuned Made static
-        static Array1D_bool lAlphaBlanks(5);     // Logical array, alpha field input BLANK = .TRUE. //Tuned Made static
-        static Array1D_bool lNumericBlanks(2);   // Logical array, numeric field input BLANK = .TRUE. //Tuned Made static
+        static thread_local Array1D_string cAlphaFields(5);   // Alpha field names //Tuned Made static
+        static thread_local Array1D_string cNumericFields(2); // Numeric field names //Tuned Made static
+        static thread_local Array1D_bool lAlphaBlanks(5);     // Logical array, alpha field input BLANK = .TRUE. //Tuned Made static
+        static thread_local Array1D_bool lNumericBlanks(2);   // Logical array, numeric field input BLANK = .TRUE. //Tuned Made static
         bool DualDuctRecircIsUsed;               // local temporary for deciding if recirc side used by dual duct terminal
         // make sure the input data is read in only once
         if (!GetAirDistUnitsFlag) {
@@ -683,13 +683,13 @@ namespace ZoneAirLoopEquipmentManager {
         int AirDistCompNum;
         int InNodeNum;                      // air distribution unit inlet node
         int OutNodeNum;                     // air distribution unit outlet node
-        static int AirLoopNum(0);           // index of air loop
+        static thread_local int AirLoopNum(0);           // index of air loop
         Real64 MassFlowRateMaxAvail;        // max avail mass flow rate excluding leaks [kg/s]
         Real64 MassFlowRateMinAvail;        // min avail mass flow rate excluding leaks [kg/s]
         Real64 MassFlowRateUpStreamLeakMax; // max upstream leak flow rate [kg/s]
-        static Real64 DesFlowRatio(0.0);    // ratio of system to sum of zones design flow rate
-        static Real64 SpecHumOut(0.0);      // Specific humidity ratio of outlet air (kg moisture / kg moist air)
-        static Real64 SpecHumIn(0.0);       // Specific humidity ratio of inlet air (kg moisture / kg moist air)
+        static thread_local Real64 DesFlowRatio(0.0);    // ratio of system to sum of zones design flow rate
+        static thread_local Real64 SpecHumOut(0.0);      // Specific humidity ratio of outlet air (kg moisture / kg moist air)
+        static thread_local Real64 SpecHumIn(0.0);       // Specific humidity ratio of inlet air (kg moisture / kg moist air)
 
         ProvideSysOutput = true;
         for (AirDistCompNum = 1; AirDistCompNum <= AirDistUnit(AirDistUnitNum).NumComponents; ++AirDistCompNum) {

@@ -143,11 +143,11 @@ namespace ChillerAbsorption {
 
     bool GetInput(true); // when TRUE, calls subroutine to read input file.
 
-    static std::string const BlankString;
-    static std::string const fluidNameSteam("STEAM");
-    static std::string const fluidNameWater("WATER");
-    static std::string const moduleObjectType("Chiller:Absorption");
-    static std::string const calcChillerAbsorption("CALC Chiller:Absorption ");
+    static thread_local std::string const BlankString;
+    static thread_local std::string const fluidNameSteam("STEAM");
+    static thread_local std::string const fluidNameWater("WATER");
+    static thread_local std::string const moduleObjectType("Chiller:Absorption");
+    static thread_local std::string const calcChillerAbsorption("CALC Chiller:Absorption ");
 
     Array1D_bool CheckEquipName;
 
@@ -324,7 +324,7 @@ namespace ChillerAbsorption {
 
         // Locals
         // SUBROUTINE PARAMETER DEFINITIONS:
-        static std::string const RoutineName("GetBLASTAbsorberInput: "); // include trailing blank space
+        static thread_local std::string const RoutineName("GetBLASTAbsorberInput: "); // include trailing blank space
 
         // LOCAL VARIABLES
         int AbsorberNum;                      // Absorber counter
@@ -332,7 +332,7 @@ namespace ChillerAbsorption {
         int NumNums;                          // Number of elements in the numeric array
         int IOStat;                           // IO Status when calling get input subroutine
         Array1D_bool GenInputOutputNodesUsed; // Used for SetupOutputVariable
-        static bool ErrorsFound(false);
+        static thread_local bool ErrorsFound(false);
         bool errFlag;
         //  CHARACTER(len=MaxNameLength) :: CurrentModuleObject  ! for ease in renaming.
 
@@ -745,12 +745,12 @@ namespace ChillerAbsorption {
         using PlantUtilities::SetComponentFlowRate;
 
         // SUBROUTINE PARAMETER DEFINITIONS:
-        static std::string const RoutineName("InitBLASTAbsorberModel");
+        static thread_local std::string const RoutineName("InitBLASTAbsorberModel");
 
         // SUBROUTINE LOCAL VARIABLE DECLARATIONS:
-        static bool MyOneTimeFlag(true);
-        static Array1D_bool MyFlag;
-        static Array1D_bool MyEnvrnFlag;
+        static thread_local bool MyOneTimeFlag(true);
+        static thread_local Array1D_bool MyFlag;
+        static thread_local Array1D_bool MyEnvrnFlag;
         int CondInletNode;  // node number of water inlet node to the condenser
         int CondOutletNode; // node number of water outlet node from the condenser
         bool errFlag;
@@ -764,7 +764,7 @@ namespace ChillerAbsorption {
         Real64 SteamDeltaT;     // amount of sub-cooling of steam condensate
         int GeneratorInletNode; // generator inlet node number, steam/water side
         Real64 SteamOutletTemp;
-        static int DummyWaterIndex(1);
+        static thread_local int DummyWaterIndex(1);
         Real64 mdotEvap; // local fluid mass flow rate thru evaporator
         Real64 mdotCond; // local fluid mass flow rate thru condenser
         Real64 mdotGen;  // local fluid mass flow rate thru generator
@@ -1083,8 +1083,8 @@ namespace ChillerAbsorption {
         Real64 SteamMassFlowRate; // steam mass flow rate through generator
 
         // SUBROUTINE PARAMETER DEFINITIONS:
-        static std::string const RoutineName("SizeAbsorpChiller");
-        static std::string const RoutineNameLong("SizeAbsorptionChiller");
+        static thread_local std::string const RoutineName("SizeAbsorpChiller");
+        static thread_local std::string const RoutineNameLong("SizeAbsorptionChiller");
 
         // SUBROUTINE LOCAL VARIABLE DECLARATIONS:
         int PltSizIndex;            // Plant Sizing Do loop index
@@ -1111,7 +1111,7 @@ namespace ChillerAbsorption {
         Real64 tmpEvapVolFlowRate;      // local evaporator design volume flow rate
         Real64 tmpCondVolFlowRate;      // local condenser design volume flow rate
         Real64 tmpGeneratorVolFlowRate; // local generator design volume flow rate
-        static int DummWaterIndex(1);
+        static thread_local int DummWaterIndex(1);
 
         Real64 NomCapUser(0.0);               // Hardsized nominal capacity for reporting
         Real64 NomPumpPowerUser(0.0);         // Hardsized nominal pump power for reporting
@@ -1646,7 +1646,7 @@ namespace ChillerAbsorption {
         using PlantUtilities::SetComponentFlowRate;
 
         // SUBROUTINE PARAMETER DEFINITIONS:
-        static std::string const RoutineName("CalcBLASTAbsorberModel");
+        static thread_local std::string const RoutineName("CalcBLASTAbsorberModel");
 
         // SUBROUTINE LOCAL VARIABLE DECLARATIONS:
         Array1D<Real64> SteamLoadFactor(3);    // coefficients to poly curve fit
@@ -1676,8 +1676,8 @@ namespace ChillerAbsorption {
         Real64 EnthSteamOutDry;                // enthalpy of dry steam at generator inlet
         Real64 EnthSteamOutWet;                // enthalpy of wet steam at generator inlet
         Real64 HfgSteam;                       // heat of vaporization of steam
-        static Array1D_bool MyEnvironFlag;
-        static Array1D_bool MyEnvironSteamFlag;
+        static thread_local Array1D_bool MyEnvironFlag;
+        static thread_local Array1D_bool MyEnvironSteamFlag;
         Real64 FRAC;
         //  LOGICAL,SAVE           :: PossibleSubcooling
         Real64 CpFluid; // local specific heat of fluid
@@ -1685,7 +1685,7 @@ namespace ChillerAbsorption {
         Real64 SteamOutletTemp;
         int LoopNum;
         int LoopSideNum;
-        static int DummyWaterIndex(1);
+        static thread_local int DummyWaterIndex(1);
 
         // set module level inlet and outlet nodes
         EvapMassFlowRate = 0.0;

@@ -215,8 +215,8 @@ namespace OutputReportTabular {
     int const numResourceTypes(14);
     int const numSourceTypes(12);
 
-    static std::string const validChars("ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-_:.");
-    static std::string const BlankString;
+    static thread_local std::string const validChars("ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-_:.");
+    static thread_local std::string const BlankString;
 
     // MODULE VARIABLE DECLARATIONS:
 
@@ -520,8 +520,8 @@ namespace OutputReportTabular {
     Array1D<TOCEntriesType> TOCEntries;
     Array1D<UnitConvType> UnitConv;
 
-    static gio::Fmt fmtLD("*");
-    static gio::Fmt fmtA("(A)");
+    static thread_local gio::Fmt fmtLD("*");
+    static thread_local gio::Fmt fmtA("(A)");
 
     namespace {
         bool GatherMonthlyResultsForTimestepRunOnce(true);
@@ -822,7 +822,7 @@ namespace OutputReportTabular {
         // na
 
         // SUBROUTINE PARAMETER DEFINITIONS:
-        static std::string const CurrentModuleObject("Output:Table:Monthly");
+        static thread_local std::string const CurrentModuleObject("Output:Table:Monthly");
 
         // INTERFACE BLOCK SPECIFICATIONS:
         // na
@@ -841,7 +841,7 @@ namespace OutputReportTabular {
         Array1D_string AlphArray; // character string data
         Array1D<Real64> NumArray; // numeric data
         int IOStat;               // IO Status when calling get input subroutine
-        static bool ErrorsFound(false);
+        static thread_local bool ErrorsFound(false);
 
         MonthlyInputCount = inputProcessor->getNumObjectsFound(CurrentModuleObject);
         if (MonthlyInputCount > 0) {
@@ -1088,10 +1088,10 @@ namespace OutputReportTabular {
         int mColumn;
         int ColumnsRecount;
         int TablesRecount;
-        static Real64 BigNum(0.0);
+        static thread_local Real64 BigNum(0.0);
         bool environmentKeyFound;
-        static bool VarWarning(true);
-        static int ErrCount1(0);
+        static thread_local bool VarWarning(true);
+        static thread_local int ErrCount1(0);
         // INTEGER       :: maxKeyCount
 
         // if not a running a weather simulation do not create reports
@@ -1533,7 +1533,7 @@ namespace OutputReportTabular {
         // na
 
         // SUBROUTINE PARAMETER DEFINITIONS:
-        static std::string const CurrentModuleObject("Output:Table:TimeBins");
+        static thread_local std::string const CurrentModuleObject("Output:Table:TimeBins");
 
         // INTERFACE BLOCK SPECIFICATIONS:
         // na
@@ -1752,7 +1752,7 @@ namespace OutputReportTabular {
         // na
 
         // SUBROUTINE PARAMETER DEFINITIONS:
-        static std::string const CurrentModuleObject("OutputControl:Table:Style");
+        static thread_local std::string const CurrentModuleObject("OutputControl:Table:Style");
 
         // INTERFACE BLOCK SPECIFICATIONS:
         // na
@@ -1941,7 +1941,7 @@ namespace OutputReportTabular {
         // na
 
         // SUBROUTINE PARAMETER DEFINITIONS:
-        static std::string const CurrentModuleObject("Output:Table:SummaryReports");
+        static thread_local std::string const CurrentModuleObject("Output:Table:SummaryReports");
 
         // INTERFACE BLOCK SPECIFICATIONS:
         // na
@@ -2387,7 +2387,7 @@ namespace OutputReportTabular {
         // na
 
         // SUBROUTINE PARAMETER DEFINITIONS:
-        static std::string const CurrentModuleObject("Output:Table:SummaryReports");
+        static thread_local std::string const CurrentModuleObject("Output:Table:SummaryReports");
 
         // INTERFACE BLOCK SPECIFICATIONS:
         // na
@@ -3708,16 +3708,16 @@ namespace OutputReportTabular {
         // na
 
         // SUBROUTINE PARAMETER DEFINITIONS:
-        static std::string const Entire_Facility("Entire Facility");
-        static std::string const Annual_Building_Utility_Performance_Summary("Annual Building Utility Performance Summary");
-        static std::string const Input_Verification_and_Results_Summary("Input Verification and Results Summary");
-        static std::string const Demand_End_Use_Components_Summary("Demand End Use Components Summary");
-        static std::string const Source_Energy_End_Use_Components_Summary("Source Energy End Use Components Summary");
-        static std::string const Component_Cost_Economics_Summary("Component Cost Economics Summary");
-        static std::string const Component_Sizing_Summary("Component Sizing Summary");
-        static std::string const Surface_Shadowing_Summary("Surface Shadowing Summary");
-        static std::string const Adaptive_Comfort_Summary("Adaptive Comfort Summary");
-        static std::string const Initialization_Summary("Initialization Summary");
+        static thread_local std::string const Entire_Facility("Entire Facility");
+        static thread_local std::string const Annual_Building_Utility_Performance_Summary("Annual Building Utility Performance Summary");
+        static thread_local std::string const Input_Verification_and_Results_Summary("Input Verification and Results Summary");
+        static thread_local std::string const Demand_End_Use_Components_Summary("Demand End Use Components Summary");
+        static thread_local std::string const Source_Energy_End_Use_Components_Summary("Source Energy End Use Components Summary");
+        static thread_local std::string const Component_Cost_Economics_Summary("Component Cost Economics Summary");
+        static thread_local std::string const Component_Sizing_Summary("Component Sizing Summary");
+        static thread_local std::string const Surface_Shadowing_Summary("Surface Shadowing Summary");
+        static thread_local std::string const Adaptive_Comfort_Summary("Adaptive Comfort Summary");
+        static thread_local std::string const Initialization_Summary("Initialization Summary");
 
         // INTERFACE BLOCK SPECIFICATIONS:
         // na
@@ -4049,12 +4049,12 @@ namespace OutputReportTabular {
         // local copies of some of the MonthlyColumns array references since
         // profiling showed that they were slow.
 
-        static Array1D_int MonthlyColumnsTypeOfVar;
-        static Array1D_int MonthlyColumnsStepType;
-        static Array1D_int MonthlyColumnsAggType;
-        static Array1D_int MonthlyColumnsVarNum;
-        static Array1D_int MonthlyTablesNumColumns;
-        static int curFirstColumn(0);
+        static thread_local Array1D_int MonthlyColumnsTypeOfVar;
+        static thread_local Array1D_int MonthlyColumnsStepType;
+        static thread_local Array1D_int MonthlyColumnsAggType;
+        static thread_local Array1D_int MonthlyColumnsVarNum;
+        static thread_local Array1D_int MonthlyTablesNumColumns;
+        static thread_local int curFirstColumn(0);
 
         if (!DoWeathSim) return;
 
@@ -4857,21 +4857,21 @@ namespace OutputReportTabular {
         // na
 
         // SUBROUTINE LOCAL VARIABLE DECLARATIONS:
-        static int iZone(0);
-        static int iRadiant(0);
-        static int iunit(0);
-        static int curZone(0);
-        static Real64 eqpSens(0.0);
-        static Real64 total(0.0);
+        static thread_local int iZone(0);
+        static thread_local int iRadiant(0);
+        static thread_local int iunit(0);
+        static thread_local int curZone(0);
+        static thread_local Real64 eqpSens(0.0);
+        static thread_local Real64 total(0.0);
         // the following arrays store the radiant total for each timestep
-        static Array1D<Real64> radiantHeat;
-        static Array1D<Real64> radiantCool;
-        static Array1D<Real64> ATUHeat;
-        static Array1D<Real64> ATUCool;
-        static int timestepTimeStamp(0);
-        static Real64 bldgHtPk(0.0);
-        static Real64 bldgClPk(0.0);
-        static Real64 timeStepRatio(0.0);
+        static thread_local Array1D<Real64> radiantHeat;
+        static thread_local Array1D<Real64> radiantCool;
+        static thread_local Array1D<Real64> ATUHeat;
+        static thread_local Array1D<Real64> ATUCool;
+        static thread_local int timestepTimeStamp(0);
+        static thread_local Real64 bldgHtPk(0.0);
+        static thread_local Real64 bldgClPk(0.0);
+        static thread_local Real64 timeStepRatio(0.0);
 
         Real64 mult; // zone list and group multipliers
 
@@ -5478,7 +5478,7 @@ namespace OutputReportTabular {
         // na
 
         // SUBROUTINE PARAMETER DEFINITIONS:
-        static std::string const degChar("°");
+        static thread_local std::string const degChar("°");
 
         // LineTypes for reading the stat file
         int const StatisticsLine(1);
@@ -5518,8 +5518,8 @@ namespace OutputReportTabular {
         std::string lineIn;
         int statFile;
         bool fileExists;
-        static int lineType(0);
-        static int lineTypeinterim(0);
+        static thread_local int lineType(0);
+        static thread_local int lineTypeinterim(0);
         int readStat;
         bool isASHRAE;
         bool iscalc;
@@ -6121,7 +6121,7 @@ namespace OutputReportTabular {
         // SUBROUTINE ARGUMENT DEFINITIONS:
 
         // SUBROUTINE PARAMETER DEFINITIONS:
-        static char const tb('\t'); // tab character
+        static thread_local char const tb('\t'); // tab character
 
         // INTERFACE BLOCK SPECIFICATIONS:
         // na
@@ -6214,32 +6214,32 @@ namespace OutputReportTabular {
         int zonePt;
         int iZone;
         Real64 mult; // zone list and group multipliers
-        static Real64 totalVolume(0.0);
-        static int numUncondZones(0);
-        static int numCondZones(0);
+        static thread_local Real64 totalVolume(0.0);
+        static thread_local int numUncondZones(0);
+        static thread_local int numCondZones(0);
         int StartOfWeek;
-        static Real64 HrsPerWeek(0.0);
+        static thread_local Real64 HrsPerWeek(0.0);
         Real64 consumptionTotal;
         Real64 convertJtoGJ;
         // sensible heat gain report totals
-        static Real64 totalHvacHt(0.0);
-        static Real64 totalHvacCl(0.0);
-        static Real64 totalHvacATUHt(0.0);
-        static Real64 totalHvacATUCl(0.0);
-        static Real64 totalSurfHt(0.0);
-        static Real64 totalSurfCl(0.0);
-        static Real64 totalPeoplAdd(0.0);
-        static Real64 totalLiteAdd(0.0);
-        static Real64 totalEquipAdd(0.0);
-        static Real64 totalWindAdd(0.0);
-        static Real64 totalIzaAdd(0.0);
-        static Real64 totalInfilAdd(0.0);
-        static Real64 totalOtherAdd(0.0);
-        static Real64 totalEquipRem(0.0);
-        static Real64 totalWindRem(0.0);
-        static Real64 totalIzaRem(0.0);
-        static Real64 totalInfilRem(0.0);
-        static Real64 totalOtherRem(0.0);
+        static thread_local Real64 totalHvacHt(0.0);
+        static thread_local Real64 totalHvacCl(0.0);
+        static thread_local Real64 totalHvacATUHt(0.0);
+        static thread_local Real64 totalHvacATUCl(0.0);
+        static thread_local Real64 totalSurfHt(0.0);
+        static thread_local Real64 totalSurfCl(0.0);
+        static thread_local Real64 totalPeoplAdd(0.0);
+        static thread_local Real64 totalLiteAdd(0.0);
+        static thread_local Real64 totalEquipAdd(0.0);
+        static thread_local Real64 totalWindAdd(0.0);
+        static thread_local Real64 totalIzaAdd(0.0);
+        static thread_local Real64 totalInfilAdd(0.0);
+        static thread_local Real64 totalOtherAdd(0.0);
+        static thread_local Real64 totalEquipRem(0.0);
+        static thread_local Real64 totalWindRem(0.0);
+        static thread_local Real64 totalIzaRem(0.0);
+        static thread_local Real64 totalInfilRem(0.0);
+        static thread_local Real64 totalOtherRem(0.0);
 
         convertJtoGJ = 1.0 / 1000000000.0;
         StartOfWeek = RunPeriodStartDayOfWeek;
@@ -6619,7 +6619,7 @@ namespace OutputReportTabular {
         int curCol;
         Real64 curVal;
         Real64 curConversionFactor;
-        static Real64 curConversionOffset(0.0);
+        static thread_local Real64 curConversionOffset(0.0);
         int columnUsedCount;
         int columnRecount;
         int digitsShown;
@@ -6635,8 +6635,8 @@ namespace OutputReportTabular {
         Real64 veryLarge;
         Real64 verySmall;
 
-        static Real64 const storedMaxVal(std::numeric_limits<Real64>::max());
-        static Real64 const storedMinVal(std::numeric_limits<Real64>::lowest());
+        static thread_local Real64 const storedMaxVal(std::numeric_limits<Real64>::max());
+        static thread_local Real64 const storedMinVal(std::numeric_limits<Real64>::lowest());
 
         rowHead(1) = "January";
         rowHead(2) = "February";
@@ -7312,13 +7312,13 @@ namespace OutputReportTabular {
         Real64 processOthrCost;
 
         std::string subCatName;
-        static Real64 leedSiteIntLite(0.0);
-        static Real64 leedSiteSpHeat(0.0);
-        static Real64 leedSiteSpCool(0.0);
-        static Real64 leedSiteFanInt(0.0);
-        static Real64 leedSiteSrvWatr(0.0);
-        static Real64 leedSiteRecept(0.0);
-        static Real64 leedSiteTotal(0.0);
+        static thread_local Real64 leedSiteIntLite(0.0);
+        static thread_local Real64 leedSiteSpHeat(0.0);
+        static thread_local Real64 leedSiteSpCool(0.0);
+        static thread_local Real64 leedSiteFanInt(0.0);
+        static thread_local Real64 leedSiteSrvWatr(0.0);
+        static thread_local Real64 leedSiteRecept(0.0);
+        static thread_local Real64 leedSiteTotal(0.0);
         Real64 unconvert;
 
         if (displayTabularBEPS || displayLEEDSummary) {
@@ -9040,7 +9040,7 @@ namespace OutputReportTabular {
         int kEndUseSub;
         int i;
         int numRows;
-        static std::string footnote;
+        static thread_local std::string footnote;
         Real64 additionalFuelMax;
         int additionalFuelSelected;
         int additionalFuelNonZeroCount;
@@ -9562,11 +9562,11 @@ namespace OutputReportTabular {
         int item;    // do-loop counter for line items
         int NumRows; // number of rows in report table excluding table header
         int NumCols; // number of columns in report table
-        static std::string SIunit;
-        static std::string m2_unitName;
-        static Real64 m2_unitConv(0.0);
-        static int unitConvIndex(0);
-        static std::string IPunitName;
+        static thread_local std::string SIunit;
+        static thread_local std::string m2_unitName;
+        static thread_local Real64 m2_unitConv(0.0);
+        static thread_local int unitConvIndex(0);
+        static thread_local std::string IPunitName;
         Real64 IPqty;
         Real64 IPsingleValue;
         Real64 IPvaluePer;
@@ -9899,32 +9899,32 @@ namespace OutputReportTabular {
         bool zoneIsCond;
         bool usezoneFloorArea;
 
-        static int grandTotal(1);
-        static int condTotal(2);
-        static int uncondTotal(3);
-        static int notpartTotal(4);
+        static thread_local int grandTotal(1);
+        static thread_local int condTotal(2);
+        static thread_local int uncondTotal(3);
+        static thread_local int notpartTotal(4);
         int iTotal;
-        static std::string SIunit;
-        static int unitConvIndex(0);
-        static Real64 m_unitConv(0.0);
-        static Real64 m2_unitConv(0.0);
-        static Real64 m3_unitConv(0.0);
-        static Real64 Wm2_unitConv(0.0);
-        static std::string m_unitName;
-        static std::string m2_unitName;
-        static std::string m3_unitName;
-        static std::string Wm2_unitName;
+        static thread_local std::string SIunit;
+        static thread_local int unitConvIndex(0);
+        static thread_local Real64 m_unitConv(0.0);
+        static thread_local Real64 m2_unitConv(0.0);
+        static thread_local Real64 m3_unitConv(0.0);
+        static thread_local Real64 Wm2_unitConv(0.0);
+        static thread_local std::string m_unitName;
+        static thread_local std::string m2_unitName;
+        static thread_local std::string m3_unitName;
+        static thread_local std::string Wm2_unitName;
 
         // zone summary total
-        static Array1D<Real64> zstArea(4);
-        static Array1D<Real64> zstVolume(4);
-        static Array1D<Real64> zstWallArea(4);
-        static Array1D<Real64> zstUndWallArea(4);
-        static Array1D<Real64> zstWindowArea(4);
-        static Array1D<Real64> zstOpeningArea(4);
-        static Array1D<Real64> zstLight(4);
-        static Array1D<Real64> zstPeople(4);
-        static Array1D<Real64> zstPlug(4);
+        static thread_local Array1D<Real64> zstArea(4);
+        static thread_local Array1D<Real64> zstVolume(4);
+        static thread_local Array1D<Real64> zstWallArea(4);
+        static thread_local Array1D<Real64> zstUndWallArea(4);
+        static thread_local Array1D<Real64> zstWindowArea(4);
+        static thread_local Array1D<Real64> zstOpeningArea(4);
+        static thread_local Array1D<Real64> zstLight(4);
+        static thread_local Array1D<Real64> zstPeople(4);
+        static thread_local Array1D<Real64> zstPlug(4);
 
         zstArea = 0.0;
         zstVolume = 0.0;
@@ -10636,7 +10636,7 @@ namespace OutputReportTabular {
         Array1D_int columnWidth;
         Array1D_string rowHead;
         Array2D_string tableBody;
-        static int numPeopleAdaptive(0);
+        static thread_local int numPeopleAdaptive(0);
         int i;
         Array1D_int peopleInd; // Index the relevant people
 
@@ -10944,11 +10944,11 @@ namespace OutputReportTabular {
         int loopLimit;
         int iTableEntry;
         int jUnique;
-        static std::string curColHeadWithSI;
-        static std::string curColHead;
-        static int indexUnitConv(0);
-        static Real64 curValueSI(0.0);
-        static Real64 curValue(0.0);
+        static thread_local std::string curColHeadWithSI;
+        static thread_local std::string curColHead;
+        static thread_local int indexUnitConv(0);
+        static thread_local Real64 curValueSI(0.0);
+        static thread_local Real64 curValue(0.0);
 
         if (displayComponentSizing) {
             WriteReportHeaders("Component Sizing Summary", "Entire Facility", OutputProcessor::StoreType::Averaged);
@@ -11698,12 +11698,12 @@ namespace OutputReportTabular {
         // na
 
         // SUBROUTINE LOCAL VARIABLE DECLARATIONS:
-        static int ZoneNum(0);
-        static int SurfNum(0);
-        static int TimeStep(0);
-        static int TimeOfPulse(0);
-        static int CoolDesSelected(0); // design day selected for cooling
-        static int HeatDesSelected(0); // design day selected for heating
+        static thread_local int ZoneNum(0);
+        static thread_local int SurfNum(0);
+        static thread_local int TimeStep(0);
+        static thread_local int TimeOfPulse(0);
+        static thread_local int CoolDesSelected(0); // design day selected for cooling
+        static thread_local int HeatDesSelected(0); // design day selected for heating
         int i;
         Real64 diff;
 
@@ -11857,10 +11857,10 @@ namespace OutputReportTabular {
         // na
 
         // SUBROUTINE LOCAL VARIABLE DECLARATIONS:
-        static int iSurf(0);
-        static int ZoneNum(0);
-        static int TimeStepInDay(0);
-        static Array1D_int IntGainTypesTubular(1, {IntGainTypeOf_DaylightingDeviceTubular});
+        static thread_local int iSurf(0);
+        static thread_local int ZoneNum(0);
+        static thread_local int TimeStepInDay(0);
+        static thread_local Array1D_int IntGainTypesTubular(1, {IntGainTypeOf_DaylightingDeviceTubular});
 
         if (CompLoadReportIsReq && !isPulseZoneSizing) {
             TimeStepInDay = (HourOfDay - 1) * NumOfTimeStepInHour + TimeStep;
@@ -11930,8 +11930,8 @@ namespace OutputReportTabular {
         // na
 
         // SUBROUTINE LOCAL VARIABLE DECLARATIONS:
-        static int iZone(0);
-        static int TimeStepInDay(0);
+        static thread_local int iZone(0);
+        static thread_local int TimeStepInDay(0);
 
         if (CompLoadReportIsReq && !isPulseZoneSizing) {
             TimeStepInDay = (HourOfDay - 1) * NumOfTimeStepInHour + TimeStep;
@@ -12596,8 +12596,8 @@ namespace OutputReportTabular {
         using DataSurfaces::Surface;
         using DataSurfaces::SurfaceClass_Window;
 
-        // static bool initAdjFenDone(false); moved to anonymous namespace for unit testing
-        static Array3D_bool adjFenDone;
+        // static thread_local bool initAdjFenDone(false); moved to anonymous namespace for unit testing
+        static thread_local Array3D_bool adjFenDone;
 
         Array1D<Real64> peopleRadIntoSurf;
         Array1D<Real64> equipRadIntoSurf;
@@ -13867,7 +13867,7 @@ namespace OutputReportTabular {
         // SUBROUTINE ARGUMENT DEFINITIONS:
 
         // SUBROUTINE PARAMETER DEFINITIONS:
-        static std::string const blank;
+        static thread_local std::string const blank;
 
         // INTERFACE BLOCK SPECIFICATIONS:
         // na
@@ -14607,7 +14607,7 @@ namespace OutputReportTabular {
         int kColumn;
         int curTable;
         int curCol;
-        static Real64 BigNum(0.0);
+        static thread_local Real64 BigNum(0.0);
 
         for (iInput = 1; iInput <= MonthlyInputCount; ++iInput) {
             for (jTable = 1; jTable <= MonthlyInput(iInput).numTables; ++jTable) {
@@ -15044,7 +15044,7 @@ namespace OutputReportTabular {
         // FUNCTION ARGUMENT DEFINITIONS:
 
         // FUNCTION PARAMETER DEFINITIONS:
-        static Array1D<gio::Fmt> formDigits({0, 9},
+        static thread_local Array1D<gio::Fmt> formDigits({0, 9},
                                             {"(F12.0)",
                                              "(F12.1)",
                                              "(F12.2)",
@@ -15057,7 +15057,7 @@ namespace OutputReportTabular {
                                              "(F12.9)"}); // formDigits(0) | formDigits(1) | formDigits(2) | formDigits(3) |
                                                           // formDigits(4) | formDigits(5) | formDigits(6) | formDigits(7) |
                                                           // formDigits(8) | formDigits(9)
-        static Array1D<Real64> const maxvalDigits({0, 9},
+        static thread_local Array1D<Real64> const maxvalDigits({0, 9},
                                                   {9999999999.0,
                                                    999999999.0,
                                                    99999999.0,
@@ -15070,7 +15070,7 @@ namespace OutputReportTabular {
                                                    9.0}); // maxvalDigits(0) | maxvalDigits(1) | maxvalDigits(2) | maxvalDigits(3) |
                                                           // maxvalDigits(4) | maxvalDigits(5) | maxvalDigits(6) | maxvalDigits(7) |
                                                           // maxvalDigits(8) | maxvalDigits(9)
-        static gio::Fmt fmtd("(E12.6)");
+        static thread_local gio::Fmt fmtd("(E12.6)");
 
         // INTERFACE BLOCK SPECIFICATIONS:
         // na
@@ -15164,7 +15164,7 @@ namespace OutputReportTabular {
 
         // Locals
         // ((month*100 + day)*100 + hour)*100 + minute
-        static gio::Fmt DateFmt("(I2.2,'-',A3,'-',I2.2,':',I2.2)");
+        static thread_local gio::Fmt DateFmt("(I2.2,'-',A3,'-',I2.2,':',I2.2)");
 
         int Month;  // month in integer format (1-12)
         int Day;    // day in integer format (1-31)
@@ -16123,8 +16123,8 @@ namespace OutputReportTabular {
         //    na
 
         // SUBROUTINE LOCAL VARIABLE DECLARATIONS:
-        static int found(0);
-        static int iUnit(0);
+        static thread_local int found(0);
+        static thread_local int iUnit(0);
 
         for (iUnit = 1; iUnit <= UnitConvSize; ++iUnit) {
             if (UtilityRoutines::SameString(UnitConv(iUnit).siName, SIunit)) {
@@ -16238,8 +16238,8 @@ namespace OutputReportTabular {
         //    na
 
         // SUBROUTINE LOCAL VARIABLE DECLARATIONS:
-        static int found(0);
-        static int iUnit(0);
+        static thread_local int found(0);
+        static thread_local int iUnit(0);
 
         for (iUnit = 1; iUnit <= UnitConvSize; ++iUnit) {
             if (UtilityRoutines::SameString(UnitConv(iUnit).siName, SIunit)) {

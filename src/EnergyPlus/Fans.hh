@@ -161,8 +161,8 @@ namespace Fans {
         // cpw22Aug2010 Following added to support Fan Component Model input
         Real64 FanWheelDia;          // Fan wheel outer diameter [m]
         Real64 FanOutletArea;        // Fan outlet area [m2]
-        Real64 FanMaxEff;            // Fan maximum static efficiency [-]
-        Real64 EuMaxEff;             // Euler number at fan maximum static efficiency [-]
+        Real64 FanMaxEff;            // Fan maximum static thread_local efficiency [-]
+        Real64 EuMaxEff;             // Euler number at fan maximum static thread_local efficiency [-]
         Real64 FanMaxDimFlow;        // Fan maximum dimensionless airflow [-]
         Real64 FanShaftPwrMax;       // Fan shaft maximum input power [W]
         Real64 FanSizingFactor;      // Fan sizing factor [-] cpw31Aug2010
@@ -177,7 +177,7 @@ namespace Fans {
         Real64 VFDMaxOutPwr;         // VFD maximum output power [W]
         Real64 VFDSizingFactor;      // VFD sizing factor [-] cpw31Aug2010
         int PressRiseCurveIndex;     // Fan pressure rise curve index
-        int PressResetCurveIndex;    // Duct static pressure reset curve index
+        int PressResetCurveIndex;    // Duct static thread_local pressure reset curve index
         int PLFanEffNormCurveIndex;  // Fan part-load efficiency (normal) curve index
         int PLFanEffStallCurveIndex; // Fan part-load efficiency (stall) curve index
         int DimFlowNormCurveIndex;   // Fan dimensionless airflow (normal) curve index

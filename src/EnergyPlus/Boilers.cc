@@ -278,14 +278,14 @@ namespace Boilers {
 
         // Locals
         // PARAMETERS
-        static std::string const RoutineName("GetBoilerInput: ");
+        static thread_local std::string const RoutineName("GetBoilerInput: ");
 
         // LOCAL VARIABLES
         int BoilerNum;                                  // boiler identifier
         int NumAlphas;                                  // Number of elements in the alpha array
         int NumNums;                                    // Number of elements in the numeric array
         int IOStat;                                     // IO Status when calling get input subroutine
-        static bool ErrorsFound(false);                 // Flag to show errors were found during GetInput
+        static thread_local bool ErrorsFound(false);                 // Flag to show errors were found during GetInput
         bool errFlag;                                   // Flag to show errors were found during function call
         Array1D_string BoilerFuelTypeForOutputVariable; // used to set up report variables
 
@@ -641,11 +641,11 @@ namespace Boilers {
         using PlantUtilities::InitComponentNodes;
 
         // SUBROUTINE PARAMETER DEFINITIONS:
-        static std::string const RoutineName("InitBoiler");
+        static thread_local std::string const RoutineName("InitBoiler");
 
         // SUBROUTINE LOCAL VARIABLE DECLARATIONS:
-        static Array1D_bool MyEnvrnFlag; // environment flag
-        static Array1D_bool MyFlag;
+        static thread_local Array1D_bool MyEnvrnFlag; // environment flag
+        static thread_local Array1D_bool MyFlag;
         Real64 rho;
         bool FatalError;
         bool errFlag;
@@ -794,7 +794,7 @@ namespace Boilers {
         using namespace OutputReportPredefined;
 
         // SUBROUTINE PARAMETER DEFINITIONS:
-        static std::string const RoutineName("SizeBoiler");
+        static thread_local std::string const RoutineName("SizeBoiler");
 
         // SUBROUTINE LOCAL VARIABLE DECLARATIONS:
         int PltSizNum(0);        // Plant Sizing index corresponding to CurLoopNum
@@ -986,7 +986,7 @@ namespace Boilers {
         // SUBROUTINE ARGUMENT DEFINITIONS:
 
         // SUBROUTINE PARAMETER DEFINITIONS:
-        static std::string const RoutineName("CalcBoilerModel");
+        static thread_local std::string const RoutineName("CalcBoilerModel");
 
         // DERIVED TYPE DEFINITIONS
         // na

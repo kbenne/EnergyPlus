@@ -137,7 +137,7 @@ namespace HighTempRadiantSystem {
     int const MRTSPControl(1005);
     int const OperativeSPControl(1006);
 
-    static std::string const BlankString;
+    static thread_local std::string const BlankString;
 
     // DERIVED TYPE DEFINITIONS:
 
@@ -200,7 +200,7 @@ namespace HighTempRadiantSystem {
         using General::TrimSigDigits;
 
         // SUBROUTINE LOCAL VARIABLE DECLARATIONS:
-        static bool GetInputFlag(true); // First time, input is "gotten"
+        static thread_local bool GetInputFlag(true); // First time, input is "gotten"
         bool ErrorsFoundInGet;          // Set to true when there are severe errors during the Get routine
         int RadSysNum;                  // Radiant system number/index in local derived types
 
@@ -286,7 +286,7 @@ namespace HighTempRadiantSystem {
         Real64 const MinFraction(0.0);         // Limit the lowest allowed fraction for heat transfer parts
         Real64 const MinThrottlingRange(0.5);  // Smallest throttling range allowed in degrees Celsius
         //  INTEGER,          PARAMETER :: MaxDistribSurfaces = 20    ! Maximum number of surfaces that a radiant heater can radiate to
-        static std::string const RoutineName("GetHighTempRadiantSystem: "); // include trailing blank space
+        static thread_local std::string const RoutineName("GetHighTempRadiantSystem: "); // include trailing blank space
         int const iHeatCAPMAlphaNum(4);                   // get input index to High Temperature Radiant system heating capacity sizing method
         int const iHeatDesignCapacityNumericNum(1);       // get input index to High Temperature Radiant system heating capacity
         int const iHeatCapacityPerFloorAreaNumericNum(2); // get input index to High Temperature Radiant system heating capacity per floor area sizing
@@ -718,10 +718,10 @@ namespace HighTempRadiantSystem {
         // na
 
         // SUBROUTINE LOCAL VARIABLE DECLARATIONS:
-        static bool firstTime(true); // For one-time initializations
+        static thread_local bool firstTime(true); // For one-time initializations
         int ZoneNum;                 // Intermediate variable for keeping track of the zone number
-        static bool MyEnvrnFlag(true);
-        static bool ZoneEquipmentListChecked(false); // True after the Zone Equipment List has been checked for items
+        static thread_local bool MyEnvrnFlag(true);
+        static thread_local bool ZoneEquipmentListChecked(false); // True after the Zone Equipment List has been checked for items
         int Loop;
 
         // FLOW:
@@ -807,7 +807,7 @@ namespace HighTempRadiantSystem {
         // SUBROUTINE ARGUMENT DEFINITIONS:
 
         // SUBROUTINE PARAMETER DEFINITIONS:
-        static std::string const RoutineName("SizeHighTempRadiantSystem");
+        static thread_local std::string const RoutineName("SizeHighTempRadiantSystem");
 
         // INTERFACE BLOCK SPECIFICATIONS
         // na
@@ -1199,7 +1199,7 @@ namespace HighTempRadiantSystem {
 
         // SUBROUTINE LOCAL VARIABLE DECLARATIONS:
         int ZoneNum; // Zone index number for the current radiant system
-        static bool MyEnvrnFlag(true);
+        static thread_local bool MyEnvrnFlag(true);
 
         // FLOW:
         if (BeginEnvrnFlag && MyEnvrnFlag) {

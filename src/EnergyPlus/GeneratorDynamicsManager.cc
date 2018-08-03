@@ -312,11 +312,11 @@ namespace GeneratorDynamicsManager {
         bool PLRStartUp;                // true if subtimestep issue involving startup
         bool PLRShutDown;
         //  INTEGER :: OutletCWnode        = 0 ! cooling water outlet node ID
-        static int InletCWnode(0); // cooling water inlet node ID
-        static bool InternalFlowControl(false);
-        static Real64 TcwIn(0.0);          // inlet cooling water temperature (C)
-        static Real64 TrialMdotcw(0.0);    // test or estimate of what the plant flows are going to be (kg/s)
-        static Real64 LimitMinMdotcw(0.0); // lower limit for cooling water flow for generatior operation (kg/s)
+        static thread_local int InletCWnode(0); // cooling water inlet node ID
+        static thread_local bool InternalFlowControl(false);
+        static thread_local Real64 TcwIn(0.0);          // inlet cooling water temperature (C)
+        static thread_local Real64 TrialMdotcw(0.0);    // test or estimate of what the plant flows are going to be (kg/s)
+        static thread_local Real64 LimitMinMdotcw(0.0); // lower limit for cooling water flow for generatior operation (kg/s)
 
         // inits
         PLRforSubtimestepStartUp = 1.0;

@@ -124,7 +124,7 @@ namespace UtilityRoutines {
         // List directed Fortran input/output.
 
         // SUBROUTINE PARAMETER DEFINITIONS:
-        static std::string const ValidNumerics("0123456789.+-EeDd");
+        static thread_local std::string const ValidNumerics("0123456789.+-EeDd");
 
         Real64 rProcessNumber = 0.0;
         //  Make sure the string has all what we think numerics should have
@@ -471,9 +471,9 @@ void AbortEnergyPlus()
     // SUBROUTINE ARGUMENT DEFINITIONS:
 
     // SUBROUTINE PARAMETER DEFINITIONS:
-    static gio::Fmt fmtLD("*");
-    static gio::Fmt OutFmt("('Press ENTER to continue after reading above message>')");
-    static gio::Fmt ETimeFmt("(I2.2,'hr ',I2.2,'min ',F5.2,'sec')");
+    static thread_local gio::Fmt fmtLD("*");
+    static thread_local gio::Fmt OutFmt("('Press ENTER to continue after reading above message>')");
+    static thread_local gio::Fmt ETimeFmt("(I2.2,'hr ',I2.2,'min ',F5.2,'sec')");
 
     // INTERFACE BLOCK SPECIFICATIONS
 
@@ -760,8 +760,8 @@ void EndEnergyPlus()
     // na
 
     // SUBROUTINE PARAMETER DEFINITIONS:
-    static gio::Fmt fmtA("(A)");
-    static gio::Fmt ETimeFmt("(I2.2,'hr ',I2.2,'min ',F5.2,'sec')");
+    static thread_local gio::Fmt fmtA("(A)");
+    static thread_local gio::Fmt ETimeFmt("(I2.2,'hr ',I2.2,'min ',F5.2,'sec')");
 
     // INTERFACE BLOCK SPECIFICATIONS
 
@@ -895,7 +895,7 @@ int GetNewUnitNumber()
     //	//  Indicate number and value of preconnected units
     //
     //	int const NUMBER_OF_PRECONNECTED_UNITS( 2 );
-    //	static Array1D_int const PRECONNECTED_UNITS( NUMBER_OF_PRECONNECTED_UNITS, { 5, 6 } );
+    //	static thread_local Array1D_int const PRECONNECTED_UNITS( NUMBER_OF_PRECONNECTED_UNITS, { 5, 6 } );
     //
     //	//  Largest allowed unit number (or a large number, if none)
     //	int const MaxUnitNumber( 1000 );
@@ -1904,8 +1904,8 @@ void ShowErrorMessage(std::string const &ErrorMessage, Optional_int OutUnit1, Op
     // SUBROUTINE ARGUMENT DEFINITIONS:
 
     // SUBROUTINE PARAMETER DEFINITIONS:
-    static gio::Fmt ErrorFormat("(2X,A)");
-    static gio::Fmt fmtA("(A)");
+    static thread_local gio::Fmt ErrorFormat("(2X,A)");
+    static thread_local gio::Fmt fmtA("(A)");
 
     // INTERFACE BLOCK SPECIFICATIONS
     // na
@@ -2025,7 +2025,7 @@ void ShowRecurringErrors()
     // na
 
     // SUBROUTINE PARAMETER DEFINITIONS:
-    static std::string const StatMessageStart(" **   ~~~   ** ");
+    static thread_local std::string const StatMessageStart(" **   ~~~   ** ");
 
     // INTERFACE BLOCK SPECIFICATIONS
     // na

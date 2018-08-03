@@ -221,7 +221,7 @@ namespace PlantComponentTemperatureSources {
         int NumAlphas; // Number of elements in the alpha array
         int NumNums;   // Number of elements in the numeric array
         int IOStat;    // IO Status when calling get input subroutine
-        static bool ErrorsFound(false);
+        static thread_local bool ErrorsFound(false);
 
         // GET NUMBER OF ALL EQUIPMENT TYPES
         cCurrentModuleObject = "PlantComponent:TemperatureSource";
@@ -364,7 +364,7 @@ namespace PlantComponentTemperatureSources {
         using ScheduleManager::GetCurrentScheduleValue;
 
         // SUBROUTINE PARAMETER DEFINITIONS:
-        static std::string const RoutineName("InitWaterSource");
+        static thread_local std::string const RoutineName("InitWaterSource");
 
         // SUBROUTINE LOCAL VARIABLE DECLARATIONS:
         Real64 rho; // local fluid density
@@ -604,7 +604,7 @@ namespace PlantComponentTemperatureSources {
         using FluidProperties::GetSpecificHeatGlycol;
 
         // SUBROUTINE PARAMETER DEFINITIONS:
-        static std::string const RoutineName("CalcWaterSource");
+        static thread_local std::string const RoutineName("CalcWaterSource");
 
         if (WaterSource(SourceNum).MassFlowRate > 0.0) {
             WaterSource(SourceNum).OutletTemp = WaterSource(SourceNum).BoundaryTemp;

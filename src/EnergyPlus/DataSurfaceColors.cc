@@ -210,7 +210,7 @@ namespace DataSurfaceColors {
         // the alphas and numerics required to process the Report:SurfaceColorScheme object.
 
         // SUBROUTINE PARAMETER DEFINITIONS:
-        static std::string const CurrentModuleObject("OutputControl:SurfaceColorScheme");
+        static thread_local std::string const CurrentModuleObject("OutputControl:SurfaceColorScheme");
 
         // SUBROUTINE LOCAL VARIABLE DECLARATIONS:
         int NumAlphas;

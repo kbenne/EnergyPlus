@@ -126,7 +126,7 @@ namespace TranspiredCollector {
     int const Correlation_Kutscher1994(1);
     int const Correlation_VanDeckerHollandsBrunger2001(2);
 
-    static std::string const BlankString;
+    static thread_local std::string const BlankString;
 
     // DERIVED TYPE DEFINITIONS:
 
@@ -173,7 +173,7 @@ namespace TranspiredCollector {
 
         // SUBROUTINE LOCAL VARIABLE DECLARATIONS:
 
-        static int UTSCNum(0); // local number index for UTSC
+        static thread_local int UTSCNum(0); // local number index for UTSC
 
         if (GetInputFlag) {
             GetTranspiredCollectorInput();
@@ -288,7 +288,7 @@ namespace TranspiredCollector {
         int MaxNumNumbers;              // argumenet for call to GetObjectDefMaxArgs
         int Dummy;                      // argumenet for call to GetObjectDefMaxArgs
         int IOStatus;                   // Used in GetObjectItem
-        static bool ErrorsFound(false); // Set to true if errors in input, fatal at end of routine
+        static thread_local bool ErrorsFound(false); // Set to true if errors in input, fatal at end of routine
         int Found;
         int AlphaOffset; // local temp var
         std::string Roughness;
@@ -769,10 +769,10 @@ namespace TranspiredCollector {
         // na
 
         // SUBROUTINE LOCAL VARIABLE DECLARATIONS:
-        static bool MyOneTimeFlag(true);
+        static thread_local bool MyOneTimeFlag(true);
         int UTSCUnitNum;
-        static bool MySetPointCheckFlag(true);
-        static Array1D_bool MyEnvrnFlag;
+        static thread_local bool MySetPointCheckFlag(true);
+        static thread_local Array1D_bool MyEnvrnFlag;
         int ControlNode;
         // unused  INTEGER             :: InletNode
         int SplitBranch;

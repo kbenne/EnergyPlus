@@ -145,7 +145,7 @@ namespace ThermalComfort {
     Real64 const RadSurfEff(0.72);     // Fraction of surface effective for radiation
     Real64 const StefanBoltz(5.67e-8); // Stefan-Boltzmann constant (W/m2K4)
 
-    static std::string const BlankString;
+    static thread_local std::string const BlankString;
 
     // MODULE VARIABLE DECLARATIONS:
     Real64 AbsAirTemp(0.0);                // Absolute air temperature; K
@@ -357,8 +357,8 @@ namespace ThermalComfort {
         //     DATE WRITTEN   February 2000
 
         // SUBROUTINE LOCAL VARIABLE DECLARATIONS:
-        static bool ASH55Flag(false);
-        static bool CEN15251Flag(false);
+        static thread_local bool ASH55Flag(false);
+        static thread_local bool CEN15251Flag(false);
 
         if (FirstTimeFlag) {
             InitThermalComfort(); // Mainly sets up output stuff
@@ -1392,9 +1392,9 @@ namespace ThermalComfort {
         Real64 const CloEmiss(0.8); // Clothing Emissivity
 
         // SUBROUTINE LOCAL VARIABLE DECLARATIONS:
-        static Array1D<Real64> Coeff(2);      // Coefficients used in Range-Kutta's Method
-        static Array1D<Real64> Temp(2);       // Temperature
-        static Array1D<Real64> TempChange(2); // Change of temperature
+        static thread_local Array1D<Real64> Coeff(2);      // Coefficients used in Range-Kutta's Method
+        static thread_local Array1D<Real64> Temp(2);       // Temperature
+        static thread_local Array1D<Real64> TempChange(2); // Change of temperature
         Real64 BodyWt;                        // Weight of body, kg
         Real64 DayNum;                        // Number of days of acclimation
         int NumDay;                           // Loop counter for DayNum
@@ -1782,7 +1782,7 @@ namespace ThermalComfort {
         int J;
         Real64 B;
         Real64 H2;
-        static Array1D<Real64> const A(2, {0.29289321881345, 1.70710678118654});
+        static thread_local Array1D<Real64> const A(2, {0.29289321881345, 1.70710678118654});
 
         H2 = 0.5 * H;
 
@@ -1836,7 +1836,7 @@ namespace ThermalComfort {
 
         // SUBROUTINE LOCAL VARIABLE DECLARATIONS:
         Real64 AllAngleFacSummed;       // Sum of angle factors in each zone
-        static bool ErrorsFound(false); // Set to true if errors in input, fatal at end of routine
+        static thread_local bool ErrorsFound(false); // Set to true if errors in input, fatal at end of routine
         int IOStatus;
         int Item;                  // Item to be "gotten"
         int NumAlphas;             // Number of Alphas from InputProcessor
@@ -2021,9 +2021,9 @@ namespace ThermalComfort {
         int SurfNum2;                     // surface number used in "for" loop
         int ZoneNum2;                     // zone number index
         Real64 SumAET;                    // Intermediate calculational variable (area*emissivity*T) sum
-        static Array1D<Real64> SurfaceAE; // Product of area and emissivity for each surface
-        static Array1D<Real64> ZoneAESum; // Sum of area times emissivity for all zone surfaces
-        static bool FirstTimeError;       // Only report the error message one time
+        static thread_local Array1D<Real64> SurfaceAE; // Product of area and emissivity for each surface
+        static thread_local Array1D<Real64> ZoneAESum; // Sum of area times emissivity for all zone surfaces
+        static thread_local bool FirstTimeError;       // Only report the error message one time
 
         // Initialize ZoneAESum for all zones and SurfaceAE for all surfaces at the start of the simulation
         if (FirstTimeSurfaceWeightedFlag) {
@@ -2589,22 +2589,22 @@ namespace ThermalComfort {
         using OutputReportTabular::StrToReal;
 
         // SUBROUTINE PARAMETER DEFINITIONS:
-        static gio::Fmt fmtA("(A)");
+        static thread_local gio::Fmt fmtA("(A)");
 
         // SUBROUTINE LOCAL VARIABLE DECLARATIONS:
         std::string lineIn;
         std::string lineAvg;
         std::string epwLine;
-        static Real64 avgDryBulbASH(0.0);
+        static thread_local Real64 avgDryBulbASH(0.0);
         Real64 dryBulb;
-        static Array1D<Real64> monthlyTemp(12, 0.0);
+        static thread_local Array1D<Real64> monthlyTemp(12, 0.0);
         Real64 tComf;
         Real64 numOccupants;
         int statFile;
         int epwFile;
         bool statFileExists;
         bool epwFileExists;
-        static bool useStatData(false);
+        static thread_local bool useStatData(false);
         int readStat;
         int jStartDay;
         int calcStartDay;
@@ -2897,22 +2897,22 @@ namespace ThermalComfort {
         using OutputReportTabular::StrToReal;
 
         // SUBROUTINE PARAMETER DEFINITIONS:
-        static Real64 const alpha(0.8);
-        static Array1D<Real64> const alpha_pow({pow_6(alpha), pow_5(alpha), pow_4(alpha), pow_3(alpha), pow_2(alpha), alpha, 1.0}); // alpha^(7-i)
-        static gio::Fmt fmtA("(A)");
+        static thread_local Real64 const alpha(0.8);
+        static thread_local Array1D<Real64> const alpha_pow({pow_6(alpha), pow_5(alpha), pow_4(alpha), pow_3(alpha), pow_2(alpha), alpha, 1.0}); // alpha^(7-i)
+        static thread_local gio::Fmt fmtA("(A)");
 
         // SUBROUTINE LOCAL VARIABLE DECLARATIONS:
         std::string epwLine;
-        static Real64 avgDryBulbCEN(0.0);
+        static thread_local Real64 avgDryBulbCEN(0.0);
         Real64 dryBulb;
         Real64 tComf;
         Real64 tComfLow;
-        static Real64 runningAverageCEN(0.0);
+        static thread_local Real64 runningAverageCEN(0.0);
         Real64 numOccupants;
         int epwFile;
         bool epwFileExists;
-        static bool useEpwData(false);
-        static bool firstDaySet(false); // first day is set with initiate -- so do not update
+        static thread_local bool useEpwData(false);
+        static thread_local bool firstDaySet(false); // first day is set with initiate -- so do not update
         int readStat;
         int jStartDay;
         int calcStartDay;

@@ -116,7 +116,7 @@ namespace ScheduleManager {
     // Data
     // MODULE PARAMETER DEFINITIONS
     int const MaxDayTypes(12);
-    static std::string const BlankString;
+    static thread_local std::string const BlankString;
     Array1D_string const ValidDayTypes(MaxDayTypes,
                                        {"Sunday",
                                         "Monday",
@@ -172,7 +172,7 @@ namespace ScheduleManager {
     bool ScheduleFileShadingProcessed(false);
 
     namespace {
-        // These were static variables within different functions. They were pulled out into the namespace
+        // These were static thread_local variables within different functions. They were pulled out into the namespace
         // to facilitate easier unit testing of those functions.
         // These are purposefully not in the header file as an extern variable. No one outside of this should
         // use these. They are cleared by clear_state() for use by unit tests, but normal simulations should be unaffected.
@@ -191,8 +191,8 @@ namespace ScheduleManager {
     Array1D<ScheduleData> Schedule; // Schedule Storage
     std::unordered_map<std::string, std::string> UniqueScheduleNames;
 
-    static gio::Fmt fmtLD("*");
-    static gio::Fmt fmtA("(A)");
+    static thread_local gio::Fmt fmtLD("*");
+    static thread_local gio::Fmt fmtA("(A)");
 
     // MODULE SUBROUTINES:
     //*************************************************************************
@@ -251,7 +251,7 @@ namespace ScheduleManager {
 
         // Locals
         // SUBROUTINE PARAMETER DEFINITIONS:
-        static std::string const RoutineName("ProcessScheduleInput: ");
+        static thread_local std::string const RoutineName("ProcessScheduleInput: ");
 
         // SUBROUTINE LOCAL VARIABLE DECLARATIONS:
 
@@ -330,10 +330,10 @@ namespace ScheduleManager {
         int UntilFld;
         int xxcount;
         //  REAL(r64) tempval
-        static bool FullYearSet(false);
-        static std::string CurrentThrough;
-        static std::string LastFor;
-        static std::string errmsg;
+        static thread_local bool FullYearSet(false);
+        static thread_local std::string CurrentThrough;
+        static thread_local std::string LastFor;
+        static thread_local std::string errmsg;
         int kdy;
         bool FileExists;
         // for SCHEDULE:FILE
@@ -2375,18 +2375,18 @@ namespace ScheduleManager {
         // SUBROUTINE ARGUMENT DEFINITIONS:
 
         // SUBROUTINE PARAMETER DEFINITIONS:
-        static Array1D_string const Months(12, {"Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"});
-        static Array1D_string const HrField({0, 24}, {"00", "01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12",
+        static thread_local Array1D_string const Months(12, {"Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"});
+        static thread_local Array1D_string const HrField({0, 24}, {"00", "01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12",
                                                       "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23", "24"});
-        static gio::Fmt SchTFmt0("('! Schedule Details Report=',A,' =====================')");
-        static gio::Fmt SchTFmt("('! <ScheduleType>,Name,Limited? {Yes/No},Minimum,Maximum,',   'Continuous? {Yes/No - Discrete}')");
-        static gio::Fmt SchSFmt("('! <Schedule>,Name,ScheduleType,{Until Date,WeekSchedule}** Repeated until Dec 31')");
-        static gio::Fmt SchTFmtdata("('ScheduleTypeLimits',5(',',A))");
-        static gio::Fmt SchWFmtdata("('Schedule:Week:Daily',',',A,$)");
-        static gio::Fmt CMinFmt("(I2.2)");
-        static gio::Fmt ThruFmt("(',Through ',A,1X,I2.2,',',A)");
-        static gio::Fmt SchDFmt0("('! <DaySchedule>,Name,ScheduleType,Interpolated {Yes/No},Time (HH:MM) =>',$)");
-        static gio::Fmt SchDFmtdata0("('DaySchedule,',A,',',A,',',A,',',A,$)");
+        static thread_local gio::Fmt SchTFmt0("('! Schedule Details Report=',A,' =====================')");
+        static thread_local gio::Fmt SchTFmt("('! <ScheduleType>,Name,Limited? {Yes/No},Minimum,Maximum,',   'Continuous? {Yes/No - Discrete}')");
+        static thread_local gio::Fmt SchSFmt("('! <Schedule>,Name,ScheduleType,{Until Date,WeekSchedule}** Repeated until Dec 31')");
+        static thread_local gio::Fmt SchTFmtdata("('ScheduleTypeLimits',5(',',A))");
+        static thread_local gio::Fmt SchWFmtdata("('Schedule:Week:Daily',',',A,$)");
+        static thread_local gio::Fmt CMinFmt("(I2.2)");
+        static thread_local gio::Fmt ThruFmt("(',Through ',A,1X,I2.2,',',A)");
+        static thread_local gio::Fmt SchDFmt0("('! <DaySchedule>,Name,ScheduleType,Interpolated {Yes/No},Time (HH:MM) =>',$)");
+        static thread_local gio::Fmt SchDFmtdata0("('DaySchedule,',A,',',A,',',A,',',A,$)");
 
         // INTERFACE BLOCK SPECIFICATIONS
         // na
@@ -3547,7 +3547,7 @@ namespace ScheduleManager {
         // SUBROUTINE ARGUMENT DEFINITIONS:
 
         // SUBROUTINE PARAMETER DEFINITIONS:
-        static gio::Fmt hhmmFormat("(I2.2)");
+        static thread_local gio::Fmt hhmmFormat("(I2.2)");
 
         // INTERFACE BLOCK SPECIFICATIONS
         // na
@@ -4002,7 +4002,7 @@ namespace ScheduleManager {
         bool MinValueOk(true);
         bool MaxValueOk(true);
         /////////// hoisted into namespace CheckScheduleValueMinMaxRunOnceOnly////////////
-        // static bool RunOnceOnly( true );
+        // static thread_local bool RunOnceOnly( true );
         /////////////////////////////////////////////////
         // precompute the dayschedule max and min so that it is not in nested loop
         if (CheckScheduleValueMinMaxRunOnceOnly) {
@@ -4943,7 +4943,7 @@ namespace ScheduleManager {
         // SUBROUTINE LOCAL VARIABLE DECLARATIONS:
         int ScheduleIndex;
         int WhichHour;
-        static bool DoScheduleReportingSetup(true);
+        static thread_local bool DoScheduleReportingSetup(true);
         int WeekSchedulePointer;
         int DaySchedulePointer;
 

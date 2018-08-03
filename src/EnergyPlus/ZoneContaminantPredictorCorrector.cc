@@ -266,7 +266,7 @@ namespace ZoneContaminantPredictorCorrector {
         using ScheduleManager::GetScheduleMinValue;
 
         // SUBROUTINE PARAMETER DEFINITIONS:
-        static std::string const RoutineName("GetSourcesAndSinks: ");
+        static thread_local std::string const RoutineName("GetSourcesAndSinks: ");
 
         // SUBROUTINE LOCAL VARIABLE DECLARATIONS:
         Array1D_string AlphaName;
@@ -280,7 +280,7 @@ namespace ZoneContaminantPredictorCorrector {
         int MaxNumber;
         int Loop;
         int ZonePtr;
-        static bool ErrorsFound(false);
+        static thread_local bool ErrorsFound(false);
         //  LOGICAL :: ValidScheduleType
         Array1D_bool RepVarSet;
         std::string CurrentModuleObject;
@@ -1150,7 +1150,7 @@ namespace ZoneContaminantPredictorCorrector {
         int IOStat;
         // unused1208  REAL(r64), DIMENSION(2) :: NumArray
         // unused1208  CHARACTER(len=MaxNameLength), DIMENSION(29) :: AlphArray
-        static bool ErrorsFound(false);
+        static thread_local bool ErrorsFound(false);
         bool ValidScheduleType;
 
         struct NeededControlTypes
@@ -1375,19 +1375,19 @@ namespace ZoneContaminantPredictorCorrector {
         int Loop;
         int ZoneNum;
         int SurfNum;
-        static bool MyOneTimeFlag(true);
-        static bool MyEnvrnFlag(true);
-        static bool MyDayFlag(true);
+        static thread_local bool MyOneTimeFlag(true);
+        static thread_local bool MyEnvrnFlag(true);
+        static thread_local bool MyDayFlag(true);
         //  REAL(r64)      :: CO2Gain                  ! Zone CO2 gain
         Real64 GCGain; // Zone generic contaminant gain
         Real64 Pi;     // Pressue at zone i
         Real64 Pj;     // Pressue at zone j
         Real64 Sch;    // Schedule value
         Real64 Cs;     // Surface concentration level for the Boundary Layer Diffusion Controlled Model
-        static bool MyConfigOneTimeFlag(true);
+        static thread_local bool MyConfigOneTimeFlag(true);
         int ContZoneNum;
         int I;
-        static bool ErrorsFound(false);
+        static thread_local bool ErrorsFound(false);
 
         // FLOW:
 
@@ -1766,7 +1766,7 @@ namespace ZoneContaminantPredictorCorrector {
         // SUBROUTINE ARGUMENT DEFINITIONS:
 
         // SUBROUTINE PARAMETER DEFINITIONS:
-        static std::string const RoutineName("PredictZoneContaminants");
+        static thread_local std::string const RoutineName("PredictZoneContaminants");
 
         // INTERFACE BLOCK SPECIFICATIONS:
         // na
@@ -2331,7 +2331,7 @@ namespace ZoneContaminantPredictorCorrector {
         // SUBROUTINE ARGUMENT DEFINITIONS:
 
         // SUBROUTINE PARAMETER DEFINITIONS:
-        static std::string const RoutineName("CorrectZoneContaminants");
+        static thread_local std::string const RoutineName("CorrectZoneContaminants");
 
         // INTERFACE BLOCK SPECIFICATIONS:
         // na

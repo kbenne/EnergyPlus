@@ -124,7 +124,7 @@ namespace BaseboardRadiator {
     // Data
     // MODULE PARAMETER DEFINITIONS
     Real64 const SimpConvAirFlowSpeed(0.5); // m/s
-    static std::string const cCMO_BBRadiator_Water("ZoneHVAC:Baseboard:Convective:Water");
+    static thread_local std::string const cCMO_BBRadiator_Water("ZoneHVAC:Baseboard:Convective:Water");
 
     // DERIVED TYPE DEFINITIONS
 
@@ -184,7 +184,7 @@ namespace BaseboardRadiator {
         // SUBROUTINE LOCAL VARIABLE DECLARATIONS:
 
         int BaseboardNum;               // index of unit in baseboard array
-        static bool GetInputFlag(true); // one time get input flag
+        static thread_local bool GetInputFlag(true); // one time get input flag
         Real64 QZnReq;                  // zone load not yet satisfied
         Real64 MaxWaterFlow;
         Real64 MinWaterFlow;
@@ -318,7 +318,7 @@ namespace BaseboardRadiator {
         // na
 
         // SUBROUTINE PARAMETER DEFINITIONS:
-        static std::string const RoutineName("GetBaseboardInput: "); // include trailing blank space
+        static thread_local std::string const RoutineName("GetBaseboardInput: "); // include trailing blank space
         int const iHeatCAPMAlphaNum(5);             // get input index to water baseboard Radiator system heating capacity sizing method
         int const iHeatDesignCapacityNumericNum(1); // get input index to water baseboard Radiator system electric heating capacity
         int const iHeatCapacityPerFloorAreaNumericNum(
@@ -339,7 +339,7 @@ namespace BaseboardRadiator {
         int NumAlphas;
         int NumNums;
         int IOStat;
-        static bool ErrorsFound(false); // If errors detected in input
+        static thread_local bool ErrorsFound(false); // If errors detected in input
         bool errFlag;
 
         cCurrentModuleObject = cCMO_BBRadiator_Water;
@@ -587,7 +587,7 @@ namespace BaseboardRadiator {
         // SUBROUTINE ARGUMENT DEFINITIONS:
 
         // SUBROUTINE PARAMETER DEFINITIONS:
-        static std::string const RoutineName("BaseboardRadiator:InitBaseboard");
+        static thread_local std::string const RoutineName("BaseboardRadiator:InitBaseboard");
 
         // INTERFACE BLOCK SPECIFICATIONS
         // na
@@ -598,10 +598,10 @@ namespace BaseboardRadiator {
         // SUBROUTINE LOCAL VARIABLE DECLARATIONS:
         int WaterInletNode;
         int ZoneNode;
-        static bool MyOneTimeFlag(true);
-        static bool ZoneEquipmentListChecked(false); // True after the Zone Equipment List has been checked for items
+        static thread_local bool MyOneTimeFlag(true);
+        static thread_local bool ZoneEquipmentListChecked(false); // True after the Zone Equipment List has been checked for items
         int Loop;
-        static Array1D_bool MyEnvrnFlag;
+        static thread_local Array1D_bool MyEnvrnFlag;
         Real64 RhoAirStdInit;
         Real64 rho; // local fluid density
         Real64 Cp;  // local fluid specific heat
@@ -741,7 +741,7 @@ namespace BaseboardRadiator {
         // SUBROUTINE PARAMETER DEFINITIONS:
         Real64 const Acc(0.0001); // Accuracy of result
         int const MaxIte(500);    // Maximum number of iterations
-        static std::string const RoutineName(cCMO_BBRadiator_Water + ":SizeBaseboard");
+        static thread_local std::string const RoutineName(cCMO_BBRadiator_Water + ":SizeBaseboard");
 
         // INTERFACE BLOCK SPECIFICATIONS
         // na
@@ -1116,7 +1116,7 @@ namespace BaseboardRadiator {
         // SUBROUTINE ARGUMENT DEFINITIONS:
 
         // SUBROUTINE PARAMETER DEFINITIONS:
-        static std::string const RoutineName(cCMO_BBRadiator_Water + ":SimHWConvective");
+        static thread_local std::string const RoutineName(cCMO_BBRadiator_Water + ":SimHWConvective");
 
         // INTERFACE BLOCK SPECIFICATIONS
         // na

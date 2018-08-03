@@ -218,7 +218,7 @@ namespace SplitterComponent {
         using NodeInputManager::GetOnlySingleNode;
 
         // SUBROUTINE PARAMETER DEFINITIONS:
-        static std::string const RoutineName("GetSplitterInput: "); // include trailing blank space
+        static thread_local std::string const RoutineName("GetSplitterInput: "); // include trailing blank space
 
         // SUBROUTINE LOCAL VARIABLE DECLARATIONS:
         int SplitterNum; // The Splitter that you are currently loading input into
@@ -226,7 +226,7 @@ namespace SplitterComponent {
         int NumNums;
         int NodeNum;
         int IOStat;
-        static bool ErrorsFound(false);
+        static thread_local bool ErrorsFound(false);
         int NumParams;
         int OutNodeNum1;
         int OutNodeNum2;
@@ -390,7 +390,7 @@ namespace SplitterComponent {
         int OutletNode;
         int NodeNum;
         Real64 AirEnthalpy; // [J/kg]
-        static bool MyEnvrnFlag(true);
+        static thread_local bool MyEnvrnFlag(true);
 
         // FLOW:
 

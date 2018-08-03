@@ -194,7 +194,7 @@ namespace HVACControllers {
     Real64 const SomeFloatingPoint(1.0);
     int const NumSigDigits(PRECISION(SomeFloatingPoint));
 
-    static std::string const BlankString;
+    static thread_local std::string const BlankString;
 
     // Parameters for controls used here
     int const iNoControlVariable(0);
@@ -260,11 +260,11 @@ namespace HVACControllers {
         bool InitControllerSetPointCheckFlag(true);
     } // namespace
 
-    static gio::Fmt fmtLD("*");
-    static gio::Fmt fmtA("(A)");
-    static gio::Fmt fmtAA("(A,A)");
-    static gio::Fmt fmtAAA("(A,A,A)");
-    static gio::Fmt fmtAAAA("(A,A,A,A)");
+    static thread_local gio::Fmt fmtLD("*");
+    static thread_local gio::Fmt fmtA("(A)");
+    static thread_local gio::Fmt fmtAA("(A,A)");
+    static thread_local gio::Fmt fmtAAA("(A,A,A)");
+    static thread_local gio::Fmt fmtAAAA("(A,A,A,A)");
 
     // MODULE SUBROUTINES:
     //*************************************************************************
@@ -567,7 +567,7 @@ namespace HVACControllers {
         using WaterCoils::CheckForSensorAndSetPointNode;
 
         // SUBROUTINE PARAMETER DEFINITIONS:
-        static std::string const RoutineName("HVACControllers: GetControllerInput: "); // include trailing blank space
+        static thread_local std::string const RoutineName("HVACControllers: GetControllerInput: "); // include trailing blank space
 
         // SUBROUTINE LOCAL VARIABLE DECLARATIONS:
         int Num; // The Controller that you are currently loading input into
@@ -585,7 +585,7 @@ namespace HVACControllers {
         Array1D_bool lAlphaBlanks;       // Logical array, alpha field input BLANK = .TRUE.
         Array1D_bool lNumericBlanks;     // Logical array, numeric field input BLANK = .TRUE.
         std::string CurrentModuleObject; // for ease in getting objects
-        static bool ErrorsFound(false);
+        static thread_local bool ErrorsFound(false);
         int iNodeType;             // for checking actuator node type
         bool NodeNotFound;         // flag true if the sensor node is on the coil air outlet node
         bool EMSSetPointErrorFlag; // flag true is EMS is used to set node setpoints
@@ -973,7 +973,7 @@ namespace HVACControllers {
         // SUBROUTINE ARGUMENT DEFINITIONS:
 
         // SUBROUTINE PARAMETER DEFINITIONS:
-        static std::string const RoutineName("InitController");
+        static thread_local std::string const RoutineName("InitController");
 
         // INTERFACE BLOCK SPECIFICATIONS
         // na
@@ -985,12 +985,12 @@ namespace HVACControllers {
         int ActuatedNode;
         int SensedNode;
         int ControllerIndex;
-        static Array1D_bool MyEnvrnFlag;
-        static Array1D_bool MySizeFlag;
-        static Array1D_bool MyPlantIndexsFlag;
+        static thread_local Array1D_bool MyEnvrnFlag;
+        static thread_local Array1D_bool MySizeFlag;
+        static thread_local Array1D_bool MyPlantIndexsFlag;
         //////////// hoisted into namespace ////////////////////////////////////////////////
-        // static bool MyOneTimeFlag( true ); // InitControllerOneTimeFlag
-        // static bool MySetPointCheckFlag( true ); // InitControllerSetPointCheckFlag
+        // static thread_local bool MyOneTimeFlag( true ); // InitControllerOneTimeFlag
+        // static thread_local bool MySetPointCheckFlag( true ); // InitControllerSetPointCheckFlag
         ////////////////////////////////////////////////////////////////////////////////////
         // Supply Air Temp Setpoint when 'TemperatureAndHumidityRatio' control is used
         Real64 HumidityControlTempSetPoint;
@@ -3127,7 +3127,7 @@ namespace HVACControllers {
         // na
 
         // SUBROUTINE LOCAL VARIABLE DECLARATIONS:
-        static int TraceFileUnit(0);
+        static thread_local int TraceFileUnit(0);
 
         // Open and write column header in trace file for each individual controller
         TraceFileUnit = GetNewUnitNumber();

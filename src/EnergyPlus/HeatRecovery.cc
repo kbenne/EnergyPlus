@@ -149,7 +149,7 @@ namespace HeatRecovery {
     int const EconoLockOut_No(0);
     int const EconoLockOut_Yes(1);
 
-    static std::string const BlankString;
+    static thread_local std::string const BlankString;
 
     namespace {
         bool MyOneTimeAllocate(true);
@@ -377,9 +377,9 @@ namespace HeatRecovery {
         int NumAlphas;                                                  // Number of Alphas for each GetObjectItem call
         int NumNumbers;                                                 // Number of Numbers for each GetObjectItem call
         int IOStatus;                                                   // Used in GetObjectItem
-        static bool ErrorsFound(false);                                 // Set to true if errors in input, fatal at end of routine
-        static std::string HeatExchPerfType;                            // Desiccant balanced heat exchanger performance data type
-        static std::string const RoutineName("GetHeatRecoveryInput: "); // include trailing blank space
+        static thread_local bool ErrorsFound(false);                                 // Set to true if errors in input, fatal at end of routine
+        static thread_local std::string HeatExchPerfType;                            // Desiccant balanced heat exchanger performance data type
+        static thread_local std::string const RoutineName("GetHeatRecoveryInput: "); // include trailing blank space
 
         NumAirToAirPlateExchs = inputProcessor->getNumObjectsFound("HeatExchanger:AirToAir:FlatPlate");
         NumAirToAirGenericExchs = inputProcessor->getNumObjectsFound("HeatExchanger:AirToAir:SensibleAndLatent");
@@ -1301,10 +1301,10 @@ namespace HeatRecovery {
         Real64 CpAir;  // heat capacity of air
         // of humidity ratio and temperature
         //////////// hoisted into namespace ////////////////////////////////////////////////
-        // static bool MyOneTimeAllocate( true );
+        // static thread_local bool MyOneTimeAllocate( true );
         ////////////////////////////////////////////////////////////////////////////////////
-        static Array1D_bool MySetPointTest;
-        static Array1D_bool MySizeFlag;
+        static thread_local Array1D_bool MySetPointTest;
+        static thread_local Array1D_bool MySizeFlag;
         int ErrStat;            // error status returned by CalculateNTUfromEpsAndZ
         bool FatalError;        // fatal error flag
         bool LocalWarningError; // warning error flag
@@ -1619,7 +1619,7 @@ namespace HeatRecovery {
 
         // Locals
         // SUBROUTINE PARAMETER DEFINITIONS:
-        static std::string const RoutineName("SizeHeatRecovery");
+        static thread_local std::string const RoutineName("SizeHeatRecovery");
 
         // SUBROUTINE LOCAL VARIABLE DECLARATIONS:
         bool PrintFlag;           // true when sizing information is reported in the eio file
@@ -1757,7 +1757,7 @@ namespace HeatRecovery {
         // exchanger given the inlet conditions.
 
         // METHODOLOGY EMPLOYED:
-        // This is a static heat exchanger model. No geometrical input data
+        // This is a static thread_local heat exchanger model. No geometrical input data
         // is needed. No knowledge of h*A values is needed except the ratio
         // of the primary side to the secondary side convective heat transfer
         // coefficient times the exchanger surface area. Effectiveness - NTU
@@ -2519,13 +2519,13 @@ namespace HeatRecovery {
         Real64 MinHumRatNeeded;         // minimum humidity ratio setpoint for balanced desiccant HX [kg/kg]
         Real64 HXPartLoadRatio;         // local heat exchanger part-load ratio
         Real64 TestSaturationEnthalpy;  // enthalpy used to test for regeneration outlet condition over saturation curve (J/kg)
-        static std::string const ThisSub("CalcDesiccantBalancedHeatExch:  "); // Used to pass to Psyc routines
-        static std::string const ThisSubTSat("CalcDesiccantBalancedHeatExch:   TSat");
-        static std::string const ThisSubTSatFullLoadOutTemp("CalcDesiccantBalancedHeatExch:   TSat-FullLoadOutTemp");
-        static std::string const ThisSubTSatFullLoadOutHumRat("CalcDesiccantBalancedHeatExch:   TSat-FullLoadOutHumRat");
-        static std::string const ThisSubSecOutHumRat("CalcDesiccantBalancedHeatExch:   SecOutHumRat");
-        static std::string const ThisSubTestSatSec("CalcDesiccantBalancedHeatExch:   TestSatSec");
-        static std::string const ThisSubTSatSecOutHumRat("CalcDesiccantBalancedHeatExch:   TSat-SecOutHumRat");
+        static thread_local std::string const ThisSub("CalcDesiccantBalancedHeatExch:  "); // Used to pass to Psyc routines
+        static thread_local std::string const ThisSubTSat("CalcDesiccantBalancedHeatExch:   TSat");
+        static thread_local std::string const ThisSubTSatFullLoadOutTemp("CalcDesiccantBalancedHeatExch:   TSat-FullLoadOutTemp");
+        static thread_local std::string const ThisSubTSatFullLoadOutHumRat("CalcDesiccantBalancedHeatExch:   TSat-FullLoadOutHumRat");
+        static thread_local std::string const ThisSubSecOutHumRat("CalcDesiccantBalancedHeatExch:   SecOutHumRat");
+        static thread_local std::string const ThisSubTestSatSec("CalcDesiccantBalancedHeatExch:   TestSatSec");
+        static thread_local std::string const ThisSubTSatSecOutHumRat("CalcDesiccantBalancedHeatExch:   TSat-SecOutHumRat");
 
         Real64 AverageMassFlowRate; // average of supply (regen) and secondary (process) mass flow rates [kg/s]
         bool EconomizerActiveFlag;  // local representing the economizer status when PRESENT
@@ -3498,8 +3498,8 @@ namespace HeatRecovery {
         // FUNCTION LOCAL VARIABLE DECLARATIONS:
 
         int SolFla;               // Flag of solver
-        static Real64 NTU0(0.0);  // lower bound for NTU
-        static Real64 NTU1(50.0); // upper bound for NTU
+        static thread_local Real64 NTU0(0.0);  // lower bound for NTU
+        static thread_local Real64 NTU1(50.0); // upper bound for NTU
         Array1D<Real64> Par(2);
 
         Par(1) = Eps;
@@ -3619,13 +3619,13 @@ namespace HeatRecovery {
         // na
 
         // SUBROUTINE LOCAL VARIABLE DECLARATIONS:
-        static std::string OutputChar;         // character string for warning messages
-        static std::string OutputCharLo;       // character string for warning messages
-        static std::string OutputCharHi;       // character string for warning messages
-        static std::string CharValue;          // character string for warning messages
-        static Real64 TimeStepSysLast(0.0);    // last system time step (used to check for downshifting)
-        static Real64 CurrentEndTime(0.0);     // end time of time step for current simulation time step
-        static Real64 CurrentEndTimeLast(0.0); // end time of time step for last simulation time step
+        static thread_local std::string OutputChar;         // character string for warning messages
+        static thread_local std::string OutputCharLo;       // character string for warning messages
+        static thread_local std::string OutputCharHi;       // character string for warning messages
+        static thread_local std::string CharValue;          // character string for warning messages
+        static thread_local Real64 TimeStepSysLast(0.0);    // last system time step (used to check for downshifting)
+        static thread_local Real64 CurrentEndTime(0.0);     // end time of time step for current simulation time step
+        static thread_local Real64 CurrentEndTimeLast(0.0); // end time of time step for last simulation time step
         // current end time is compared with last to see if time step changed
 
         //   calculate end time of current time step
@@ -3969,13 +3969,13 @@ namespace HeatRecovery {
         // na
 
         // SUBROUTINE LOCAL VARIABLE DECLARATIONS:
-        static std::string OutputChar;         // character string for warning messages
-        static std::string OutputCharLo;       // character string for warning messages
-        static std::string OutputCharHi;       // character string for warning messages
-        static std::string CharValue;          // character string for warning messages
-        static Real64 TimeStepSysLast(0.0);    // last system time step (used to check for downshifting)
-        static Real64 CurrentEndTime(0.0);     // end time of time step for current simulation time step
-        static Real64 CurrentEndTimeLast(0.0); // end time of time step for last simulation time step
+        static thread_local std::string OutputChar;         // character string for warning messages
+        static thread_local std::string OutputCharLo;       // character string for warning messages
+        static thread_local std::string OutputCharHi;       // character string for warning messages
+        static thread_local std::string CharValue;          // character string for warning messages
+        static thread_local Real64 TimeStepSysLast(0.0);    // last system time step (used to check for downshifting)
+        static thread_local Real64 CurrentEndTime(0.0);     // end time of time step for current simulation time step
+        static thread_local Real64 CurrentEndTimeLast(0.0); // end time of time step for last simulation time step
         // current end time is compared with last to see if time step changed
 
         //   calculate end time of current time step
@@ -4316,13 +4316,13 @@ namespace HeatRecovery {
         // na
 
         // SUBROUTINE LOCAL VARIABLE DECLARATIONS:
-        static std::string OutputChar;         // character string for warning messages
-        static std::string OutputCharLo;       // character string for warning messages
-        static std::string OutputCharHi;       // character string for warning messages
-        static std::string CharValue;          // character string for warning messages
-        static Real64 TimeStepSysLast(0.0);    // last system time step (used to check for downshifting)
-        static Real64 CurrentEndTime(0.0);     // end time of time step for current simulation time step
-        static Real64 CurrentEndTimeLast(0.0); // end time of time step for last simulation time step
+        static thread_local std::string OutputChar;         // character string for warning messages
+        static thread_local std::string OutputCharLo;       // character string for warning messages
+        static thread_local std::string OutputCharHi;       // character string for warning messages
+        static thread_local std::string CharValue;          // character string for warning messages
+        static thread_local Real64 TimeStepSysLast(0.0);    // last system time step (used to check for downshifting)
+        static thread_local Real64 CurrentEndTime(0.0);     // end time of time step for current simulation time step
+        static thread_local Real64 CurrentEndTimeLast(0.0); // end time of time step for last simulation time step
         // current end time is compared with last to see if time step changed
 
         //   calculate end time of current time step
@@ -4485,13 +4485,13 @@ namespace HeatRecovery {
         // na
 
         // SUBROUTINE LOCAL VARIABLE DECLARATIONS:
-        static std::string OutputChar;         // character string for warning messages
-        static std::string OutputCharLo;       // character string for warning messages
-        static std::string OutputCharHi;       // character string for warning messages
-        static std::string CharValue;          // character string for warning messages
-        static Real64 TimeStepSysLast(0.0);    // last system time step (used to check for downshifting)
-        static Real64 CurrentEndTime(0.0);     // end time of time step for current simulation time step
-        static Real64 CurrentEndTimeLast(0.0); // end time of time step for last simulation time step
+        static thread_local std::string OutputChar;         // character string for warning messages
+        static thread_local std::string OutputCharLo;       // character string for warning messages
+        static thread_local std::string OutputCharHi;       // character string for warning messages
+        static thread_local std::string CharValue;          // character string for warning messages
+        static thread_local Real64 TimeStepSysLast(0.0);    // last system time step (used to check for downshifting)
+        static thread_local Real64 CurrentEndTime(0.0);     // end time of time step for current simulation time step
+        static thread_local Real64 CurrentEndTimeLast(0.0); // end time of time step for last simulation time step
         // current end time is compared with last to see if time step changed
 
         //   calculate end time of current time step
@@ -4656,14 +4656,14 @@ namespace HeatRecovery {
         // na
 
         // SUBROUTINE LOCAL VARIABLE DECLARATIONS:
-        static Real64 RegenInletRH(0.0);       // Regeneration inlet air relative humidity
-        static Real64 ProcInletRH(0.0);        // Process inlet air relative humidity
-        static std::string OutputChar;         // character string for warning messages
-        static std::string OutputCharLo;       // character string for warning messages
-        static std::string OutputCharHi;       // character string for warning messages
-        static Real64 TimeStepSysLast(0.0);    // last system time step (used to check for downshifting)
-        static Real64 CurrentEndTime(0.0);     // end time of time step for current simulation time step
-        static Real64 CurrentEndTimeLast(0.0); // end time of time step for last simulation time step
+        static thread_local Real64 RegenInletRH(0.0);       // Regeneration inlet air relative humidity
+        static thread_local Real64 ProcInletRH(0.0);        // Process inlet air relative humidity
+        static thread_local std::string OutputChar;         // character string for warning messages
+        static thread_local std::string OutputCharLo;       // character string for warning messages
+        static thread_local std::string OutputCharHi;       // character string for warning messages
+        static thread_local Real64 TimeStepSysLast(0.0);    // last system time step (used to check for downshifting)
+        static thread_local Real64 CurrentEndTime(0.0);     // end time of time step for current simulation time step
+        static thread_local Real64 CurrentEndTimeLast(0.0); // end time of time step for last simulation time step
         // current end time is compared with last to see if time step changed
 
         if (WarmupFlag || FirstHVACIteration) return;
@@ -4843,14 +4843,14 @@ namespace HeatRecovery {
         // na
 
         // SUBROUTINE LOCAL VARIABLE DECLARATIONS:
-        static Real64 RegenInletRH(0.0);       // Regeneration inlet air relative humidity
-        static Real64 ProcInletRH(0.0);        // Process inlet air relative humidity
-        static std::string OutputChar;         // character string for warning messages
-        static std::string OutputCharLo;       // character string for warning messages
-        static std::string OutputCharHi;       // character string for warning messages
-        static Real64 TimeStepSysLast(0.0);    // last system time step (used to check for downshifting)
-        static Real64 CurrentEndTime(0.0);     // end time of time step for current simulation time step
-        static Real64 CurrentEndTimeLast(0.0); // end time of time step for last simulation time step
+        static thread_local Real64 RegenInletRH(0.0);       // Regeneration inlet air relative humidity
+        static thread_local Real64 ProcInletRH(0.0);        // Process inlet air relative humidity
+        static thread_local std::string OutputChar;         // character string for warning messages
+        static thread_local std::string OutputCharLo;       // character string for warning messages
+        static thread_local std::string OutputCharHi;       // character string for warning messages
+        static thread_local Real64 TimeStepSysLast(0.0);    // last system time step (used to check for downshifting)
+        static thread_local Real64 CurrentEndTime(0.0);     // end time of time step for current simulation time step
+        static thread_local Real64 CurrentEndTimeLast(0.0); // end time of time step for last simulation time step
         // current end time is compared with last to see if time step changed
 
         if (WarmupFlag || FirstHVACIteration) return;
@@ -5023,11 +5023,11 @@ namespace HeatRecovery {
         // na
 
         // SUBROUTINE LOCAL VARIABLE DECLARATIONS:
-        static std::string OutputCharProc;     // character string for warning messages
-        static std::string OutputCharRegen;    // character string for warning messages
-        static Real64 TimeStepSysLast(0.0);    // last system time step (used to check for downshifting)
-        static Real64 CurrentEndTime(0.0);     // end time of time step for current simulation time step
-        static Real64 CurrentEndTimeLast(0.0); // end time of time step for last simulation time step
+        static thread_local std::string OutputCharProc;     // character string for warning messages
+        static thread_local std::string OutputCharRegen;    // character string for warning messages
+        static thread_local Real64 TimeStepSysLast(0.0);    // last system time step (used to check for downshifting)
+        static thread_local Real64 CurrentEndTime(0.0);     // end time of time step for current simulation time step
+        static thread_local Real64 CurrentEndTimeLast(0.0); // end time of time step for last simulation time step
         // current end time is compared with last to see if time step changed
         Real64 ABSImbalancedFlow; // absolute value of process and regeneration air flow imbalance fraction
 

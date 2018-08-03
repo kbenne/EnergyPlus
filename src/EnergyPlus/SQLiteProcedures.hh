@@ -367,19 +367,19 @@ private:
     sqlite3_stmt *m_simulationUpdateStmt;
     sqlite3_stmt *m_simulationDataUpdateStmt;
 
-    static const int LocalReportEach;     //  Write out each time UpdatedataandLocalReport is called
-    static const int LocalReportTimeStep; //  Write out at 'EndTimeStepFlag'
-    static const int LocalReportHourly;   //  Write out at 'EndHourFlag'
-    static const int LocalReportDaily;    //  Write out at 'EndDayFlag'
-    static const int LocalReportMonthly;  //  Write out at end of month (must be determined)
-    static const int LocalReportSim;      //  Write out once per environment 'EndEnvrnFlag'
-    static const int LocalReportYearly;   //  Write out once per year
-    static const int ReportNameId;
-    static const int ReportForStringId;
-    static const int TableNameId;
-    static const int RowNameId;
-    static const int ColumnNameId;
-    static const int UnitsId;
+    static thread_local const int LocalReportEach;     //  Write out each time UpdatedataandLocalReport is called
+    static thread_local const int LocalReportTimeStep; //  Write out at 'EndTimeStepFlag'
+    static thread_local const int LocalReportHourly;   //  Write out at 'EndHourFlag'
+    static thread_local const int LocalReportDaily;    //  Write out at 'EndDayFlag'
+    static thread_local const int LocalReportMonthly;  //  Write out at end of month (must be determined)
+    static thread_local const int LocalReportSim;      //  Write out once per environment 'EndEnvrnFlag'
+    static thread_local const int LocalReportYearly;   //  Write out once per year
+    static thread_local const int ReportNameId;
+    static thread_local const int ReportForStringId;
+    static thread_local const int TableNameId;
+    static thread_local const int RowNameId;
+    static thread_local const int ColumnNameId;
+    static thread_local const int UnitsId;
 
     class SQLiteData : public SQLiteProcedures
     {

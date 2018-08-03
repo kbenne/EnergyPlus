@@ -123,7 +123,7 @@ namespace SwimmingPool {
     // Data
     // MODULE PARAMETER DEFINITIONS:
     // System types:
-    static std::string const BlankString;
+    static thread_local std::string const BlankString;
 
     // MODULE VARIABLE DECLARATIONS:
     int NumSwimmingPools(0); // Number of swimming pools
@@ -178,7 +178,7 @@ namespace SwimmingPool {
         using DataHeatBalFanSys::SumLatentPool;
 
         // SUBROUTINE LOCAL VARIABLE DECLARATIONS:
-        static bool GetInputFlag(true); // First time, input is "gotten"
+        static thread_local bool GetInputFlag(true); // First time, input is "gotten"
         int PoolNum;                    // Pool number index
 
         // FLOW:
@@ -232,7 +232,7 @@ namespace SwimmingPool {
         using namespace DataSurfaceLists;
 
         // SUBROUTINE PARAMETER DEFINITIONS:
-        static std::string const RoutineName("GetSwimmingPool: "); // include trailing blank space
+        static thread_local std::string const RoutineName("GetSwimmingPool: "); // include trailing blank space
         Real64 const MinCoverFactor(0.0);                          // minimum value for cover factors
         Real64 const MaxCoverFactor(1.0);                          // maximum value for cover factors
         Real64 const MinDepth(0.05);                               // minimum average pool depth (to avoid obvious input errors)
@@ -240,7 +240,7 @@ namespace SwimmingPool {
         Real64 const MinPowerFactor(0.0);                          // minimum power factor for miscellaneous equipment
 
         // SUBROUTINE LOCAL VARIABLE DECLARATIONS:
-        static bool ErrorsFound(false);  // Set to true if something goes wrong
+        static thread_local bool ErrorsFound(false);  // Set to true if something goes wrong
         std::string CurrentModuleObject; // for ease in getting objects
         Array1D_string Alphas;           // Alpha items for object
         Array1D_string cAlphaFields;     // Alpha field names
@@ -646,14 +646,14 @@ namespace SwimmingPool {
         using ScheduleManager::GetCurrentScheduleValue;
 
         // SUBROUTINE PARAMETER DEFINITIONS:
-        static std::string const RoutineName("InitSwimmingPool");
+        static thread_local std::string const RoutineName("InitSwimmingPool");
         Real64 const MinActivityFactor = 0.0;  // Minimum value for activity factor
         Real64 const MaxActivityFactor = 10.0; // Maximum value for activity factor (realistically)
 
         // SUBROUTINE LOCAL VARIABLE DECLARATIONS:
-        static bool MyOneTimeFlag(true); // Flag for one-time initializations
-        static bool MyEnvrnFlagGeneral(true);
-        static Array1D_bool MyPlantScanFlagPool;
+        static thread_local bool MyOneTimeFlag(true); // Flag for one-time initializations
+        static thread_local bool MyEnvrnFlagGeneral(true);
+        static thread_local Array1D_bool MyPlantScanFlagPool;
         Real64 mdot;
         Real64 HeatGainPerPerson;
         Real64 PeopleModifier;
@@ -843,7 +843,7 @@ namespace SwimmingPool {
         using PlantUtilities::ScanPlantLoopsForObject;
 
         bool errFlag;
-        static std::string const RoutineName("InitSwimmingPoolPlantLoopIndex");
+        static thread_local std::string const RoutineName("InitSwimmingPoolPlantLoopIndex");
 
         if (MyPlantScanFlagPool && allocated(PlantLoop)) {
             errFlag = false;
@@ -965,7 +965,7 @@ namespace SwimmingPool {
         // SUBROUTINE ARGUMENT DEFINITIONS:
 
         // SUBROUTINE PARAMETER DEFINITIONS:
-        static std::string const RoutineName("CalcSwimmingPool");
+        static thread_local std::string const RoutineName("CalcSwimmingPool");
 
         // SUBROUTINE LOCAL VARIABLE DECLARATIONS:
         Real64 HConvIn;               // convection coefficient for pool
@@ -1080,8 +1080,8 @@ namespace SwimmingPool {
         using Psychrometrics::PsyPsatFnTemp;
         using Psychrometrics::PsyRhFnTdbWPb;
 
-        static std::string const RoutineName("CalcSwimmingPoolEvap");
-        static Real64 const CFinHg(0.00029613); // Multiple pressure in Pa by this constant to get inches of Hg
+        static thread_local std::string const RoutineName("CalcSwimmingPoolEvap");
+        static thread_local Real64 const CFinHg(0.00029613); // Multiple pressure in Pa by this constant to get inches of Hg
 
         Real64 PSatPool;
         Real64 PParAir;
@@ -1124,7 +1124,7 @@ namespace SwimmingPool {
         using PlantUtilities::SetComponentFlowRate;
 
         // SUBROUTINE PARAMETER DEFINITIONS:
-        static std::string const RoutineName("UpdateSwimmingPool");
+        static thread_local std::string const RoutineName("UpdateSwimmingPool");
 
         // SUBROUTINE LOCAL VARIABLE DECLARATIONS:
         int SurfNum;          // surface number/pointer
@@ -1314,7 +1314,7 @@ namespace SwimmingPool {
         using FluidProperties::GetSpecificHeatGlycol;
 
         // SUBROUTINE PARAMETER DEFINITIONS:
-        static std::string const RoutineName("ReportSwimmingPool");
+        static thread_local std::string const RoutineName("ReportSwimmingPool");
         Real64 const MinDensity = 1.0; // to avoid a divide by zero
 
         // SUBROUTINE LOCAL VARIABLE DECLARATIONS:

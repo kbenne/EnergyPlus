@@ -133,7 +133,7 @@ namespace SystemReports {
     int const HeatAndCool(3);
     int const MaxSetBackCount(3);
 
-    static std::string const BlankString;
+    static thread_local std::string const BlankString;
 
     // DERIVED TYPE DEFINITIONS:
 
@@ -233,8 +233,8 @@ namespace SystemReports {
     Array1D_bool NoLoadFlag;
     Array1D_bool UnmetLoadFlag;
 
-    static gio::Fmt fmtLD("*");
-    static gio::Fmt fmtA("(A)");
+    static thread_local gio::Fmt fmtLD("*");
+    static thread_local gio::Fmt fmtA("(A)");
 
     // SUBROUTINE SPECIFICATIONS FOR MODULE SystemReports
 
@@ -318,7 +318,7 @@ namespace SystemReports {
         std::string CompType;
         std::string CompName;
         bool MatchFound;
-        static bool OneTimeFlag(true); // Flag set to make sure you initialize reports one time
+        static thread_local bool OneTimeFlag(true); // Flag set to make sure you initialize reports one time
         bool ConnectionFlag(false);
 
         if (!VentReportStructureCreated) return;
@@ -1241,7 +1241,7 @@ namespace SystemReports {
         int DemandSideCompNum;
         int SupplySideCompNum;
         int DemandSideLoopType;
-        static bool OneTimeFlag(true); // Flag set to make sure you initialize reports one time
+        static thread_local bool OneTimeFlag(true); // Flag set to make sure you initialize reports one time
         bool found;
         //		int countloop;
 
@@ -1258,7 +1258,7 @@ namespace SystemReports {
         };
 
         // Object Data
-        static Array1D<IdentifyLoop> LoopStack;
+        static thread_local Array1D<IdentifyLoop> LoopStack;
 
         return; // Autodesk:? Is this routine now an intentional NOOP?
 
@@ -1420,9 +1420,9 @@ namespace SystemReports {
         // INTERFACE BLOCK SPECIFICATIONS:
         // na
 
-        static bool OneTimeFlag(true);
-        static int ArrayLimit(100);
-        static int ArrayCounter(1);
+        static thread_local bool OneTimeFlag(true);
+        static thread_local int ArrayLimit(100);
+        static thread_local int ArrayCounter(1);
 
         if (OneTimeFlag) {
             ZoneCompToPlant.allocate(ArrayLimit);
@@ -1502,9 +1502,9 @@ namespace SystemReports {
         // INTERFACE BLOCK SPECIFICATIONS:
         // na
 
-        static bool OneTimeFlag(true);
-        static int ArrayLimit(100);
-        static int ArrayCounter(1);
+        static thread_local bool OneTimeFlag(true);
+        static thread_local int ArrayLimit(100);
+        static thread_local int ArrayCounter(1);
 
         if (OneTimeFlag) {
             ZoneSubCompToPlant.allocate(ArrayLimit);
@@ -1588,9 +1588,9 @@ namespace SystemReports {
         // INTERFACE BLOCK SPECIFICATIONS:
         // na
 
-        static bool OneTimeFlag(true);
-        static int ArrayLimit(100);
-        static int ArrayCounter(1);
+        static thread_local bool OneTimeFlag(true);
+        static thread_local int ArrayLimit(100);
+        static thread_local int ArrayCounter(1);
 
         if (OneTimeFlag) {
             ZoneSubSubCompToPlant.allocate(ArrayLimit);
@@ -1676,9 +1676,9 @@ namespace SystemReports {
         // INTERFACE BLOCK SPECIFICATIONS:
         // na
 
-        static bool OneTimeFlag(true);
-        static int ArrayLimit(100);
-        static int ArrayCounter(1);
+        static thread_local bool OneTimeFlag(true);
+        static thread_local int ArrayLimit(100);
+        static thread_local int ArrayCounter(1);
 
         if (OneTimeFlag) {
             AirSysCompToPlant.allocate(ArrayLimit);
@@ -1762,9 +1762,9 @@ namespace SystemReports {
         // INTERFACE BLOCK SPECIFICATIONS:
         // na
 
-        static bool OneTimeFlag(true);
-        static int ArrayLimit(100);
-        static int ArrayCounter(1);
+        static thread_local bool OneTimeFlag(true);
+        static thread_local int ArrayLimit(100);
+        static thread_local int ArrayCounter(1);
 
         if (OneTimeFlag) {
             AirSysSubCompToPlant.allocate(ArrayLimit);
@@ -1852,9 +1852,9 @@ namespace SystemReports {
         // INTERFACE BLOCK SPECIFICATIONS:
         // na
 
-        static bool OneTimeFlag(true);
-        static int ArrayLimit(100);
-        static int ArrayCounter(1);
+        static thread_local bool OneTimeFlag(true);
+        static thread_local int ArrayLimit(100);
+        static thread_local int ArrayCounter(1);
 
         if (OneTimeFlag) {
             AirSysSubSubCompToPlant.allocate(ArrayLimit);
@@ -3913,7 +3913,7 @@ namespace SystemReports {
             Unknown_ComponentType
         };
 
-        static std::unordered_map<std::string, ComponentTypes> const component_map = {
+        static thread_local std::unordered_map<std::string, ComponentTypes> const component_map = {
             {"AIRLOOPHVAC:OUTDOORAIRSYSTEM", AIRLOOPHVAC_OUTDOORAIRSYSTEM},
             {"AIRLOOPHVAC:UNITARY:FURNACE:HEATCOOL", AIRLOOPHVAC_UNITARY_FURNACE_HEATCOOL},
             {"AIRLOOPHVAC:UNITARY:FURNACE:HEATONLY", AIRLOOPHVAC_UNITARY_FURNACE_HEATONLY},
@@ -4006,7 +4006,7 @@ namespace SystemReports {
         // DERIVED TYPE DEFINITIONS
 
         // SUBROUTINE LOCAL VARIABLE DECLARATIONS:
-        static int NumCompTypes(0);
+        static thread_local int NumCompTypes(0);
         int found;
 
         struct CompTypeError
@@ -4022,7 +4022,7 @@ namespace SystemReports {
         };
 
         // Object Data
-        static Array1D<CompTypeError> CompTypeErrors(100);
+        static thread_local Array1D<CompTypeError> CompTypeErrors(100);
 
         if (!AirLoopLoadsReportEnabled) return;
 
@@ -5058,7 +5058,7 @@ namespace SystemReports {
         // na
 
         // SUBROUTINE PARAMETER DEFINITIONS:
-        static std::string const errstring("**error**");
+        static thread_local std::string const errstring("**error**");
 
         // INTERFACE BLOCK SPECIFICATIONS
         // na
@@ -5078,22 +5078,22 @@ namespace SystemReports {
         std::string ChrOut5;
 
         // Formats
-        static gio::Fmt Format_701("(A)");
-        static gio::Fmt Format_706("('! <#AirLoopHVACs>,<Number of AirLoopHVACs>')");
-        static gio::Fmt Format_707("(1X,A)");
-        static gio::Fmt Format_708(
+        static thread_local gio::Fmt Format_701("(A)");
+        static thread_local gio::Fmt Format_706("('! <#AirLoopHVACs>,<Number of AirLoopHVACs>')");
+        static thread_local gio::Fmt Format_707("(1X,A)");
+        static thread_local gio::Fmt Format_708(
             "('! <AirLoopHVAC>,<Air Loop Name>,<# Return Nodes>,<# Supply Nodes>,','<# Zones Cooled>,<# Zones Heated>,<Outdoor Air Used>')");
-        static gio::Fmt Format_709("('! <AirLoop Return Connections>,<Connection Count>,<AirLoopHVAC Name>,','<Zn Eqp Return Node #>,<Zn Eqp Return "
+        static thread_local gio::Fmt Format_709("('! <AirLoop Return Connections>,<Connection Count>,<AirLoopHVAC Name>,','<Zn Eqp Return Node #>,<Zn Eqp Return "
                                    "Node Name>,','<AirLoop Return Node #>,<Air Loop Return Node Name>')");
-        static gio::Fmt Format_710("('! <AirLoop Supply Connections>,<Connection Count>,<AirLoopHVAC Name>,','<Zn Eqp Supply Node #>,<Zn Eqp Supply "
+        static thread_local gio::Fmt Format_710("('! <AirLoop Supply Connections>,<Connection Count>,<AirLoopHVAC Name>,','<Zn Eqp Supply Node #>,<Zn Eqp Supply "
                                    "Node Name>,','<AirLoop Supply Node #>,<Air Loop Supply Node Name>')");
-        static gio::Fmt Format_711("('! <Cooled Zone Info>,<Cooled Zone Count>,<Cooled Zone Name>,','<Cooled Zone Inlet Node #>,<Cooled Zone Inlet "
+        static thread_local gio::Fmt Format_711("('! <Cooled Zone Info>,<Cooled Zone Count>,<Cooled Zone Name>,','<Cooled Zone Inlet Node #>,<Cooled Zone Inlet "
                                    "Node Name>,<AirLoopHVAC Name>')");
-        static gio::Fmt Format_712("('! <Heated Zone Info>,<Heated Zone Count>,<Heated Zone Name>,','<Heated Zone Inlet Node #>,<Heated Zone Inlet "
+        static thread_local gio::Fmt Format_712("('! <Heated Zone Info>,<Heated Zone Count>,<Heated Zone Name>,','<Heated Zone Inlet Node #>,<Heated Zone Inlet "
                                    "Node Name>,<AirLoopHVAC Name>')");
-        static gio::Fmt Format_714("('! <Outdoor Air Connections>,<OA Inlet Node #>,<OA Return Air Inlet Node Name>,','<OA Outlet Node #>,<OA Mixed "
+        static thread_local gio::Fmt Format_714("('! <Outdoor Air Connections>,<OA Inlet Node #>,<OA Return Air Inlet Node Name>,','<OA Outlet Node #>,<OA Mixed "
                                    "Air Outlet Node Name>,<AirLoopHVAC Name>'s)");
-        static gio::Fmt Format_713("(A)");
+        static thread_local gio::Fmt Format_713("(A)");
 
         gio::write(OutputFileBNDetails, Format_701) << "! ===============================================================";
         gio::write(OutputFileBNDetails, Format_706);

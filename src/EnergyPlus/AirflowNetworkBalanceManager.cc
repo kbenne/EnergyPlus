@@ -232,7 +232,7 @@ namespace AirflowNetworkBalanceManager {
     int const EquivRec_Height(1);          // Effective rectangle polygonal height selection
     int const EquivRec_BaseAspectRatio(2); // Effective rectangle base surface aspect ratio selection
     int const EquivRec_UserAspectRatio(3); // Effective rectangle user input aspect ratio selection
-    static std::string const BlankString;
+    static thread_local std::string const BlankString;
 
     // DERIVED TYPE DEFINITIONS:
     // Report variables
@@ -526,8 +526,8 @@ namespace AirflowNetworkBalanceManager {
         // na
 
         // SUBROUTINE PARAMETER DEFINITIONS:
-        static gio::Fmt fmtA("(A)");
-        static std::string const RoutineName("GetAirflowNetworkInput: "); // include trailing blank space
+        static thread_local gio::Fmt fmtA("(A)");
+        static thread_local std::string const RoutineName("GetAirflowNetworkInput: "); // include trailing blank space
 
         // INTERFACE BLOCK SPECIFICATIONS:
         // na
@@ -575,18 +575,18 @@ namespace AirflowNetworkBalanceManager {
         Array1D<Real64> Numbers;       // Numeric input items for object
         Array1D_bool lAlphaBlanks;     // Logical array, alpha field input BLANK = .TRUE.
         Array1D_bool lNumericBlanks;   // Logical array, numeric field input BLANK = .TRUE.
-        static int MaxNums(0);         // Maximum number of numeric input fields
-        static int MaxAlphas(0);       // Maximum number of alpha input fields
-        static int TotalArgs(0);       // Total number of alpha and numeric arguments (max) for a
+        static thread_local int MaxNums(0);         // Maximum number of numeric input fields
+        static thread_local int MaxAlphas(0);       // Maximum number of alpha input fields
+        static thread_local int TotalArgs(0);       // Total number of alpha and numeric arguments (max) for a
         bool Errorfound1;
         Real64 minHeight;
         Real64 maxHeight;
         Real64 baseratio;
 
         // Formats
-        static gio::Fmt Format_110("('! <AirflowNetwork Model:Control>, No Multizone or Distribution/Multizone with Distribution/','Multizone "
+        static thread_local gio::Fmt Format_110("('! <AirflowNetwork Model:Control>, No Multizone or Distribution/Multizone with Distribution/','Multizone "
                                    "without Distribution/Multizone with Distribution only during Fan Operation')");
-        static gio::Fmt Format_120("('AirflowNetwork Model:Control,',A)");
+        static thread_local gio::Fmt Format_120("('AirflowNetwork Model:Control,',A)");
 
         // Set the maximum numbers of input fields
         inputProcessor->getObjectDefMaxArgs("AirflowNetwork:SimulationControl", TotalArgs, NumAlphas, NumNumbers);
@@ -4658,8 +4658,8 @@ namespace AirflowNetworkBalanceManager {
         // na
 
         // SUBROUTINE LOCAL VARIABLE DECLARATIONS:
-        static bool OneTimeFlag(true);
-        static bool MyEnvrnFlag(true);
+        static thread_local bool OneTimeFlag(true);
+        static thread_local bool MyEnvrnFlag(true);
         int i;
         int j;
         int ZoneNum;
@@ -4930,12 +4930,12 @@ namespace AirflowNetworkBalanceManager {
         int SurfNum;
 
         // Formats
-        static gio::Fmt Format_900("(1X,i2)");
-        static gio::Fmt Format_901("(1X,2I4,4F9.4)");
-        static gio::Fmt Format_902("(1X,2I4,4F9.4)");
-        static gio::Fmt Format_903("(9X,4F9.4)");
-        static gio::Fmt Format_904("(1X,2I4,1F9.4)");
-        static gio::Fmt Format_910("(1X,I4,2(I4,F9.4),I4,2F4.1)");
+        static thread_local gio::Fmt Format_900("(1X,i2)");
+        static thread_local gio::Fmt Format_901("(1X,2I4,4F9.4)");
+        static thread_local gio::Fmt Format_902("(1X,2I4,4F9.4)");
+        static thread_local gio::Fmt Format_903("(9X,4F9.4)");
+        static thread_local gio::Fmt Format_904("(1X,2I4,1F9.4)");
+        static thread_local gio::Fmt Format_910("(1X,I4,2(I4,F9.4),I4,2F4.1)");
 
         AirflowNetworkNodeSimu.allocate(AirflowNetworkNumOfNodes);   // Node simulation variable in air distribution system
         AirflowNetworkLinkSimu.allocate(AirflowNetworkNumOfLinks);   // Link simulation variable in air distribution system
@@ -5522,8 +5522,8 @@ namespace AirflowNetworkBalanceManager {
         int j;
         int n;
         int NodeNum;
-        static bool OneTimeFlag(true);
-        static bool ErrorsFound(false);
+        static thread_local bool OneTimeFlag(true);
+        static thread_local bool ErrorsFound(false);
         Real64 GlobalOpenFactor;
         Real64 ZonePressure1;
         Real64 ZonePressure2;
@@ -5537,12 +5537,12 @@ namespace AirflowNetworkBalanceManager {
         Real64 const ErrorToler(0.00001);
         int const MaxIte(20);
         int SolFla;
-        static int ErrCountVar(0);
-        static int ErrCountHighPre(0);
-        static int ErrCountLowPre(0);
-        static int ErrIndexHighPre(0);
-        static int ErrIndexVar(0);
-        static int ErrIndexLowPre(0);
+        static thread_local int ErrCountVar(0);
+        static thread_local int ErrCountHighPre(0);
+        static thread_local int ErrCountLowPre(0);
+        static thread_local int ErrIndexHighPre(0);
+        static thread_local int ErrIndexVar(0);
+        static thread_local int ErrIndexLowPre(0);
         Real64 MinExhaustMassFlowrate;
         Real64 MaxExhaustMassFlowrate;
         Real64 MinReliefMassFlowrate;
@@ -6035,7 +6035,7 @@ namespace AirflowNetworkBalanceManager {
         // SUBROUTINE PARAMETER DEFINITIONS
         //  index 1 is wind incidence angle (0,30,60,...,300,330 deg)
         //  index 2 is side ratio (0.25,1.0,4.0),
-        static Array2D<Real64> const CPHighRiseWall(
+        static thread_local Array2D<Real64> const CPHighRiseWall(
             3,
             12,
             reshape2<Real64, int>({0.60, 0.54, 0.23,  -0.25, -0.61, -0.55, -0.51, -0.55, -0.61, -0.25, 0.23,  0.54,
@@ -6045,7 +6045,7 @@ namespace AirflowNetworkBalanceManager {
                                              // work-around for VC++2013 bug
         //  index 1 is wind incidence angle (0,30,60,...,300,330 deg)
         //  index 2 is side ratio (0.25,0.5,1.0),
-        static Array2D<Real64> const CPHighRiseRoof(
+        static thread_local Array2D<Real64> const CPHighRiseRoof(
             3,
             12,
             reshape2<Real64, int>({-0.28, -0.69, -0.72, -0.76, -0.72, -0.69, -0.28, -0.69, -0.72, -0.76, -0.72, -0.69,
@@ -8411,8 +8411,8 @@ namespace AirflowNetworkBalanceManager {
         Real64 NodeMass;
         Real64 AFNMass;
         bool WriteFlag;
-        static bool MyOneTimeFlag(true);
-        static bool MyOneTimeFlag1(true);
+        static thread_local bool MyOneTimeFlag(true);
+        static thread_local bool MyOneTimeFlag1(true);
 
         for (auto &e : AirflowNetworkExchangeData) {
             e.SumMCp = 0.0;
@@ -9172,7 +9172,7 @@ namespace AirflowNetworkBalanceManager {
         using ZoneDehumidifier::GetZoneDehumidifierNodeNumber;
 
         // SUBROUTINE PARAMETER DEFINITIONS:
-        static std::string const RoutineName("ValidateDistributionSystem: "); // include trailing blank space
+        static thread_local std::string const RoutineName("ValidateDistributionSystem: "); // include trailing blank space
 
         // SUBROUTINE LOCAL VARIABLE DECLARATIONS:
         int i;
@@ -9183,13 +9183,13 @@ namespace AirflowNetworkBalanceManager {
         int S2;
         int R1;
         int R2;
-        static bool OneTimeFlag(true);
-        static bool ErrorsFound(false);
+        static thread_local bool OneTimeFlag(true);
+        static thread_local bool ErrorsFound(false);
         bool LocalError;
         Array1D_bool NodeFound;
         Real64 FanFlow;
-        static bool IsNotOK(false);
-        static bool errFlag(false);
+        static thread_local bool IsNotOK(false);
+        static thread_local bool errFlag(false);
         Array1D_int NodeConnectionType; // Specifies the type of node connection
         std::string CurrentModuleObject;
 
@@ -9718,14 +9718,14 @@ namespace AirflowNetworkBalanceManager {
         using DataZoneEquipment::ZoneExhaustFan_Num;
 
         // SUBROUTINE PARAMETER DEFINITIONS:
-        static std::string const RoutineName("ValidateExhaustFanInput: "); // include trailing blank space
+        static thread_local std::string const RoutineName("ValidateExhaustFanInput: "); // include trailing blank space
 
         // SUBROUTINE LOCAL VARIABLE DECLARATIONS:
         int i;
         int j;
         int k;
-        static bool OneTimeFlag(true);
-        static bool ErrorsFound(false);
+        static thread_local bool OneTimeFlag(true);
+        static thread_local bool ErrorsFound(false);
         bool found;
         int EquipTypeNum; // Equipment type number
         std::string CurrentModuleObject;
@@ -9849,7 +9849,7 @@ namespace AirflowNetworkBalanceManager {
         int const HybridVentCtrl_Close(2);                                  // Open windows or doors
         int const IndividualCtrlType(0);                                    // Individual window or door control
         int const GlobalCtrlType(1);                                        // Global window or door control
-        static std::string const RoutineName("HybridVentilationControl: "); // include trailing blank space
+        static thread_local std::string const RoutineName("HybridVentilationControl: "); // include trailing blank space
 
         // SUBROUTINE LOCAL VARIABLE DECLARATIONS:
         int SysAvailNum;       // Hybrid ventilation control number
@@ -9860,8 +9860,8 @@ namespace AirflowNetworkBalanceManager {
         int SurfNum;           // Surface number
         int ControlType;       // Hybrid ventilation control type: 0 individual; 1 global
         bool Found;            // Logical to indicate whether a master surface is found or not
-        static int HybridGlobalErrIndex(0);
-        static int HybridGlobalErrCount(0);
+        static thread_local int HybridGlobalErrIndex(0);
+        static thread_local int HybridGlobalErrCount(0);
 
         for (auto &e : MultizoneSurfaceData) {
             e.HybridVentClose = false;
@@ -9982,8 +9982,8 @@ namespace AirflowNetworkBalanceManager {
         Array1D<Real64> Sprime;            // The dimensionless ratio of the window separation to the building width
         Array1D<Real64> CPV1;              // Wind pressure coefficient for the first opening in the zone
         Array1D<Real64> CPV2;              // Wind pressure coefficient for the second opening in the zone
-        static int AFNNumOfExtOpenings(0); // Total number of external openings in the model
-        static int OpenNuminZone(0);       // Counts which opening this is in the zone, 1 or 2
+        static thread_local int AFNNumOfExtOpenings(0); // Total number of external openings in the model
+        static thread_local int OpenNuminZone(0);       // Counts which opening this is in the zone, 1 or 2
         std::string Name;                  // External node name
         Array1D_int NumofExtSurfInZone;    // List of the number of exterior openings in each zone
 

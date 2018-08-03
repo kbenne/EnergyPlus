@@ -96,7 +96,7 @@ namespace EarthTube {
     using namespace Psychrometrics;
 
     // MODULE VARIABLES DECLARATIONS:
-    static std::string const BlankString;
+    static thread_local std::string const BlankString;
 
     int TotEarthTube(0); // Total EarthTube Statements in input
     // Parameters for Ventilation
@@ -133,8 +133,8 @@ namespace EarthTube {
         // the other drivers and simulation algorithms.
 
         // SUBROUTINE LOCAL VARIABLE DECLARATIONS:
-        static bool GetInputFlag(true);
-        static bool ErrorsFound(false);
+        static thread_local bool GetInputFlag(true);
+        static thread_local bool ErrorsFound(false);
 
         // Obtains and Allocates heat balance related parameters from input file
         if (GetInputFlag) {
@@ -533,7 +533,7 @@ namespace EarthTube {
         Real64 AirMassFlowRate;      // Actual Mass Flow Rate of Air inside Pipe
         Real64 AirSpecHeat;          // Specific Heat of Air
         Real64 AirDensity;           // Density of Air
-        static Array1D<Real64> EVF;  // DESIGN EARTHTUBE FLOW RATE (M**3/SEC)
+        static thread_local Array1D<Real64> EVF;  // DESIGN EARTHTUBE FLOW RATE (M**3/SEC)
 
         // Allocate the EVF array
         if (!allocated(EVF)) EVF.allocate(NumOfZones);

@@ -141,7 +141,7 @@ namespace Fans {
 
     int const ExhaustFanCoupledToAvailManagers(150);
     int const ExhaustFanDecoupledFromAvailManagers(151);
-    static std::string const BlankString;
+    static thread_local std::string const BlankString;
     // na
 
     // DERIVED TYPE DEFINITIONS
@@ -154,7 +154,7 @@ namespace Fans {
     bool LocalTurnFansOff(false); // If True, overrides fan schedule and LocalTurnFansOn and cycles ZoneHVAC component fans off
 
     namespace {
-        // These were static variables within different functions. They were pulled out into the namespace
+        // These were static thread_local variables within different functions. They were pulled out into the namespace
         // to facilitate easier unit testing of those functions.
         // These are purposefully not in the header file as an extern variable. No one outside of this module should
         // use these. They are cleared by clear_state() for use by unit tests, but normal simulations should be unaffected.
@@ -330,8 +330,8 @@ namespace Fans {
         int NumNums;
         int checkNum;
         int IOStat;
-        static bool ErrorsFound(false);                        // If errors detected in input
-        static std::string const RoutineName("GetFanInput: "); // include trailing blank space
+        static thread_local bool ErrorsFound(false);                        // If errors detected in input
+        static thread_local std::string const RoutineName("GetFanInput: "); // include trailing blank space
         Array1D_string cAlphaFieldNames;
         Array1D_string cNumericFieldNames;
         Array1D_bool lNumericFieldBlanks;
@@ -876,8 +876,8 @@ namespace Fans {
             Fan(FanNum).FanSizingFactor = rNumericArgs(3);                       // Fan max airflow sizing factor [-] cpw31Aug2010
             Fan(FanNum).FanWheelDia = rNumericArgs(4);                           // Fan wheel outer diameter [m]
             Fan(FanNum).FanOutletArea = rNumericArgs(5);                         // Fan outlet area [m2]
-            Fan(FanNum).FanMaxEff = rNumericArgs(6);                             // Fan maximum static efficiency [-]
-            Fan(FanNum).EuMaxEff = rNumericArgs(7);                              // Euler number at Fan maximum static efficiency [-]
+            Fan(FanNum).FanMaxEff = rNumericArgs(6);                             // Fan maximum static thread_local efficiency [-]
+            Fan(FanNum).EuMaxEff = rNumericArgs(7);                              // Euler number at Fan maximum static thread_local efficiency [-]
             Fan(FanNum).FanMaxDimFlow = rNumericArgs(8);                         // Fan maximum dimensionless airflow [-]
             Fan(FanNum).PulleyDiaRatio = rNumericArgs(9);                        // Motor/fan pulley diameter ratio [-]
             Fan(FanNum).BeltMaxTorque = rNumericArgs(10);                        // Belt maximum torque [N-m, autosizable]
@@ -891,7 +891,7 @@ namespace Fans {
             Fan(FanNum).VFDMaxOutPwr = rNumericArgs(17);                         // VFD maximum output power [W, autosizable]
             Fan(FanNum).VFDSizingFactor = rNumericArgs(18);                      // VFD sizing factor [-] cpw31Aug2010
             Fan(FanNum).PressRiseCurveIndex = GetCurveIndex(cAlphaArgs(6));      // Fan pressure rise curve
-            Fan(FanNum).PressResetCurveIndex = GetCurveIndex(cAlphaArgs(7));     // Duct static pressure reset curve
+            Fan(FanNum).PressResetCurveIndex = GetCurveIndex(cAlphaArgs(7));     // Duct static thread_local pressure reset curve
             Fan(FanNum).PLFanEffNormCurveIndex = GetCurveIndex(cAlphaArgs(8));   // Fan part-load eff (normal) curve
             Fan(FanNum).PLFanEffStallCurveIndex = GetCurveIndex(cAlphaArgs(9));  // Fan part-load eff (stall) curve
             Fan(FanNum).DimFlowNormCurveIndex = GetCurveIndex(cAlphaArgs(10));   // Fan dim airflow (normal) curve
@@ -1213,7 +1213,7 @@ namespace Fans {
         // SUBROUTINE ARGUMENT DEFINITIONS:
 
         // SUBROUTINE PARAMETER DEFINITIONS:
-        static std::string const RoutineName("SizeFan: "); // include trailing blank space
+        static thread_local std::string const RoutineName("SizeFan: "); // include trailing blank space
 
         // INTERFACE BLOCK SPECIFICATIONS
         // na
@@ -1227,7 +1227,7 @@ namespace Fans {
         Real64 RatedPower;                 // Rated fan power [W]
         Real64 RhoAir;                     // Air density [kg/m3]
         Real64 FanVolFlow;                 // Fan volumetric airflow [m3/s]
-        Real64 DuctStaticPress;            // Duct static pressure setpoint [Pa]
+        Real64 DuctStaticPress;            // Duct static thread_local pressure setpoint [Pa]
         Real64 DeltaPressTot;              // Total pressure rise across fan [N/m2 = Pa]
         Real64 FanOutletVelPress;          // Fan outlet velocity pressure [Pa]
         Real64 EulerNum;                   // Fan Euler number [-]
@@ -1241,8 +1241,8 @@ namespace Fans {
         Real64 XmotorMax;                  // Factor for motor max eff curve [ln hp]
         Real64 MotorOutPwrRatio;           // Ratio of motor output power to max motor output power [-]
         Real64 MotorPLEff;                 // Motor normalized (part-load) efficiency [-]
-        static Real64 VFDSpdRatio(0.0);    // Ratio of motor speed to motor max speed [-]
-        static Real64 VFDOutPwrRatio(0.0); // Ratio of VFD output power to max VFD output power [-]
+        static thread_local Real64 VFDSpdRatio(0.0);    // Ratio of motor speed to motor max speed [-]
+        static thread_local Real64 VFDOutPwrRatio(0.0); // Ratio of VFD output power to max VFD output power [-]
         std::string CompName;              // component name
         std::string CompType;              // component type
         std::string SizingString;          // input field sizing description (e.g., Nominal Capacity)
@@ -1284,20 +1284,20 @@ namespace Fans {
             // Adjust max fan volumetric airflow using fan sizing factor
             FanVolFlow *= Fan(FanNum).FanSizingFactor; //[m3/s at standard conditions]
 
-            // Calculate max fan static pressure rise using max fan volumetric flow, std air density, air-handling system characteristics,
-            //   and Sherman-Wray system curve model (assumes static pressure surrounding air distribution system is zero)
-            DuctStaticPress = CurveValue(Fan(FanNum).PressResetCurveIndex, FanVolFlow);               // Duct static pressure setpoint [Pa]
+            // Calculate max fan static thread_local pressure rise using max fan volumetric flow, std air density, air-handling system characteristics,
+            //   and Sherman-Wray system curve model (assumes static thread_local pressure surrounding air distribution system is zero)
+            DuctStaticPress = CurveValue(Fan(FanNum).PressResetCurveIndex, FanVolFlow);               // Duct static thread_local pressure setpoint [Pa]
             DeltaPressTot = CurveValue(Fan(FanNum).PressRiseCurveIndex, FanVolFlow, DuctStaticPress); // Max fan total pressure rise [Pa]
             FanOutletVelPress = 0.5 * RhoAir * pow_2(FanVolFlow / Fan(FanNum).FanOutletArea);         // Max fan outlet velocity pressure [Pa]
             // Outlet velocity pressure cannot exceed total pressure rise
             FanOutletVelPress = min(FanOutletVelPress, DeltaPressTot);
-            Fan(FanNum).DeltaPress = DeltaPressTot - FanOutletVelPress; // Max fan static pressure rise [Pa]
+            Fan(FanNum).DeltaPress = DeltaPressTot - FanOutletVelPress; // Max fan static thread_local pressure rise [Pa]
 
-            // Calculate max fan air power using volumetric flow abd corresponding fan static pressure rise
+            // Calculate max fan air power using volumetric flow abd corresponding fan static thread_local pressure rise
             Fan(FanNum).FanAirPower = FanVolFlow * Fan(FanNum).DeltaPress; //[W]
 
-            // Calculate fan wheel efficiency at max fan volumetric flow and corresponding fan static pressure rise,
-            //   using fan characteristics and Wray dimensionless fan static efficiency model
+            // Calculate fan wheel efficiency at max fan volumetric flow and corresponding fan static thread_local pressure rise,
+            //   using fan characteristics and Wray dimensionless fan static thread_local efficiency model
             EulerNum = (Fan(FanNum).DeltaPress * pow_4(Fan(FanNum).FanWheelDia)) / (RhoAir * pow_2(FanVolFlow)); //[-]
             NormalizedEulerNum = std::log10(EulerNum / Fan(FanNum).EuMaxEff);
             if (NormalizedEulerNum <= 0.0) {
@@ -1309,7 +1309,7 @@ namespace Fans {
             Fan(FanNum).FanWheelEff = max(Fan(FanNum).FanWheelEff, 0.01); // Minimum efficiency is 1% to avoid numerical errors
 
             // Calculate max fan shaft power using fan air power and fan efficiency
-            // at max fan static pressure rise and max fan volumetric flow
+            // at max fan static thread_local pressure rise and max fan volumetric flow
             Fan(FanNum).FanShaftPower = (Fan(FanNum).FanAirPower / Fan(FanNum).FanWheelEff); //[W]
             Fan(FanNum).FanShaftPwrMax = Fan(FanNum).FanShaftPower;                          //[W]
 
@@ -1455,7 +1455,7 @@ namespace Fans {
 
             // Report fan, belt, motor, and VFD characteristics at design condition to .eio file cpw14Sep2010
             ReportSizingOutput(Fan(FanNum).FanType, Fan(FanNum).FanName, "Design Fan Airflow [m3/s]", FanVolFlow);
-            ReportSizingOutput(Fan(FanNum).FanType, Fan(FanNum).FanName, "Design Fan Static Pressure Rise [Pa]", Fan(FanNum).DeltaPress);
+            ReportSizingOutput(Fan(FanNum).FanType, Fan(FanNum).FanName, "Design Fan static thread_local Pressure Rise [Pa]", Fan(FanNum).DeltaPress);
             ReportSizingOutput(Fan(FanNum).FanType, Fan(FanNum).FanName, "Design Fan Shaft Power [W]", Fan(FanNum).FanShaftPower);
             ReportSizingOutput(Fan(FanNum).FanType, Fan(FanNum).FanName, "Design Motor Output Power [W]", Fan(FanNum).MotorMaxOutPwr);
             ReportSizingOutput(Fan(FanNum).FanType, Fan(FanNum).FanName, "Design VFD Output Power [W]", Fan(FanNum).VFDMaxOutPwr);
@@ -1712,8 +1712,8 @@ namespace Fans {
         Real64 PartLoadFrac;
         // unused0909      REAL(r64) MaxFlowFrac   !Variable Volume Fan Max Flow Fraction [-]
         Real64 MinFlowFrac;                  // Variable Volume Fan Min Flow Fraction [-]
-        static Real64 FlowFracForPower(0.0); // Variable Volume Fan Flow Fraction for power calcs[-]
-        static Real64 FlowFracActual(0.0);   // actual VAV fan flow fraction
+        static thread_local Real64 FlowFracForPower(0.0); // Variable Volume Fan Flow Fraction for power calcs[-]
+        static thread_local Real64 FlowFracActual(0.0);   // actual VAV fan flow fraction
         Real64 FanShaftPower;                // power delivered to fan shaft
         int NVPerfNum;
 
@@ -1924,7 +1924,7 @@ namespace Fans {
         Real64 FanShaftPower;        // power delivered to fan shaft
         Real64 SpeedRaisedToPower;   // Result of the speed ratio raised to the power of n (Curve object)
         Real64 EffRatioAtSpeedRatio; // Efficeincy ratio at current speed ratio (Curve object)
-        static int ErrCount(0);
+        static thread_local int ErrCount(0);
 
         // unused0909   Tin        = Fan(FanNum)%InletAirTemp
         // unused0909   Win        = Fan(FanNum)%InletAirHumRat
@@ -2202,12 +2202,12 @@ namespace Fans {
         // This subroutine simulates the component model fan.
 
         // METHODOLOGY EMPLOYED:
-        // Calculate fan volumetric flow and corresponding fan static pressure rise,
+        // Calculate fan volumetric flow and corresponding fan static thread_local pressure rise,
         //    using air-handling system characteristics and Sherman-Wray system curve model
-        // Calculate fan air power using volumetric flow and fan static pressure rise
-        // Calculate fan wheel efficiency using fan volumetric flow, fan static pressure rise,
-        //   fan characteristics, and Wray dimensionless fan static efficiency model
-        // Calculate fan shaft power using fan air power and fan static efficiency
+        // Calculate fan air power using volumetric flow and fan static thread_local pressure rise
+        // Calculate fan wheel efficiency using fan volumetric flow, fan static thread_local pressure rise,
+        //   fan characteristics, and Wray dimensionless fan static thread_local efficiency model
+        // Calculate fan shaft power using fan air power and fan static thread_local efficiency
         // Calculate fan shaft speed and torque using Wray dimensionless fan airflow model
         // Calculate belt part-load efficiency using correlations and coefficients based on ACEEE data
         // Calculate belt input power using fan shaft power and belt efficiency
@@ -2250,7 +2250,7 @@ namespace Fans {
         // unused062011  REAL(r64) MinFlowFrac        ! Fan Min Volumetric airflow Fraction [-]
         // unused062011  REAL(r64) FlowFrac           ! Fan Volumetric airflow Fraction [-]
 
-        // unused062011  REAL(r64) DeltaPress         ! Delta Pressure Across the Fan (Fan Static Pressure Rise) [N/m2 = Pa]
+        // unused062011  REAL(r64) DeltaPress         ! Delta Pressure Across the Fan (Fan static thread_local Pressure Rise) [N/m2 = Pa]
         // unused062011  REAL(r64) FanAirPower        ! Air power for Fan being Simulated [W]
         // unused062011  REAL(r64) FanSpd             ! Fan shaft rotational speed [rpm]
         // unused062011  REAL(r64) FanTrq             ! Fan shaft torque [N-m]
@@ -2269,7 +2269,7 @@ namespace Fans {
         Real64 RhoAir;                     // Air density [kg/m3]
         Real64 MassFlow;                   // Fan mass airflow [kg/s]
         Real64 FanVolFlow;                 // Fan volumetric airflow [m3/s]
-        Real64 DuctStaticPress;            // Duct static pressure setpoint [Pa]
+        Real64 DuctStaticPress;            // Duct static thread_local pressure setpoint [Pa]
         Real64 DeltaPressTot;              // Total pressure rise across fan [N/m2 = Pa]
         Real64 FanOutletVelPress;          // Fan outlet velocity pressure [Pa]
         Real64 EulerNum;                   // Fan Euler number [-]
@@ -2281,8 +2281,8 @@ namespace Fans {
         Real64 BeltPLEff;                  // Belt normalized (part-load) efficiency [-]
         Real64 MotorOutPwrRatio;           // Ratio of motor output power to max motor output power [-]
         Real64 MotorPLEff;                 // Motor normalized (part-load) efficiency [-]
-        static Real64 VFDSpdRatio(0.0);    // Ratio of motor speed to motor max speed [-]
-        static Real64 VFDOutPwrRatio(0.0); // Ratio of VFD output power to max VFD output power [-]
+        static thread_local Real64 VFDSpdRatio(0.0);    // Ratio of motor speed to motor max speed [-]
+        static thread_local Real64 VFDOutPwrRatio(0.0); // Ratio of VFD output power to max VFD output power [-]
         Real64 FanEnthalpyChange;          // Air enthalpy change due to fan, belt, and motor losses [kJ/kg]
 
         // Get inputs for night ventilation option
@@ -2315,23 +2315,23 @@ namespace Fans {
         if ((GetCurrentScheduleValue(Fan(FanNum).AvailSchedPtrNum) > 0.0 || LocalTurnFansOn) && !LocalTurnFansOff && MassFlow > 0.0) {
             // Fan is operating - calculate fan pressure rise, component efficiencies and power, and also air enthalpy rise
 
-            // Calculate fan static pressure rise using fan volumetric flow, std air density, air-handling system characteristics,
-            //   and Sherman-Wray system curve model (assumes static pressure surrounding air distribution system is zero)
+            // Calculate fan static thread_local pressure rise using fan volumetric flow, std air density, air-handling system characteristics,
+            //   and Sherman-Wray system curve model (assumes static thread_local pressure surrounding air distribution system is zero)
             FanVolFlow = MassFlow / RhoAir;                                                           //[m3/s at standard conditions]
-            DuctStaticPress = CurveValue(Fan(FanNum).PressResetCurveIndex, FanVolFlow);               // Duct static pressure setpoint [Pa]
+            DuctStaticPress = CurveValue(Fan(FanNum).PressResetCurveIndex, FanVolFlow);               // Duct static thread_local pressure setpoint [Pa]
             DeltaPressTot = CurveValue(Fan(FanNum).PressRiseCurveIndex, FanVolFlow, DuctStaticPress); // Fan total pressure rise [Pa]
             FanOutletVelPress = 0.5 * RhoAir * pow_2(FanVolFlow / Fan(FanNum).FanOutletArea);         // Fan outlet velocity pressure [Pa]
             // Outlet velocity pressure cannot exceed total pressure rise
             FanOutletVelPress = min(FanOutletVelPress, DeltaPressTot);
-            Fan(FanNum).DeltaPress = DeltaPressTot - FanOutletVelPress; // Fan static pressure rise [Pa]
+            Fan(FanNum).DeltaPress = DeltaPressTot - FanOutletVelPress; // Fan static thread_local pressure rise [Pa]
 
             //    IF (Fan(FanNum)%EMSFanPressureOverrideOn) DeltaPress = Fan(FanNum)%EMSFanPressureValue
 
-            // Calculate fan static air power using volumetric flow and fan static pressure rise
+            // Calculate fan static thread_local air power using volumetric flow and fan static pressure rise
             Fan(FanNum).FanAirPower = FanVolFlow * Fan(FanNum).DeltaPress; //[W]
 
-            // Calculate fan wheel efficiency using fan volumetric flow, fan static pressure rise,
-            //   fan characteristics, and Wray dimensionless fan static efficiency model
+            // Calculate fan wheel efficiency using fan volumetric flow, fan static thread_local pressure rise,
+            //   fan characteristics, and Wray dimensionless fan static thread_local efficiency model
             EulerNum = (Fan(FanNum).DeltaPress * pow_4(Fan(FanNum).FanWheelDia)) / (RhoAir * pow_2(FanVolFlow)); //[-]
             NormalizedEulerNum = std::log10(EulerNum / Fan(FanNum).EuMaxEff);
             if (NormalizedEulerNum <= 0.0) {
@@ -2342,7 +2342,7 @@ namespace Fans {
             Fan(FanNum).FanWheelEff *= Fan(FanNum).FanMaxEff;             // [-]
             Fan(FanNum).FanWheelEff = max(Fan(FanNum).FanWheelEff, 0.01); // Minimum efficiency is 1% to avoid numerical errors
 
-            // Calculate fan shaft power using fan static air power and fan static efficiency
+            // Calculate fan shaft power using fan static thread_local air power and fan static efficiency
             Fan(FanNum).FanShaftPower = Fan(FanNum).FanAirPower / Fan(FanNum).FanWheelEff; //[W]
 
             // Calculate fan shaft speed, fan torque, and motor speed using Wray dimensionless fan airflow model

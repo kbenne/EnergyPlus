@@ -171,7 +171,7 @@ namespace DesiccantDehumidifiers {
     // Performance Model
     int const PM_Default(1);    // Performance Model = default
     int const PM_UserCurves(2); // Performance Model = user curve
-    static std::string const fluidNameSteam("STEAM");
+    static thread_local std::string const fluidNameSteam("STEAM");
 
     // DERIVED TYPE DEFINITIONS
 
@@ -183,7 +183,7 @@ namespace DesiccantDehumidifiers {
 
     // SUBROUTINE SPECIFICATIONS FOR MODULE <module_name>
     namespace {
-        // These were static variables within different functions. They were pulled out into the namespace
+        // These were static thread_local variables within different functions. They were pulled out into the namespace
         // to facilitate easier unit testing of those functions.
         // These are purposefully not in the header file as an extern variable. No one outside of this should
         // use these. They are cleared by clear_state() for use by unit tests, but normal simulations should be unaffected.
@@ -329,8 +329,8 @@ namespace DesiccantDehumidifiers {
         using namespace DataIPShortCuts;
 
         // SUBROUTINE PARAMETER DEFINITIONS:
-        static std::string const RoutineName("GetDesiccantDehumidifierInput: "); // include trailing blank space
-        static std::string const dehumidifierDesiccantNoFans("Dehumidifier:Desiccant:NoFans");
+        static thread_local std::string const RoutineName("GetDesiccantDehumidifierInput: "); // include trailing blank space
+        static thread_local std::string const dehumidifierDesiccantNoFans("Dehumidifier:Desiccant:NoFans");
 
         // SUBROUTINE LOCAL VARIABLE DECLARATIONS:
         int DesicDehumIndex;                   // Loop index
@@ -338,9 +338,9 @@ namespace DesiccantDehumidifiers {
         int NumAlphas;                         // Number of Alphas for each GetObjectItem call
         int NumNumbers;                        // Number of Numbers for each GetObjectItem call
         int IOStatus;                          // Used in GetObjectItem
-        static bool ErrorsFound(false);        // Set to true if errors in input, fatal at end of routine
-        static bool ErrorsFound2(false);       // Set to true if errors in input, fatal at end of routine
-        static bool ErrorsFoundGeneric(false); // Set to true if errors in input, fatal at end of routine
+        static thread_local bool ErrorsFound(false);        // Set to true if errors in input, fatal at end of routine
+        static thread_local bool ErrorsFound2(false);       // Set to true if errors in input, fatal at end of routine
+        static thread_local bool ErrorsFoundGeneric(false); // Set to true if errors in input, fatal at end of routine
         bool IsNotOK;                          // Flag to verify name
         bool OANodeError;                      // Flag for check on outside air node
         std::string RegenFanInlet;             // Desiccant system regeneration air fan inlet node
@@ -361,16 +361,16 @@ namespace DesiccantDehumidifiers {
         Array1D<Real64> Numbers;               // Numeric input items for object
         Array1D_bool lAlphaBlanks;             // Logical array, alpha field input BLANK = .TRUE.
         Array1D_bool lNumericBlanks;           // Logical array, numeric field input BLANK = .TRUE.
-        static int MaxNums(0);                 // Maximum number of numeric input fields
-        static int MaxAlphas(0);               // Maximum number of alpha input fields
-        static int TotalArgs(0);               // Total number of alpha and numeric arguments (max) for a
+        static thread_local int MaxNums(0);                 // Maximum number of numeric input fields
+        static thread_local int MaxAlphas(0);               // Maximum number of alpha input fields
+        static thread_local int TotalArgs(0);               // Total number of alpha and numeric arguments (max) for a
         //  certain object in the input file
         int RegenCoilAirInletNode;         // regen heating coil air inlet node number
         int RegenCoilAirOutletNode;        // regen heating coil air outlet node number
         bool errFlag;                      // local error flag
         std::string RegenCoilType;         // Regen heating coil type
         std::string RegenCoilName;         // Regen heating coil name
-        static Real64 SteamDensity(0.0);   // density of steam at 100C
+        static thread_local Real64 SteamDensity(0.0);   // density of steam at 100C
         int SteamIndex;                    // steam coil Index
         bool RegairHeatingCoilFlag(false); // local error flag
 
@@ -1734,18 +1734,18 @@ namespace DesiccantDehumidifiers {
         using WaterCoils::SimulateWaterCoilComponents;
 
         // SUBROUTINE PARAMETER DEFINITIONS:
-        static std::string const RoutineName("InitDesiccantDehumidifier");
-        static std::string const initCBVAV("InitCBVAV");
+        static thread_local std::string const RoutineName("InitDesiccantDehumidifier");
+        static thread_local std::string const initCBVAV("InitCBVAV");
 
         // SUBROUTINE LOCAL VARIABLE DECLARATIONS:
         int ProcInNode;  // inlet node number
         int RegenInNode; // inlet node number
         int ControlNode; // control node number
-        static bool MySetPointCheckFlag(true);
-        static Array1D_bool MyEnvrnFlag;
-        static Array1D_bool MyPlantScanFlag; // Used for init plant component for heating coils
+        static thread_local bool MySetPointCheckFlag(true);
+        static thread_local Array1D_bool MyEnvrnFlag;
+        static thread_local Array1D_bool MyPlantScanFlag; // Used for init plant component for heating coils
 
-        static bool ErrorsFound(false); // Set to true if errors in input, fatal at end of routine
+        static thread_local bool ErrorsFound(false); // Set to true if errors in input, fatal at end of routine
         int SteamIndex;                 // steam coil index
         Real64 FluidDensity;            // steam or water coil fluid density
         Real64 CoilMaxVolFlowRate;      // water or steam max volumetric water flow rate
@@ -2199,8 +2199,8 @@ namespace DesiccantDehumidifiers {
         Real64 PartLoad;             // fraction of dehumidification capacity required to meet setpoint
         bool UnitOn;                 // unit on flag
 
-        static bool MyOneTimeFlag(true); // one time flag
-        static Real64 RhoAirStdInit;
+        static thread_local bool MyOneTimeFlag(true); // one time flag
+        static thread_local Real64 RhoAirStdInit;
 
         // Variables for hardwired coefficients for default performance model
 
@@ -2594,7 +2594,7 @@ namespace DesiccantDehumidifiers {
         // SUBROUTINE PARAMETER DEFINITIONS:
         Real64 const MinVolFlowPerRatedTotQ(0.00002684); // m3/s per W = 200 cfm/ton,
         // min vol flow per rated evaporator capacity
-        static gio::Fmt fmtLD("*");
+        static thread_local gio::Fmt fmtLD("*");
 
         // INTERFACE BLOCK SPECIFICATIONS
         // na
@@ -2604,7 +2604,7 @@ namespace DesiccantDehumidifiers {
 
         // SUBROUTINE LOCAL VARIABLE DECLARATIONS:
         Real64 DDPartLoadRatio;          // fraction of dehumidification capacity required to meet setpoint
-        static Real64 QRegen(0.0);       // required coil load passed to sim heating coil routine (W)
+        static thread_local Real64 QRegen(0.0);       // required coil load passed to sim heating coil routine (W)
         Real64 MassFlowRateNew;          // new required mass flow rate calculated to keep regen setpoint temperature (kg/s)
         Real64 CondenserWasteHeat;       // Condenser waste heat (W)
         Real64 CpAir;                    // Specific heat of air (J/kg-K)
@@ -2620,8 +2620,8 @@ namespace DesiccantDehumidifiers {
         int CompanionCoilIndexNum;       // index for companion DX cooling coil, 0 when DX coil is not used
         std::string MinVol;              // character string used for error messages
         std::string VolFlowChar;         // character string used for error messages
-        static bool MyOneTimeFlag(true); // one time flag
-        static Real64 RhoAirStdInit;     // standard air density (kg/m3)
+        static thread_local bool MyOneTimeFlag(true); // one time flag
+        static thread_local Real64 RhoAirStdInit;     // standard air density (kg/m3)
         bool UnitOn;                     // unit on flag
         //  LOGICAL       :: SimFlag                    ! used to turn off additional simulation if DX Coil is off
         Real64 QRegen_OASysFanAdjust; // temporary variable used to adjust regen heater load during iteration

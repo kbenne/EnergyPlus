@@ -113,7 +113,7 @@ namespace ExteriorEnergyUse {
     int const ScheduleOnly(1);       // exterior lights only on schedule
     int const AstroClockOverride(2); // exterior lights controlled to turn off during day.
 
-    static std::string const BlankString;
+    static thread_local std::string const BlankString;
 
     // DERIVED TYPE DEFINITIONS:
 
@@ -187,21 +187,21 @@ namespace ExteriorEnergyUse {
         using DataGlobals::AnyEnergyManagementSystemInModel;
 
         // SUBROUTINE PARAMETER DEFINITIONS:
-        static std::string const RoutineName("GetExteriorEnergyUseInput: ");
+        static thread_local std::string const RoutineName("GetExteriorEnergyUseInput: ");
 
         // SUBROUTINE LOCAL VARIABLE DECLARATIONS:
         int Item;                       // Item to be "gotten"
         int NumAlphas;                  // Number of Alphas for each GetObjectItem call
         int NumNumbers;                 // Number of Numbers for each GetObjectItem call
         int IOStatus;                   // Used in GetObjectItem
-        static bool ErrorsFound(false); // Set to true if errors in input, fatal at end of routine
+        static thread_local bool ErrorsFound(false); // Set to true if errors in input, fatal at end of routine
         int NumFuelEq;                  // Temporary -- number of ExteriorFuelEquipment statements
         int NumWtrEq;                   // Temporary -- number of ExteriorWaterEquipment statements
         std::string TypeString;         // Fuel Type string (returned from Validation)
         std::string EndUseSubcategoryName;
         Real64 SchMax;                     // Max value of schedule for item
         Real64 SchMin;                     // Min value of schedule for item
-        static Real64 sumDesignLevel(0.0); // for predefined report of design level total
+        static thread_local Real64 sumDesignLevel(0.0); // for predefined report of design level total
 
         NumExteriorLights = inputProcessor->getNumObjectsFound("Exterior:Lights");
         ExteriorLights.allocate(NumExteriorLights);
@@ -532,7 +532,7 @@ namespace ExteriorEnergyUse {
         // valid values and sets the correct in the returned FuelTypeNumber.
 
         // SUBROUTINE PARAMETER DEFINITIONS:
-        static std::string const RoutineName("ValidateFuelType: ");
+        static thread_local std::string const RoutineName("ValidateFuelType: ");
 
         // SUBROUTINE LOCAL VARIABLE DECLARATIONS:
 

@@ -243,8 +243,8 @@ namespace HVACUnitarySystem {
     int const SetPointBased(2); // control system based on coil set point manager
     int const CCM_ASHRAE(3);    // capacity control based on ASHRAE Standard 90.1
 
-    static std::string const fluidNameSteam("STEAM");
-    static std::string const BlankString;
+    static thread_local std::string const fluidNameSteam("STEAM");
+    static thread_local std::string const BlankString;
 
     // DERIVED TYPE DEFINITIONS
 
@@ -536,18 +536,18 @@ namespace HVACUnitarySystem {
 
         // Locals
         // SUBROUTINE PARAMETER DEFINITIONS:
-        static std::string const RoutineNames("InitUnitarySystems");
-        static std::string const RoutineName("InitUnitarySystem");
+        static thread_local std::string const RoutineNames("InitUnitarySystems");
+        static thread_local std::string const RoutineName("InitUnitarySystem");
 
         // SUBROUTINE LOCAL VARIABLE DECLARATIONS:
-        static std::string CoolingCoilType; // Coil:Cooling:Water or Coil:Cooling:Water:DetailedGeometry
-        static std::string CoolingCoilName; // Coil:Cooling:Water or Coil:Cooling:Water:DetailedGeometry
-        static std::string HeatingCoilType; // Coil:Heating:Water or Coil:Heating:Steam
-        static Array1D_bool MyFanFlag;      // used for sizing fan inputs one time
+        static thread_local std::string CoolingCoilType; // Coil:Cooling:Water or Coil:Cooling:Water:DetailedGeometry
+        static thread_local std::string CoolingCoilName; // Coil:Cooling:Water or Coil:Cooling:Water:DetailedGeometry
+        static thread_local std::string HeatingCoilType; // Coil:Heating:Water or Coil:Heating:Steam
+        static thread_local Array1D_bool MyFanFlag;      // used for sizing fan inputs one time
         //////////// hoisted into namespace ////////////////////////////////////////////////
-        // static bool errFlag( false ); // error flag for mining functions // InitUnitarySystemsErrFlag
-        // static bool ErrorsFound( false ); // error flag for mining functions // InitUnitarySystemsErrorsFound
-        // static Real64 QActual( 0.0 ); // coil actual capacity [W] // InitUnitarySystemsQActual
+        // static thread_local bool errFlag( false ); // error flag for mining functions // InitUnitarySystemsErrFlag
+        // static thread_local bool ErrorsFound( false ); // error flag for mining functions // InitUnitarySystemsErrorsFound
+        // static thread_local Real64 QActual( 0.0 ); // coil actual capacity [W] // InitUnitarySystemsQActual
         ////////////////////////////////////////////////////////////////////////////////////
         int ControlNode;                // control node number
         int OutdoorAirUnitNum;          // "ONLY" for ZoneHVAC:OutdoorAirUnit
@@ -1593,19 +1593,19 @@ namespace HVACUnitarySystem {
         // Locals
         // SUBROUTINE PARAMETER DEFINITIONS:
         Real64 const Small5WLoad(5.0);
-        static std::string const RoutineName("InitUnitarySystems");
+        static thread_local std::string const RoutineName("InitUnitarySystems");
 
         // SUBROUTINE LOCAL VARIABLE DECLARATIONS:
-        static Array1D_bool MyEnvrnFlag; // environment flag
-        static Array1D_bool MyCheckFlag; // Used to obtain the zone inlet node number
+        static thread_local Array1D_bool MyEnvrnFlag; // environment flag
+        static thread_local Array1D_bool MyCheckFlag; // Used to obtain the zone inlet node number
         // in the controlled zone
-        static Array1D_bool MyStagedFlag; // used for finding on staged thermostat
+        static thread_local Array1D_bool MyStagedFlag; // used for finding on staged thermostat
         //////////// hoisted into namespace ////////////////////////////////////////////////
-        // static bool MyOneTimeFlag( true ); // one time allocation flag // InitLoadBasedControlOneTimeFlag
-        // static bool MyAirLoopPass( true ); // one time allocation flag // InitLoadBasedControlAirLoopPass
-        // static int AirLoopPass( 0 ); // Number of air loop pass // AirLoopPassCounter
-        // static bool FlowFracFlagReady( true ); // one time flag for calculating flow fraction // InitLoadBasedControlFlowFracFlagReady
-        // static Real64 CntrlZoneTerminalUnitMassFlowRateMax( 0.0 ); // Maximum mass flow rate through controlled zone //
+        // static thread_local bool MyOneTimeFlag( true ); // one time allocation flag // InitLoadBasedControlOneTimeFlag
+        // static thread_local bool MyAirLoopPass( true ); // one time allocation flag // InitLoadBasedControlAirLoopPass
+        // static thread_local int AirLoopPass( 0 ); // Number of air loop pass // AirLoopPassCounter
+        // static thread_local bool FlowFracFlagReady( true ); // one time flag for calculating flow fraction // InitLoadBasedControlFlowFracFlagReady
+        // static thread_local Real64 CntrlZoneTerminalUnitMassFlowRateMax( 0.0 ); // Maximum mass flow rate through controlled zone //
         // InitLoadBasedControlCntrlZoneTerminalUnitMassFlowRateMax
         ////////////////////////////////////////////////////////////////////////////////////
         bool ErrorsFound;     // error flag for mining functions
@@ -2127,7 +2127,7 @@ namespace HVACUnitarySystem {
         using PackagedThermalStorageCoil::SimTESCoil;
 
         // SUBROUTINE PARAMETER DEFINITIONS:
-        static std::string const RoutineName("SizeUnitarySystem");
+        static thread_local std::string const RoutineName("SizeUnitarySystem");
 
         // SUBROUTINE LOCAL VARIABLE DECLARATIONS:
         int Iter;                  // iteration count
@@ -2169,7 +2169,7 @@ namespace HVACUnitarySystem {
         int ZoneInletNodeNum(0);          // zone inlet nodes node number
         Real64 minNoLoadFlow;             // used for sizing MaxNoCoolHeatVolFlow for SingleZoneVAV method
         //////////// hoisted into namespace ////////////////////////////////////////////////
-        // static int NumUnitarySystemsSized( 0 ); // counter used to delete UnitarySystemNumericFields array after last system is sized
+        // static thread_local int NumUnitarySystemsSized( 0 ); // counter used to delete UnitarySystemNumericFields array after last system is sized
         ////////////////////////////////////////////////////////////////////////////////////
         // References
         ZoneEqSizingData *select_EqSizing(nullptr);
@@ -3340,7 +3340,7 @@ namespace HVACUnitarySystem {
         // Calls "Get" routines to read in data.
 
         // SUBROUTINE PARAMETER DEFINITIONS:
-        static std::string const RoutineName("GetUnitarySystemInput: "); // include trailing blank space
+        static thread_local std::string const RoutineName("GetUnitarySystemInput: "); // include trailing blank space
 
         // SUBROUTINE LOCAL VARIABLE DECLARATIONS:
         bool ErrorFlag(false); // true if errors detected in GetUnitarySystemInputData
@@ -3470,7 +3470,7 @@ namespace HVACUnitarySystem {
 
         // Locals
         // SUBROUTINE PARAMETER DEFINITIONS:
-        static std::string const getAirLoopHVACHeatCoolInput("GetAirLoopHVACHeatCoolInput");
+        static thread_local std::string const getAirLoopHVACHeatCoolInput("GetAirLoopHVACHeatCoolInput");
 
         // SUBROUTINE LOCAL VARIABLE DECLARATIONS:
         Array1D_string Alphas;                               // Alpha input items for object
@@ -14133,7 +14133,7 @@ namespace HVACUnitarySystem {
 
         // Locals
         // SUBROUTINE PARAMETER DEFINITIONS:
-        static std::string const RoutineName("UnitarySystemHeatRecovery");
+        static thread_local std::string const RoutineName("UnitarySystemHeatRecovery");
 
         // SUBROUTINE LOCAL VARIABLE DECLARATIONS:
         int HeatRecInNode;          // Node number of heat recovery water inlet node
@@ -15979,7 +15979,7 @@ namespace HVACUnitarySystem {
         // SUBROUTINE PARAMETER DEFINITIONS:
         int const RunOnSensible(1); // identifier for temperature (sensible load) control
         int const RunOnLatent(2);   // identifier for humidity (latent load) control
-        static std::string const RoutineName("FrostControlSetPointLimit");
+        static thread_local std::string const RoutineName("FrostControlSetPointLimit");
 
         // SUBROUTINE LOCAL VARIABLE DECLARATIONS:
         Real64 HumRatioSat; // saturation humidity ratio at forst control temperature
@@ -16023,7 +16023,7 @@ namespace HVACUnitarySystem {
 
         // Locals
         // SUBROUTINE PARAMETER DEFINITIONS:
-        static std::string const RoutineName("CheckUnitarySysCoilInOASysExists: "); // include trailing blank space
+        static thread_local std::string const RoutineName("CheckUnitarySysCoilInOASysExists: "); // include trailing blank space
 
         // SUBROUTINE LOCAL VARIABLE DECLARATIONS:
         int UnitarySysNum;

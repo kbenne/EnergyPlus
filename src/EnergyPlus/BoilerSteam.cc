@@ -122,7 +122,7 @@ namespace BoilerSteam {
     int NumBoilers(0);                  // Number of boilers
     Real64 BoilerMassFlowMaxAvail(0.0); // kg/s - Boiler mass flow rate
     Real64 BoilerMassFlowMinAvail(0.0); // kg/s - Boiler mass flow rate
-    static std::string const FluidNameSteam("STEAM");
+    static thread_local std::string const FluidNameSteam("STEAM");
 
     Array1D_bool CheckEquipName;
 
@@ -194,7 +194,7 @@ namespace BoilerSteam {
         // na
 
         // SUBROUTINE LOCAL VARIABLE DECLARATIONS:
-        static bool GetInput(true); // if TRUE read user input
+        static thread_local bool GetInput(true); // if TRUE read user input
         int BoilerNum;              // boiler counter/identifier
 
         // Get Input
@@ -273,7 +273,7 @@ namespace BoilerSteam {
 
         // Locals
         // PARAMETERS
-        static std::string const RoutineName("GetBoilerInput: ");
+        static thread_local std::string const RoutineName("GetBoilerInput: ");
 
         // LOCAL VARIABLES
         int BoilerNum;       // boiler identifier
@@ -281,7 +281,7 @@ namespace BoilerSteam {
         int NumNums;         // Number of elements in the numeric array
         int IOStat;          // IO Status when calling get input subroutine
         int SteamFluidIndex; // Fluid Index for Steam
-        static bool ErrorsFound(false);
+        static thread_local bool ErrorsFound(false);
         bool errFlag;
         Array1D_string BoilerFuelTypeForOutputVariable; // used to set up report variables
 
@@ -537,7 +537,7 @@ namespace BoilerSteam {
         // SUBROUTINE ARGUMENT DEFINITIONS:
 
         // SUBROUTINE PARAMETER DEFINITIONS:
-        static std::string const RoutineName("InitBoiler");
+        static thread_local std::string const RoutineName("InitBoiler");
 
         // INTERFACE BLOCK SPECIFICATIONS
         // na
@@ -546,9 +546,9 @@ namespace BoilerSteam {
         // na
 
         // SUBROUTINE LOCAL VARIABLE DECLARATIONS:
-        static bool MyOneTimeFlag(true);
-        static Array1D_bool MyFlag;
-        static Array1D_bool MyEnvrnFlag;
+        static thread_local bool MyOneTimeFlag(true);
+        static thread_local Array1D_bool MyFlag;
+        static thread_local Array1D_bool MyEnvrnFlag;
         bool FatalError;
         Real64 TempUpLimitBoilerOut; // C - Boiler outlet maximum temperature limit
         Real64 EnthSteamOutWet;
@@ -713,7 +713,7 @@ namespace BoilerSteam {
         // SUBROUTINE ARGUMENT DEFINITIONS:
 
         // SUBROUTINE PARAMETER DEFINITIONS:
-        static std::string const RoutineName("SizeBoiler");
+        static thread_local std::string const RoutineName("SizeBoiler");
 
         // INTERFACE BLOCK SPECIFICATIONS
         // na
@@ -852,7 +852,7 @@ namespace BoilerSteam {
         // SUBROUTINE ARGUMENT DEFINITIONS:
 
         // SUBROUTINE PARAMETER DEFINITIONS:
-        static std::string const RoutineName("CalcBoilerModel");
+        static thread_local std::string const RoutineName("CalcBoilerModel");
 
         // DERIVED TYPE DEFINITIONS
         // na

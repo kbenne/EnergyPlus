@@ -120,10 +120,10 @@ namespace HeatBalanceIntRadExchange {
 
     // Data
     // MODULE PARAMETER DEFINITIONS
-    static gio::Fmt fmtLD("*");
-    static gio::Fmt fmtA("(A)");
-    static gio::Fmt fmtx("(A,I4,1x,A,1x,6f16.8)");
-    static gio::Fmt fmty("(A,1x,6f16.8)");
+    static thread_local gio::Fmt fmtLD("*");
+    static thread_local gio::Fmt fmtA("(A)");
+    static thread_local gio::Fmt fmtx("(A,I4,1x,A,1x,6f16.8)");
+    static thread_local gio::Fmt fmty("(A,1x,6f16.8)");
 
     // DERIVED TYPE DEFINITIONS
     // na
@@ -177,7 +177,7 @@ namespace HeatBalanceIntRadExchange {
 
         // SUBROUTINE PARAMETER DEFINITIONS:
         Real64 const StefanBoltzmannConst(5.6697e-8); // Stefan-Boltzmann constant in W/(m2*K4)
-        static gio::Fmt fmtLD("*");
+        static thread_local gio::Fmt fmtLD("*");
 
         // SUBROUTINE LOCAL VARIABLE DECLARATIONS:
 
@@ -198,7 +198,7 @@ namespace HeatBalanceIntRadExchange {
 
         // variables added as part of strategy to reduce calculation time - Glazer 2011-04-22
         Real64 RecSurfTempInKTo4th; // Receiving surface temperature in K to 4th power
-        static Array1D<Real64> SendSurfaceTempInKto4thPrecalc;
+        static thread_local Array1D<Real64> SendSurfaceTempInKto4thPrecalc;
 
         // FLOW:
 
@@ -506,7 +506,7 @@ namespace HeatBalanceIntRadExchange {
         using General::ScanForReports;
 
         // SUBROUTINE PARAMETER DEFINITIONS:
-        static gio::Fmt AFormat("(A)");
+        static thread_local gio::Fmt AFormat("(A)");
 
         // SUBROUTINE LOCAL VARIABLE DECLARATIONS:
         int NumOfZoneSurfaces;        // total number of surfaces in the zone.
@@ -516,8 +516,8 @@ namespace HeatBalanceIntRadExchange {
         int Vindex;                   // index for vertices
         int NumZonesWithUserFbyS;     // Zones with user input,  used for flag here
         bool NoUserInputF;            // Logical flag signifying no input F's for zone
-        static bool ViewFactorReport; // Flag to output view factor report in eio file
-        static bool ErrorsFound(false);
+        static thread_local bool ViewFactorReport; // Flag to output view factor report in eio file
+        static thread_local bool ErrorsFound(false);
         Real64 CheckValue1;
         Real64 CheckValue2;
         Real64 FinalCheckValue;
@@ -1135,7 +1135,7 @@ namespace HeatBalanceIntRadExchange {
         bool Converged;
         int i;
         int j;
-        static int LargestSurf(0);
+        static thread_local int LargestSurf(0);
 
         // FLOW:
         OriginalCheckValue = std::abs(sum(F) - N);

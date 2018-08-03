@@ -144,7 +144,7 @@ namespace WaterCoils {
     // PRIVATE ! Everything private unless explicitly made public
 
     // MODULE PARAMETER DEFINITIONS
-    static std::string const BlankString;
+    static thread_local std::string const BlankString;
 
     int const MaxPolynomOrder(4);
     int const MaxOrderedPairs(60);
@@ -197,7 +197,7 @@ namespace WaterCoils {
     bool WaterCoilControllerCheckOneTimeFlag(true); // flg used to check water coil controller
     Array1D_bool CheckEquipName;
     namespace {
-        // These were static variables within different functions. They were pulled out into the namespace
+        // These were static thread_local variables within different functions. They were pulled out into the namespace
         // to facilitate easier unit testing of those functions.
         // These are purposefully not in the header file as an extern variable. No one outside of this should
         // use these. They are cleared by clear_state() for use by unit tests, but normal simulations should be unaffected.
@@ -364,13 +364,13 @@ namespace WaterCoils {
         using namespace FaultsManager;
 
         // SUBROUTINE PARAMETER DEFINITIONS:
-        static std::string const RoutineName("GetWaterCoilInput: "); // include trailing blank space
+        static thread_local std::string const RoutineName("GetWaterCoilInput: "); // include trailing blank space
 
         // SUBROUTINE LOCAL VARIABLE DECLARATIONS:
         int CoilNum; // The WaterCoil that you are currently loading input into
-        static int NumSimpHeat(0);
-        static int NumFlatFin(0);
-        static int NumCooling(0);
+        static thread_local int NumSimpHeat(0);
+        static thread_local int NumFlatFin(0);
+        static thread_local int NumCooling(0);
         int SimpHeatNum;
         int FlatFinNum;
         int CoolingNum;
@@ -384,13 +384,13 @@ namespace WaterCoils {
         Array1D<Real64> NumArray;        // Numeric input items for object
         Array1D_bool lAlphaBlanks;       // Logical array, alpha field input BLANK = .TRUE.
         Array1D_bool lNumericBlanks;     // Logical array, numeric field input BLANK = .TRUE.
-        static int MaxNums(0);           // Maximum number of numeric input fields
-        static int MaxAlphas(0);         // Maximum number of alpha input fields
-        static int TotalArgs(0);         // Total number of alpha and numeric arguments (max) for a
+        static thread_local int MaxNums(0);           // Maximum number of numeric input fields
+        static thread_local int MaxAlphas(0);         // Maximum number of alpha input fields
+        static thread_local int TotalArgs(0);         // Total number of alpha and numeric arguments (max) for a
         //  certain object in the input file
-        static bool ErrorsFound(false); // If errors detected in input
+        static thread_local bool ErrorsFound(false); // If errors detected in input
         bool errFlag;
-        static int j1(0);
+        static thread_local int j1(0);
 
         // Flow
         NumSimpHeat = inputProcessor->getNumObjectsFound("Coil:Heating:Water");
@@ -1014,8 +1014,8 @@ namespace WaterCoils {
         Real64 const SmallNo(1.e-9); // SmallNo number in place of zero
         int const itmax(10);
         int const MaxIte(500); // Maximum number of iterations
-        static std::string const RoutineName("InitWaterCoil");
-        static gio::Fmt fmtA("(A)");
+        static thread_local std::string const RoutineName("InitWaterCoil");
+        static thread_local gio::Fmt fmtA("(A)");
 
         // SUBROUTINE LOCAL VARIABLE DECLARATIONS:
         int tempCoilNum;                   // loop variable
@@ -1038,23 +1038,23 @@ namespace WaterCoils {
         int icvg;                          // Iteration convergence flag
         Real64 ResultX;                    // Output variable from ITERATE function.
         int Ipass;                         // loop index for App_Dewpoint_Loop
-        static Real64 TOutNew(0.0);        // reset outlet air temperature for Coil:Cooling:Water
-        static Real64 WOutNew(0.0);        // reset outlet air humidity ratio for Coil:Cooling:Water
+        static thread_local Real64 TOutNew(0.0);        // reset outlet air temperature for Coil:Cooling:Water
+        static thread_local Real64 WOutNew(0.0);        // reset outlet air humidity ratio for Coil:Cooling:Water
 
         int AirInletNode;
         int WaterInletNode;
         int WaterOutletNode;
 
-        static Array1D<Real64> DesCpAir;        // CpAir at Design Inlet Air Temp
-        static Array1D<Real64> DesUARangeCheck; // Value for range check based on Design Inlet Air Humidity Ratio
+        static thread_local Array1D<Real64> DesCpAir;        // CpAir at Design Inlet Air Temp
+        static thread_local Array1D<Real64> DesUARangeCheck; // Value for range check based on Design Inlet Air Humidity Ratio
         /////////// hoisted into namespace InitWaterCoilOneTimeFlag
-        // static bool MyOneTimeFlag( true );
+        // static thread_local bool MyOneTimeFlag( true );
         /////////////////////////
-        static Array1D_bool MyEnvrnFlag;
-        static Array1D_bool MyCoilReportFlag;
-        static Array1D_bool PlantLoopScanFlag;
+        static thread_local Array1D_bool MyEnvrnFlag;
+        static thread_local Array1D_bool MyCoilReportFlag;
+        static thread_local Array1D_bool PlantLoopScanFlag;
 
-        static Array1D<Real64> CoefSeries(5); // Tuned Changed to static: High call count: Set before use
+        static thread_local Array1D<Real64> CoefSeries(5); // Tuned Changed to static: High call count: Set before use
         Real64 FinDiamVar;
         Real64 TubeToFinDiamRatio;
 
@@ -1063,21 +1063,21 @@ namespace WaterCoils {
         Real64 UA0;      // lower bound for UA
         Real64 UA1;      // upper bound for UA
         Real64 UA;
-        static Array1D<Real64> Par(4); // Tuned Changed to static: High call count: Set before use
+        static thread_local Array1D<Real64> Par(4); // Tuned Changed to static: High call count: Set before use
 
-        static bool NoSatCurveIntersect(false); // TRUE if failed to find appatatus dew-point
-        static bool BelowInletWaterTemp(false); // TRUE if apparatus dew-point below design inlet water temperature
-        static bool CBFTooLarge(false);         // TRUE if the coil bypass factor is unrealistically large
-        static bool NoExitCondReset(false);     // TRUE if exit condition reset is not to be done
+        static thread_local bool NoSatCurveIntersect(false); // TRUE if failed to find appatatus dew-point
+        static thread_local bool BelowInletWaterTemp(false); // TRUE if apparatus dew-point below design inlet water temperature
+        static thread_local bool CBFTooLarge(false);         // TRUE if the coil bypass factor is unrealistically large
+        static thread_local bool NoExitCondReset(false);     // TRUE if exit condition reset is not to be done
 
-        static Real64 RatedLatentCapacity(0.0); // latent cooling capacity at the rating point [W]
-        static Real64 RatedSHR(0.0);            // sensible heat ratio at the rating point
-        static Real64 CapacitanceWater(0.0);    // capacitance of the water stream [W/K]
-        static Real64 CMin(0.0);                // minimum capacitance of 2 streams [W/K]
-        static Real64 CoilEffectiveness(0.0);   // effectiveness of the coil (rated)
-        static Real64 SurfaceArea(0.0);         // heat exchanger surface area, [m2]
-        static Real64 UATotal(0.0);             // heat exchanger UA total, [W/C]
-        static Array1D_bool RptCoilHeaderFlag(2, true);
+        static thread_local Real64 RatedLatentCapacity(0.0); // latent cooling capacity at the rating point [W]
+        static thread_local Real64 RatedSHR(0.0);            // sensible heat ratio at the rating point
+        static thread_local Real64 CapacitanceWater(0.0);    // capacitance of the water stream [W/K]
+        static thread_local Real64 CMin(0.0);                // minimum capacitance of 2 streams [W/K]
+        static thread_local Real64 CoilEffectiveness(0.0);   // effectiveness of the coil (rated)
+        static thread_local Real64 SurfaceArea(0.0);         // heat exchanger surface area, [m2]
+        static thread_local Real64 UATotal(0.0);             // heat exchanger UA total, [W/C]
+        static thread_local Array1D_bool RptCoilHeaderFlag(2, true);
 
         Real64 DesUACoilExternalEnth; // enthalpy based UAExternal for wet coil surface {kg/s}
         Real64 LogMeanEnthDiff;       // long mean enthalpy difference {J/kg}
@@ -1090,10 +1090,10 @@ namespace WaterCoils {
         Real64 Cp;  // local fluid specific heat
         Real64 rho; // local fluid density
         bool errFlag;
-        static Real64 EnthCorrFrac(0.0); // enthalpy correction factor
-        static Real64 TempCorrFrac(0.0); // temperature correction factor
+        static thread_local Real64 EnthCorrFrac(0.0); // enthalpy correction factor
+        static thread_local Real64 TempCorrFrac(0.0); // temperature correction factor
         int i;
-        static Real64 rSchVal(0.0);
+        static thread_local Real64 rSchVal(0.0);
 
         // FLOW:
 
@@ -2050,8 +2050,8 @@ namespace WaterCoils {
         // SUBROUTINE ARGUMENT DEFINITIONS:
 
         // SUBROUTINE PARAMETER DEFINITIONS:
-        static std::string const InitWaterCoil("InitWaterCoil");
-        static std::string const RoutineName("SizeWaterCoil");
+        static thread_local std::string const InitWaterCoil("InitWaterCoil");
+        static thread_local std::string const RoutineName("SizeWaterCoil");
 
         // INTERFACE BLOCK SPECIFICATIONS
         // na
@@ -2693,7 +2693,7 @@ namespace WaterCoils {
         // SUBROUTINE ARGUMENT DEFINITIONS:
 
         // SUBROUTINE PARAMETER DEFINITIONS:
-        static std::string const RoutineName("CalcSimpleHeatingCoil");
+        static thread_local std::string const RoutineName("CalcSimpleHeatingCoil");
 
         // INTERFACE BLOCK SPECIFICATIONS
         // na
@@ -2865,9 +2865,9 @@ namespace WaterCoils {
         // SUBROUTINE ARGUMENT DEFINITIONS:
 
         // SUBROUTINE PARAMETER DEFINITIONS:
-        static Real64 const exp_47(std::exp(-0.41718));
-        static Real64 const exp_35(std::exp(-0.3574));
-        static std::string const RoutineName("CalcDetailFlatFinCoolingCoil");
+        static thread_local Real64 const exp_47(std::exp(-0.41718));
+        static thread_local Real64 const exp_35(std::exp(-0.3574));
+        static thread_local std::string const RoutineName("CalcDetailFlatFinCoolingCoil");
 
         Real64 const AirViscosity(1.846e-5); // Dynamic Viscosity of Air in kg/(m.s)
         Real64 const ConvK(1.0e-3);          // Unit conversion factor
@@ -3748,7 +3748,7 @@ namespace WaterCoils {
         // FUNCTION ARGUMENT DEFINITIONS:
 
         // FUNCTION PARAMETER DEFINITIONS:
-        static std::string const RoutineName("CoilCompletelyDry");
+        static thread_local std::string const RoutineName("CoilCompletelyDry");
 
         // INTERFACE BLOCK SPECIFICATIONS
         // na
@@ -3852,7 +3852,7 @@ namespace WaterCoils {
         // FUNCTION ARGUMENT DEFINITIONS:
 
         // FUNCTION PARAMETER DEFINITIONS:
-        static std::string const RoutineName("CoilCompletelyWet");
+        static thread_local std::string const RoutineName("CoilCompletelyWet");
 
         // INTERFACE BLOCK SPECIFICATIONS
         // na
@@ -4375,7 +4375,7 @@ namespace WaterCoils {
         Real64 MaximumCapacityStream;     // Maximum capacity rate of the streams(W/C)
         Real64 RatioStreamCapacity;       // Ratio of minimum to maximum capacity rate
         Real64 NTU;                       // Number of transfer units
-        static Real64 effectiveness(0.0); // Heat exchanger effectiveness
+        static thread_local Real64 effectiveness(0.0); // Heat exchanger effectiveness
         Real64 MaxHeatTransfer;           // Maximum heat transfer possible(W)
         Real64 e;                         // Intermediate variables in effectivness equation
         Real64 eta;
@@ -4658,7 +4658,7 @@ namespace WaterCoils {
         // SUBROUTINE ARGUMENT DEFINITIONS:
 
         // SUBROUTINE PARAMETER DEFINITIONS:
-        static std::string const RoutineName("ReportWaterCoil");
+        static thread_local std::string const RoutineName("ReportWaterCoil");
 
         // INTERFACE BLOCK SPECIFICATIONS
         // na
@@ -4783,7 +4783,7 @@ namespace WaterCoils {
         // na
 
         // SUBROUTINE LOCAL VARIABLE DECLARATIONS:
-        static Array2D<Real64> OrderedPair(MaxOrderedPairs, 2); // Tuned Changed to static: Set before use
+        static thread_local Array2D<Real64> OrderedPair(MaxOrderedPairs, 2); // Tuned Changed to static: Set before use
         Real64 FAI;
         Real64 FED;
         Real64 FEDnumerator;
@@ -5125,8 +5125,8 @@ namespace WaterCoils {
 
         // SUBROUTINE LOCAL VARIABLE DECLARATIONS:
         bool Converged;
-        static Array2D<Real64> OrdPairSum(10, 2);        // Tuned Changed to static and whole array zero-initialized
-        static Array2D<Real64> OrdPairSumMatrix(10, 10); // Tuned Changed to static
+        static thread_local Array2D<Real64> OrdPairSum(10, 2);        // Tuned Changed to static and whole array zero-initialized
+        static thread_local Array2D<Real64> OrdPairSumMatrix(10, 10); // Tuned Changed to static
         Real64 B;
         int I;
         int II;
@@ -6014,7 +6014,7 @@ namespace WaterCoils {
         // FUNCTION ARGUMENT DEFINITIONS:
 
         // SUBROUTINE PARAMETER DEFINITIONS:
-        static std::string const RoutineName("CheckForSensorAndSetpointNode: ");
+        static thread_local std::string const RoutineName("CheckForSensorAndSetpointNode: ");
         int const iTemperature(1);
         int const iHumidityRatio(2);
         int const iTemperatureAndHumidityRatio(3);
@@ -6156,7 +6156,7 @@ namespace WaterCoils {
         int SolFla;               // Flag of solver
         Real64 T0;                // lower bound for Tprov [C]
         Real64 T1;                // upper bound for Tprov [C]
-        static Real64 Tprov(0.0); // provisional value of drybulb temperature [C]
+        static thread_local Real64 Tprov(0.0); // provisional value of drybulb temperature [C]
         Array1D<Real64> Par(3);   // Par(1) = desired enthaply H [J/kg]
         // Par(2) = desired relative humidity (0.0 - 1.0)
         // Par(3) = barometric pressure [N/m2 (Pascals)]
@@ -6270,25 +6270,25 @@ namespace WaterCoils {
         // SUBROUTINE ARGUMENT DEFINITIONS:
 
         // FUNCTION PARAMETER DEFINITIONS:
-        static Real64 const OverallFinEfficiency(0.92); // Assumes aluminum fins, 12 fins per inch, fins
+        static thread_local Real64 const OverallFinEfficiency(0.92); // Assumes aluminum fins, 12 fins per inch, fins
         // area of about 90% of external surface area Ao.
 
-        static Real64 const AreaRatio(0.07); // Heat exchanger Inside to Outside surface area ratio
+        static thread_local Real64 const AreaRatio(0.07); // Heat exchanger Inside to Outside surface area ratio
         // design values range from (Ai/Ao) = 0.06 to 0.08
 
         // Constant value air side heat transfer coefficient is assumed. This coefficient has sensible
         // (58.d0 [W/m2C]) and latent (82.d0 [W/m2C]) heat transfer coefficient components.
-        static Real64 const hAirTubeOutside(58.0 + 82.0); // Air side heat transfer coefficient [W/m2C]
+        static thread_local Real64 const hAirTubeOutside(58.0 + 82.0); // Air side heat transfer coefficient [W/m2C]
 
         // Tube side water convection heat transfer coefficient of the cooling coil is calculated for
         // inside tube diameter of 0.0122m (~0.5 inch nominal diameter) and water velocity 2.0 m/s:
-        static Real64 const hWaterTubeInside(1429.0 * std::pow(2.0, 0.8) *
+        static thread_local Real64 const hWaterTubeInside(1429.0 * std::pow(2.0, 0.8) *
                                              std::pow(0.0122, -0.2)); // water (tube) side heat transfer coefficient [W/m2C]
 
         // Estimate the overall heat transfer coefficient, UOverallHeatTransferCoef in [W/(m2C)].
         // Neglecting tube wall and fouling resistance, the overall U value can be estimated as:
         // 1/UOverallHeatTransferCoef = 1/(hi*AreaRatio) + 1/(ho*OverallFinEfficiency)
-        static Real64 const UOverallHeatTransferCoef_inv(
+        static thread_local Real64 const UOverallHeatTransferCoef_inv(
             1.0 / (hWaterTubeInside * AreaRatio) +
             1.0 / (hAirTubeOutside * OverallFinEfficiency)); // Inverse of overall heat transfer coefficient for coil [W/m2C]
 
@@ -6435,7 +6435,7 @@ namespace WaterCoils {
         // SUBROUTINE LOCAL VARIABLE DECLARATIONS:
 
         int CoilNum;
-        static bool DidAnythingChange(false); // set to true if conditions changed
+        static thread_local bool DidAnythingChange(false); // set to true if conditions changed
         int InletNodeNum;
         int OutletNodeNum;
 
@@ -6615,7 +6615,7 @@ namespace WaterCoils {
         // SUBROUTINE ARGUMENT DEFINITIONS:
 
         // SUBROUTINE PARAMETER DEFINITIONS:
-        static std::string const RoutineName("EstimateCoilInletWaterTemp");
+        static thread_local std::string const RoutineName("EstimateCoilInletWaterTemp");
         Real64 const EffectivnessMaxAssumed(0.80);
 
         // INTERFACE BLOCK SPECIFICATIONS

@@ -674,8 +674,8 @@ namespace CommandLineInterface {
         // na
 
         // SUBROUTINE LOCAL VARIABLE DECLARATIONS:
-        static std::string LINE;
-        static std::string LINEOut;
+        static thread_local std::string LINE;
+        static thread_local std::string LINEOut;
         std::string Param;
         std::string::size_type ILB;
         std::string::size_type IRB;
@@ -689,7 +689,7 @@ namespace CommandLineInterface {
         bool NewHeading;
 
         // Formats
-        static gio::Fmt Format_700("(A)");
+        static thread_local gio::Fmt Format_700("(A)");
 
         DataOut.clear();
 

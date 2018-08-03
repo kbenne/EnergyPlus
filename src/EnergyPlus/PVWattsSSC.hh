@@ -235,13 +235,13 @@ namespace PVWatts {
                         double &Fgnddiff);
 
     double iam(double theta_deg, bool ar_glass); // incidence angle modifier factor relative to normal incidence
-    // static void get_vertices( double axis_tilt, double axis_azimuth, double gcr, double vertices[3][4][3], double rotation);
+    // static thread_local void get_vertices( double axis_tilt, double axis_azimuth, double gcr, double vertices[3][4][3], double rotation);
 
-    // static double vec_dot(double a[3], double b[3]);
+    // static thread_local double vec_dot(double a[3], double b[3]);
 
-    // static void vec_cross(double a[3], double b[3], double result[3]);
+    // static thread_local void vec_cross(double a[3], double b[3], double result[3]);
 
-    // static void vec_diff( double a[3], double b[3], double result[3] );
+    // static thread_local void vec_diff( double a[3], double b[3], double result[3] );
 
     void solarpos(int year, int month, int day, int hour, double minute, double lat, double lng, double tz, double sunn[9]);
 
@@ -258,7 +258,7 @@ namespace PVWatts {
     void poaDecomp(
         double wfPOA, double angle[], double sun[], double alb, poaDecompReq *pA, double &dn, double &df, double &gh, double poa[3], double diffc[3]);
 
-    // static void sun_unit( double sazm, double szen, double sun[3] );
+    // static thread_local void sun_unit( double sazm, double szen, double sun[3] );
 
     double iam_nonorm(double theta_deg, bool ar_glass); // non-normalized cover loss (typically use one above!)
 
@@ -266,9 +266,9 @@ namespace PVWatts {
 
     void ModifiedDISC(const double kt[3], const double kt1[3], const double g[3], const double z[3], double td, int doy, double &dn);
 
-    // static int julian(int yr,int month,int day);
+    // static thread_local int julian(int yr,int month,int day);
 
-    // static int day_of_year( int month, int day_of_month );
+    // static thread_local int day_of_year( int month, int day_of_month );
 
     double backtrack(double solazi, double solzen, double axis_tilt, double axis_azimuth, double rotlim, double gcr, double rotation_ideal);
 

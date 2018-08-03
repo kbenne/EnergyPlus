@@ -190,7 +190,7 @@ namespace PurchasedAirManager {
     // Functions
 
     namespace {
-        // These were static variables within different functions. They were pulled out into the namespace
+        // These were static thread_local variables within different functions. They were pulled out into the namespace
         // to facilitate easier unit testing of those functions.
         // These are purposefully not in the header file as an extern variable. No one outside of this should
         // use these. They are cleared by clear_state() for use by unit tests, but normal simulations should be unaffected.
@@ -303,8 +303,8 @@ namespace PurchasedAirManager {
         int IOStat;
         int CtrlZone;                                              // zone index
         int NodeNum;                                               // node index
-        static std::string const RoutineName("GetPurchasedAir: "); // include trailing blank space
-        static bool ErrorsFound(false);                            // If errors detected in input
+        static thread_local std::string const RoutineName("GetPurchasedAir: "); // include trailing blank space
+        static thread_local bool ErrorsFound(false);                            // If errors detected in input
         bool IsOANodeListed;                                       // Flag for OA node name listed in OutdoorAir:Node or Nodelist
         bool UniqueNodeError;                                      // Flag for non-unique node error(s)
 
@@ -1177,7 +1177,7 @@ namespace PurchasedAirManager {
             }
         }
 
-        // one time inits for each unit - links PurchAirNum with static input data from ControlledZoneNum and ActualZoneNum
+        // one time inits for each unit - links PurchAirNum with static thread_local input data from ControlledZoneNum and ActualZoneNum
         if (!InitPurchasedAirOneTimeUnitInitsDone(PurchAirNum)) {
             InitPurchasedAirOneTimeUnitInitsDone(PurchAirNum) = true;
 
@@ -1394,7 +1394,7 @@ namespace PurchasedAirManager {
         using ReportSizingManager::RequestSizing;
 
         // SUBROUTINE PARAMETER DEFINITIONS:
-        static std::string const RoutineName("SizePurchasedAir: "); // include trailing blank space
+        static thread_local std::string const RoutineName("SizePurchasedAir: "); // include trailing blank space
 
         // SUBROUTINE LOCAL VARIABLE DECLARATIONS:
         bool IsAutoSize;               // Indicator to autosize
@@ -1960,7 +1960,7 @@ namespace PurchasedAirManager {
         // SUBROUTINE ARGUMENT DEFINITIONS:
 
         // SUBROUTINE PARAMETER DEFINITIONS:
-        static std::string const RoutineName("CalcPurchAirLoads");
+        static thread_local std::string const RoutineName("CalcPurchAirLoads");
 
         // INTERFACE BLOCK SPECIFICATIONS:
         // na
@@ -2835,7 +2835,7 @@ namespace PurchasedAirManager {
         // SUBROUTINE ARGUMENT DEFINITIONS:
 
         // SUBROUTINE PARAMETER DEFINITIONS:
-        static std::string const RoutineName("CalcPurchAirMixedAir");
+        static thread_local std::string const RoutineName("CalcPurchAirMixedAir");
 
         // INTERFACE BLOCK SPECIFICATIONS
         // na
