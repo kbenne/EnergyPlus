@@ -59,7 +59,7 @@ typedef unsigned int (*fGetVariables)(const unsigned int valueReferences[],
 typedef unsigned int (*fGetNextEventTime)(fmi2EventInfo *eventInfo,
                               const char *log);
 
-typedef unsigned int (*fTerminate)(const char *log);
+typedef unsigned int (*fTerminateSim)(const char *log);
 
 typedef struct FMU{
 	void * dllHandle;
@@ -69,7 +69,7 @@ typedef struct FMU{
 	fSetVariables setVariables;
 	fGetVariables getVariables;
 	fGetNextEventTime getNextEventTime;
-	fTerminate terminate;
+	fTerminateSim terminateSim;
 } FMU;
 
 void* getAdr(FMU *fmu, const char* functionName){
@@ -152,9 +152,9 @@ int loadLib(const char* libPath, FMU *fmu) {
 		return -1;
 	}
 
-	fmu->terminate = (fTerminate)getAdr(fmu, "terminate");
-	if (!(fmu->terminate)) {
-		printf("Can't find function terminate()\n");
+	fmu->terminateSim = (fTerminateSim)getAdr(fmu, "terminateSim");
+	if (!(fmu->terminateSim)) {
+		printf("Can't find function terminateSim()\n");
 		return -1;
 	}
 	return 0; //success
@@ -238,6 +238,6 @@ int main(){
     printf("This is the time %f\n", time);
   }
 
-  fmu->terminate(0);
+  fmu->terminateSim(0);
   return 0;
 }

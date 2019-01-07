@@ -256,7 +256,7 @@ unsigned int getNextEventTime(fmi2EventInfo *eventInfo,
   return 0;
 }
 
-unsigned int terminate(const char *log) {
+unsigned int terminateSim(const char *log) {
   UNUSED(log);
 
   {
