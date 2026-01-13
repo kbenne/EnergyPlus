@@ -1,4 +1,4 @@
-// EnergyPlus, Copyright (c) 1996-2025, The Board of Trustees of the University of Illinois,
+// EnergyPlus, Copyright (c) 1996-2026, The Board of Trustees of the University of Illinois,
 // The Regents of the University of California, through Lawrence Berkeley National Laboratory
 // (subject to receipt of any required approvals from the U.S. Dept. of Energy), Oak Ridge
 // National Laboratory, managed by UT-Battelle, Alliance for Sustainable Energy, LLC, and other
@@ -98,7 +98,7 @@ namespace GroundHeatExchangers {
         std::shared_ptr<GLHEResponseFactors> myRespFactors;
         GroundTemp::BaseGroundTempsModel *groundTempModel = nullptr; // non-owning pointer
 
-        // some statics pulled out into member variables
+        // some statistics pulled out into member variables
         bool firstTime = true;
         int numErrorCalls = 0;
         Real64 ToutNew = 19.375;

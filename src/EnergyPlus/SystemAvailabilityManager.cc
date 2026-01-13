@@ -1,4 +1,4 @@
-// EnergyPlus, Copyright (c) 1996-2025, The Board of Trustees of the University of Illinois,
+// EnergyPlus, Copyright (c) 1996-2026, The Board of Trustees of the University of Illinois,
 // The Regents of the University of California, through Lawrence Berkeley National Laboratory
 // (subject to receipt of any required approvals from the U.S. Dept. of Energy), Oak Ridge
 // National Laboratory, managed by UT-Battelle, Alliance for Sustainable Energy, LLC, and other
@@ -72,6 +72,7 @@
 #include <EnergyPlus/InputProcessing/InputProcessor.hh>
 #include <EnergyPlus/NodeInputManager.hh>
 #include <EnergyPlus/OutputProcessor.hh>
+#include <EnergyPlus/OutputReportPredefined.hh>
 #include <EnergyPlus/Psychrometrics.hh>
 #include <EnergyPlus/ScheduleManager.hh>
 #include <EnergyPlus/SystemAvailabilityManager.hh>
@@ -189,7 +190,8 @@ namespace Avail {
                 if (availStatus == Status::ForceOff) {
                     availMgr.availStatus = Status::ForceOff;
                     break; // Fans forced off takes precedence
-                } else if (availStatus == Status::CycleOnZoneFansOnly) {
+                }
+                if (availStatus == Status::CycleOnZoneFansOnly) {
                     availMgr.availStatus = Status::CycleOnZoneFansOnly; // zone fans only takes next precedence
                 } else if ((availStatus == Status::CycleOn) && (availMgr.availStatus == Status::NoAction)) {
                     availMgr.availStatus = Status::CycleOn; // cycle on is lowest precedence
@@ -275,7 +277,8 @@ namespace Avail {
                         if (availStatus == Status::ForceOff) {
                             zcam.availStatus = Status::ForceOff;
                             break; // Fans forced off takes precedence
-                        } else if ((availStatus == Status::CycleOn) && (zcam.availStatus == Status::NoAction)) {
+                        }
+                        if ((availStatus == Status::CycleOn) && (zcam.availStatus == Status::NoAction)) {
                             // cycle on is next precedence
                             zcam.availStatus = Status::CycleOn;
                         }
@@ -1374,7 +1377,7 @@ namespace Avail {
             } // End of Num Loop
 
         } else {
-            if (AvailabilityListName != "") {
+            if (!AvailabilityListName.empty()) {
                 ShowWarningError(state,
                                  format("GetPlantLoopData/GetPlantAvailabilityManager: AvailabilityManagerAssignmentList={} not found in lists.  No "
                                         "availability will be used.",
@@ -1445,7 +1448,7 @@ namespace Avail {
             } // End of Num Loop
 
         } else {
-            if (AvailabilityListName != "") {
+            if (!AvailabilityListName.empty()) {
                 ShowWarningError(state,
                                  format("GetAirPathData/GetAirLoopAvailabilityManager: AvailabilityManagerAssignmentList={} not found in lists.  No "
                                         "availability will be used.",
@@ -1523,6 +1526,53 @@ namespace Avail {
                 availMgr.Input = false;
             }
             availMgr.Count += 1;
+        }
+    }
+
+    void FillPredefinedTablesForAvailManager(EnergyPlusData &state)
+    {
+        // J. Glazer August 2025
+        auto &orp = state.dataOutRptPredefined;
+        auto &asd = state.dataAvail;
+        for (int PriAirSysNum = 1; PriAirSysNum <= state.dataHVACGlobal->NumPrimaryAirSys; ++PriAirSysNum) { // loop over the primary air systems
+            auto &availMgr = state.dataAirLoop->PriAirSysAvailMgr(PriAirSysNum);
+            for (int PriAirSysAvailMgrNum = 1; PriAirSysAvailMgrNum <= availMgr.NumAvailManagers; ++PriAirSysAvailMgrNum) {
+                std::string availMgrName = availMgr.availManagers(PriAirSysAvailMgrNum).Name;
+                std::string loopName = state.dataAirSystemsData->PrimaryAirSystems(PriAirSysNum).Name;
+                int num = availMgr.availManagers(PriAirSysAvailMgrNum).Num;
+                ManagerType availMgrType = availMgr.availManagers(PriAirSysAvailMgrNum).type;
+                switch (availMgrType) {
+                case ManagerType::Scheduled:
+                case ManagerType::ScheduledOn:
+                case ManagerType::ScheduledOff: {
+                    OutputReportPredefined::PreDefTableEntry(state, orp->pdchAvlMgrSchType, loopName, managerTypeNames[(int)availMgrType]);
+                    OutputReportPredefined::PreDefTableEntry(state, orp->pdchAvlMgrSchAvailNm, loopName, availMgrName);
+                } break;
+                default:
+                    break;
+                }
+                switch (availMgrType) {
+                case ManagerType::Scheduled: {
+                    if (asd->SchedData[num - 1].availSched != nullptr) {
+                        OutputReportPredefined::PreDefTableEntry(state, orp->pdchAvlMgrSchSchNm, loopName, asd->SchedData[num - 1].availSched->Name);
+                    }
+                } break;
+                case ManagerType::ScheduledOn: {
+                    if (asd->SchedOnData[num - 1].availSched != nullptr) {
+                        OutputReportPredefined::PreDefTableEntry(
+                            state, orp->pdchAvlMgrSchSchNm, loopName, asd->SchedOnData[num - 1].availSched->Name);
+                    }
+                } break;
+                case ManagerType::ScheduledOff: {
+                    if (asd->SchedOffData[num - 1].availSched != nullptr) {
+                        OutputReportPredefined::PreDefTableEntry(
+                            state, orp->pdchAvlMgrSchSchNm, loopName, asd->SchedOffData[num - 1].availSched->Name);
+                    }
+                } break;
+                default:
+                    break;
+                }
+            }
         }
     }
 

@@ -1,4 +1,4 @@
-// EnergyPlus, Copyright (c) 1996-2025, The Board of Trustees of the University of Illinois,
+// EnergyPlus, Copyright (c) 1996-2026, The Board of Trustees of the University of Illinois,
 // The Regents of the University of California, through Lawrence Berkeley National Laboratory
 // (subject to receipt of any required approvals from the U.S. Dept. of Energy), Oak Ridge
 // National Laboratory, managed by UT-Battelle, Alliance for Sustainable Energy, LLC, and other
@@ -76,7 +76,7 @@ using namespace EnergyPlus::Psychrometrics;
 
 TEST_F(EnergyPlusFixture, BaseSizer_selectSizerOutput)
 {
-    // ficticious sizing to test the selectSizerOutput function
+    // fictitious sizing to test the selectSizerOutput function
     // there are several if blocks to determine which type of reporting to output
     // report Design Size and User, Design Size only, or User size only
     // if these if block miss a possible input configuration the simulation may fail
@@ -1478,7 +1478,7 @@ TEST_F(EnergyPlusFixture, BaseSizer_SupplyAirTempLessThanZoneTStatTest)
     SimulationManager::ManageSimulation(*state);
 
     int CtrlZoneNum(1);
-    // design peak load conditons and design supply air temperature
+    // design peak load conditions and design supply air temperature
     EXPECT_EQ(state->dataSize->CalcFinalZoneSizing(CtrlZoneNum).HeatTstatTemp, 21.0); // expects specified value
     EXPECT_EQ(state->dataSize->CalcFinalZoneSizing(CtrlZoneNum).HeatDesTemp, 12.0);   // less than zone air Temp
     EXPECT_EQ(state->dataSize->CalcFinalZoneSizing(CtrlZoneNum).HeatDesDay, "PHOENIX SKY HARBOR INTL AP ANN HTG 99.6% CONDNS DB");

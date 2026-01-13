@@ -1,4 +1,4 @@
-// EnergyPlus, Copyright (c) 1996-2025, The Board of Trustees of the University of Illinois,
+// EnergyPlus, Copyright (c) 1996-2026, The Board of Trustees of the University of Illinois,
 // The Regents of the University of California, through Lawrence Berkeley National Laboratory
 // (subject to receipt of any required approvals from the U.S. Dept. of Energy), Oak Ridge
 // National Laboratory, managed by UT-Battelle, Alliance for Sustainable Energy, LLC, and other
@@ -74,6 +74,7 @@
 #include <EnergyPlus/DataZoneControls.hh>
 #include <EnergyPlus/DataZoneEnergyDemands.hh>
 #include <EnergyPlus/DataZoneEquipment.hh>
+#include <EnergyPlus/DuctLoss.hh>
 #include <EnergyPlus/FaultsManager.hh>
 #include <EnergyPlus/FileSystem.hh>
 #include <EnergyPlus/General.hh>
@@ -475,8 +476,9 @@ void GetZoneAirSetPoints(EnergyPlusData &state)
                         ShowSevereEmptyField(state, eoh, s_ipsc->cAlphaFieldNames(spIdx));
                         ErrorsFound = true;
                         continue;
-                    } else if ((setptType = static_cast<HVAC::SetptType>(getEnumValue(setptTypeNamesUC, s_ipsc->cAlphaArgs(spIdx)))) ==
-                               HVAC::SetptType::Invalid) {
+                    }
+                    if ((setptType = static_cast<HVAC::SetptType>(getEnumValue(setptTypeNamesUC, s_ipsc->cAlphaArgs(spIdx)))) ==
+                        HVAC::SetptType::Invalid) {
                         ShowSevereInvalidKey(state, eoh, s_ipsc->cAlphaFieldNames(spIdx), s_ipsc->cAlphaArgs(spIdx));
                         ErrorsFound = true;
                         continue;
@@ -504,7 +506,7 @@ void GetZoneAirSetPoints(EnergyPlusData &state)
                     }
                 }
 
-                if (tempZone.DeltaTCutSet > 0.0 && tempZone.setpts[(int)HVAC::SetptType::SingleHeatCool].Name != "") {
+                if (tempZone.DeltaTCutSet > 0.0 && !tempZone.setpts[(int)HVAC::SetptType::SingleHeatCool].Name.empty()) {
                     ShowWarningError(state,
                                      format("{}=\"{}: The choice of Temperature Difference Between Cutout And Setpoint will not be applied "
                                             "to ThermostatSetpoint:SingleHeatingOrCooling.",
@@ -1141,8 +1143,9 @@ void GetZoneAirSetPoints(EnergyPlusData &state)
                         ShowSevereEmptyField(state, eoh, s_ipsc->cAlphaFieldNames(ctIdx));
                         ErrorsFound = true;
                         continue;
-                    } else if ((setptType = static_cast<HVAC::SetptType>(getEnumValue(comfortSetptTypeNamesUC, s_ipsc->cAlphaArgs(ctIdx)))) ==
-                               HVAC::SetptType::Invalid) {
+                    }
+                    if ((setptType = static_cast<HVAC::SetptType>(getEnumValue(comfortSetptTypeNamesUC, s_ipsc->cAlphaArgs(ctIdx)))) ==
+                        HVAC::SetptType::Invalid) {
                         ShowSevereInvalidKey(state, eoh, s_ipsc->cAlphaFieldNames(ctIdx), s_ipsc->cAlphaFieldNames(ctIdx));
                         ErrorsFound = true;
                         continue;
@@ -1646,7 +1649,7 @@ void GetZoneAirSetPoints(EnergyPlusData &state)
                         if (NumAlphas >= 4 && !s_ipsc->lAlphaFieldBlanks(4)) {
                             int adaptiveComfortModelTypeIndex =
                                 Util::FindItem(s_ipsc->cAlphaArgs(4), AdaptiveComfortModelTypes, AdaptiveComfortModelTypes.isize());
-                            if (!adaptiveComfortModelTypeIndex) {
+                            if (adaptiveComfortModelTypeIndex == 0) {
                                 ShowSevereItemNotFound(state, eoh, s_ipsc->cAlphaFieldNames(4), s_ipsc->cAlphaArgs(4));
                                 ErrorsFound = true;
                             } else if (adaptiveComfortModelTypeIndex != static_cast<int>(AdaptiveComfortModel::ADAP_NONE)) {
@@ -1716,7 +1719,7 @@ void GetZoneAirSetPoints(EnergyPlusData &state)
                     if (NumAlphas >= 4 && !s_ipsc->lAlphaFieldBlanks(4)) {
                         int adaptiveComfortModelTypeIndex =
                             Util::FindItem(s_ipsc->cAlphaArgs(4), AdaptiveComfortModelTypes, AdaptiveComfortModelTypes.isize());
-                        if (!adaptiveComfortModelTypeIndex) {
+                        if (adaptiveComfortModelTypeIndex == 0) {
                             ShowSevereItemNotFound(state, eoh, s_ipsc->cAlphaFieldNames(4), s_ipsc->cAlphaArgs(4));
                             ErrorsFound = true;
                         } else if (adaptiveComfortModelTypeIndex != static_cast<int>(AdaptiveComfortModel::ADAP_NONE)) {
@@ -3934,6 +3937,9 @@ Real64 ZoneSpaceHeatBalanceData::correctAirTemp(
         if (state.afn->distribution_simulated) {
             this->TempIndCoef += state.afn->exchangeData(zoneNum).TotalSen;
         }
+        if (state.dataDuctLoss->DuctLossSimu) {
+            this->TempIndCoef += state.dataDuctLoss->ZoneSen(zoneNum);
+        }
 
         // Solve for zone air temperature
         switch (state.dataHeatBal->ZoneAirSolutionAlgo) {
@@ -4046,6 +4052,9 @@ Real64 ZoneSpaceHeatBalanceData::correctAirTemp(
         if (state.afn->distribution_simulated) {
             this->TempIndCoef += state.afn->exchangeData(zoneNum).TotalSen;
         }
+        if (state.dataDuctLoss->DuctLossSimu) {
+            this->TempIndCoef += state.dataDuctLoss->ZoneSen(zoneNum);
+        }
 
         // Solve for zone air temperature
         switch (state.dataHeatBal->ZoneAirSolutionAlgo) {
@@ -4120,8 +4129,8 @@ Real64 ZoneSpaceHeatBalanceData::correctAirTemp(
     bool isMixed = true;
     // SpaceHB TODO: For now, room air model is only for zones
     if (spaceNum == 0 && state.dataRoomAir->anyNonMixingRoomAirModel) {
-        isMixed = !((state.dataRoomAir->IsZoneDispVent3Node(zoneNum) && !state.dataRoomAir->ZoneDispVent3NodeMixedFlag(zoneNum)) ||
-                    (state.dataRoomAir->IsZoneUFAD(zoneNum) && !state.dataRoomAir->ZoneUFADMixedFlag(zoneNum)));
+        isMixed = !((state.dataRoomAir->IsZoneDispVent3Node(zoneNum) && (state.dataRoomAir->ZoneDispVent3NodeMixedFlag(zoneNum) == 0)) ||
+                    (state.dataRoomAir->IsZoneUFAD(zoneNum) && (state.dataRoomAir->ZoneUFADMixedFlag(zoneNum) == 0)));
     }
     switch (state.dataHeatBal->ZoneAirSolutionAlgo) {
     case DataHeatBalance::SolutionAlgo::ThirdOrder: {
@@ -4506,6 +4515,9 @@ void ZoneSpaceHeatBalanceData::correctHumRat(EnergyPlusData &state, int const zo
     if (state.afn->distribution_simulated) {
         B += state.afn->exchangeData(zoneNum).TotalLat;
     }
+    if (state.dataDuctLoss->DuctLossSimu) {
+        B += state.dataDuctLoss->ZoneLat(zoneNum);
+    }
 
     // Use a 3rd order derivative to predict final zone humidity ratio and
     // smooth the changes using the zone air capacitance.
@@ -4756,8 +4768,10 @@ void InverseModelTemperature(EnergyPlusData &state,
 
             if (hmZone.IncludeSystemSupplyParameters) {
                 zone.ZoneMeasuredSupplyAirTemperature = hmZone.supplyAirTempSched->getCurrentVal();
-                zone.ZoneMeasuredSupplyAirFlowRate = hmZone.supplyAirMassFlowRateSched ? hmZone.supplyAirMassFlowRateSched->getCurrentVal() : 0.0;
-                zone.ZoneMeasuredSupplyAirHumidityRatio = hmZone.supplyAirHumRatSched ? hmZone.supplyAirHumRatSched->getCurrentVal() : 0.0;
+                zone.ZoneMeasuredSupplyAirFlowRate =
+                    (hmZone.supplyAirMassFlowRateSched != nullptr) ? hmZone.supplyAirMassFlowRateSched->getCurrentVal() : 0.0;
+                zone.ZoneMeasuredSupplyAirHumidityRatio =
+                    (hmZone.supplyAirHumRatSched != nullptr) ? hmZone.supplyAirHumRatSched->getCurrentVal() : 0.0;
                 // Calculate the air humidity ratio at supply air inlet.
                 Real64 CpAirInlet(0.0);
                 CpAirInlet = Psychrometrics::PsyCpAirFnW(zone.ZoneMeasuredSupplyAirHumidityRatio);
@@ -4810,6 +4824,9 @@ void InverseModelTemperature(EnergyPlusData &state,
             if (state.afn->distribution_simulated) {
                 TempIndCoef += state.afn->exchangeData(ZoneNum).TotalSen;
             }
+            if (state.dataDuctLoss->DuctLossSimu) {
+                TempIndCoef += state.dataDuctLoss->ZoneLat(ZoneNum);
+            }
             // Calculate air capacity using DataHeatBalance::SolutionAlgo::AnalyticalSolution
             if (TempDepCoef == 0.0) {
                 // Is this correct? Shouldn't we use log?? What if thisZT ==
@@ -4854,13 +4871,13 @@ void InverseModelTemperature(EnergyPlusData &state,
         // Hybrid model people count calculation
         if (hmZone.PeopleCountCalc_T && state.dataHVACGlobal->UseZoneTimeStepHistory) {
             zone.ZoneMeasuredTemperature = hmZone.measuredTempSched->getCurrentVal();
-            zone.ZonePeopleActivityLevel = hmZone.peopleActivityLevelSched ? hmZone.peopleActivityLevelSched->getCurrentVal() : 0.0;
-            zone.ZonePeopleSensibleHeatFraction = hmZone.peopleSensibleFracSched ? hmZone.peopleSensibleFracSched->getCurrentVal() : 0.0;
-            zone.ZonePeopleRadiantHeatFraction = hmZone.peopleRadiantFracSched ? hmZone.peopleRadiantFracSched->getCurrentVal() : 0.0;
+            zone.ZonePeopleActivityLevel = (hmZone.peopleActivityLevelSched != nullptr) ? hmZone.peopleActivityLevelSched->getCurrentVal() : 0.0;
+            zone.ZonePeopleSensibleHeatFraction = (hmZone.peopleSensibleFracSched != nullptr) ? hmZone.peopleSensibleFracSched->getCurrentVal() : 0.0;
+            zone.ZonePeopleRadiantHeatFraction = (hmZone.peopleRadiantFracSched != nullptr) ? hmZone.peopleRadiantFracSched->getCurrentVal() : 0.0;
 
             Real64 FractionSensible = zone.ZonePeopleSensibleHeatFraction;
             Real64 FractionRadiation = zone.ZonePeopleRadiantHeatFraction;
-            Real64 ActivityLevel = hmZone.peopleActivityLevelSched ? hmZone.peopleActivityLevelSched->getCurrentVal() : 0.0;
+            Real64 ActivityLevel = (hmZone.peopleActivityLevelSched != nullptr) ? hmZone.peopleActivityLevelSched->getCurrentVal() : 0.0;
 
             if (FractionSensible <= 0.0) {
                 FractionSensible = 0.6;
@@ -4878,8 +4895,10 @@ void InverseModelTemperature(EnergyPlusData &state,
 
             if (hmZone.IncludeSystemSupplyParameters) {
                 zone.ZoneMeasuredSupplyAirTemperature = hmZone.supplyAirTempSched->getCurrentVal();
-                zone.ZoneMeasuredSupplyAirFlowRate = hmZone.supplyAirMassFlowRateSched ? hmZone.supplyAirMassFlowRateSched->getCurrentVal() : 0.0;
-                zone.ZoneMeasuredSupplyAirHumidityRatio = hmZone.supplyAirHumRatSched ? hmZone.supplyAirHumRatSched->getCurrentVal() : 0.0;
+                zone.ZoneMeasuredSupplyAirFlowRate =
+                    (hmZone.supplyAirMassFlowRateSched != nullptr) ? hmZone.supplyAirMassFlowRateSched->getCurrentVal() : 0.0;
+                zone.ZoneMeasuredSupplyAirHumidityRatio =
+                    (hmZone.supplyAirHumRatSched != nullptr) ? hmZone.supplyAirHumRatSched->getCurrentVal() : 0.0;
 
                 // Calculate the air humidity ratio at supply air inlet.
                 Real64 CpAirInlet = Psychrometrics::PsyCpAirFnW(zone.ZoneMeasuredSupplyAirHumidityRatio);
@@ -5039,9 +5058,9 @@ void InverseModelHumidity(EnergyPlusData &state,
 
         // Hybrid Model calculate people count
         if (hmZone.PeopleCountCalc_H && state.dataHVACGlobal->UseZoneTimeStepHistory) {
-            zone.ZonePeopleActivityLevel = hmZone.peopleActivityLevelSched ? hmZone.peopleActivityLevelSched->getCurrentVal() : 0.0;
-            zone.ZonePeopleSensibleHeatFraction = hmZone.peopleSensibleFracSched ? hmZone.peopleSensibleFracSched->getCurrentVal() : 0.0;
-            zone.ZonePeopleRadiantHeatFraction = hmZone.peopleRadiantFracSched ? hmZone.peopleRadiantFracSched->getCurrentVal() : 0.0;
+            zone.ZonePeopleActivityLevel = (hmZone.peopleActivityLevelSched != nullptr) ? hmZone.peopleActivityLevelSched->getCurrentVal() : 0.0;
+            zone.ZonePeopleSensibleHeatFraction = (hmZone.peopleSensibleFracSched != nullptr) ? hmZone.peopleSensibleFracSched->getCurrentVal() : 0.0;
+            zone.ZonePeopleRadiantHeatFraction = (hmZone.peopleRadiantFracSched != nullptr) ? hmZone.peopleRadiantFracSched->getCurrentVal() : 0.0;
 
             Real64 FractionSensible = zone.ZonePeopleSensibleHeatFraction;
 
@@ -5169,7 +5188,7 @@ void ZoneSpaceHeatBalanceData::calcZoneOrSpaceSums(EnergyPlusData &state,
         if (thisZone.IsControlled) {
             auto const &zsec = (isSpaceControlled ? state.dataZoneEquip->spaceEquipConfig(spaceNum) : state.dataZoneEquip->ZoneEquipConfig(zoneNum));
             for (int NodeNum = 1, NodeNum_end = zsec.NumInletNodes; NodeNum <= NodeNum_end; ++NodeNum) {
-                // Get node conditions, this next block is of interest to irratic system loads... maybe nodes are not accurate at time of call?
+                // Get node conditions, this next block is of interest to erratic system loads... maybe nodes are not accurate at time of call?
                 //  how can we tell?  predict step must be lagged ?  correct step, systems have run.
                 auto const &node(state.dataLoopNodes->Node(zsec.InletNode(NodeNum)));
                 Real64 CpAir = Psychrometrics::PsyCpAirFnW(this->airHumRat);
@@ -5630,9 +5649,8 @@ bool VerifyThermostatInZone(EnergyPlusData &state, std::string const &ZoneName) 
     if (state.dataZoneCtrls->NumTempControlledZones > 0) {
         if (Util::FindItemInList(ZoneName, state.dataZoneCtrls->TempControlledZone, &DataZoneControls::ZoneTempControls::ZoneName) > 0) {
             return true;
-        } else {
-            return false;
         }
+        return false;
     }
     return false;
 }
@@ -6850,7 +6868,7 @@ void ZoneSpaceHeatBalanceData::calcPredictedSystemLoad(EnergyPlusData &state, Re
         default: {
             assert(false);
         } break;
-        } // swtich (Algo)
+        } // switch (Algo)
 
         if (RAFNFrac > 0.0) {
             LoadToHeatingSetPoint = LoadToHeatingSetPoint / RAFNFrac;
@@ -6895,7 +6913,7 @@ void ZoneSpaceHeatBalanceData::calcPredictedSystemLoad(EnergyPlusData &state, Re
         default: {
             assert(false);
         } break;
-        } // swtich (Algo)
+        } // switch (Algo)
 
         ZoneSetPoint = zoneTstatSetpt.setpt;
         if (RAFNFrac > 0.0) {
@@ -7053,7 +7071,7 @@ void ZoneSpaceHeatBalanceData::calcPredictedSystemLoad(EnergyPlusData &state, Re
 
     default: {
     } break;
-    } // swtich (setptType)
+    } // switch (setptType)
 
     int systemNodeNumber = 0;
     int stageNum = 0;

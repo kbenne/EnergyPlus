@@ -1,4 +1,4 @@
-// EnergyPlus, Copyright (c) 1996-2025, The Board of Trustees of the University of Illinois,
+// EnergyPlus, Copyright (c) 1996-2026, The Board of Trustees of the University of Illinois,
 // The Regents of the University of California, through Lawrence Berkeley National Laboratory
 // (subject to receipt of any required approvals from the U.S. Dept. of Energy), Oak Ridge
 // National Laboratory, managed by UT-Battelle, Alliance for Sustainable Energy, LLC, and other
@@ -11064,7 +11064,7 @@ void RefrigCaseData::CalculateCase(EnergyPlusData &state) // Absolute pointer to
         Real64 DeltaStockingEnergy = (StockingLoad * state.dataGlobal->TimeStepZoneSec);
         this->StockingEnergy += DeltaStockingEnergy;
     } // warm up
-    // CALCULTE ALL LOADS INFLUENCED BY ZONE TEMPERATURE AND RH
+    // CALCULATE ALL LOADS INFLUENCED BY ZONE TEMPERATURE AND RH
     // Anti-sweat heater capacity
     switch (this->AntiSweatControlType) {
     case ASHtrCtrlType::None: {
@@ -12706,7 +12706,7 @@ void RefrigSystemData::CalculateCondensers(EnergyPlusData &state, int const SysN
                 "time step and heat recovery at the system time step. In that case, and ONLY if it occurs a large number of times",
                 CondCreditWarnIndex5);
             ShowRecurringContinueErrorAtEnd(
-                state, "(relative to the number of time steps in the simulation), there may be a mis-match between the", CondCreditWarnIndex6);
+                state, "(relative to the number of time steps in the simulation), there may be a mismatch between the", CondCreditWarnIndex6);
             ShowRecurringContinueErrorAtEnd(
                 state, "operating schedules of the refrigeration system and the heat recovery load.", CondCreditWarnIndex7);
         } // not warmup
@@ -13425,11 +13425,11 @@ void RefrigSystemData::CalculateCompressors(EnergyPlusData &state)
                     compressor.CoolingEnergy = compressor.Capacity * localTimeStepSec;
                     compressor.LoadFactor = LFLastComp;
                     break; // numcomps do
-                } else {   //>= needed capacity
-                    this->TotCompCapacity += compressor.Capacity;
-                    this->RefMassFlowComps += compressor.MassFlow;
-                    this->TotCompPower += compressor.Power;
                 } //>= needed capacity
+                this->TotCompCapacity += compressor.Capacity;
+                this->RefMassFlowComps += compressor.MassFlow;
+                this->TotCompPower += compressor.Power;
+                //>= needed capacity
             } else { // high-stage compressors (for two-stage systems only)
                 if ((this->TotHiStageCompCapacity + compressor.Capacity) >= NeededCapacity) {
                     LFLastComp = (NeededCapacity - this->TotHiStageCompCapacity) / compressor.Capacity;
@@ -13444,11 +13444,11 @@ void RefrigSystemData::CalculateCompressors(EnergyPlusData &state)
                     compressor.CoolingEnergy = compressor.Capacity * localTimeStepSec;
                     compressor.LoadFactor = LFLastComp;
                     break; // numcomps do
-                } else {   //>= needed capacity
-                    this->TotHiStageCompCapacity += compressor.Capacity;
-                    this->RefMassFlowHiStageComps += compressor.MassFlow;
-                    this->TotHiStageCompPower += compressor.Power;
                 } //>= needed capacity
+                this->TotHiStageCompCapacity += compressor.Capacity;
+                this->RefMassFlowHiStageComps += compressor.MassFlow;
+                this->TotHiStageCompPower += compressor.Power;
+                //>= needed capacity
             } // StageIndex
             compressor.ElecConsumption = compressor.Power * localTimeStepSec;
             compressor.CoolingEnergy = compressor.Capacity * localTimeStepSec;
@@ -13684,11 +13684,11 @@ void TransRefrigSystemData::CalculateTransCompressors(EnergyPlusData &state)
                 compressor.CoolingEnergy = compressor.Capacity * localTimeStepSec;
                 compressor.LoadFactor = LFLastComp;
                 break;
-            } else {
-                this->TotCompCapacityLP += compressor.Capacity;
-                this->RefMassFlowCompsLP += compressor.MassFlow;
-                this->TotCompPowerLP += compressor.Power;
             }
+            this->TotCompCapacityLP += compressor.Capacity;
+            this->RefMassFlowCompsLP += compressor.MassFlow;
+            this->TotCompPowerLP += compressor.Power;
+
         } // NumCompressorsLP
         this->HCompOutLP = this->HCompInLP + this->TotCompPowerLP / this->RefMassFlowCompsLP;
     } // (TransSystem(SysNum)%TransSysType == 2)
@@ -13882,11 +13882,10 @@ void TransRefrigSystemData::CalculateTransCompressors(EnergyPlusData &state)
             compressor.CoolingEnergy = compressor.Capacity * localTimeStepSec;
             compressor.LoadFactor = LFLastComp;
             break;
-        } else {
-            this->TotCompCapacityHP += compressor.Capacity;
-            this->RefMassFlowCompsHP += compressor.MassFlow;
-            this->TotCompPowerHP += compressor.Power;
         }
+        this->TotCompCapacityHP += compressor.Capacity;
+        this->RefMassFlowCompsHP += compressor.MassFlow;
+        this->TotCompPowerHP += compressor.Power;
 
     } // NumCompressorsHP
 
