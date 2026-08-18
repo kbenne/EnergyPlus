@@ -1504,6 +1504,16 @@ TEST_F(EnergyPlusFixture, ConstructionAssignmentSet_GetDefaultConstruction)
     /// Interior Door
     checkDefaultConstruction("Interior Door Construction", "InteriorDoor - Door - Reversed");
     checkDefaultConstruction("Interior Door Construction", "InteriorDoor - Door");
+
+    // A blank construction must not keep an inherited opening from being cut out of its base surface.
+    int const baseSurfIdx = Util::FindItemInList("SPACE2 WALL 4", state->dataSurface->Surface);
+    int const windowIdx = Util::FindItemInList("EXTERIORWINDOW - FIXEDWINDOW", state->dataSurface->Surface);
+    ASSERT_GT(baseSurfIdx, 0);
+    ASSERT_GT(windowIdx, 0);
+    auto const &baseSurf = state->dataSurface->Surface(baseSurfIdx);
+    auto const &window = state->dataSurface->Surface(windowIdx);
+    EXPECT_DOUBLE_EQ(baseSurf.GrossArea - window.Area, baseSurf.Area);
+    EXPECT_DOUBLE_EQ(baseSurf.GrossArea - window.Area / window.Multiplier, baseSurf.NetAreaShadowCalc);
 }
 
 TEST_F(EnergyPlusFixture, ConstructionAssignmentSet_SpaceResolvesIndex)
