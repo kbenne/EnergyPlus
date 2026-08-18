@@ -2721,6 +2721,124 @@ TEST_F(EnergyPlusFixture, ConstructionResolution_BothSidesInheritedSameConstruct
     EXPECT_EQ(state->dataMaterial->materials(constrA.LayerPoint(2))->Name, state->dataMaterial->materials(constrB.LayerPoint(1))->Name);
 }
 
+TEST_F(EnergyPlusFixture, ConstructionResolution_GeneratedInterzoneSurfaceIsReversedOnce)
+{
+    std::string const idf_objects = std::string(idf_dcs_all_types) + R"(
+  SurfaceConstructionAssignments,
+    One-Sided Interior Surfaces,            !- Name
+    ,                                       !- Floor Construction Name
+    Exterior Wall Construction;             !- Wall Construction Name
+
+  ConstructionAssignmentSet,
+    One-Sided Construction Set,             !- Name
+    ,                                       !- Exterior Surface Construction Assignments Name
+    One-Sided Interior Surfaces;            !- Interior Surface Construction Assignments Name
+
+  Building,
+    Building1,                              !- Name
+    ,                                       !- North Axis {deg}
+    ,                                       !- Terrain
+    ,                                       !- Loads Convergence Tolerance Value {W}
+    ,                                       !- Temperature Convergence Tolerance Value {deltaC}
+    ,                                       !- Solar Distribution
+    ,                                       !- Maximum Number of Warmup Days
+    ,                                       !- Minimum Number of Warmup Days
+    One-Sided Construction Set;             !- Construction Assignment Set Name
+
+  Zone,
+    Zone1,                                  !- Name
+    ,                                       !- Direction of Relative North {deg}
+    0,                                      !- X Origin {m}
+    0,                                      !- Y Origin {m}
+    0,                                      !- Z Origin {m}
+    ,                                       !- Type
+    1,                                      !- Multiplier
+    ,                                       !- Ceiling Height {m}
+    ,                                       !- Volume {m3}
+    ,                                       !- Floor Area {m2}
+    ,                                       !- Zone Inside Convection Algorithm
+    ,                                       !- Zone Outside Convection Algorithm
+    Yes;                                    !- Part of Total Floor Area
+
+  Zone,
+    Zone2,                                  !- Name
+    ,                                       !- Direction of Relative North {deg}
+    0,                                      !- X Origin {m}
+    0,                                      !- Y Origin {m}
+    0,                                      !- Z Origin {m}
+    ,                                       !- Type
+    1,                                      !- Multiplier
+    ,                                       !- Ceiling Height {m}
+    ,                                       !- Volume {m3}
+    ,                                       !- Floor Area {m2}
+    ,                                       !- Zone Inside Convection Algorithm
+    ,                                       !- Zone Outside Convection Algorithm
+    Yes;                                    !- Part of Total Floor Area
+
+  BuildingSurface:Detailed,
+    WallA,                                  !- Name
+    Wall,                                   !- Surface Type
+    ,                                       !- Construction Name
+    Zone1,                                  !- Zone Name
+    ,                                       !- Space Name
+    Zone,                                   !- Outside Boundary Condition
+    Zone2,                                  !- Outside Boundary Condition Object
+    NoSun,                                  !- Sun Exposure
+    NoWind,                                 !- Wind Exposure
+    ,                                       !- View Factor to Ground
+    ,                                       !- Number of Vertices
+    10, 0, 3,                               !- X,Y,Z Vertex 1 {m}
+    10, 10, 3,                              !- X,Y,Z Vertex 2 {m}
+    10, 10, 0,                              !- X,Y,Z Vertex 3 {m}
+    10, 0, 0;                               !- X,Y,Z Vertex 4 {m}
+)";
+
+    ASSERT_TRUE(process_idf(idf_objects));
+    state->init_state(*state);
+    loadConstructions(*state);
+
+    bool ErrorsFound = false;
+    HeatBalanceManager::GetProjectControlData(*state, ErrorsFound);
+    ASSERT_FALSE(ErrorsFound);
+
+    ConstructionAssignments::GetConstructionAssignmentSetData(*state, ErrorsFound);
+    ASSERT_FALSE(ErrorsFound);
+
+    HeatBalanceManager::GetZoneData(*state, ErrorsFound);
+    ASSERT_FALSE(ErrorsFound);
+
+    state->dataSurfaceGeometry->CosZoneRelNorth.allocate(2);
+    state->dataSurfaceGeometry->SinZoneRelNorth.allocate(2);
+    state->dataSurfaceGeometry->CosZoneRelNorth = 1.0;
+    state->dataSurfaceGeometry->SinZoneRelNorth = 0.0;
+    state->dataSurfaceGeometry->CosBldgRelNorth = 1.0;
+    state->dataSurfaceGeometry->SinBldgRelNorth = 0.0;
+
+    EXPECT_NO_THROW(SurfaceGeometry::GetSurfaceData(*state, ErrorsFound));
+    compare_err_stream("");
+    ASSERT_FALSE(ErrorsFound);
+
+    int const wallANum = Util::FindItemInList("WALLA", state->dataSurface->Surface);
+    int const generatedWallNum = Util::FindItemInList("iz-WALLA", state->dataSurface->Surface);
+    ASSERT_GT(wallANum, 0);
+    ASSERT_GT(generatedWallNum, 0);
+
+    auto const &wallA = state->dataSurface->Surface(wallANum);
+    auto const &generatedWall = state->dataSurface->Surface(generatedWallNum);
+    ASSERT_GT(wallA.Construction, 0);
+    ASSERT_GT(generatedWall.Construction, 0);
+    EXPECT_EQ(static_cast<int>(ConstructionAssignments::SearchDistanceType::Building), wallA.ConstructionAssignmentSource);
+    EXPECT_EQ(static_cast<int>(ConstructionAssignments::SearchDistanceType::Building), generatedWall.ConstructionAssignmentSource);
+    EXPECT_NE(wallA.Construction, generatedWall.Construction);
+
+    auto const &wallAConstruction = state->dataConstruction->Construct(wallA.Construction);
+    auto const &generatedWallConstruction = state->dataConstruction->Construct(generatedWall.Construction);
+    ASSERT_EQ(2, wallAConstruction.TotLayers);
+    ASSERT_EQ(2, generatedWallConstruction.TotLayers);
+    EXPECT_EQ(wallAConstruction.LayerPoint(1), generatedWallConstruction.LayerPoint(2));
+    EXPECT_EQ(wallAConstruction.LayerPoint(2), generatedWallConstruction.LayerPoint(1));
+}
+
 TEST_F(EnergyPlusFixture, ConstructionResolution_SpacePrecedenceOverBuildingInPair)
 {
     // WallA (Space1, own DCS) vs WallB (no Space, Building DCS): Space wins the pair, WallB gets
