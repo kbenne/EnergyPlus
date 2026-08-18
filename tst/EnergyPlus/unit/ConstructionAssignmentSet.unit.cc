@@ -1783,6 +1783,7 @@ TEST_F(EnergyPlusFixture, ConstructionResolution_BuildingLevelOnly)
     EXPECT_EQ(static_cast<int>(ConstructionAssignments::SearchDistanceType::Building), wall.ConstructionAssignmentSource);
     EXPECT_EQ(static_cast<int>(ConstructionAssignments::SearchDistanceType::Building), roof.ConstructionAssignmentSource);
     EXPECT_EQ(static_cast<int>(ConstructionAssignments::SearchDistanceType::Building), floor.ConstructionAssignmentSource);
+    EXPECT_TRUE(state->dataConstruction->Construct(wall.Construction).IsUsed);
 }
 
 TEST_F(EnergyPlusFixture, ConstructionResolution_SpaceOverridesBuildingWithFallback)
